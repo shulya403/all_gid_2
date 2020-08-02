@@ -139,17 +139,22 @@ class DB_insert_from_excel(object):
 
         self.df_Products = df_Products(xl_df_Products, self.dict_xl_db_Fields)
         self.df_Classes = df_Classes(xl_df_Products, self.dict_xl_db_Classes)
+        self.df_Products.fillna("")
+        self.df_Classes.fillna("", inplace=True)
 
 # Databse connect
     def DB_alchemy(self,
                    category,
-                   db="mysql://shulya403:1qazxsw2@localhost/all_gid_2"):
-        self.sql_engine = sql.create_engine(db, echo=True)
+                   db="mysql://shulya403:1qazxsw2@localhost/all_gid_2?charset=utf8mb4"):
+        self.sql_engine = sql.create_engine(db, echo=True, encoding='utf8', convert_unicode=True)
 
-        print(self.sql_engine.table_names())
         metadata = sql.MetaData(self.sql_engine)
+
         sql_tbl_name_products = category+'_products'
+        sql_tbl_name_class = category + '_classes'
+
         self.tbl_products = sql.Table(sql_tbl_name_products, metadata, autoload=True)
+        self.tbl_classes = sql.Table(sql_tbl_name_class, metadata, autoload=True)
 
         self.connection = self.sql_engine.connect()
 
@@ -182,11 +187,17 @@ class DB_insert_from_excel(object):
         return exit_
 
 # df имеющиеся продукты
-    def Select_SQL_Products(self):
-        df_ = self.Select_SQL_to_df(self.tbl_products)
-        #print(df_.head(5))
+#    def Select_SQL_Products(self):
+#         df_ = self.Select_SQL_to_df(self.tbl_products)
+#
+#         return df_
+#
+#         # df имеющиеся классы
+#     def Select_SQL_Classes(self):
+#         df_ = self.Select_SQL_to_df(self.tbl_classes)
+#
+#         return df_
 
-        return df_
 
 # сопоставление двух df. новые по полю name
     def New_names(self, df_old, df_new):
@@ -212,7 +223,7 @@ class DB_insert_from_excel(object):
 # Products_handle
     def Pruducts_to_SQL(self, df_new):
 
-        tup_df = self.New_names(self.Select_SQL_Products(), df_new)
+        tup_df = self.New_names(self.Select_SQL_to_df(self.tbl_products), df_new)
         df_select = tup_df[0]
         df_update = tup_df[1]
 
@@ -222,6 +233,19 @@ class DB_insert_from_excel(object):
         if not df_update.empty:
             self.Update_df_in_SQL(df_update, self.tbl_products)
 
+# Classes_handle
+    def Classes_to_SQL(self, df_new):
+        tup_df = self.New_names(self.Select_SQL_to_df(self.tbl_classes), df_new)
+        df_select = tup_df[0]
+        df_update = tup_df[1]
+
+        if not df_select.empty:
+            self.Insert_df_to_SQL(df_select, self.tbl_classes)
+
+        if not df_update.empty:
+            self.Update_df_in_SQL(df_update, self.tbl_classes)
+
+# Products_has_classes M-n-T
 
 
 # MAIN
@@ -232,10 +256,10 @@ class DB_insert_from_excel(object):
 #                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\",
 #                     Category='Nb',
 #                     JSON_file="categories_fields.json"):
-print(pd.__version__)
+
 FillDB = DB_insert_from_excel(xl_Products="nb_models_06_new.xlsx",
                      xl_Vardata="NB_Report-5`20.xlsx")
 FillDB.DB_alchemy(FillDB.Category)
-#FillDB.Insert_SQL_Entity(FillDB.df_Products)
-FillDB.Pruducts_to_SQL(df_new=FillDB.df_Products.head(25))
+#FillDB.Pruducts_to_SQL(df_new=FillDB.df_Products.head(25))
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes)
 
