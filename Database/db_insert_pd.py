@@ -246,6 +246,20 @@ class DB_insert_from_excel(object):
             self.Update_df_in_SQL(df_update, self.tbl_classes)
 
 # Products_has_classes M-n-T
+    def df_MtM_upgrade(self):
+
+        df1 = pd.DataFrame({'name': ['a','b','c'],
+                            'CL1':[None,1,None],
+                            'CL2':[1,1,1],
+                            'CL3':[None,None, 1]})
+        df2 = pd.DataFrame({'name': ['b','a','c'],
+                            'CL1':[1,1,None],
+                            'CL2':[1,None,1],
+                            'CL3':[None,None, None]})
+
+        df3 = df1.compare(df2)
+        print(df3)
+        print(df3['CL1']['other'])
 
 
 # MAIN
@@ -259,7 +273,8 @@ class DB_insert_from_excel(object):
 
 FillDB = DB_insert_from_excel(xl_Products="nb_models_06_new.xlsx",
                      xl_Vardata="NB_Report-5`20.xlsx")
-FillDB.DB_alchemy(FillDB.Category)
+#FillDB.DB_alchemy(FillDB.Category)
 #FillDB.Pruducts_to_SQL(df_new=FillDB.df_Products.head(25))
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes)
+#FillDB.Classes_to_SQL(df_new=FillDB.df_Classes)
+FillDB.df_MtM_upgrade()
 
