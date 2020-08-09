@@ -1,6 +1,8 @@
 import pandas as pd
 import sqlalchemy as sql
 import json
+import time
+import datetime
 
 # Изменяемые записи для Update
 def df_compare(df_old, df_new):
@@ -50,6 +52,14 @@ class DB_insert_from_excel(object):
                    exit = dict_["Fields_classes"]
             return exit
 
+# Формирование словаря из JSON для Полей в файле продаж
+        def Get_dict_xl_Mth_Sales(dict_):
+                exit = dict()
+                if dict_:
+                    if dict_["Fields_sales"]:
+                        exit = dict_["Fields_sales"]
+                return exit
+
 # Данные из таблицы моделей для Products, c ТТХ, классами и целями
         def Get_xl(page, filename):
 
@@ -82,6 +92,7 @@ class DB_insert_from_excel(object):
 
             return df_
 
+
 # Классы и цели согласно JSON "Filds_classes"
         def df_Classes(df_file, dict_fields):
 
@@ -100,6 +111,8 @@ class DB_insert_from_excel(object):
                         for fld in dict_fields[col]:
                             df_.loc[i, fld] = dict_fields[col][fld]
                         i += 1
+
+
             print(df_)
             if df_['type'].isna().any():
                 print("Отсутсвует обозначение типа для полей")
@@ -111,8 +124,30 @@ class DB_insert_from_excel(object):
                                                              df_[df_['type'].isin(list(uncorrect_class_type))]['name']))
                 raise
 
+            return df_
+# Месячные данные по продажам для vardata
+        def df_Vardata(df_file, dict_fields):
+
+            df_ = df_file.copy()
+
+            list_fileds = [i for i in dict_fields]
+
+            dict_rename_fld = dict()
+            for fld in list_fileds:
+                col = dict_fields[fld]['col_name']
+                dict_rename_fld[col] = fld
+            df_.rename(mapper=dict_rename_fld, axis='columns', inplace=True)
+            list_col_to_delete = list(set(df_.columns) - set(list_fileds))
+            df_.drop(columns=list_col_to_delete, axis='columns', inplace=True)
+
+            for fld in df_.columns:
+                if "change" in dict_fields[fld].keys():
+                    df_[fld] = df_[fld].map(dict_fields[fld]["change"])
 
             return df_
+
+
+
 
         with open(JSON_file, encoding='utf-8') as f:
             dict_xl_Fields = json.load(f)
@@ -129,18 +164,83 @@ class DB_insert_from_excel(object):
 
         self.dict_xl_db_Fields = Get_dict_xl_TTX(dict_xl_Cat_Fields)
         self.dict_xl_db_Classes = Get_dict_xl_CL_GO(dict_xl_Cat_Fields)
+        self.dict_xl_db_Vardata = Get_dict_xl_Mth_Sales(dict_xl_Cat_Fields)
 
         try:
-            xl_page = dict_xl_Cat_Fields["xl_page"]
+            xl_products_page = dict_xl_Cat_Fields["xl_page"]
         except KeyError:
-            xl_page = ""
+            xl_products_page = ""
 
-        xl_df_Products = Get_xl(xl_page, dir_root + Category + "/" + xl_Products)
+        self.xl_df_Products = Get_xl(xl_products_page, dir_root + Category + "/" + xl_Products)
 
-        self.df_Products = df_Products(xl_df_Products, self.dict_xl_db_Fields)
-        self.df_Classes = df_Classes(xl_df_Products, self.dict_xl_db_Classes)
-        self.df_Products.fillna("")
+        try:
+            xl_vardata_page = dict_xl_Cat_Fields["xl_sales_page"]
+        except KeyError:
+            xl_vardata_page = ""
+
+        self.xl_df_Vardata = Get_xl(xl_vardata_page, dir_root + Category + "/" + xl_Vardata)
+
+
+        self.df_Products = df_Products(self.xl_df_Products, self.dict_xl_db_Fields)
+        self.df_Products.fillna("", inplace=True)
+        self.df_Classes = df_Classes(self.xl_df_Products, self.dict_xl_db_Classes)
         self.df_Classes.fillna("", inplace=True)
+        self.df_Vardata = df_Vardata(self.xl_df_Vardata, self.dict_xl_db_Vardata)
+        self.df_Vardata.fillna("", inplace=True)
+
+# MtM Products_Classes из SQL и Excel
+
+    def df_MtM_Products_Classes(self):
+
+        df_sql_Proucts = self.Select_SQL_to_df(self.tbl_products)
+        df_sql_Classes = self.Select_SQL_to_df(self.tbl_classes)
+
+        list_classes = list(df_sql_Classes['name'].values)
+
+        for i in self.dict_xl_db_Fields:
+            if self.dict_xl_db_Fields[i] == "name":
+                self.xl_df_Products.rename(mapper={i: "name"}, axis='columns', inplace=True)
+
+        exit_df = pd.DataFrame(columns=['fk_products', 'fk_classes'])
+
+        for cls in list_classes:
+            ser_products_name = self.xl_df_Products[self.xl_df_Products[cls] == 1]['name']
+            df_= pd.DataFrame(columns=['fk_products', 'fk_classes'])
+            df_['fk_products'] = df_sql_Proucts[df_sql_Proucts['name'].isin(ser_products_name.values)]['id']
+            cls0 = df_sql_Classes[df_sql_Classes['name'] == cls]['id']
+            if cls0.empty:
+                df_['fk_classes'] = ""
+            else:
+                df_['fk_classes'] = cls0.iloc[0]
+
+            exit_df = pd.concat([exit_df, df_])
+
+        return exit_df
+# Insert & Delete MtM Products
+    def MtM_Products_Classes_to_SQL(self):
+
+        df_new = self.df_MtM_Products_Classes()
+        df_old = self.Select_SQL_to_df(self.tbl_mtm_products_classes)
+
+        df_join = df_old.merge(df_new, how="outer", on=['fk_products', 'fk_classes'], indicator=True)
+
+        table_ = self.tbl_mtm_products_classes
+
+        #delete
+        df_to_delete = df_join[df_join['_merge'] == 'left_only'][['fk_products', 'fk_classes']]
+        if not df_to_delete.empty:
+            for i, row in df_to_delete.iterrows():
+                delete_qry = table_.delete().\
+                    where(table_.c.fk_products == row['fk_products']).\
+                    where(table_.c.fk_classes == row['fk_classes'])
+                self.connection.execute(delete_qry)
+
+        #insert
+        df_to_insert = df_join[df_join['_merge'] == 'right_only'][['fk_products', 'fk_classes']]
+        if not df_to_insert.empty:
+            self.Insert_df_to_SQL(df_to_insert, table_)
+
+        print(df_join)
 
 # Databse connect
     def DB_alchemy(self,
@@ -152,9 +252,13 @@ class DB_insert_from_excel(object):
 
         sql_tbl_name_products = category+'_products'
         sql_tbl_name_class = category + '_classes'
+        sql_tbl_name_mtm_prod_class = category + '_products_has_nb_classes'
+        sql_tbl_name_vardata = category + '_vardata'
 
         self.tbl_products = sql.Table(sql_tbl_name_products, metadata, autoload=True)
         self.tbl_classes = sql.Table(sql_tbl_name_class, metadata, autoload=True)
+        self.tbl_mtm_products_classes = sql.Table(sql_tbl_name_mtm_prod_class, metadata, autoload=True)
+        self.tbl_vardata = sql.Table(sql_tbl_name_vardata, metadata, autoload=True)
 
         self.connection = self.sql_engine.connect()
 
@@ -186,18 +290,6 @@ class DB_insert_from_excel(object):
 
         return exit_
 
-# df имеющиеся продукты
-#    def Select_SQL_Products(self):
-#         df_ = self.Select_SQL_to_df(self.tbl_products)
-#
-#         return df_
-#
-#         # df имеющиеся классы
-#     def Select_SQL_Classes(self):
-#         df_ = self.Select_SQL_to_df(self.tbl_classes)
-#
-#         return df_
-
 
 # сопоставление двух df. новые по полю name
     def New_names(self, df_old, df_new):
@@ -221,7 +313,7 @@ class DB_insert_from_excel(object):
         return (exit_insert, exit_update)
 
 # Products_handle
-    def Pruducts_to_SQL(self, df_new):
+    def Products_to_SQL(self, df_new):
 
         tup_df = self.New_names(self.Select_SQL_to_df(self.tbl_products), df_new)
         df_select = tup_df[0]
@@ -245,21 +337,62 @@ class DB_insert_from_excel(object):
         if not df_update.empty:
             self.Update_df_in_SQL(df_update, self.tbl_classes)
 
-# Products_has_classes M-n-T
-    def df_MtM_upgrade(self):
+    def Vardata_to_SQL(self, mth_list=[], update_old=False):
 
-        df1 = pd.DataFrame({'name': ['a','b','c'],
-                            'CL1':[None,1,None],
-                            'CL2':[1,1,1],
-                            'CL3':[None,None, 1]})
-        df2 = pd.DataFrame({'name': ['b','a','c'],
-                            'CL1':[1,1,None],
-                            'CL2':[1,None,1],
-                            'CL3':[None,None, None]})
+        now_y = str(datetime.datetime.now().year)
+        #self.df_Vardata['month'] = self.df_Vardata['month'].apply(lambda x: time.strptime(x, "%Y-%m-%d") if x != "" else "")
+        #print(self.df_Vardata['month'])
+        #self.df_Vardata['month'] = self.df_Vardata['mth'].apply(lambda x: x.tm_mon if x != "" else "")
 
-        df3 = df1.compare(df2)
-        print(df3)
-        print(df3['CL1']['other'])
+        def add_0(x):
+            if len(str(x)) == 1:
+                return "0" + str(x)
+            else:
+                return str(x)
+
+
+
+        if mth_list:
+            mth_list = [now_y + "-" + add_0(x) + "-01" for x in mth_list]
+            df_insert = self.df_Vardata[self.df_Vardata['month'].isin(mth_list)]
+        else:
+            df_insert = self.df_Vardata[self.df_Vardata['month'] != ""]
+            mth_list = list(df_insert['month'].unique())
+
+        df_products = self.Select_SQL_to_df(self.tbl_products)
+
+        merge_ = df_insert.merge(df_products, how="left", left_on="product_name", right_on="name")
+        print(merge_)
+        df_insert.loc[:, 'fk_products'] = merge_['id'].values
+
+        df_insert.dropna(subset=['fk_products'], inplace=True)
+        df_insert.drop(['product_name'], axis='columns', inplace=True)
+
+        df_old = self.Select_SQL_to_df(self.tbl_vardata)
+        old_months = {datetime.date.strftime(x, "%Y-%m-%d") for x in df_old['month'].unique()}
+        print(set(df_old['month'].unique()))
+
+        new_months = set(mth_list) - old_months
+
+        if not update_old:
+
+            df_insert = df_insert[df_insert['month'].isin(new_months)]
+
+            self.Insert_df_to_SQL(df_insert, self.tbl_vardata)
+        else:
+
+            df_delete = df_old[df_old['month'].isin(new_months)]
+            self.D
+
+
+
+
+
+        pass
+
+
+# Vardata to SQL
+
 
 
 # MAIN
@@ -273,8 +406,11 @@ class DB_insert_from_excel(object):
 
 FillDB = DB_insert_from_excel(xl_Products="nb_models_06_new.xlsx",
                      xl_Vardata="NB_Report-5`20.xlsx")
-#FillDB.DB_alchemy(FillDB.Category)
-#FillDB.Pruducts_to_SQL(df_new=FillDB.df_Products.head(25))
+FillDB.DB_alchemy(FillDB.Category)
+#FillDB.Products_to_SQL(df_new=FillDB.df_Products.head(28))
 #FillDB.Classes_to_SQL(df_new=FillDB.df_Classes)
-FillDB.df_MtM_upgrade()
+#FillDB.df_MtM_upgrade()
+#FillDB.MtM_Products_Classes_to_SQL()
+#mth_list=[2, 4]
+FillDB.Vardata_to_SQL(mth_list=[])
 
