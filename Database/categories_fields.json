@@ -16,6 +16,9 @@
       },
       "Target market": {
         "db_name": "target_market"
+      },
+      "CPU Vendor": {
+        "db_name": "cpu_vendor"
       }
     },
     "xl_page": "Models",

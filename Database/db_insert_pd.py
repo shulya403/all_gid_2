@@ -2,7 +2,7 @@ import pandas as pd
 import sqlalchemy as sql
 import json
 import time
-import datetime
+import datetime as dt
 
 # Изменяемые записи для Update
 def df_compare(df_old, df_new):
@@ -295,6 +295,7 @@ class DB_insert_from_excel(object):
     def New_names(self, df_old, df_new):
 
         #Новые записи
+        df_new.drop_duplicates(subset=['name'], keep='last', inplace=True)
         df_old_names = set(df_old['name'])
         df_new_names = set(df_new['name'])
 
@@ -339,10 +340,7 @@ class DB_insert_from_excel(object):
 
     def Vardata_to_SQL(self, mth_list=[], update_old=False):
 
-        now_y = str(datetime.datetime.now().year)
-        #self.df_Vardata['month'] = self.df_Vardata['month'].apply(lambda x: time.strptime(x, "%Y-%m-%d") if x != "" else "")
-        #print(self.df_Vardata['month'])
-        #self.df_Vardata['month'] = self.df_Vardata['mth'].apply(lambda x: x.tm_mon if x != "" else "")
+        now_y = str(dt.datetime.now().year)
 
         def add_0(x):
             if len(str(x)) == 1:
@@ -369,26 +367,26 @@ class DB_insert_from_excel(object):
         df_insert.drop(['product_name'], axis='columns', inplace=True)
 
         df_old = self.Select_SQL_to_df(self.tbl_vardata)
-        old_months = {datetime.date.strftime(x, "%Y-%m-%d") for x in df_old['month'].unique()}
-        print(set(df_old['month'].unique()))
 
-        new_months = set(mth_list) - old_months
+        if update_old:
 
-        if not update_old:
+            date_mth_list = [dt.datetime.strptime(x, "%Y-%m-%d").date() for x in mth_list]
+            df_delete = df_old[df_old['month'].isin(date_mth_list)]
+            if not df_delete.empty:
+                table_ = self.tbl_vardata
+                for mth in df_delete['month'].unique():
+                    print(mth)
+                    delete_qry = table_.delete().where(table_.c.month == mth)
+                    self.connection.execute(delete_qry)
+            df_insert = df_insert[df_insert['month'].isin(mth_list)]
+        else:
+            old_months = {dt.date.strftime(x, "%Y-%m-%d") for x in df_old['month'].unique()}
+            print(set(df_old['month'].unique()))
+            new_months = set(mth_list) - old_months
 
             df_insert = df_insert[df_insert['month'].isin(new_months)]
 
-            self.Insert_df_to_SQL(df_insert, self.tbl_vardata)
-        else:
-
-            df_delete = df_old[df_old['month'].isin(new_months)]
-            self.D
-
-
-
-
-
-        pass
+        self.Insert_df_to_SQL(df_insert, self.tbl_vardata)
 
 
 # Vardata to SQL
@@ -407,10 +405,9 @@ class DB_insert_from_excel(object):
 FillDB = DB_insert_from_excel(xl_Products="nb_models_06_new.xlsx",
                      xl_Vardata="NB_Report-5`20.xlsx")
 FillDB.DB_alchemy(FillDB.Category)
-#FillDB.Products_to_SQL(df_new=FillDB.df_Products.head(28))
-#FillDB.Classes_to_SQL(df_new=FillDB.df_Classes)
-#FillDB.df_MtM_upgrade()
-#FillDB.MtM_Products_Classes_to_SQL()
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes)
+FillDB.MtM_Products_Classes_to_SQL()
 #mth_list=[2, 4]
-FillDB.Vardata_to_SQL(mth_list=[])
+FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
 
