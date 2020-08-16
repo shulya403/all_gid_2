@@ -18,18 +18,16 @@
 {% endblock %}
 
 {% block issuance %}
-<table>
 
 {% for i in joined %}
-<tr>
 
     {% for key, value in i.items %}
-    <td>{{ value }}</td>
+    {{ value }},
     {% endfor %}
 {% endfor %}
-</tr>
 
-</table>
+
+
 {% endblock %}
 
 {% block form_classes %}

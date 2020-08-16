@@ -10,6 +10,7 @@ from .models import MntClasses, \
     NbVardata
 from django import forms
 from pprint import pprint
+from django.db.models import Count
 
 
 dict_categories = {
@@ -116,15 +117,26 @@ def page_Category_Main(request, post):
     if request.POST:
         #pprint(request.POST)
         post_return = list(request.POST.keys())
-        print(post_return)
         post_return.remove('csrfmiddlewaretoken')
         print(post_return)
 
-        kwargs_classes = {"fk_classes__name__in": post_return}
-        pprint(kwargs_classes)
-        joined_mtm = db_tbl['mtm_prod_clas'].objects.filter(**kwargs_classes).values('fk_products', 'fk_classes')
+        joined_mtm = db_tbl['mtm_prod_clas'].objects\
+            .filter(fk_classes__name__in=post_return)\
+            .values('fk_products', 'fk_classes')
+        # Тут надо как-то сделать конкатенацию
+        inner_join_products = joined_mtm.values('fk_products')\
+            .annotate(Count('fk_products'))
+        pprint(inner_join_products)
+        inner_join_products_ = inner_join_products\
+            .filter(fk_products__count=len(post_return))\
+            .values_list('fk_products')
+        pprint(inner_join_products_)
+        # products_mtm = db_tbl['mtm_prod_clas'].objects\
+        #     .filter(fk_products__in=joined_mtm.values_list('fk_products'))\
+        #     .order_by('fk_products')\
+        #     .values('fk_products', 'fk_classes')
         products_mtm = db_tbl['mtm_prod_clas'].objects\
-            .filter(fk_products__in=joined_mtm.values_list('fk_products'))\
+            .filter(fk_products__in=inner_join_products_)\
             .order_by('fk_products')\
             .values('fk_products', 'fk_classes')
         products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
@@ -132,17 +144,20 @@ def page_Category_Main(request, post):
         #print(products_for_execute)
         list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
         list_enabled_ = vlist_to_list(list(list_enabled_))
-        print(list_enabled_)
+        #print(list_enabled_)
         if list_enabled_:
             enabled_return = list_enabled_
         else:
             enabled_return = list_enabled
         tbl_joined = {"1": 0, "2": 0}
+        list_products = db_tbl['products'].objects.filter(id__in=products_for_execute).values('name')
+        #pprint(list_products)
     else:
         post_return = []
         enabled_return = list_enabled
         joined_mtm = "пусто"
         tbl_joined = {"1": 0, "2": 0}
+        list_products = "пусто"
 
 
     dict_form_fld = Dict_by_Classes(form_fld)
@@ -153,7 +168,7 @@ def page_Category_Main(request, post):
         'categories_list': categories_list,
         'action': post,
         'form': html_form,
-        'joined': tbl_joined
+        'joined': list_products
 
     }
 
