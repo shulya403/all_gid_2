@@ -16,17 +16,31 @@
       },
       "Target market": {
         "db_name": "target_market"
+      },
+      "CPU Vendor": {
+        "db_name": "cpu_vendor"
+      },
+      "Base Platform": {
+        "db_name": "base_platform"
+      },
+      "GPUs": {
+        "db_name": "gpu_list"
+      },
+      "Display, Inch": {
+        "db_name": "screen_size"
       }
+
     },
     "xl_page": "Models",
+    "xl_sales_page": "Source",
     "Fields_classes": {
-      "CL_mid_perf": {
+      "CL_int": {
         "text": "Средней производительности",
         "explanation": "Стандартный процессор, встроенная графика",
         "class_subtype": "Производительность",
         "type": "CL"
       },
-      "CL_01_low_end": {
+      "CL_low_end": {
         "text": "Начального уровня",
         "explanation": "Процессор эконом, встроенная графика",
         "class_subtype": "Производительность",
@@ -34,97 +48,134 @@
       },
       "CL_discret_lite": {
         "text": "Расширенная функциональность",
-        "explanation": "Стандартный процессор, внешняя графика начального уровня, мультимедиа",
+        "explanation": "Стандартный процессор, внешняя графика начального уровня",
         "class_subtype": "Производительность",
         "type": "CL"
       },
-      "CL_09_game_mid": {
+      "GO_game_mid": {
         "text": "Игровой среднего класса",
         "explanation": "Мощный процессор, игровая графика среднего уровня",
         "class_subtype": "Производительность",
-        "type": "CL"
+        "type": "GO"
       },
-      "CL_10_game_high": {
+      "GO_game_high": {
         "text": "Игровой топового уровня",
-        "explanation": "Мощный процессор, продвинутая игровая графика, специальный корпус",
+        "explanation": "Мощный процессор, продвинутая игровая графика",
         "class_subtype": "Производительность",
-        "type": "CL"
+        "type": "GO"
       },
-      "CL_08_2_in_1": {
+      "CL_2_in_1": {
         "text": "Трансформер с поворотным touch-экраном",
         "class_subtype": "Форм-фактор",
         "type": "CL"
       },
-      "CL_11_workstation": {
+      "GO_workstation": {
         "text": "Профессиональная рабочая станция",
         "explanation": "Мощная машина для инженерных и дизайнерских задач, профессиональная графическая карта",
-        "class_subtype": "Производительность",
-        "type": "CL"
+        "class_subtype": "Специализация",
+        "type": "GO"
       },
-      "CL_12_mini": {
+      "CL_mini": {
         "text": "Мини",
         "explanation": "Экран 10\", 11\", 12\"",
         "class_subtype": "Форм-фактор",
         "type": "CL"
       },
-      "CL_06_compact": {
+      "CL_13-14": {
         "text": "Компактный",
         "explanation": "Экран 13\", 14\"",
         "class_subtype": "Форм-фактор",
         "type": "CL"
       },
-      "CL_07_standard_size": {
+      "CL_15": {
         "text": "Стандартный размер",
         "explanation": "Экран 15\"",
         "class_subtype": "Форм-фактор",
         "type": "CL"
       },
-      "CL_13_maxy": {
+      "CL_maxy": {
         "text": "Большой экран",
         "explanation": "Экран 16\", 17\" и более",
         "class_subtype": "Форм-фактор",
         "type": "CL"
       },
-      "CL_02_premium": {
+      "GO_premium": {
         "text": "Премиальный",
-        "explanation": "Ноутбуки премиальных серий, топовый дизайн, имидж",
-        "type": "CL"
+        "explanation": "Ноутбуки премиальных серий (кроме игровых), топовый дизайн, имидж",
+        "type": "GO"
       },
-      "GO_03_corporate": {
+      "GO_corporate": {
         "text": "Корпоративный",
         "explanation": "Бизнес-ноутбук топового уровня,  высокая прочность, PRO-компоненты, ср-ва безопасности, имидж",
         "class_subtype": "Коммерческий",
         "type": "GO"
       },
-      "GO_04_smb": {
+      "GO_smb": {
         "text": "Бизнес средний",
         "explanation": "Стандартные бизнес-ноутбуки, высокая прочность, PRO-компоненты, ср-ва безопасности",
         "class_subtype": "Коммерческий",
         "type": "GO"
       },
-      "GO_05_bus_essential": {
+      "GO_bus_essential": {
         "text": "Для рабочих мест",
         "explanation": "Бюджетные бизнес-ноутбуки для массовых рабочих мест и стандартных деловых приложений",
         "class_subtype": "Коммерческий",
         "type": "GO"
       },
-      "GO_14_usual_work": {
+      "GO_horse_work": {
         "text": "\"Рабочая лошадка\"",
-        "explanation": "Простой ноутбук для работы и учебы c экраном 14\", 15\" или 17\"",
+        "explanation": "Ноутбук для работы и учебы c экраном 14\", 15\" или 17\"",
         "type": "GO"
       },
-      "GO_15_universum_home": {
+      "GO_universum_home": {
         "text": "Универсальный домашний",
         "explanation": "Универсальный крупный ноутбук с мультимедиа и начальными игоровыми возможностями 15\" или 17\"",
         "class_subtype": "Потребительский",
         "type": "GO"
       },
-      "GO_16_travel": {
-        "text": "Выездной",
-        "explanation": "С экраном до 14\"",
+      "GO_education": {
+        "text": "Для образования",
+        "explanation": "Упрощенные ноутбуки и трансфомеры для поставок в школы",
+        "class_subtype": "Специализация",
+        "type": "GO"
+      },
+      "GO_content": {
+        "text": "Для коммуникаций и просмотра",
+        "explanation": "Упрощенные компактные ноутбуки до 14\"для потребления контента",
         "type": "GO"
       }
 
+    },
+    "Fields_sales": {
+      "month": {
+        "col_name": "Month",
+        "change": {
+          "_1": "2020-01-01",
+          "_2": "2020-02-01",
+          "_3": "2020-03-01",
+          "_4": "2020-04-01",
+          "_5": "2020-05-01",
+          "_6": "2020-06-01",
+          "_7": "2020-07-01",
+          "_8": "2020-08-01",
+          "_9": "2020-09-01",
+          "_10": "2020-10-01",
+          "_11": "2020-11-01",
+          "_12": "2020-12-01"
+        }
+      },
+      "sales_units": {
+        "col_name": "Sales Units"
+      },
+      "price_rur": {
+        "col_name": "Price rub"
+      },
+      "product_name": {
+        "col_name": "Model"
+      }
+      },
+    "Mnt": {
+
     }
-  }
+    }
 }

@@ -1,0 +1,51 @@
+{% extends "page.html" %}
+
+{% block header %}
+{% for i, link in categories_list %}
+<tr><td>
+&nbsp;&nbsp;
+
+    <a href="/{{ link }}/">{% if i == category_name %}
+        <strong>{{ i }}</strong>
+        {% else %}
+        {{ i }}
+        {% endif %}</a>
+    &nbsp;&nbsp;
+
+</td></tr>
+
+{% endfor %}
+{% endblock %}
+
+{% block issuance %}
+
+{% for i in joined %}
+
+    {% for key, value in i.items %}
+    {{ value }},
+    {% endfor %}
+{% endfor %}
+
+
+
+{% endblock %}
+
+{% block form_classes %}
+
+<form action="/{{ action }}/" method="post">
+    <input type="submit" value="обновить">
+    <br>
+
+    {% csrf_token %}
+
+    {% include "form.html" %}
+
+    <input type="submit" value="обновить">
+    <br>
+</form>
+
+
+{% endblock %}
+
+
+
