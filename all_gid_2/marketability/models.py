@@ -1,6 +1,13 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
-# Create your models here.
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
 
@@ -111,11 +118,62 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class MfpClasses(models.Model):
+    type = models.CharField(max_length=2, blank=True, null=True)
+    class_subtype = models.CharField(max_length=45, blank=True, null=True)
+    text = models.CharField(max_length=100, blank=True, null=True)
+    explanation = models.CharField(max_length=256, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mfp_classes'
+
+
+class MfpProducts(models.Model):
+    brand = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=True)
+    type = models.CharField(max_length=45, blank=True, null=True)
+    prt_technology = models.CharField(max_length=45, blank=True, null=True)
+    color = models.CharField(max_length=45, blank=True, null=True)
+    format_a = models.CharField(max_length=45, blank=True, null=True)
+    fax = models.CharField(max_length=3, blank=True, null=True)
+    duplex = models.CharField(max_length=3, blank=True, null=True)
+    photo = models.CharField(max_length=3, blank=True, null=True)
+    usb = models.CharField(max_length=3, blank=True, null=True)
+    wi_fi = models.CharField(max_length=3, blank=True, null=True)
+    ethernet = models.CharField(max_length=3, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mfp_products'
+
+
+class MfpProductsHasMfpClasses(models.Model):
+    fk_products = models.ForeignKey(MfpProducts, models.DO_NOTHING, db_column='fk_products')
+    fk_classes = models.ForeignKey(MfpClasses, models.DO_NOTHING, db_column='fk_classes')
+
+    class Meta:
+        managed = False
+        db_table = 'mfp_products_has_mfp_classes'
+
+
+class MfpVardata(models.Model):
+    month = models.DateField(blank=True, null=True)
+    sales_units = models.IntegerField(blank=True, null=True)
+    price_rur = models.FloatField(blank=True, null=True)
+    fk_products = models.ForeignKey(MfpProducts, models.DO_NOTHING, db_column='fk_products', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mfp_vardata'
+
+
 class MntClasses(models.Model):
     type = models.CharField(max_length=2, blank=True, null=True)
     class_subtype = models.CharField(max_length=45, blank=True, null=True)
     text = models.CharField(max_length=45, blank=True, null=True)
-    explanation = models.CharField(max_length=45, blank=True, null=True)
+    explanation = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
@@ -126,7 +184,13 @@ class MntClasses(models.Model):
 class MntProducts(models.Model):
     brand = models.CharField(max_length=45, blank=True, null=True)
     name = models.CharField(max_length=45, blank=True, null=True)
-    screen_size = models.CharField(max_length=45, blank=True, null=True)
+    type = models.CharField(max_length=45, blank=True, null=True)
+    resolution = models.CharField(max_length=45, blank=True, null=True)
+    resolution_abb = models.CharField(max_length=45, blank=True, null=True)
+    matrix_type = models.CharField(max_length=45, blank=True, null=True)
+    curved = models.CharField(max_length=45, blank=True, null=True)
+    game = models.CharField(max_length=45, blank=True, null=True)
+    response_time = models.CharField(max_length=45, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -134,8 +198,9 @@ class MntProducts(models.Model):
 
 
 class MntProductsHasMntClasses(models.Model):
-    fk_products = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products')
+    fk_products = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
     fk_classes = models.ForeignKey(MntClasses, models.DO_NOTHING, db_column='fk_classes')
+    id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -184,8 +249,9 @@ class NbProducts(models.Model):
 
 
 class NbProductsHasNbClasses(models.Model):
-    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products')
+    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
     fk_classes = models.ForeignKey(NbClasses, models.DO_NOTHING, db_column='fk_classes')
+    id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

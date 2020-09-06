@@ -1,13 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import MntClasses, \
-    MntProducts, \
     MntProductsHasMntClasses, \
     MntVardata, \
     NbClasses, \
     NbProducts, \
     NbProductsHasNbClasses, \
-    NbVardata
+    NbVardata,\
+    MfpClasses,\
+    MfpProducts,\
+    MfpProductsHasMfpClasses,\
+    MfpVardata
+
+
 from django import forms
 from pprint import pprint
 from django.db.models import Count
@@ -17,12 +22,12 @@ dict_categories = {
         'Mnt': {
             'category_name': "Мониторы",
             'db_tables':    {
-                'products': MntProducts,
+                'products': MntProductsHasMntClasses,
                 'classes': MntClasses,
                 'mtm_prod_clas': MntProductsHasMntClasses,
                 'vardata': MntVardata
             }
-            },
+        },
         'Nb': {
             'category_name': "Ноутбуки",
             'db_tables':    {
@@ -31,8 +36,18 @@ dict_categories = {
                 'mtm_prod_clas': NbProductsHasNbClasses,
                 'vardata': NbVardata
             }
+        },
+        'Mfp': {
+            'category_name': "Принтеры и МФУ",
+            'db_tables': {
+                'products': MfpProducts,
+                'classes': MfpClasses,
+                'mtm_prod_clas': MfpProductsHasMfpClasses,
+                'vardata': MfpVardata
+            }
         }
     }
+
 
 #class Form_classes(forms.Form):
 
@@ -90,8 +105,8 @@ def Form_by_dict_classes(dict, post, enabled, first=True):
         return str_
 
     str_header = "<table><tr>"
-    str_CL = "<td valign=\"top\">" + td_type(dict['CL']) + "</td>"
-    str_GO = "<td valign=\"top\">" + td_type(dict['GO']) + "</td>"
+    str_CL = "<td valign=\"top\">" + td_type(dict['GO']) + "</td>"
+    str_GO = "<td valign=\"top\">" + td_type(dict['CL']) + "</td>"
     str_footer = "</tr></table>"
 
     exit_ = str_header + str_CL + str_GO + str_footer
