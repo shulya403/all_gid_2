@@ -91,7 +91,23 @@ class DB_insert_from_excel(object):
             print("df_Pruducts \n", df_.head())
 
             return df_
+# Autochange
+        def df_Autochange_Products(df, dict_fields):
 
+            for i in dict_fields:
+                if "autochange" in dict_fields[i].keys():
+                    map_ = dict_fields[i]["autochange"]
+                    for j in df[dict_fields[i]['db_name']].unique():
+                        if not j in dict_fields[i]["autochange"]:
+
+                            map_[j] = j
+                            for k in map_:
+                                if j.title() == k.title() and k != j:
+                                    map_[j] = map_[k]
+                                    break
+
+                    df[dict_fields[i]['db_name']] = df[dict_fields[i]['db_name']].map(map_, na_action='ignore')
+            return df
 
 # Классы и цели согласно JSON "Filds_classes"
         def df_Classes(df_file, dict_fields):
@@ -130,6 +146,7 @@ class DB_insert_from_excel(object):
 
             df_ = df_file.copy()
 
+
             list_fileds = [i for i in dict_fields]
 
             dict_rename_fld = dict()
@@ -143,12 +160,15 @@ class DB_insert_from_excel(object):
             for fld in df_.columns:
                 if "change" in dict_fields[fld].keys():
                     df_[fld] = df_[fld].map(dict_fields[fld]["change"])
+            drop_idx = df_[df_['sales_units'] == 0].index
+            df_.drop(drop_idx, inplace=True)
+            df_.fillna(0, inplace=True)
 
             return df_
 
 
 
-
+# Собснна __init__
         with open(JSON_file, encoding='utf-8') as f:
             dict_xl_Fields = json.load(f)
 
@@ -183,6 +203,7 @@ class DB_insert_from_excel(object):
 
         self.df_Products = df_Products(self.xl_df_Products, self.dict_xl_db_Fields)
         self.df_Products.fillna("", inplace=True)
+        self.df_Products = df_Autochange_Products(self.df_Products, dict_xl_Cat_Fields['Fields_products'])
         self.df_Classes = df_Classes(self.xl_df_Products, self.dict_xl_db_Classes)
         self.df_Classes.fillna("", inplace=True)
         self.df_Vardata = df_Vardata(self.xl_df_Vardata, self.dict_xl_db_Vardata)
@@ -252,10 +273,10 @@ class DB_insert_from_excel(object):
 
         metadata = sql.MetaData(self.sql_engine)
 
-        sql_tbl_name_products = category+'_products'
-        sql_tbl_name_class = category + '_classes'
-        sql_tbl_name_mtm_prod_class = category + '_products_has_nb_classes'
-        sql_tbl_name_vardata = category + '_vardata'
+        sql_tbl_name_products = category.lower() +  '_products'
+        sql_tbl_name_class = category.lower()  + '_classes'
+        sql_tbl_name_mtm_prod_class = category.lower()  + '_products_has_' + category.lower()  + '_classes'
+        sql_tbl_name_vardata = category.lower()  + '_vardata'
 
         self.tbl_products = sql.Table(sql_tbl_name_products, metadata, autoload=True)
         self.tbl_classes = sql.Table(sql_tbl_name_class, metadata, autoload=True)
@@ -364,8 +385,6 @@ class DB_insert_from_excel(object):
             else:
                 return str(x)
 
-
-
         if mth_list:
             mth_list = [now_y + "-" + add_0(x) + "-01" for x in mth_list]
             df_insert = self.df_Vardata[self.df_Vardata['month'].isin(mth_list)]
@@ -418,13 +437,22 @@ class DB_insert_from_excel(object):
 #                     Category='Nb',
 #                     JSON_file="categories_fields.json"):
 
-FillDB = DB_insert_from_excel(xl_Products="nb_models_07_update.xlsx",
-                     xl_Vardata="NB_Report-5`20.xlsx",
-                    Category="Nb")
+# FillDB = DB_insert_from_excel(xl_Products="nb_models_07_update.xlsx",
+#                      xl_Vardata="NB_Report-5`20.xlsx",
+#                     Category="Nb")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+# FillDB.MtM_Products_Classes_to_SQL()
+# #mth_list=[2, 4]
+#FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
+
+FillDB = DB_insert_from_excel(xl_Products="Сегменты и база printMFP-1.xlsx",
+                     xl_Vardata="Сегменты и база printMFP-1.xlsx",
+                    Category="Mfp")
 FillDB.DB_alchemy(FillDB.Category)
 FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 FillDB.MtM_Products_Classes_to_SQL()
 #mth_list=[2, 4]
-#FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
-
+FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
