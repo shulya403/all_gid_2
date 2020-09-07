@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import MntClasses, \
     MntProductsHasMntClasses, \
     MntVardata, \
+    MntProducts,\
     NbClasses, \
     NbProducts, \
     NbProductsHasNbClasses, \
@@ -22,7 +23,7 @@ dict_categories = {
         'Mnt': {
             'category_name': "Мониторы",
             'db_tables':    {
-                'products': MntProductsHasMntClasses,
+                'products': MntProducts,
                 'classes': MntClasses,
                 'mtm_prod_clas': MntProductsHasMntClasses,
                 'vardata': MntVardata
