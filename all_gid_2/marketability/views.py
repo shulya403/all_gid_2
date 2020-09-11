@@ -1,4 +1,5 @@
 from django.shortcuts import render
+#from django.views.generic import View, DetailView, TemplateView
 from django.http import HttpResponse
 from .models import MntClasses, \
     MntProductsHasMntClasses, \
@@ -12,11 +13,31 @@ from .models import MntClasses, \
     MfpProducts,\
     MfpProductsHasMfpClasses,\
     MfpVardata
+from datetime import datetime as dt
+from datetime import date
 
 
-from django import forms
+#from django import forms
 from pprint import pprint
-from django.db.models import Count
+from django.db.models import Count, F, Sum
+
+#class AllgidBase(TemplateView):
+
+#    template_name = "test.html"
+#    slug_url_kwarg = "cat_"
+#    query_pk_and_slug = True
+#    model = self.kwargs['cat_']
+
+
+
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     exit_ = {
+    #         "word": self.cat_ + self.
+    #     }
+    #     return render(request, template_name="test.html", context=exit_)
+
+
 
 
 dict_categories = {
@@ -115,14 +136,44 @@ def Form_by_dict_classes(dict, post, enabled, first=True):
     with open("marketability/patterns/form.html", 'w', encoding='utf-8') as f:
         f.write(exit_)
 
-    return exit_
 
 def vlist_to_list(vlist):
     return [i[0] for i in vlist]
 
-def page_Category_Main(request, post):
+# Получение выборки из mtm только с продуктами встр. в отфильтрованных формой классах
+def Get_Products_Mtm(post_return, db_tbl):
 
-    category = dict_categories[post]
+    # joined_mtm - выборка из mtm по отфильтрованным классам
+    joined_mtm = db_tbl['mtm_prod_clas'].objects \
+        .filter(fk_classes__name__in=post_return) \
+        .values('fk_products', 'fk_classes')
+
+    # inner_join_products число упоминаний продуктов в отфильтрованной таблице mtm
+    inner_join_products = joined_mtm.values('fk_products') \
+        .annotate(Count('fk_products'))
+    pprint(inner_join_products)
+    # inner_join_products_ - только продукты из inner_join встр в количестве классов равном числу отдачи формы
+    inner_join_products_ = inner_join_products \
+        .filter(fk_products__count=len(post_return)) \
+        .values_list('fk_products')
+    pprint(inner_join_products_)
+
+    # products_mtm - список записей в mtm с продуктом присутсв. во всех отфильтрованных классах
+    products_mtm = db_tbl['mtm_prod_clas'].objects \
+        .filter(fk_products__in=inner_join_products_) \
+        .order_by('fk_products') \
+        .values('fk_products', 'fk_classes')
+
+    return products_mtm
+
+# выборка из базы
+form_return = ""
+
+def page_Category_Main(request, cat_):
+
+    global form_return
+
+    category = dict_categories[cat_]
     db_tbl = category['db_tables']
 
     categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
@@ -134,29 +185,17 @@ def page_Category_Main(request, post):
         #pprint(request.POST)
         post_return = list(request.POST.keys())
         post_return.remove('csrfmiddlewaretoken')
+        form_return = post_return
         print(post_return)
 
-        joined_mtm = db_tbl['mtm_prod_clas'].objects\
-            .filter(fk_classes__name__in=post_return)\
-            .values('fk_products', 'fk_classes')
-        # Тут надо как-то сделать конкатенацию
-        inner_join_products = joined_mtm.values('fk_products')\
-            .annotate(Count('fk_products'))
-        pprint(inner_join_products)
-        inner_join_products_ = inner_join_products\
-            .filter(fk_products__count=len(post_return))\
-            .values_list('fk_products')
-        pprint(inner_join_products_)
-        # products_mtm = db_tbl['mtm_prod_clas'].objects\
-        #     .filter(fk_products__in=joined_mtm.values_list('fk_products'))\
-        #     .order_by('fk_products')\
-        #     .values('fk_products', 'fk_classes')
-        products_mtm = db_tbl['mtm_prod_clas'].objects\
-            .filter(fk_products__in=inner_join_products_)\
-            .order_by('fk_products')\
-            .values('fk_products', 'fk_classes')
+        products_mtm = Get_Products_Mtm(post_return, db_tbl)
+
+        # products_for_execute - list id отфильторванных моделей
         products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
+
+        # classes_for_execute - list id доступных после фильтра классов
         classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
+
         #print(products_for_execute)
         list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
         list_enabled_ = vlist_to_list(list(list_enabled_))
@@ -165,7 +204,8 @@ def page_Category_Main(request, post):
             enabled_return = list_enabled_
         else:
             enabled_return = list_enabled
-        tbl_joined = {"1": 0, "2": 0}
+
+        # tbl_joined = {"1": 0, "2": 0} ???
         list_products = db_tbl['products'].objects.filter(id__in=products_for_execute).values('name')
         #pprint(list_products)
     else:
@@ -173,19 +213,42 @@ def page_Category_Main(request, post):
         enabled_return = list_enabled
         joined_mtm = "пусто"
         tbl_joined = {"1": 0, "2": 0}
-        list_products = "пусто"
+        list_products = []
 
+    tab_marketability = Get_Sales_Top(db_tbl, list_products, q=10)
 
     dict_form_fld = Dict_by_Classes(form_fld)
-    html_form = Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
+    Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
 
     exit_ = {
         'category_name':  category['category_name'],
         'categories_list': categories_list,
-        'action': post,
-        'form': html_form,
-        'joined': list_products
+        'action': cat_,
+#        'form': html_form,
+        'joined': list_products[:5],
+        'tbl': tab_marketability
 
     }
 
     return render(request, template_name="category.html", context=exit_)
+
+def Get_Sales_Top(db_tbl, list_products, timelag=2, q=5):
+
+    now = int(dt.strftime(dt.now(), "%m"))
+
+
+    period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by())
+    if None in period_inbase:
+            period_inbase.remove(None)
+    if len(period_inbase) < timelag:
+         timelag=len(period_inbase)
+    period_inbase = period_inbase[-timelag:]
+
+    if list_products:
+        qry_ = db_tbl['vardata'].objects.filter(month__in=period_inbase).\
+            annotate(sales_timelag=Sum('sales_units')).\
+            values('fk_products', 'sales_timelag').order_by('-sales_timelag')
+    else:
+        qry_ = 'ничо'
+
+    return qry_

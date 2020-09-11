@@ -9,5 +9,6 @@ app_name = 'marketability'
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/Nb/')),
-    path('<slug:post>/', views.page_Category_Main, name='cat')
+    path('<slug:cat_>/', views.page_Category_Main, name='cat'),
+#    path('1/<slug:cat_>/', views.AllgidBase.as_view(), name='test')
 ]
