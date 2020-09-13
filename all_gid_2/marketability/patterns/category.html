@@ -21,33 +21,39 @@
     <!-- Таблица выдачи -->
     <table>
     <tr>
+
         <td></td>
-        {% for col in tbl_col %}<td>
-            <a href="/{{ cat_ }}/{{ col }}">
-                <b>{{ col }}</b>
+        {% for cl in tbl_col %}
+            <td>
+            <a href="/{{ cat_ }}/{{ cl }}">
+                <b>{{ cl }}</b>
             </a>
-        </td>{% endfor %}
+            </td>
+        {% endfor %}
+
     </tr>
-    {% for row in tbl_data %}
-        {% for k, v in row %}
+    {{ tbl_data }}
+    {% for k, v in tbl_data.items %}
             <tr>
             <td>{{ k }}</td>
             {% for dat in v %}
-                <td>dat</td>
+                <td>{{ dat }}</td>
             {% endfor %}
             </tr>
         {% endfor %}
-    {% endfor %}
+
+
     </table>
 
     <br>
-
-<!-- {% for i in joined %}
+{% comment %}
+{% for i in joined %}
 
     {% for key, value in i.items %}
     {{ value }},
     {% endfor %}
 {% endfor %}
+{% endcomment %}
 
 
 

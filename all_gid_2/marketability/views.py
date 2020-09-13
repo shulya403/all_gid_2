@@ -167,7 +167,7 @@ cat_def = ""
 category = dict()
 db_tbl = dict()
 categories_list = list()
-fields_show_short = dict()
+dict_sorted_fields_show = dict()
 
 
 #class Form_classes(forms.Form):
@@ -270,7 +270,7 @@ form_return = ""
 
 def Init_cat(cat_):
 
-    global categories_list, category, db_tbl, cat_def, fields_show_short
+    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show
 
     cat_def = cat_
     category = dict_categories[cat_def]
@@ -280,13 +280,13 @@ def Init_cat(cat_):
     dict_sorted_fields_show = {k: v['html_name'] for k, v in
                                sorted(category['fields_show'].items(), key=lambda id: id[1]["id"])}
 #TODO: filter `short`=True
-    fields_show_short["db_name"] = [x for x in list(dict_sorted_fields_show.keys())]
-    fields_show_short["html_name"] = [y for y in list(dict_sorted_fields_show.values())]
+    #fields_show_short["db_name"] = [x for x in list(dict_sorted_fields_show.keys())]
+    #fields_show_short["html_name"] = [y for y in list(dict_sorted_fields_show.values())]
 
 
 def page_Category_Main(request, cat_):
 
-    global form_return, categories_list, category, db_tbl, cat_def
+    global form_return, categories_list, category, db_tbl, cat_def, dict_sorted_fields_show
 
     if (cat_ != cat_def):
         Init_cat(cat_)
@@ -385,12 +385,14 @@ def Get_Sales_Top(list_products, timelag=2, q=5):
 
 def Get_Sales_Top_Products(top_sales_products, q):
 
-    global db_tbl, fields_show_short
+    global db_tbl, dict_sorted_fields_show
 
-    print(fields_show_short)
+    fields_ = list(dict_sorted_fields_show.keys())
+    fields_.append('id')
     qry_ = db_tbl['products'].objects.\
         filter(id__in=top_sales_products).\
-        values(*fields_show_short['db_name'])
+        values(*fields_)
+
     df = read_frame(qry_)
     Model_name = "Top"+str(q)
     df[Model_name] = df['brand'] + " " + df['name']
@@ -415,6 +417,22 @@ def df_transponse_to_context(df, header):
 
     exit_ = dict()
     exit_['Columns'] = headers
-    exit_['Data'] = dict_data
+    exit_['Data'] = Replace_names_for_html(dict_data)
+
 
     return exit_
+
+def Replace_names_for_html(data):
+
+    global dict_sorted_fields_show
+
+    data_ = dict()
+
+    for i in data.keys():
+        if i != 'id':
+            data_[dict_sorted_fields_show[i]] = data[i]
+        else:
+            data_['id'] = data['id']
+
+    return data_
+
