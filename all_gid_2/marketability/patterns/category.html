@@ -18,11 +18,31 @@
 {% endblock %}
 
 {% block issuance %}
+    <!-- Таблица выдачи -->
+    <table>
+    <tr>
+        <td></td>
+        {% for col in tbl_col %}<td>
+            <a href="/{{ cat_ }}/{{ col }}">
+                <b>{{ col }}</b>
+            </a>
+        </td>{% endfor %}
+    </tr>
+    {% for row in tbl_data %}
+        {% for k, v in row %}
+            <tr>
+            <td>{{ k }}</td>
+            {% for dat in v %}
+                <td>dat</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    {% endfor %}
+    </table>
 
-    {{ tbl }}
     <br>
 
-{% for i in joined %}
+<!-- {% for i in joined %}
 
     {% for key, value in i.items %}
     {{ value }},
