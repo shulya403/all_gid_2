@@ -1,7 +1,9 @@
-#TODO: Для начала - выдача всех моделей
-#   отбор пятерки
-#   выборка из продуктс
-#   че делать c query set - взять заголовки полей
+#TODO:
+#Сделать переход на страницу модели
+#Выдача всего списка моделей по данному фильтру
+#отбор пятерки
+#выборка из продуктс
+#че делать c query set - взять заголовки полей
 
 
 from django.shortcuts import render
@@ -109,9 +111,7 @@ dict_categories = {
                         "id": 5,
                         "short": True
                     }
-
             }
-
         },
         'Mfp': {
             'category_name': "Принтеры и МФУ",
@@ -266,7 +266,6 @@ def Get_Products_Mtm(post_return, db_tbl):
     return products_mtm
 
 # выборка из базы
-form_return = ""
 
 def Init_cat(cat_):
 
@@ -283,10 +282,19 @@ def Init_cat(cat_):
     #fields_show_short["db_name"] = [x for x in list(dict_sorted_fields_show.keys())]
     #fields_show_short["html_name"] = [y for y in list(dict_sorted_fields_show.values())]
 
+form_return = []
+products_for_execute = []
+
 
 def page_Category_Main(request, cat_):
 
-    global form_return, categories_list, category, db_tbl, cat_def, dict_sorted_fields_show
+    global categories_list, \
+        category, \
+        db_tbl, \
+        cat_def, \
+        dict_sorted_fields_show, \
+        products_for_execute, \
+        form_return
 
     if (cat_ != cat_def):
         Init_cat(cat_)
@@ -344,13 +352,74 @@ def page_Category_Main(request, cat_):
         'categories_list': categories_list,
         'action': cat_,
 #        'form': html_form,
-        'joined': list_products,
+#        'joined': list_products,
         'tbl_col': tab_marketability['Columns'],
         'tbl_data': tab_marketability['Data']
 
     }
 
     return render(request, template_name="category.html", context=exit_)
+
+def page_Product(request, cat_, product_):
+
+    global form_return, products_for_execute, db_tbl, categories_list
+
+    if not db_tbl:
+        Init_cat(cat_)
+
+    Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
+
+    fields_ = list(Product[0].keys())
+    dict_ttx = dict()
+    for i in fields_:
+        if i not in ['brand', 'name', 'id']:
+            dict_ttx[i] = Product[0][i]
+
+
+    Filters = db_tbl['classes'].objects.filter(name__in=form_return).\
+        values('type', 'text')
+    filter_GO = list()
+    filter_CL = list()
+    if Filters:
+        for i in Filters:
+            if i['type'] == 'GO':
+                filter_GO.append(i['text'])
+            elif i['type'] == 'CL':
+                filter_CL.append(i['text'])
+
+    list_Products_filter = db_tbl['products'].objects.\
+                    filter(id__in=products_for_execute).\
+                    values('brand', 'name', 'id')
+
+    pprint(list_Products_filter)
+    class FProducts(object):
+        def __init__(self, id, brand, name):
+
+            self.id = str(id),
+            self.brand = str(brand),
+            self.name = str(name)
+
+            self.id = self.id[0]
+            self.brand = self.brand[0]
+
+            print(self.id, self.brand, self.name)
+
+    fproducts = list()
+    for i in list(list_Products_filter):
+        fproducts.append(FProducts(id=i['id'], brand=i['brand'], name=i['name']))
+
+
+    exit_ = {
+        'categories_list': categories_list,
+        'vendor': Product[0]['brand'],
+        'name': Product[0]['name'],
+        'ttx': dict_ttx,
+        'filter_GO': filter_GO,
+        'filter_CL': filter_CL,
+        'fproducts': fproducts,
+        'action': cat_
+    }
+    return render(request, template_name="product.html", context=exit_)
 
 def Get_Sales_Top(list_products, timelag=2, q=5):
 
@@ -397,7 +466,6 @@ def Get_Sales_Top_Products(top_sales_products, q):
     Model_name = "Top"+str(q)
     df[Model_name] = df['brand'] + " " + df['name']
     df.drop(['brand', 'name'], axis='columns', inplace=True)
-    print(df)
     exit_ = df_transponse_to_context(df, Model_name)
 
     return exit_
@@ -412,11 +480,11 @@ def df_transponse_to_context(df, header):
 
     for i in columns_:
         dict_data[i] = df[i].to_list()
-    print(headers)
-    pprint(dict_data)
 
     exit_ = dict()
-    exit_['Columns'] = headers
+    col_href = list(zip(headers, dict_data['id']))
+    exit_['Columns'] = col_href
+    print(exit_['Columns'])
     exit_['Data'] = Replace_names_for_html(dict_data)
 
 

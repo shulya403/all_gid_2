@@ -1,0 +1,53 @@
+{% extends "page.html" %}
+
+{% block header %}
+{% for i, link in categories_list %}
+<tr><td>
+&nbsp;&nbsp;
+
+    <a href="/{{ link }}/">{% if i == category_name %}
+        <strong>{{ i }}</strong>
+        {% else %}
+        {{ i }}
+        {% endif %}</a>
+    &nbsp;&nbsp;
+
+</td></tr>
+
+{% endfor %}
+{% endblock %}
+
+{% block issuance %}
+    <!-- Модель -->
+    <b>
+    <font size="14">{{ vendor }}</font><br>
+    </b>
+    <font size="10">{{ name }}</font><br>
+
+    {% for k, v in ttx.items %}
+        {{ k }}:  {{ v }}<br>
+    {% endfor %}
+<hr>
+    {% if filter_GO %}
+    <i><b>Целевые классы: </b></i>
+        {% for i in filter_GO %}
+        <i>{% if forloop.first %}{{ i }}{% else %}, {{ i }}{% endif %}</i>
+        {% endfor %}<br>
+    {% endif %}
+        {% if filter_CL %}
+    <i><b>Технические классы: </b></i>
+        {% for i in filter_CL %}
+        <i>{% if forloop.first %}{{ i }}{% else %}, {{ i }}{% endif %}</i>
+        {% endfor %}<br>
+    {% endif %}
+{% if fproducts %}
+    <br>
+    <b>Другие модели</b><br>
+    {% for i in fproducts %}
+        <a href="/{{ action }}/{{ i.id }}">{{ i.brand }} {{ i.name }}</a><br>
+    {% endfor %}
+
+{% endif %}
+{% endblock %}
+
+

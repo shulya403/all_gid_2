@@ -447,12 +447,12 @@ class DB_insert_from_excel(object):
 # #mth_list=[2, 4]
 #FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
 
-FillDB = DB_insert_from_excel(xl_Products="Сегменты и база printMFP-1.xlsx",
-                     xl_Vardata="Сегменты и база printMFP-1.xlsx",
-                    Category="Mfp")
+FillDB = DB_insert_from_excel(xl_Products="nb_models_07_update.xlsx",
+                     xl_Vardata="NB_Report-5`20.xlsx",
+                    Category="Nb")
 FillDB.DB_alchemy(FillDB.Category)
 FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 FillDB.MtM_Products_Classes_to_SQL()
 #mth_list=[2, 4]
-FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
+#FillDB.Vardata_to_SQL(mth_list=[], update_old=False)

@@ -23,16 +23,16 @@
     <tr>
 
         <td></td>
-        {% for cl in tbl_col %}
+        {% for cl, hrf in tbl_col %}
             <td>
-            <a href="/{{ cat_ }}/{{ cl }}">
+            <a href="/{{ action }}/{{ hrf }}">
                 <b>{{ cl }}</b>
             </a>
             </td>
         {% endfor %}
 
     </tr>
-    {{ tbl_data }}
+
     {% for k, v in tbl_data.items %}
             <tr>
             <td>{{ k }}</td>
