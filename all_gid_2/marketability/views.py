@@ -1,9 +1,8 @@
 #TODO:
-#Сделать переход на страницу модели
-#Выдача всего списка моделей по данному фильтру
-#отбор пятерки
-#выборка из продуктс
-#че делать c query set - взять заголовки полей
+#   Шаблон для выдачи десятки со средней ценой (транспонированная таблица)
+#   Выбор полей для отображения из числа ТТХ (using)
+#взять сджойниную таблицу products-vardata отбор по фильтру classes и по дате, отсортировать, взять топ
+#Выдать цену по двум последним месяцам
 
 
 from django.shortcuts import render
@@ -29,7 +28,7 @@ from django_pandas.io import read_frame
 
 #from django import forms
 from pprint import pprint
-from django.db.models import Count, F, Sum
+from django.db.models import Count, F, Sum, Avg, Q
 
 dict_categories = {
         'Mnt': {
@@ -332,18 +331,19 @@ def page_Category_Main(request, cat_):
             enabled_return = list_enabled
 
         # tbl_joined = {"1": 0, "2": 0} ???
-        list_products = db_tbl['products'].objects.filter(id__in=products_for_execute).values('name')
+        #list_products = db_tbl['products'].objects.filter(id__in=products_for_execute).values('name')
         #pprint(list_products)
     else:
         post_return = []
         enabled_return = list_enabled
         joined_mtm = "пусто"
-        tbl_joined = {"1": 0, "2": 0}
-        list_products = []
+        #tbl_joined = {"1": 0, "2": 0}
+        #list_products = []
         products_for_execute = []
 
     tab_marketability = Get_Sales_Top(products_for_execute, q=10)
 
+    #html.формы вызывается шаблоном из include
     dict_form_fld = Dict_by_Classes(form_fld)
     Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
 
@@ -353,8 +353,8 @@ def page_Category_Main(request, cat_):
         'action': cat_,
 #        'form': html_form,
 #        'joined': list_products,
-        'tbl_col': tab_marketability['Columns'],
-        'tbl_data': tab_marketability['Data']
+        #'tbl_col': tab_marketability['Columns'],
+        'tbl_data': tab_marketability
 
     }
 
@@ -421,36 +421,70 @@ def page_Product(request, cat_, product_):
     }
     return render(request, template_name="product.html", context=exit_)
 
-def Get_Sales_Top(list_products, timelag=2, q=5):
+def Get_Prod_Execute_join_vardata(list_products, qry_period):
+
+    global db_tbl, cat_def
+
+    sales_sum = cat_def.lower() + "vardata__sales_units"
+    filter_months = {
+        cat_def.lower() + "vardata__month__in": qry_period
+    }
+    price_avg = cat_def.lower() + "vardata__price_rur"
+    qry_total_execute = db_tbl['products'].objects.\
+        filter(id__in=list_products).\
+        annotate(sales_sum=Sum(sales_sum, filter=Q(**filter_months)),
+                 price_avg=Avg(price_avg, filter=Q(**filter_months)))
+
+    return qry_total_execute
+
+def Get_Period(qry_, period):
+
+    qry_period = qry_.filter(month__in=period)
+
+    return qry_period
+
+def Get_Agg_Sales_Price(qry_):
+
+    qry_agg = qry_.values('id').annotate(Sum('sales_units'), Avg('price_rur'), Count('month'))
+
+    return qry_agg
+
+
+def Get_Period_inbase(timelag):
 
     global db_tbl
-
-    now = int(dt.strftime(dt.now(), "%m"))
-
 
     period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by())
     if None in period_inbase:
             period_inbase.remove(None)
     if len(period_inbase) < timelag:
          timelag=len(period_inbase)
+
     period_inbase = period_inbase[-timelag:]
 
+    return period_inbase
+
+
+def Get_Sales_Top(list_products, timelag=2, q=5):
+
+    global db_tbl
+
+    if None in list_products:
+        list_products.remove(None)
+
+    now = int(dt.strftime(dt.now(), "%m"))
+
     if list_products:
-        qry_ = db_tbl['vardata'].objects.\
-            filter(month__in=period_inbase, fk_products__in=list_products).\
-            annotate(sales_timelag=Sum('sales_units')).\
-            values('fk_products', 'sales_timelag').order_by('-sales_timelag')
+        total_ = Get_Prod_Execute_join_vardata(list_products, Get_Period_inbase(timelag))
     else:
-        qry_ = ""
-
-    if qry_:
-        exit_ = vlist_to_list(qry_.values_list('fk_products')[:q])
+        all_ = vlist_to_list(db_tbl['vardata'].objects.values_list('fk_products').distinct())
+        total_ = Get_Prod_Execute_join_vardata(all_, Get_Period_inbase(timelag))
+    if total_:
+        exit_ = total_.order_by("-sales_sum")[:q]
     else:
-        exit_ = [0,]
+        exit_ = []
 
-    exit = Get_Sales_Top_Products(exit_, q)
-
-    return exit
+    return exit_
 
 def Get_Sales_Top_Products(top_sales_products, q):
 

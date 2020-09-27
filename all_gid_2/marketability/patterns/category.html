@@ -19,6 +19,18 @@
 
 {% block issuance %}
     <!-- Таблица выдачи -->
+<table>
+    {% for product in tbl_data %}
+<th>
+   <td><a href="/{{ action }}/{{ product.id }}">
+                <b>{{ product.name }}</b>
+       </a></td>
+</th>
+{% endfor %}
+</table>
+
+
+    {% comment %}
     <table>
     <tr>
 
@@ -44,7 +56,7 @@
 
 
     </table>
-
+{% endcomment %}
     <br>
 {% comment %}
 {% for i in joined %}
