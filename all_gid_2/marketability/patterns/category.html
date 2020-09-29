@@ -20,13 +20,38 @@
 {% block issuance %}
     <!-- Таблица выдачи -->
 <table>
-    {% for product in tbl_data %}
-<th>
-   <td><a href="/{{ action }}/{{ product.id }}">
-                <b>{{ product.name }}</b>
+<tr>
+<td></td>
+    {% for i in tbl_data.id.keys  %}
+
+   <td><a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
+                <b>{{ tbl_data.brand_name|get_item:i }}</b>
        </a></td>
-</th>
+
 {% endfor %}
+</tr>
+{% for fld in tbl_data.keys %}
+
+    {%  if fld in tbl_ttx_col %}
+    <tr>
+    <td>{{ fld }}</td>
+        {% for i in tbl_data.id.keys %}
+            <td>
+            {{ tbl_data|get_item:fld|get_item:i }}
+            </td>
+        {% endfor %}
+    </tr>
+    {%  endif %}
+
+{% endfor %}
+<tr>
+    <td>Ср. цена</td>
+    {% for i in tbl_data.id.keys %}
+            <td>
+            <b>{{ tbl_data.price_avg|get_item:i|floatformat }}</b>
+            </td>
+        {% endfor %}
+</tr>
 </table>
 
 
