@@ -1,7 +1,6 @@
 #TODO:
-#  Цены магазинов
-#Шаблон для выдачи десятки со средней ценой (транспонированная таблица)
-#Выбор полей для отображения из числа ТТХ (using)
+#   Шаблон для выдачи десятки со средней ценой (транспонированная таблица)
+#   Выбор полей для отображения из числа ТТХ (using)
 #взять сджойниную таблицу products-vardata отбор по фильтру classes и по дате, отсортировать, взять топ
 #Выдать цену по двум последним месяцам
 
@@ -31,11 +30,6 @@ from django_pandas.io import read_frame
 from pprint import pprint
 from django.db.models import Count, F, Sum, Avg, Q
 
-from django.template.defaulttags import register
-@register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)
-
 dict_categories = {
         'Mnt': {
             'category_name': "Мониторы",
@@ -51,13 +45,13 @@ dict_categories = {
                     'brand': {
                         "html_name": "Компания",
                         "id": 0,
-                        "short": False
+                        "short": True
                     },
 
                     'name': {
                         "html_name": "Модель",
                         "id": 1,
-                        "short": False
+                        "short": True
                     },
                     'type': {
                         "html_name": "Экран",
@@ -89,12 +83,12 @@ dict_categories = {
                     'brand': {
                         "html_name": "Компания",
                         "id": 0,
-                        "short": False
+                        "short": True
                     },
                     'name': {
                         "html_name": "Модель",
                         "id": 1,
-                        "short": False
+                        "short": True
                     },
                     'screen_size': {
                         "html_name": "Экран",
@@ -131,12 +125,12 @@ dict_categories = {
                 'brand': {
                         "html_name": "Компания",
                         "id": 0,
-                        "short": False
+                        "short": True
                     },
                 'name': {
                         "html_name": "Модель",
                         "id": 1,
-                        "short": False
+                        "short": True
                     },
                 'type': {
                         "html_name": "",
@@ -173,7 +167,9 @@ category = dict()
 db_tbl = dict()
 categories_list = list()
 dict_sorted_fields_show = dict()
-dict_fields_short_show = dict()
+
+
+#class Form_classes(forms.Form):
 
 
 # Формирование вложенного словаря по таблице _classes
@@ -272,16 +268,18 @@ def Get_Products_Mtm(post_return, db_tbl):
 
 def Init_cat(cat_):
 
-    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show, dict_fields_short_show
+    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show
 
     cat_def = cat_
     category = dict_categories[cat_def]
     db_tbl = category['db_tables']
     categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
-
+    fields_show_short = dict()
     dict_sorted_fields_show = {k: v['html_name'] for k, v in
                                sorted(category['fields_show'].items(), key=lambda id: id[1]["id"])}
-    dict_fields_short_show = {k: v for k, v in dict_sorted_fields_show.items() if category['fields_show'][k]['short'] == True}
+#TODO: filter `short`=True
+    #fields_show_short["db_name"] = [x for x in list(dict_sorted_fields_show.keys())]
+    #fields_show_short["html_name"] = [y for y in list(dict_sorted_fields_show.values())]
 
 form_return = []
 products_for_execute = []
@@ -313,6 +311,7 @@ def page_Category_Main(request, cat_):
         post_return = list(request.POST.keys())
         post_return.remove('csrfmiddlewaretoken')
         form_return = post_return
+        print(post_return)
 
         products_mtm = Get_Products_Mtm(post_return, db_tbl)
 
@@ -348,12 +347,13 @@ def page_Category_Main(request, cat_):
     dict_form_fld = Dict_by_Classes(form_fld)
     Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
 
-    pass
     exit_ = {
         'category_name':  category['category_name'],
         'categories_list': categories_list,
         'action': cat_,
-        'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand_name', 'price_avg']],
+#        'form': html_form,
+#        'joined': list_products,
+        #'tbl_col': tab_marketability['Columns'],
         'tbl_data': tab_marketability
 
     }
@@ -437,6 +437,19 @@ def Get_Prod_Execute_join_vardata(list_products, qry_period):
 
     return qry_total_execute
 
+def Get_Period(qry_, period):
+
+    qry_period = qry_.filter(month__in=period)
+
+    return qry_period
+
+def Get_Agg_Sales_Price(qry_):
+
+    qry_agg = qry_.values('id').annotate(Sum('sales_units'), Avg('price_rur'), Count('month'))
+
+    return qry_agg
+
+
 def Get_Period_inbase(timelag):
 
     global db_tbl
@@ -454,7 +467,7 @@ def Get_Period_inbase(timelag):
 
 def Get_Sales_Top(list_products, timelag=2, q=5):
 
-    global db_tbl, dict_fields_short_show
+    global db_tbl
 
     if None in list_products:
         list_products.remove(None)
@@ -467,24 +480,61 @@ def Get_Sales_Top(list_products, timelag=2, q=5):
         all_ = vlist_to_list(db_tbl['vardata'].objects.values_list('fk_products').distinct())
         total_ = Get_Prod_Execute_join_vardata(all_, Get_Period_inbase(timelag))
     if total_:
-
-        df = read_frame(total_.order_by("-sales_sum")[:q])
-        fix_fields = {'id', 'brand', 'name', 'price_avg'}
-        for i in df.columns:
-            if i not in fix_fields:
-                if i not in set(dict_fields_short_show.keys()):
-                    df.drop(i, axis='columns', inplace=True)
-        rename_ttx = {k: v for k, v in dict_fields_short_show.items() if k not in fix_fields}
-        df['brand_name'] = df['brand'] + ' ' + df['name']
-        df.drop(['brand', 'name'], axis='columns', inplace=True)
-        df.rename(rename_ttx, axis='columns', inplace=True)
-
-        exit_ = df.to_dict()
-
+        exit_ = total_.order_by("-sales_sum")[:q]
     else:
         exit_ = []
 
     return exit_
 
+def Get_Sales_Top_Products(top_sales_products, q):
 
+    global db_tbl, dict_sorted_fields_show
+
+    fields_ = list(dict_sorted_fields_show.keys())
+    fields_.append('id')
+    qry_ = db_tbl['products'].objects.\
+        filter(id__in=top_sales_products).\
+        values(*fields_)
+
+    df = read_frame(qry_)
+    Model_name = "Top"+str(q)
+    df[Model_name] = df['brand'] + " " + df['name']
+    df.drop(['brand', 'name'], axis='columns', inplace=True)
+    exit_ = df_transponse_to_context(df, Model_name)
+
+    return exit_
+
+# Преобразовывает df в context
+def df_transponse_to_context(df, header):
+
+    headers = df[header].to_list()
+    dict_data = dict()
+    columns_ = list(df.columns)
+    columns_.remove(header)
+
+    for i in columns_:
+        dict_data[i] = df[i].to_list()
+
+    exit_ = dict()
+    col_href = list(zip(headers, dict_data['id']))
+    exit_['Columns'] = col_href
+    print(exit_['Columns'])
+    exit_['Data'] = Replace_names_for_html(dict_data)
+
+
+    return exit_
+
+def Replace_names_for_html(data):
+
+    global dict_sorted_fields_show
+
+    data_ = dict()
+
+    for i in data.keys():
+        if i != 'id':
+            data_[dict_sorted_fields_show[i]] = data[i]
+        else:
+            data_['id'] = data['id']
+
+    return data_
 
