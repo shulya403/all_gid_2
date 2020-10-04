@@ -277,11 +277,13 @@ class DB_insert_from_excel(object):
         sql_tbl_name_class = category.lower()  + '_classes'
         sql_tbl_name_mtm_prod_class = category.lower()  + '_products_has_' + category.lower()  + '_classes'
         sql_tbl_name_vardata = category.lower()  + '_vardata'
+        sql_tbl_name_shops_prices = category.lower()  + '_shops_prices'
 
         self.tbl_products = sql.Table(sql_tbl_name_products, metadata, autoload=True)
         self.tbl_classes = sql.Table(sql_tbl_name_class, metadata, autoload=True)
         self.tbl_mtm_products_classes = sql.Table(sql_tbl_name_mtm_prod_class, metadata, autoload=True)
         self.tbl_vardata = sql.Table(sql_tbl_name_vardata, metadata, autoload=True)
+        self.tbl_shops_prices = sql.Table(sql_tbl_name_shops_prices, metadata, autoload=True)
 
         self.connection = self.sql_engine.connect()
 
@@ -424,6 +426,7 @@ class DB_insert_from_excel(object):
         self.Insert_df_to_SQL(df_insert, self.tbl_vardata)
 
 class DB_insert_shops(DB_insert_from_excel):
+
     def __init__(self,
                  xl_Shops, #Месячные прайсы Filled
                  Category,
@@ -449,7 +452,7 @@ class DB_insert_shops(DB_insert_from_excel):
             'Category',
             'Date',
             'Modification_href',
-            'Modification_name_restrict',
+            'Modification_name',
             'Vendor',
             'Modification_price',
             'Name',
@@ -464,8 +467,37 @@ class DB_insert_shops(DB_insert_from_excel):
             (self.df_Shopprices['Ok'] == 1) &
             (self.df_Shopprices['Site'].isin(set_sites))].copy()
 
-        print(len(self.df_Shopprices))
-        print(self.df_Shopprices['Site'].unique())
+        self.DB_alchemy(self.Category)
+        self.df_SQL_Products = self.Select_SQL_to_df(self.tbl_products)
+
+    def df_Shops_Price(self):
+
+        tbl_fld = {
+            'Date': 'month',
+            'Modification_href': 'modfication_href',
+            'Modification_name': 'modification_name',
+            'Modification_price': 'modification_price',
+            'Site': 'shop_name',
+            'Name': 'name'
+        }
+        df_ = self.df_Shopprices.rename(tbl_fld, axis='columns')
+
+
+        df_.drop(columns=['Ok', 'Category', 'Vendor'], inplace=True)
+
+        df_ = df_.merge(self.df_SQL_Products[['id', 'name']], how='inner', on='name')
+        df_.rename({'id': 'fk_products_shop'}, axis='columns', inplace=True)
+
+        return df_
+
+    def To_DB_Shop_Price(self, erise_old=True):
+
+        if erise_old:
+            qry_delete = self.tbl_shops_prices.delete()
+            self.connection.execute(qry_delete)
+
+        self.Insert_df_to_SQL(self.df_Shops_Price(), self.tbl_shops_prices)
+
 
 
 # MAIN
@@ -497,10 +529,11 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  drop_shops = ['yama']):
 
 FillShop = DB_insert_shops(
-                 xl_Shops="Монитор-Concat_Prices--Aug-20--Filled_Vasya.xlsx", #Месячные прайсы Filled
-                 Category='Mnt',
+                 xl_Shops="Ноутбук-Concat_Prices--Aug-20--Filled.xlsx", #Месячные прайсы Filled
+                 Category='Nb',
                  dir_root="../Data/"
 )
 
+FillShop.To_DB_Shop_Price()
 
 
