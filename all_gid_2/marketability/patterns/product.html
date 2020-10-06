@@ -18,6 +18,9 @@
 {% endblock %}
 
 {% block issuance %}
+    <table>
+    <tr>
+    <td valign="top">
     <!-- Модель -->
     <b>
     <font size="14">{{ vendor }}</font><br>
@@ -48,6 +51,24 @@
     {% endfor %}
 
 {% endif %}
+    </td>
+    <td valign="top">
+        {% if shop_mod %}
+            <b>Предложения магазинов</b>
+            {% for mod in shop_mod %}
+                <br><br>
+                <b>
+                <a href="{{ mod.modfication_href }}" target="_blank">
+                    {{ mod.modification_name }}
+                </a>
+                </b>
+                <br>
+                <i>{{ mod.shop_name }}</i>
+                <b>{{ mod.modification_price|digit_separator }}</b>
+            {% endfor %}
+        {% endif %}
+    </td>
+    </tr></table>
 {% endblock %}
 
 

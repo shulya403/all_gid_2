@@ -529,8 +529,8 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  drop_shops = ['yama']):
 
 FillShop = DB_insert_shops(
-                 xl_Shops="Ноутбук-Concat_Prices--Aug-20--Filled.xlsx", #Месячные прайсы Filled
-                 Category='Nb',
+                 xl_Shops="Монитор-Concat_Prices--Aug-20--Filled_Vasya.xlsx", #Месячные прайсы Filled
+                 Category='Mnt',
                  dir_root="../Data/"
 )
 

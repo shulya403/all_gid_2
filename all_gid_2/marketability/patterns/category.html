@@ -48,7 +48,7 @@
     <td>Ср. цена</td>
     {% for i in tbl_data.id.keys %}
             <td>
-            <b>{{ tbl_data.price_avg|get_item:i|floatformat }}</b>
+            <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
             </td>
         {% endfor %}
 </tr>
