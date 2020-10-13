@@ -44,7 +44,10 @@
     <form action="/{{ action }}/" method="post">
         {% csrf_token %}
     <br>
-    <div class="form_buttons">
+
+    <div class="form_blocks">
+
+        <div class="form_my_buttons">
       {% for sub_type in new_form.GO.keys|sort_keys %}
 
           {% if sub_type != '1'  %}
@@ -52,13 +55,32 @@
           {% endif %}
 
           {% for class_ in new_form.GO|get_item:sub_type %}
-                            <div class="btn-group-toggle" data-toggle="buttons">
+                            <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
                              <label class="btn btn-outline-info btn-block btn-sm text-left">
                                 <input type="checkbox" value="Yes" autocomplete="off" name="{{ class_.name }}" title="{{ class_.explanation }}">{{ class_.text }}
                             </label>
                             </div>
           {% endfor %}
       {% endfor %}
+        </div>
+
+        <div class="form_my_buttons">
+      {% for sub_type in new_form.CL.keys|sort_keys %}
+
+          {% if sub_type != '1'  %}
+                            <span style="color:darkred;"><i><strong>{{ sub_type }}</strong></i></span>
+          {% endif %}
+
+          {% for class_ in new_form.CL|get_item:sub_type %}
+                            <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
+                             <label class="btn btn-outline-info btn-block btn-sm text-left">
+                                <input type="checkbox" value="Yes" autocomplete="off" name="{{ class_.name }}" title="{{ class_.explanation }}">{{ class_.text }}
+                            </label>
+                            </div>
+          {% endfor %}
+      {% endfor %}
+        </div>
+
     </div>
 
 

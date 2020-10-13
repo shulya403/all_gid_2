@@ -1,0 +1,14 @@
+.form_blocks {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+.form_my_buttons {
+    display: flex;
+    flex-direction: column;
+    padding-left: 10px;
+    width: 300px;
+}
+.form_my_buttons_padding {
+    padding-bottom: 5px;
+}
