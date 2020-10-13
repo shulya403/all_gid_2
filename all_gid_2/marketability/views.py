@@ -46,17 +46,20 @@ def get_item(dictionary, key):
 
 @register.filter
 def digit_separator(digit):
-    str_digit = str(int(digit))
-    exit_ = str()
-    tail = len(str_digit) % 3
-    for i in range(len(str_digit)-3, -1, -3):
-        exit_ = " " + str_digit[i:i+3] + exit_
+    if digit:
+        str_digit = str(int(digit))
+        exit_ = str()
+        tail = len(str_digit) % 3
+        for i in range(len(str_digit)-3, -1, -3):
+            exit_ = " " + str_digit[i:i+3] + exit_
 
-    if tail != 0:
-        exit_ = str_digit[:tail] + exit_
-        return exit_
+        if tail != 0:
+            exit_ = str_digit[:tail] + exit_
+            return exit_
+        else:
+            return exit_[1:]
     else:
-        return exit_[1:]
+        return digit
 
 @register.filter
 def sort_keys(keys):
@@ -233,7 +236,7 @@ def Dict_by_Classes(query):
 
 def Dict_by_Classes2():
 
-    global db_tbl
+    global db_tbl, list_enabled
 
     def Dict_class_subtype(cl_type, qry_classes):
         exit_sub_ = dict()
@@ -248,6 +251,7 @@ def Dict_by_Classes2():
         return exit_sub_
     exit_ = dict()
     qry_classes = db_tbl['classes'].objects.all()
+    list_enabled = vlist_to_list(qry_classes.values_list('name'))
     for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
         exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes)
 
@@ -328,7 +332,7 @@ def Get_Products_Mtm(post_return, db_tbl):
 
 def Init_cat(cat_):
 
-    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show, dict_fields_short_show
+    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show, dict_fields_short_show, new_form
 
     cat_def = cat_
     category = dict_categories[cat_def]
@@ -338,6 +342,9 @@ def Init_cat(cat_):
     dict_sorted_fields_show = {k: v['html_name'] for k, v in
                                sorted(category['fields_show'].items(), key=lambda id: id[1]["id"])}
     dict_fields_short_show = {k: v for k, v in dict_sorted_fields_show.items() if category['fields_show'][k]['short'] == True}
+
+    new_form = Dict_by_Classes2()
+
 
 form_return = []
 products_for_execute = []
@@ -351,7 +358,9 @@ def page_Category_Main(request, cat_):
         cat_def, \
         dict_sorted_fields_show, \
         products_for_execute, \
-        form_return
+        form_return, \
+        new_form, \
+        list_enabled
 
     if (cat_ != cat_def):
         Init_cat(cat_)
@@ -361,9 +370,9 @@ def page_Category_Main(request, cat_):
 
     #categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
 
-    form_fld = db_tbl['classes'].objects.all()
-    new_form = Dict_by_Classes2()
-    list_enabled = vlist_to_list(list(form_fld.values_list('name')))
+    #form_fld = db_tbl['classes'].objects.all()
+    #new_form = Dict_by_Classes2()
+    #list_enabled = vlist_to_list(list(form_fld.values_list('name')))
 
     if request.POST:
         #pprint(request.POST)
@@ -388,22 +397,18 @@ def page_Category_Main(request, cat_):
         else:
             enabled_return = list_enabled
 
-        # tbl_joined = {"1": 0, "2": 0} ???
-        #list_products = db_tbl['products'].objects.filter(id__in=products_for_execute).values('name')
-        #pprint(list_products)
     else:
         post_return = []
         enabled_return = list_enabled
         joined_mtm = "пусто"
-        #tbl_joined = {"1": 0, "2": 0}
-        #list_products = []
+
         products_for_execute = []
 
     tab_marketability = Get_Sales_Top(products_for_execute, q=5)
 
     #html.формы вызывается шаблоном из include
-    dict_form_fld = Dict_by_Classes(form_fld)
-    Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
+    #dict_form_fld = Dict_by_Classes(form_fld)
+    #Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
 
     exit_ = {
         'category_name':  category['category_name'],
@@ -411,7 +416,9 @@ def page_Category_Main(request, cat_):
         'action': cat_,
         'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand_name', 'price_avg']],
         'tbl_data': tab_marketability,
-        'new_form': new_form
+        'new_form': new_form,
+        'enabled': enabled_return,
+        'checked_items': post_return
 
     }
 

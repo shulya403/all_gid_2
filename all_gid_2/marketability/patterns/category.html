@@ -41,9 +41,11 @@
 {% endblock %}
 
 {% block form_classes %}
+    {{ enabled }}
     <form action="/{{ action }}/" method="post">
         {% csrf_token %}
     <br>
+    <input type="submit" class="btn btn-outline-info">
 
     <div class="form_blocks">
 
@@ -55,11 +57,13 @@
           {% endif %}
 
           {% for class_ in new_form.GO|get_item:sub_type %}
-                            <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
-                             <label class="btn btn-outline-info btn-block btn-sm text-left">
-                                <input type="checkbox" value="Yes" autocomplete="off" name="{{ class_.name }}" title="{{ class_.explanation }}">{{ class_.text }}
-                            </label>
-                            </div>
+
+            <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
+                <label class="btn btn-outline-info btn-block btn-sm text-left{% if class_.name in checked_items %} active{% endif %}{% if class_.name not in enabled %} disabled{% endif %}">
+                    <input type="checkbox" value="Yes" autocomplete="off" {% if class_.name in checked_items %} checked{% endif %}
+                           name="{{ class_.name }}" title="{{ class_.explanation }}"{% if class_.name not in enabled %}disabled{% endif %}>{{ class_.text }}
+                </label>
+            </div>
           {% endfor %}
       {% endfor %}
         </div>
@@ -72,11 +76,13 @@
           {% endif %}
 
           {% for class_ in new_form.CL|get_item:sub_type %}
-                            <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
-                             <label class="btn btn-outline-info btn-block btn-sm text-left">
-                                <input type="checkbox" value="Yes" autocomplete="off" name="{{ class_.name }}" title="{{ class_.explanation }}">{{ class_.text }}
-                            </label>
-                            </div>
+              <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
+                <label class="btn btn-outline-info btn-block btn-sm text-left{% if class_.name in checked_items %} active{% endif %}{% if class_.name not in enabled %} disabled{% endif %}">
+                    <input type="checkbox" value="Yes" autocomplete="off" {% if class_.name in checked_items %} checked{% endif %}
+                           name="{{ class_.name }}" title="{{ class_.explanation }}"{% if class_.name not in enabled %}disabled{% endif %}>{{ class_.text }}
+                </label>
+              </div>
+
           {% endfor %}
       {% endfor %}
         </div>
@@ -84,9 +90,8 @@
     </div>
 
 
-
     </form>
-
+{% comment %}
 <form action="/{{ action }}/" method="post">
     <input type="submit" value="обновить">
     <br>
@@ -98,6 +103,8 @@
     <input type="submit" value="обновить">
     <br>
 </form>
+
+{% endcomment %}
 
 
 {% endblock %}
