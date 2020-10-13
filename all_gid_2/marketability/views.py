@@ -1,5 +1,7 @@
 #TODO:
-#Магазины
+# Форма в кнопках
+# Кнопка новинки
+#  Кнопка все актуальные новинки
 #Декоратор для цен с разделителями
 #Шаблон для выдачи десятки со средней ценой (транспонированная таблица)
 #Выбор полей для отображения из числа ТТХ (using)
@@ -55,6 +57,11 @@ def digit_separator(digit):
         return exit_
     else:
         return exit_[1:]
+
+@register.filter
+def sort_keys(keys):
+
+    return sorted(list(keys))
 
 
 
@@ -224,6 +231,30 @@ def Dict_by_Classes(query):
 
     return dict_
 
+def Dict_by_Classes2():
+
+    global db_tbl
+
+    def Dict_class_subtype(cl_type, qry_classes):
+        exit_sub_ = dict()
+        qry_subtype = qry_classes.filter(type=cl_type)
+        for sub_type in vlist_to_list(qry_subtype.values_list('class_subtype').distinct()):
+            if not sub_type:
+                st_name = '1'
+            else:
+                st_name= sub_type
+            exit_sub_[st_name] = qry_subtype.filter(class_subtype=sub_type).values('name', 'explanation', 'text')
+
+        return exit_sub_
+    exit_ = dict()
+    qry_classes = db_tbl['classes'].objects.all()
+    for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
+        exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes)
+
+    return exit_
+
+
+
 #формирование html формы руками
 def Form_by_dict_classes(dict, post, enabled, first=True):
 
@@ -331,6 +362,7 @@ def page_Category_Main(request, cat_):
     #categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
 
     form_fld = db_tbl['classes'].objects.all()
+    new_form = Dict_by_Classes2()
     list_enabled = vlist_to_list(list(form_fld.values_list('name')))
 
     if request.POST:
@@ -367,19 +399,19 @@ def page_Category_Main(request, cat_):
         #list_products = []
         products_for_execute = []
 
-    tab_marketability = Get_Sales_Top(products_for_execute, q=10)
+    tab_marketability = Get_Sales_Top(products_for_execute, q=5)
 
     #html.формы вызывается шаблоном из include
     dict_form_fld = Dict_by_Classes(form_fld)
     Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
 
-    pass
     exit_ = {
         'category_name':  category['category_name'],
         'categories_list': categories_list,
         'action': cat_,
         'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand_name', 'price_avg']],
-        'tbl_data': tab_marketability
+        'tbl_data': tab_marketability,
+        'new_form': new_form
 
     }
 

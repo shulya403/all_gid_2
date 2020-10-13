@@ -1,21 +1,5 @@
 {% extends "page.html" %}
-
-{% block header %}
-{% for i, link in categories_list %}
-<tr><td>
-&nbsp;&nbsp;
-
-    <a href="/{{ link }}/">{% if i == category_name %}
-        <strong>{{ i }}</strong>
-        {% else %}
-        {{ i }}
-        {% endif %}</a>
-    &nbsp;&nbsp;
-
-</td></tr>
-
-{% endfor %}
-{% endblock %}
+{% load bootstrap4 %}
 
 {% block issuance %}
     <!-- Таблица выдачи -->
@@ -24,7 +8,7 @@
 <td></td>
     {% for i in tbl_data.id.keys  %}
 
-   <td><a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
+   <td><a href="/{{ action }}/{{ tbl_data.id|get_item:i }}" class="btn btn-dark btn-sm">
                 <b>{{ tbl_data.brand_name|get_item:i }}</b>
        </a></td>
 
@@ -54,49 +38,32 @@
 </tr>
 </table>
 
-
-    {% comment %}
-    <table>
-    <tr>
-
-        <td></td>
-        {% for cl, hrf in tbl_col %}
-            <td>
-            <a href="/{{ action }}/{{ hrf }}">
-                <b>{{ cl }}</b>
-            </a>
-            </td>
-        {% endfor %}
-
-    </tr>
-
-    {% for k, v in tbl_data.items %}
-            <tr>
-            <td>{{ k }}</td>
-            {% for dat in v %}
-                <td>{{ dat }}</td>
-            {% endfor %}
-            </tr>
-        {% endfor %}
-
-
-    </table>
-{% endcomment %}
-    <br>
-{% comment %}
-{% for i in joined %}
-
-    {% for key, value in i.items %}
-    {{ value }},
-    {% endfor %}
-{% endfor %}
-{% endcomment %}
-
-
-
 {% endblock %}
 
 {% block form_classes %}
+    <form action="/{{ action }}/" method="post">
+        {% csrf_token %}
+    <br>
+    <div class="form_buttons">
+      {% for sub_type in new_form.GO.keys|sort_keys %}
+
+          {% if sub_type != '1'  %}
+                            <span style="color:darkred;"><i><strong>{{ sub_type }}</strong></i></span>
+          {% endif %}
+
+          {% for class_ in new_form.GO|get_item:sub_type %}
+                            <div class="btn-group-toggle" data-toggle="buttons">
+                             <label class="btn btn-outline-info btn-block btn-sm text-left">
+                                <input type="checkbox" value="Yes" autocomplete="off" name="{{ class_.name }}" title="{{ class_.explanation }}">{{ class_.text }}
+                            </label>
+                            </div>
+          {% endfor %}
+      {% endfor %}
+    </div>
+
+
+
+    </form>
 
 <form action="/{{ action }}/" method="post">
     <input type="submit" value="обновить">

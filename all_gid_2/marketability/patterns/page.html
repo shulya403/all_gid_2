@@ -2,9 +2,30 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+    <!-- <script src="% bootstrap_jquery_url %}"></script> -->
+    <!-- % bootstrap_javascript %} -->
+    <!-- % bootstrap_css %} -->
     <title>All-Gid Компьютерная техника</title>
 </head>
 <body>
+{% for i, link in categories_list %}
+
+&nbsp;&nbsp;
+    <div class="btn-group" role="toolbar" aria-label="top menu">
+    <a href="/{{ link }}/" class={% if i == category_name %}"btn btn-info active"{% else %}"btn btn-outline-info"{% endif %} aria-pressed="true">
+        {% if i == category_name %}<strong>{{ i }}</strong>
+        {% else %}{{ i }}
+        {% endif %}
+        </a>
+    </div>
+
+
+
+{% endfor %}
+
 {% block header %}{% endblock %}
 <hr>
 

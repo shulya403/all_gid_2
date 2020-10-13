@@ -1,21 +1,5 @@
 {% extends "page.html" %}
-
-{% block header %}
-{% for i, link in categories_list %}
-<tr><td>
-&nbsp;&nbsp;
-
-    <a href="/{{ link }}/">{% if i == category_name %}
-        <strong>{{ i }}</strong>
-        {% else %}
-        {{ i }}
-        {% endif %}</a>
-    &nbsp;&nbsp;
-
-</td></tr>
-
-{% endfor %}
-{% endblock %}
+{% load bootstrap4 %}
 
 {% block issuance %}
     <table>
