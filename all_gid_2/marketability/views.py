@@ -47,7 +47,10 @@ def get_item(dictionary, key):
 @register.filter
 def digit_separator(digit):
     if digit:
-        str_digit = str(int(digit))
+        try:
+            str_digit = str(int(digit))
+        except ValueError:
+            return 'n/a'
         exit_ = str()
         tail = len(str_digit) % 3
         for i in range(len(str_digit)-3, -1, -3):

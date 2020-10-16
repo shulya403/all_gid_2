@@ -12,3 +12,7 @@
 .form_my_buttons_padding {
     padding-bottom: 5px;
 }
+.disabled_grey {
+    color: #993300!important;
+    background-color: #205067;
+}
