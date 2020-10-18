@@ -143,6 +143,7 @@ class MfpProducts(models.Model):
     usb = models.CharField(max_length=3, blank=True, null=True)
     wi_fi = models.CharField(max_length=3, blank=True, null=True)
     ethernet = models.CharField(max_length=3, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -191,6 +192,7 @@ class MntProducts(models.Model):
     curved = models.CharField(max_length=45, blank=True, null=True)
     game = models.CharField(max_length=45, blank=True, null=True)
     response_time = models.CharField(max_length=45, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -242,6 +244,7 @@ class NbProducts(models.Model):
     screen_size = models.CharField(max_length=45, blank=True, null=True)
     screen_resulution_list = models.CharField(max_length=45, blank=True, null=True)
     touchscreen = models.CharField(max_length=45, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False

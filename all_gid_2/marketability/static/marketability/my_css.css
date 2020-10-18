@@ -13,6 +13,39 @@
     padding-bottom: 5px;
 }
 .disabled_grey {
-    color: #993300!important;
-    background-color: #205067;
+    color: #bbbbbb!important;
+    border-color: #bbbbbb!important;
 }
+
+li.nav-item > a.nav-link {
+
+    color: #205067;
+
+
+}
+
+li.nav-item > a.nav-link.active
+{
+    background: #c7d7d7;
+    border-color: #c7d7d7;
+    font-weight: bold;
+}
+
+.tab-content{
+    background: #c7d7d7;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+.vardata{
+    color: #205067;
+    font-style: italic;
+    font-weight: bold;
+    font-size: x-small;
+
+}
+.vardata > span {
+    color:darkred;
+    font-style: italic;
+    font-weight: lighter;
+}
+

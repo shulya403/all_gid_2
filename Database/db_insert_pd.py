@@ -15,7 +15,8 @@ def df_compare(df_old, df_new):
         for i, row in df_new.iterrows():
             for j in cols:
                 name = row['name']
-                if df_old[df_old['name'] == name][j].values[0] != str(row[j]):
+                if str(df_old[df_old['name'] == name][j].values[0]) != str(row[j]):
+                    print(name, df_old[df_old['name'] == name][j].values[0], str(row[j]))
                     exit_.loc[exit_loc] = row
                     exit_loc += 1
     else:
@@ -511,15 +512,15 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="nb_models_07_update.xlsx",
-#                      xl_Vardata="NB_Report-5`20.xlsx",
-#                     Category="Nb")
-# FillDB.DB_alchemy(FillDB.Category)
-# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-# FillDB.MtM_Products_Classes_to_SQL()
-#mth_list=[2, 4]
-#FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
+FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_classes_Aug_Rebase.xlsx",
+                      xl_Vardata="NB_Report-8`20_RET.xlsx",
+                     Category="Nb")
+FillDB.DB_alchemy(FillDB.Category)
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+FillDB.MtM_Products_Classes_to_SQL()
+mth_list = [6, 7, 8]
+FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False)
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -528,12 +529,12 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  dir_root="../Data/",
 #                  drop_shops = ['yama']):
 
-FillShop = DB_insert_shops(
-                 xl_Shops="Монитор-Concat_Prices--Aug-20--Filled_Vasya.xlsx", #Месячные прайсы Filled
-                 Category='Mnt',
-                 dir_root="../Data/"
-)
-
-FillShop.To_DB_Shop_Price()
+# FillShop = DB_insert_shops(
+#                  xl_Shops="Монитор-Concat_Prices--Aug-20--Filled_Vasya.xlsx", #Месячные прайсы Filled
+#                  Category='Mnt',
+#                  dir_root="../Data/"
+# )
+#
+# FillShop.To_DB_Shop_Price()
 
 

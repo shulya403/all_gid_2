@@ -146,12 +146,17 @@ dict_categories = {
                     'base_platform': {
                         "html_name": "Поколение процессора",
                         "id": 4,
-                        "short": True
+                        "short": False
                     },
                     'gpu_list': {
                         "html_name": "Графика",
                         "id": 5,
                         "short": True
+                    },
+                    'appear_month': {
+                        "html_name": "Начало продаж",
+                        "id": 6,
+                        "short": False
                     }
             }
         },
@@ -182,7 +187,7 @@ dict_categories = {
                         "short": True
                     },
                 'prt_technology': {
-                        "html_name": "Тех-ия печати",
+                        "html_name": "Печать",
                         "id": 3,
                         "short": True
                     },
@@ -260,48 +265,6 @@ def Dict_by_Classes2():
 
     return exit_
 
-
-
-#формирование html формы руками
-def Form_by_dict_classes(dict, post, enabled, first=True):
-
-    def td_type(dict_type):
-        str_ = ""
-        for i in dict_type:
-            if i != "":
-                str_ += "<b>{}</b><br>".format(i)
-            for j in dict_type[i]:
-                if j['name'] in post:
-                    chk = "checked"
-                else:
-                    chk = ""
-                if j['name'] in enabled:
-                    disabled = ""
-                    del_label = ("", "",)
-                else:
-                    disabled = "disabled"
-                    del_label = ("<del>", "</del>",)
-                str_input = "<input type=\"checkbox\" name=\"{}\" {} id=\"{}\" value=\"Yes\" {}>"\
-                    .format(j['name'], chk, j['name'], disabled)
-                str_input +="{}<label for=\"{}\">{}</label><br>{}".format(del_label[0], j['name'], j['text'], del_label[1])
-                if j['explanation']:
-                    str_input += "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<i>" + j['explanation'] + "</i><br>"
-                str_ += str_input
-            str_ += "<br>"
-
-        return str_
-
-    str_header = "<table><tr>"
-    str_CL = "<td valign=\"top\">" + td_type(dict['GO']) + "</td>"
-    str_GO = "<td valign=\"top\">" + td_type(dict['CL']) + "</td>"
-    str_footer = "</tr></table>"
-
-    exit_ = str_header + str_CL + str_GO + str_footer
-
-    with open("marketability/patterns/form.html", 'w', encoding='utf-8') as f:
-        f.write(exit_)
-
-
 def vlist_to_list(vlist):
     return [i[0] for i in vlist]
 
@@ -363,7 +326,9 @@ def page_Category_Main(request, cat_):
         products_for_execute, \
         form_return, \
         new_form, \
-        list_enabled
+        list_enabled, \
+        period_mth_rus, \
+        period_inbase
 
     if (cat_ != cat_def):
         Init_cat(cat_)
@@ -407,7 +372,10 @@ def page_Category_Main(request, cat_):
 
         products_for_execute = []
 
-    tab_marketability = Get_Sales_Top(products_for_execute, q=5)
+    df_data = Get_Sales_Top(products_for_execute, q=5)
+    tab_marketability = df_data[:5].to_dict()
+    print(period_mth_rus)
+    tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].to_dict()
 
     #html.формы вызывается шаблоном из include
     #dict_form_fld = Dict_by_Classes(form_fld)
@@ -417,11 +385,13 @@ def page_Category_Main(request, cat_):
         'category_name':  category['category_name'],
         'categories_list': categories_list,
         'action': cat_,
-        'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand_name', 'price_avg']],
+        'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand_name', 'price_avg', 'appear_month']],
         'tbl_data': tab_marketability,
+        'tbl_data_nov': tab_novelty,
         'new_form': new_form,
         'enabled': enabled_return,
-        'checked_items': post_return
+        'checked_items': post_return,
+        'period': period_mth_rus
 
     }
 
@@ -490,6 +460,7 @@ def page_Product(request, cat_, product_):
         'fproducts': fproducts,
         'shop_mod': shop_mod,
         'action': cat_
+
     }
     return render(request, template_name="product.html", context=exit_)
 
@@ -509,9 +480,32 @@ def Get_Prod_Execute_join_vardata(list_products, qry_period):
 
     return qry_total_execute
 
+def months_names(period_):
+    mth_names = {
+            1: 'Январь',
+            2: 'Февраль',
+            3: 'Март',
+            4: 'Апрель',
+            5: 'Май',
+            6: 'Июнь',
+            7: 'Июль',
+            8: 'Август',
+            9: 'Сентябрь',
+            10: 'Октябрь',
+            11: 'Ноябрь',
+            12: 'Декабрь'
+        }
+
+    exit_ = list()
+    for i in period_:
+        exit_.append(mth_names[i.month])
+
+
+    return exit_
+
 def Get_Period_inbase(timelag):
 
-    global db_tbl
+    global db_tbl, period_mth_rus, period_inbase
 
     period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by())
     if None in period_inbase:
@@ -520,6 +514,9 @@ def Get_Period_inbase(timelag):
          timelag=len(period_inbase)
 
     period_inbase = period_inbase[-timelag:]
+
+    period_mth_rus = months_names(period_inbase)
+
 
     return period_inbase
 
@@ -540,8 +537,8 @@ def Get_Sales_Top(list_products, timelag=2, q=5):
         total_ = Get_Prod_Execute_join_vardata(all_, Get_Period_inbase(timelag))
     if total_:
 
-        df = read_frame(total_.order_by("-sales_sum")[:q])
-        fix_fields = {'id', 'brand', 'name', 'price_avg'}
+        df = read_frame(total_.order_by("-sales_sum"))
+        fix_fields = {'id', 'brand', 'name', 'price_avg', 'appear_month'}
         for i in df.columns:
             if i not in fix_fields:
                 if i not in set(dict_fields_short_show.keys()):
@@ -551,7 +548,7 @@ def Get_Sales_Top(list_products, timelag=2, q=5):
         df.drop(['brand', 'name'], axis='columns', inplace=True)
         df.rename(rename_ttx, axis='columns', inplace=True)
 
-        exit_ = df.to_dict()
+        exit_ = df
 
     else:
         exit_ = []

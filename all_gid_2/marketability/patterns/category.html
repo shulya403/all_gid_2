@@ -2,6 +2,138 @@
 {% load bootstrap4 %}
 
 {% block issuance %}
+<nav>
+    <ul class="nav nav-tabs justify-content-end">
+
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#marketabiity">Популярные</a>
+  </li>
+      <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#novelty">Новинки</a>
+
+  </li>
+    </ul>
+</nav>
+</ul>
+<div class="tab-content">
+  <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
+  <div class="tab-pane fade show active" id="marketabiity" style="padding-left: 5px;">
+    <div class="vardata">
+    <!-- Таблица выдачи -->
+   Самые продаваемые модели за период: <span>{% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+    {% endfor %}</span>
+    <br>
+    {%  if checked_items %}
+        Классы:
+    <span>
+        {% for sub_type in new_form.GO.keys %}
+            {% for class_ in new_form.GO|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% for sub_type in new_form.CL.keys %}
+            {% for class_ in new_form.CL|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </span>
+
+    {% endif %}
+
+    </div>
+        <table>
+<tr>
+<td></td>
+    {% for i in tbl_data.id.keys  %}
+
+   <td><a href="/{{ action }}/{{ tbl_data.id|get_item:i }}" class="btn btn-dark btn-sm">
+                <b>{{ tbl_data.brand_name|get_item:i }}</b>
+       </a></td>
+
+{% endfor %}
+</tr>
+{% for fld in tbl_data.keys %}
+
+    {%  if fld in tbl_ttx_col %}
+    <tr>
+    <td>{{ fld }}</td>
+        {% for i in tbl_data.id.keys %}
+            <td>
+            {{ tbl_data|get_item:fld|get_item:i }}
+            </td>
+        {% endfor %}
+    </tr>
+    {%  endif %}
+
+{% endfor %}
+<tr>
+    <td>Ср. цена</td>
+    {% for i in tbl_data.id.keys %}
+            <td>
+            <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+            </td>
+        {% endfor %}
+</tr>
+</table>
+
+  </div>
+  <!-- Второй блок -->
+  <div class="tab-pane fade" id="novelty" style="padding-left: 5px;">
+      <div class="vardata">
+    <!-- Таблица выдачи -->
+   Новые модели за период:
+          <span>
+              {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+    {% endfor %}</span>
+
+          <br>
+    {%  if checked_items %}
+        Классы:
+    <span>
+        {% for sub_type in new_form.GO.keys %}
+            {% for class_ in new_form.GO|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% for sub_type in new_form.CL.keys %}
+            {% for class_ in new_form.CL|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </span></div>
+        <table>
+        <tr>
+            <th></th>
+            {% for fld in tbl_ttx_col  %}
+            <th>{{ fld }}</th>
+            {% endfor %}
+            <th>Ср. цена</th>
+        </tr>
+        {% for model_ in tbl_data_nov %}
+            <tr>
+                <td>{{ model }}</td>
+            </tr>
+        {% endfor %}
+
+        </table>
+    {% endif %}
+
+
+</div></div>
+
+{% endblock %}
+{% comment %}
+{% block issuance %}
     <!-- Таблица выдачи -->
 <table>
 <tr>
@@ -39,6 +171,8 @@
 </table>
 
 {% endblock %}
+{% endcomment %}
+
 
 
 
@@ -64,7 +198,7 @@
           {% for class_ in new_form.GO|get_item:sub_type %}
 
             <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
-                <label class="btn btn-outline-info btn-block btn-sm text-left{% if class_.name in checked_items %} active{% endif %}{% if class_.name not in enabled %} disabled{% endif %}">
+                <label class="btn btn-outline-info btn-block btn-sm text-left{% if class_.name in checked_items %} active{% endif %}{% if class_.name not in enabled %} disabled disabled_grey{% endif %}">
                     <input type="checkbox" value="Yes" autocomplete="off" {% if class_.name in checked_items %} checked{% endif %}
                            name="{{ class_.name }}" title="{{ class_.explanation }}"{% if class_.name not in enabled %}disabled{% endif %}
                      onchange="$(this).closest('form').submit();"><strong>{{ class_.text }}</strong>
