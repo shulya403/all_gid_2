@@ -2,7 +2,6 @@
 {% load bootstrap4 %}
 
 {% block issuance %}
-<nav>
     <ul class="nav nav-tabs justify-content-end">
 
   <li class="nav-item">
@@ -13,8 +12,7 @@
 
   </li>
     </ul>
-</nav>
-</ul>
+
 <div class="tab-content">
   <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
   <div class="tab-pane fade show active" id="marketabiity" style="padding-left: 5px;">
@@ -44,20 +42,19 @@
     </span>
 
     {% endif %}
-
     </div>
-        <table>
-<tr>
-<td></td>
+    <table>
+    <tr>
+    <td></td>
     {% for i in tbl_data.id.keys  %}
 
    <td><a href="/{{ action }}/{{ tbl_data.id|get_item:i }}" class="btn btn-dark btn-sm">
                 <b>{{ tbl_data.brand_name|get_item:i }}</b>
        </a></td>
 
-{% endfor %}
-</tr>
-{% for fld in tbl_data.keys %}
+    {% endfor %}
+    </tr>
+    {% for fld in tbl_data.keys %}
 
     {%  if fld in tbl_ttx_col %}
     <tr>
@@ -70,22 +67,21 @@
     </tr>
     {%  endif %}
 
-{% endfor %}
-<tr>
+    {% endfor %}
+    <tr>
     <td>Ср. цена</td>
     {% for i in tbl_data.id.keys %}
             <td>
             <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
             </td>
         {% endfor %}
-</tr>
-</table>
+    </tr>
+    </table>
 
   </div>
   <!-- Второй блок -->
   <div class="tab-pane fade" id="novelty" style="padding-left: 5px;">
       <div class="vardata">
-    <!-- Таблица выдачи -->
    Новые модели за период:
           <span>
               {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
@@ -110,7 +106,10 @@
             {% endfor %}
         {% endfor %}
 
-    </span></div>
+    </span>
+    {% endif %}
+        </div>
+            <!-- Таблица выдачи -->
         <table>
         <tr>
             <th></th>
@@ -126,10 +125,9 @@
         {% endfor %}
 
         </table>
-    {% endif %}
 
-
-</div></div>
+  </div>
+</div>
 
 {% endblock %}
 {% comment %}

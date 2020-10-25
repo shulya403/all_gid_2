@@ -13,6 +13,7 @@
     <title>All-Gid Компьютерная техника</title>
 </head>
 <body>
+{% block header %}{% endblock %}
 {% for i, link in categories_list %}
 
 &nbsp;&nbsp;
@@ -23,19 +24,12 @@
         {% endif %}
         </a>
     </div>
-
-
-
 {% endfor %}
-
-{% block header %}{% endblock %}
 <hr>
 
 {% block issuance %}{% endblock %}
 <hr>
-{% block form_classes %}
-
-{% endblock %}
+{% block form_classes %}{% endblock %}
 <hr>
 </body>
 </html>
