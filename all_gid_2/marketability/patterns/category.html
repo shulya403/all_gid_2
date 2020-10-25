@@ -69,7 +69,7 @@
 
     {% endfor %}
     <tr>
-    <td>Ср. цена</td>
+    <td>Цена*</td>
     {% for i in tbl_data.id.keys %}
             <td>
             <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
@@ -110,38 +110,56 @@
     {% endif %}
         </div>
             <!-- Таблица выдачи -->
+    {% if tbl_data_nov.id %}
         <table>
         <tr>
             <th></th>
+            <th align=center>Цена*</th>
             {% for fld in tbl_ttx_col  %}
-            <th>{{ fld }}</th>
+            <th align=center>{{ fld }}</th>
             {% endfor %}
-            <th>Цена*</th>
+
         </tr>
         {% for i in tbl_data_nov.id.keys  %}
-        <tr>
+        <tr {% if forloop.counter > 5 %}id="collapser" class="collapse"{% endif %}>
         <td>
             <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}" class="btn btn-dark btn-sm text-left btn-block">
                 <b>{{ tbl_data_nov.brand_name|get_item:i }}</b>
             </a>
         </td>
+        <td>
+            <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
+        </td>
             {% for fld in tbl_data_nov.keys %}
                 {%  if fld in tbl_ttx_col %}
-                <td>
+                <td align=center>
                 {{ tbl_data_nov|get_item:fld|get_item:i }}
                 </td>
                 {% endif %}
             {% endfor %}
-            <td>
-                <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
-            </td>
+
                 </tr>
         {% endfor %}
         </table>
+        <br>
+        <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#collapser">Другие модели >></button>
+        <br>
   </div>
 
-        </table>
+
+
+        <!--<button class="btn btn-link"
+                type="button"
+                data-toggle="collapse"
+                data-target="#collapser"
+                aria-expanded="true"
+                aria-controls="collapser"> -->
+<br>
     <div class="footnote">* Усредненная цена по предложениям магазинов</div>
+{% else %}
+        <br>
+        <div class="message">Не было новинок{% if checked_items %} этого класса{% endif %}</div>
+    {% endif %}
 
   </div>
 </div>
