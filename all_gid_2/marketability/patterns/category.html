@@ -116,62 +116,37 @@
             {% for fld in tbl_ttx_col  %}
             <th>{{ fld }}</th>
             {% endfor %}
-            <th>Ср. цена</th>
+            <th>Цена*</th>
         </tr>
-        {% for model_ in tbl_data_nov %}
-            <tr>
-                <td>{{ model }}</td>
-            </tr>
+        {% for i in tbl_data_nov.id.keys  %}
+        <tr>
+        <td>
+            <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}" class="btn btn-dark btn-sm text-left btn-block">
+                <b>{{ tbl_data_nov.brand_name|get_item:i }}</b>
+            </a>
+        </td>
+            {% for fld in tbl_data_nov.keys %}
+                {%  if fld in tbl_ttx_col %}
+                <td>
+                {{ tbl_data_nov|get_item:fld|get_item:i }}
+                </td>
+                {% endif %}
+            {% endfor %}
+            <td>
+                <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
+            </td>
+                </tr>
         {% endfor %}
+        </table>
+  </div>
 
         </table>
+    <div class="footnote">* Усредненная цена по предложениям магазинов</div>
 
   </div>
 </div>
 
 {% endblock %}
-{% comment %}
-{% block issuance %}
-    <!-- Таблица выдачи -->
-<table>
-<tr>
-<td></td>
-    {% for i in tbl_data.id.keys  %}
-
-   <td><a href="/{{ action }}/{{ tbl_data.id|get_item:i }}" class="btn btn-dark btn-sm">
-                <b>{{ tbl_data.brand_name|get_item:i }}</b>
-       </a></td>
-
-{% endfor %}
-</tr>
-{% for fld in tbl_data.keys %}
-
-    {%  if fld in tbl_ttx_col %}
-    <tr>
-    <td>{{ fld }}</td>
-        {% for i in tbl_data.id.keys %}
-            <td>
-            {{ tbl_data|get_item:fld|get_item:i }}
-            </td>
-        {% endfor %}
-    </tr>
-    {%  endif %}
-
-{% endfor %}
-<tr>
-    <td>Ср. цена</td>
-    {% for i in tbl_data.id.keys %}
-            <td>
-            <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
-            </td>
-        {% endfor %}
-</tr>
-</table>
-
-{% endblock %}
-{% endcomment %}
-
-
 
 
 {% block form_classes %}
@@ -231,20 +206,7 @@
 
 
     </form>
-{% comment %}
-<form action="/{{ action }}/" method="post">
-    <input type="submit" value="обновить">
-    <br>
 
-    {% csrf_token %}
-
-    {% include "form.html" %}
-
-    <input type="submit" value="обновить">
-    <br>
-</form>
-
-{% endcomment %}
 
 
 {% endblock %}

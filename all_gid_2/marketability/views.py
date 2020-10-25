@@ -380,6 +380,7 @@ def page_Category_Main(request, cat_):
     #html.формы вызывается шаблоном из include
     #dict_form_fld = Dict_by_Classes(form_fld)
     #Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
+    pprint(tab_novelty)
 
     exit_ = {
         'category_name':  category['category_name'],
