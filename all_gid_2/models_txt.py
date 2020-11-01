@@ -2,14 +2,14 @@
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
+#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
 
 
 class AuthGroup(models.Model):
-    name = models.CharField(unique=True, max_length=80)
+    name = models.CharField(unique=True, max_length=150)
 
     class Meta:
         managed = False
@@ -159,6 +159,19 @@ class MfpProductsHasMfpClasses(models.Model):
         db_table = 'mfp_products_has_mfp_classes'
 
 
+class MfpShopsPrices(models.Model):
+    fk_products_shop = models.ForeignKey(MfpProducts, models.DO_NOTHING, db_column='fk_products_shop')
+    shop_name = models.CharField(max_length=20, blank=True, null=True)
+    modification_name = models.CharField(max_length=255, blank=True, null=True)
+    modfication_href = models.CharField(max_length=255, blank=True, null=True)
+    modification_price = models.FloatField()
+    month = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mfp_shops_prices'
+
+
 class MfpVardata(models.Model):
     month = models.DateField(blank=True, null=True)
     sales_units = models.IntegerField(blank=True, null=True)
@@ -200,7 +213,7 @@ class MntProducts(models.Model):
 
 
 class MntProductsHasMntClasses(models.Model):
-    fk_products = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
+    fk_products = models.OneToOneField(MntProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
     fk_classes = models.ForeignKey(MntClasses, models.DO_NOTHING, db_column='fk_classes')
     id = models.IntegerField(blank=True, null=True)
 
@@ -208,6 +221,19 @@ class MntProductsHasMntClasses(models.Model):
         managed = False
         db_table = 'mnt_products_has_mnt_classes'
         unique_together = (('fk_products', 'fk_classes'),)
+
+
+class MntShopsPrices(models.Model):
+    fk_products_shop = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products_shop')
+    shop_name = models.CharField(max_length=20, blank=True, null=True)
+    modification_name = models.CharField(max_length=255, blank=True, null=True)
+    modfication_href = models.CharField(max_length=255, blank=True, null=True)
+    modification_price = models.FloatField()
+    month = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mnt_shops_prices'
 
 
 class MntVardata(models.Model):
@@ -252,7 +278,7 @@ class NbProducts(models.Model):
 
 
 class NbProductsHasNbClasses(models.Model):
-    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
+    fk_products = models.OneToOneField(NbProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
     fk_classes = models.ForeignKey(NbClasses, models.DO_NOTHING, db_column='fk_classes')
     id = models.IntegerField(blank=True, null=True)
 
@@ -261,40 +287,6 @@ class NbProductsHasNbClasses(models.Model):
         db_table = 'nb_products_has_nb_classes'
         unique_together = (('fk_products', 'fk_classes'),)
 
-
-class NbVardata(models.Model):
-    month = models.DateField(blank=True, null=True)
-    sales_units = models.IntegerField(blank=True, null=True)
-    price_rur = models.FloatField(blank=True, null=True)
-    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'nb_vardata'
-
-class MfpShopsPrices(models.Model):
-    fk_products_shop = models.ForeignKey(MfpProducts, models.DO_NOTHING, db_column='fk_products_shop')
-    shop_name = models.CharField(max_length=20, blank=True, null=True)
-    modification_name = models.CharField(max_length=255, blank=True, null=True)
-    modfication_href = models.CharField(max_length=255, blank=True, null=True)
-    modification_price = models.FloatField()
-    month = models.CharField(max_length=45, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'mfp_shops_prices'
-
-class MntShopsPrices(models.Model):
-    fk_products_shop = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products_shop')
-    shop_name = models.CharField(max_length=20, blank=True, null=True)
-    modification_name = models.CharField(max_length=255, blank=True, null=True)
-    modfication_href = models.CharField(max_length=255, blank=True, null=True)
-    modification_price = models.FloatField()
-    month = models.CharField(max_length=45, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'mnt_shops_prices'
 
 class NbShopsPrices(models.Model):
     fk_products_shop = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products_shop')
@@ -308,12 +300,23 @@ class NbShopsPrices(models.Model):
         managed = False
         db_table = 'nb_shops_prices'
 
+
+class NbVardata(models.Model):
+    month = models.DateField(blank=True, null=True)
+    sales_units = models.IntegerField(blank=True, null=True)
+    price_rur = models.FloatField(blank=True, null=True)
+    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nb_vardata'
+
+
 class TextLinks(models.Model):
     category = models.CharField(max_length=3, blank=True, null=True)
     header = models.TextField(blank=True, null=True)
     annotation = models.TextField(blank=True, null=True)
     href = models.TextField(blank=True, null=True)
-    date = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False

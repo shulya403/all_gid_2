@@ -14,22 +14,47 @@
 </head>
 <body>
 {% block header %}{% endblock %}
-{% for i, link in categories_list %}
+<div class="general-grid-category container">
+<div class="left-content">
 
-&nbsp;&nbsp;
+    <div style="flex-direction: row">
+    {% for i, link in categories_list %}
     <div class="btn-group" role="toolbar" aria-label="top menu">
-    <a href="/{{ link }}/" class={% if i == category_name %}"btn btn-info active"{% else %}"btn btn-outline-info"{% endif %} aria-pressed="true">
+        <a href="/{{ link }}/" class="{% if i == category_name %}btn btn-info active{% else %}btn btn-outline-info{% endif %}" aria-pressed="true">
         {% if i == category_name %}<strong>{{ i }}</strong>
         {% else %}{{ i }}
         {% endif %}
         </a>
     </div>
-{% endfor %}
+    {% endfor %}
+    </div>
 <hr>
-
+    <div>
 {% block issuance %}{% endblock %}
-<hr>
-{% block form_classes %}{% endblock %}
+
+</div>
+    <div>
+    {% block form_classes %}{% endblock %}
+</div>
+</div>
+<!-- правая колонка -->
+<div class="right-col-category col-2">
+    {% if bestesellers_links %}
+        {% for lnk in bestesellers_links %}
+
+            <a href="{{ lnk.href }}" target="_blank" class="link-text">{{ lnk.header }}</a>
+            <br>
+            <span class="link-annotation">
+            {{ lnk.annotation }}
+            </span>
+            <br><br>
+
+        {% endfor %}
+    {% endif %}
+</div>
+
+
+</div>
 <hr>
 </body>
 </html>

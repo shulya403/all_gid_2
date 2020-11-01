@@ -26,7 +26,8 @@ from .models import MntClasses, \
     MfpVardata,\
     MfpShopsPrices,\
     MntShopsPrices,\
-    NbShopsPrices\
+    NbShopsPrices,\
+    TextLinks
 
 from datetime import datetime as dt
 #from datetime import date
@@ -374,13 +375,14 @@ def page_Category_Main(request, cat_):
 
     df_data = Get_Sales_Top(products_for_execute, q=5)
     tab_marketability = df_data[:5].to_dict()
-    print(period_mth_rus)
+    #print(period_mth_rus)
     tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].to_dict()
 
     #html.формы вызывается шаблоном из include
     #dict_form_fld = Dict_by_Classes(form_fld)
     #Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
-    pprint(tab_novelty)
+    #pprint(tab_novelty)
+    best_links = Get_Bestsellers_links(cat_)
 
     exit_ = {
         'category_name':  category['category_name'],
@@ -392,7 +394,8 @@ def page_Category_Main(request, cat_):
         'new_form': new_form,
         'enabled': enabled_return,
         'checked_items': post_return,
-        'period': period_mth_rus
+        'period': period_mth_rus,
+        'bestesellers_links': best_links
 
     }
 
@@ -563,6 +566,12 @@ def Get_Shops(product_):
             filter(fk_products_shop=product_).order_by('modification_price')
 
     return product_in_shops
+
+def Get_Bestsellers_links(cat):
+
+    qry = TextLinks.objects.filter(category=cat).order_by('-date')
+
+    return qry
 
 
 

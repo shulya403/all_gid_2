@@ -29,12 +29,15 @@ li.nav-item > a.nav-link.active
     background: #c7d7d7;
     border-color: #c7d7d7;
     font-weight: bold;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
 }
 
 .tab-content{
     background: #c7d7d7;
     padding-top: 10px;
     padding-bottom: 5px;
+    border-bottom-right-radius: 30px;
 }
 .vardata{
     color: #205067;
@@ -64,5 +67,33 @@ li.nav-item > a.nav-link.active
     padding-left: 20px;
     border-radius: 10px;
     box-sizing: content-box;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
+.general-grid-category {
+    display: flex;
+
+}
+.right-col-category {
+    border-color: #205067;
+    font-size: smaller;
+    margin-left: 10px;
+
+}
+.link-annotation {
+    color: #205067;
+    line-height: 70%!important;
+}
+.link-text {
+    color: darkcyan;
+    line-height: 1px!important;
+    font-weight: bold;
+}
+.left-content {
 
 }
