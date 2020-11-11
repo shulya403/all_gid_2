@@ -373,10 +373,17 @@ def page_Category_Main(request, cat_):
 
         products_for_execute = []
 
-    df_data = Get_Sales_Top(products_for_execute, q=5)
-    tab_marketability = df_data[:5].to_dict()
+    df_data = Get_Sales_Top(products_for_execute, timelag=2)
+    tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('brand_name').to_dict()
+
+    q_data = len(df_data)
+
+    if q_data >= 20:
+        tab_marketability = df_data[:20].sort_values('price_avg').to_dict()
+    else:
+        tab_marketability = df_data.to_dict()
     #print(period_mth_rus)
-    tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].to_dict()
+
 
     #html.формы вызывается шаблоном из include
     #dict_form_fld = Dict_by_Classes(form_fld)
@@ -480,7 +487,7 @@ def Get_Prod_Execute_join_vardata(list_products, qry_period):
     qry_total_execute = db_tbl['products'].objects.\
         filter(id__in=list_products).\
         annotate(sales_sum=Sum(sales_sum, filter=Q(**filter_months)),
-                 price_avg=Avg(price_avg, filter=Q(**filter_months)))
+                 price_avg=Avg(price_avg, filter=Q(**filter_months))).exclude(sales_sum__isnull=True)
 
     return qry_total_execute
 
@@ -525,7 +532,7 @@ def Get_Period_inbase(timelag):
     return period_inbase
 
 
-def Get_Sales_Top(list_products, timelag=2, q=5):
+def Get_Sales_Top(list_products, timelag=2):
 
     global db_tbl, dict_fields_short_show
 
@@ -569,7 +576,7 @@ def Get_Shops(product_):
 
 def Get_Bestsellers_links(cat):
 
-    qry = TextLinks.objects.filter(category=cat).order_by('-date')
+    qry = TextLinks.objects.all().order_by('-date')[:10]
 
     return qry
 

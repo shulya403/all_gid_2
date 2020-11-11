@@ -12,9 +12,14 @@
 .form_my_buttons_padding {
     padding-bottom: 5px;
 }
+.button_text {
+    letter-spacing: 1px;
+    font-weight: bold;
+
+}
 .disabled_grey {
-    color: #bbbbbb!important;
-    border-color: #bbbbbb!important;
+    color: #8e8e8e!important;
+    border-color: #8e8e8e!important;
 }
 
 li.nav-item > a.nav-link {
@@ -95,5 +100,24 @@ li.nav-item > a.nav-link.active
     font-weight: bold;
 }
 .left-content {
+
+}
+
+.form_subtypes {
+    color: #0c4c67;
+    font-size: smaller;
+    font-weight: bold;
+}
+
+.form_block_header {
+    color: #570000;
+    font-size: medium;
+    font-weight: bold;
+}
+
+.form_block_goals {
+    background-color: #ffe1fc;
+    border-bottom-right-radius: 30px;
+    padding-right: 10px;
 
 }
