@@ -5,9 +5,7 @@
     {% load bootstrap4 %}
     {% bootstrap_css %}
     {% bootstrap_javascript jquery='full' %}
-    <!-- <script src="% bootstrap_jquery_url %}"></script> -->
-    <!-- % bootstrap_javascript %} -->
-    <!-- % bootstrap_css %} -->
+
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'marketability/my_css.css' %}">
     <title>All-Gid Компьютерная техника</title>
@@ -38,20 +36,8 @@
 </div>
 </div>
 <!-- правая колонка -->
-<div class="right-col-category col-2">
-    {% if bestesellers_links %}
-        {% for lnk in bestesellers_links %}
+{% block right_col %}{% endblock %}
 
-            <a href="{{ lnk.href }}" target="_blank" class="link-text">{{ lnk.header }}</a>
-            <br>
-            <span class="link-annotation">
-            {{ lnk.annotation }}
-            </span>
-            <br><br>
-
-        {% endfor %}
-    {% endif %}
-</div>
 
 
 </div>

@@ -16,14 +16,17 @@
 <div class="tab-content">
   <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
   <div class="tab-pane fade show active" id="marketabiity" style="padding-left: 5px;">
+  <h3>Самые продаваемые {{ category_name|lower }}</h3>
     <div class="vardata">
     <!-- Таблица выдачи -->
-   Самые продаваемые модели за период: <span>{% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
-    {% endfor %}</span>
-    <br>
-    {%  if checked_items %}
-        Классы:
-    <span>
+
+        За период
+        <span>{% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+            {% endfor %}</span>
+        <br>
+        {%  if checked_items %}
+        Фильтр
+        <span>
         {% for sub_type in new_form.GO.keys %}
             {% for class_ in new_form.GO|get_item:sub_type %}
                 {% if class_.name in checked_items %}
@@ -38,18 +41,17 @@
                 {% endif %}
             {% endfor %}
         {% endfor %}
-
-    </span>
+        </span>
 
     {% endif %}
     </div>
-  <br>
+  <div class="note footnote">Сортировка по цене*</div>
       <table>
         <tr>
             <th></th>
-            <th align=center>Цена*</th>
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">Цена*</th>
             {% for fld in tbl_ttx_col  %}
-            <th align=center>{{ fld }}</th>
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">{{ fld }}</th>
             {% endfor %}
 
         </tr>
@@ -60,7 +62,7 @@
                 <b>{{ tbl_data.brand_name|get_item:i }}</b>
             </a>
         </td>
-        <td>
+        <td style="padding: 3px;">
             <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
         </td>
             {% for fld in tbl_data.keys %}
@@ -81,14 +83,14 @@
         {% endif %}
         {% endwith %}
         <br>
-        <div class="footnote">* Усредненная цена по предложениям магазинов</div>
+        <div class="note footnote">* Усредненная цена по предложениям магазинов</div>
 
   </div>
 
   <!-- Второй блок -->
   <div class="tab-pane fade" id="novelty" style="padding-left: 5px;">
       <div class="vardata">
-   Новые модели за период:
+        Новые модели за период:
           <span>
               {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
     {% endfor %}</span>
@@ -117,12 +119,14 @@
       </div>
             <!-- Таблица выдачи -->
     {% if tbl_data_nov.id %}
+
+        <div class="note footnote">Сортировка по производителям</div>
         <table>
         <tr>
             <th></th>
-            <th align=center>Цена*</th>
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">Цена*</th>
             {% for fld in tbl_ttx_col  %}
-            <th align=center>{{ fld }}</th>
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">{{ fld }}</th>
             {% endfor %}
 
         </tr>
@@ -133,7 +137,7 @@
                 <b>{{ tbl_data_nov.brand_name|get_item:i }}</b>
             </a>
         </td>
-        <td>
+        <td style="padding: 3px" class="text-center">
             <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
         </td>
             {% for fld in tbl_data_nov.keys %}
@@ -231,6 +235,22 @@
 
     </form>
 
+{% endblock %}
+{% block right_col %}
+<div class="right-col-category col-3">
+    {% if bestesellers_links %}
+        {% for lnk in bestesellers_links %}
+
+            <a href="{{ lnk.href }}" target="_blank" class="link-text">{{ lnk.header }}</a>
+            <br>
+            <span class="link-annotation">
+            {{ lnk.annotation }}
+            </span>
+            <br><br>
+
+        {% endfor %}
+    {% endif %}
+</div>
 {% endblock %}
 
 

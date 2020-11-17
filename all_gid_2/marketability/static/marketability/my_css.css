@@ -44,22 +44,24 @@ li.nav-item > a.nav-link.active
     padding-bottom: 5px;
     border-bottom-right-radius: 30px;
 }
-.vardata{
+.vardata {
     color: #205067;
-    font-style: italic;
     font-weight: bold;
-    font-size: x-small;
+    font-size: smaller;
+    font-style: italic;
 
 }
 .vardata > span {
     color:darkred;
+}
+.note {
+    color: #205067;
+    font-weight: bold;
+    font-size: smaller;
     font-style: italic;
-    font-weight: lighter;
+
 }
 .footnote {
-    color: #205067;
-    font-style: italic;
-    font-weight: bold;
     font-size: x-small;
 }
 .message {
@@ -88,7 +90,6 @@ li.nav-item > a.nav-link.active
     border-color: #205067;
     font-size: smaller;
     margin-left: 10px;
-
 }
 .link-annotation {
     color: #205067;
@@ -120,4 +121,29 @@ li.nav-item > a.nav-link.active
     border-bottom-right-radius: 30px;
     padding-right: 10px;
 
+}
+
+.product_brand {
+    font-size: xx-large;
+    font-weight: bold;
+}
+.product_name {
+    font-size: x-large;
+    font-weight: bold;
+}
+.product_table_ttx {
+    padding-top: 2px!important;
+    padding-bottom: 2px!important;
+    margin-bottom: 2px;
+}
+
+.shops {
+    margin-bottom: 10px;
+/*    padding-bottom: 200px!important; */
+
+    link: #0c4c67!important;
+    color: #993300;
+}
+.shops a {
+    color: #0c4c67;
 }

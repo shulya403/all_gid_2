@@ -329,7 +329,9 @@ def page_Category_Main(request, cat_):
         new_form, \
         list_enabled, \
         period_mth_rus, \
-        period_inbase
+        period_inbase, \
+        df_data, \
+        enabled_return
 
     if (cat_ != cat_def):
         Init_cat(cat_)
@@ -374,21 +376,19 @@ def page_Category_Main(request, cat_):
         products_for_execute = []
 
     df_data = Get_Sales_Top(products_for_execute, timelag=2)
-    tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('brand_name').to_dict()
+    if len(df_data) > 0:
+        tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('brand_name').to_dict()
 
-    q_data = len(df_data)
+        q_data = len(df_data)
 
-    if q_data >= 20:
-        tab_marketability = df_data[:20].sort_values('price_avg').to_dict()
+        if q_data >= 20:
+            tab_marketability = df_data[:20].sort_values('price_avg').to_dict()
+        else:
+            tab_marketability = df_data.to_dict()
     else:
-        tab_marketability = df_data.to_dict()
-    #print(period_mth_rus)
+        tab_marketability = dict()
+        tab_novelty = dict()
 
-
-    #html.формы вызывается шаблоном из include
-    #dict_form_fld = Dict_by_Classes(form_fld)
-    #Form_by_dict_classes(dict_form_fld, post_return, enabled_return)
-    #pprint(tab_novelty)
     best_links = Get_Bestsellers_links(cat_)
 
     exit_ = {
@@ -410,54 +410,60 @@ def page_Category_Main(request, cat_):
 
 def page_Product(request, cat_, product_):
 
-    global form_return, products_for_execute, db_tbl, categories_list
+    global form_return, products_for_execute, db_tbl, categories_list, new_form, df_data
 
     if not db_tbl:
         Init_cat(cat_)
 
+    #таблица ТТХ
+
     Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
 
     fields_ = list(Product[0].keys())
+
     dict_ttx = dict()
+    dict_html_names = Fld_html_names(fields_, cat_, ['brand', 'name', 'id'])
     for i in fields_:
         if i not in ['brand', 'name', 'id']:
-            dict_ttx[i] = Product[0][i]
+            dict_ttx[dict_html_names[i]] = Product[0][i]
 
+    # Фильтр, категории
 
-    Filters = db_tbl['classes'].objects.filter(name__in=form_return).\
-        values('type', 'text')
-    filter_GO = list()
-    filter_CL = list()
-    if Filters:
-        for i in Filters:
-            if i['type'] == 'GO':
-                filter_GO.append(i['text'])
-            elif i['type'] == 'CL':
-                filter_CL.append(i['text'])
+    # Filters = db_tbl['classes'].objects.filter(name__in=form_return).\
+    #     values('type', 'text')
+    # filter_GO = list()
+    # filter_CL = list()
+    # if Filters:
+    #     for i in Filters:
+    #         if i['type'] == 'GO':
+    #             filter_GO.append(i['text'])
+    #         elif i['type'] == 'CL':
+    #             filter_CL.append(i['text'])
 
-    list_Products_filter = db_tbl['products'].objects.\
-                    filter(id__in=products_for_execute).\
-                    values('brand', 'name', 'id')
+    #Выборка продуктов
+    # list_Products_filter = db_tbl['products'].objects.\
+    #                 filter(id__in=products_for_execute).\
+    #                 values('brand', 'name', 'id')
+    #
+    # pprint(list_Products_filter)
+    #
+    # #Нужен ли здесь класс?
+    # class FProducts(object):
+    #     def __init__(self, id, brand, name):
+    #
+    #         self.id = str(id),
+    #         self.brand = str(brand),
+    #         self.name = str(name)
+    #
+    #         self.id = self.id[0]
+    #         self.brand = self.brand[0]
+    #
+    #         print(self.id, self.brand, self.name)
 
-    pprint(list_Products_filter)
-
-    #Нужен ли здесь класс?
-    class FProducts(object):
-        def __init__(self, id, brand, name):
-
-            self.id = str(id),
-            self.brand = str(brand),
-            self.name = str(name)
-
-            self.id = self.id[0]
-            self.brand = self.brand[0]
-
-            print(self.id, self.brand, self.name)
-
-    fproducts = list()
-    for i in list(list_Products_filter):
-        fproducts.append(FProducts(id=i['id'], brand=i['brand'], name=i['name']))
-
+    # fproducts =
+    # for i in list(list_Products_filter):
+    #     fproducts.append(FProducts(id=i['id'], brand=i['brand'], name=i['name']))
+    #
     shop_mod = Get_Shops(product_)
 
 
@@ -466,14 +472,26 @@ def page_Product(request, cat_, product_):
         'vendor': Product[0]['brand'],
         'name': Product[0]['name'],
         'ttx': dict_ttx,
-        'filter_GO': filter_GO,
-        'filter_CL': filter_CL,
-        'fproducts': fproducts,
+        'new_form': new_form,
+        'checked_items': form_return,
+        'fproducts': df_data,
         'shop_mod': shop_mod,
         'action': cat_
 
     }
     return render(request, template_name="product.html", context=exit_)
+
+def Fld_html_names(fields_, cat_, not_change=[]):
+
+    exit_ = dict()
+    for i in fields_:
+        if i not in not_change:
+            try:
+                exit_[i] = dict_categories[cat_]['fields_show'][i]['html_name']
+            except KeyError:
+                exit_[i] = i
+
+    return exit_
 
 def Get_Prod_Execute_join_vardata(list_products, qry_period):
 

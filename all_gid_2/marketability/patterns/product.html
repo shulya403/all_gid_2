@@ -2,6 +2,51 @@
 {% load bootstrap4 %}
 
 {% block issuance %}
+<div>
+        <span class="product_brand">
+            {{ vendor }}<br></span>
+        <span class="product_name">
+            {{ name }}</span>
+    <table class="table table-striped table-sm">
+            {% for k, v in ttx.items %}
+                <tr>
+                <td>
+                    <span>{{ k }}:</span>
+                </td>
+                    <td>
+                        <span>{{ v }}</span>
+                    </td>
+                </tr>
+    {% endfor %}
+    </table>
+    <hr>
+    <div>
+       {% if shop_mod %}
+            <b>Предложения магазинов</b>
+
+            {% if action == 'Nb' %}
+                <br>
+                <span class="note">
+                Цены могут существенно различаться в зависимости от конфигурации
+                </span>
+            {% endif %}
+           <br><br>
+            {% for mod in shop_mod %}
+                <div class="shops">
+                <b>
+                <a href="{{ mod.modfication_href }}" target="_blank">
+                    {{ mod.modification_name }}
+                </a>
+                </b>
+                <br>
+                <i>{{ mod.shop_name }}</i>
+                <b>{{ mod.modification_price|digit_separator }}</b>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+{% comment %}
     <table>
     <tr>
     <td valign="top">
@@ -53,6 +98,13 @@
         {% endif %}
     </td>
     </tr></table>
+ {% endcomment %}
+{% endblock %}
+
+{% block right_col %}
+<div class="right-col-category col-3">
+
+</div>
 {% endblock %}
 
 
