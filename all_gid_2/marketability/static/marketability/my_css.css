@@ -1,3 +1,27 @@
+.general-grid-category {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.menu {
+}
+.content {
+    display: flex;
+    flex-direction: row;
+}
+.left_content {
+}
+
+.right-col-category {
+    border-color: #205067;
+    font-size: smaller;
+    margin-left: 10px;
+}
+.footer_conacts {
+    font-size: smaller;
+}
+
 .form_blocks {
     display: flex;
     justify-content: start;
@@ -23,10 +47,7 @@
 }
 
 li.nav-item > a.nav-link {
-
     color: #205067;
-
-
 }
 
 li.nav-item > a.nav-link.active
@@ -54,6 +75,7 @@ li.nav-item > a.nav-link.active
 .vardata > span {
     color:darkred;
 }
+
 .note {
     color: #205067;
     font-weight: bold;
@@ -82,15 +104,7 @@ li.nav-item > a.nav-link.active
     margin-right: 20px;
 
 }
-.general-grid-category {
-    display: flex;
 
-}
-.right-col-category {
-    border-color: #205067;
-    font-size: smaller;
-    margin-left: 10px;
-}
 .link-annotation {
     color: #205067;
     line-height: 70%!important;
@@ -99,9 +113,6 @@ li.nav-item > a.nav-link.active
     color: darkcyan;
     line-height: 1px!important;
     font-weight: bold;
-}
-.left-content {
-
 }
 
 .form_subtypes {
@@ -146,4 +157,15 @@ li.nav-item > a.nav-link.active
 }
 .shops a {
     color: #0c4c67;
+}
+.prodict-other-filter {
+    color: #205067;
+    font-weight: bold;
+    font-size: smaller;
+    font-style: italic;
+
+}
+
+.prodict-other-filter > span {
+    color:darkred;
 }

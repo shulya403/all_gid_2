@@ -22,10 +22,9 @@
     <hr>
     <div>
        {% if shop_mod %}
-            <b>Предложения магазинов</b>
+            <h5>Предложения магазинов</h5>
 
             {% if action == 'Nb' %}
-                <br>
                 <span class="note">
                 Цены могут существенно различаться в зависимости от конфигурации
                 </span>
@@ -46,64 +45,47 @@
         {% endif %}
     </div>
 </div>
-{% comment %}
-    <table>
-    <tr>
-    <td valign="top">
-    <!-- Модель -->
-    <b>
-    <font size="14">{{ vendor }}</font><br>
-    </b>
-    <font size="10">{{ name }}</font><br>
 
-    {% for k, v in ttx.items %}
-        {{ k }}:  {{ v }}<br>
-    {% endfor %}
-<hr>
-    {% if filter_GO %}
-    <i><b>Целевые классы: </b></i>
-        {% for i in filter_GO %}
-        <i>{% if forloop.first %}{{ i }}{% else %}, {{ i }}{% endif %}</i>
-        {% endfor %}<br>
-    {% endif %}
-        {% if filter_CL %}
-    <i><b>Технические классы: </b></i>
-        {% for i in filter_CL %}
-        <i>{% if forloop.first %}{{ i }}{% else %}, {{ i }}{% endif %}</i>
-        {% endfor %}<br>
-    {% endif %}
-{% if fproducts %}
-    <br>
-    <b>Другие модели</b><br>
-    {% for i in fproducts %}
-        <a href="/{{ action }}/{{ i.id }}">{{ i.brand }} {{ i.name }}</a><br>
-    {% endfor %}
-
-{% endif %}
-    </td>
-    <td valign="top">
-        {% if shop_mod %}
-            <b>Предложения магазинов</b>
-            {% for mod in shop_mod %}
-                <br><br>
-                <b>
-                <a href="{{ mod.modfication_href }}" target="_blank">
-                    {{ mod.modification_name }}
-                </a>
-                </b>
-                <br>
-                <i>{{ mod.shop_name }}</i>
-                <b>{{ mod.modification_price|digit_separator }}</b>
-            {% endfor %}
-        {% endif %}
-    </td>
-    </tr></table>
- {% endcomment %}
 {% endblock %}
 
 {% block right_col %}
 <div class="right-col-category col-3">
 
+    {% if tbl_data %}
+    <h5>Другие модели</h5>
+
+    <div class="prodict-other-filter">
+
+    {%  if checked_items %}
+    Фильтр
+    <span>
+        {% for sub_type in new_form.GO.keys %}
+            {% for class_ in new_form.GO|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% for sub_type in new_form.CL.keys %}
+            {% for class_ in new_form.CL|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </span>
+
+    {% endif %}
+    </div>
+    <div class="products-other-list">
+        {% for i in tbl_data.id.keys  %}
+            <div>
+            <a href="/{{ action }}/{{ tbl_data.id|get_item:i}}">{{ tbl_data.brand_name|get_item:i }}</a> {{ tbl_data.price_avg|get_item:i|digit_separator }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 </div>
 {% endblock %}
 

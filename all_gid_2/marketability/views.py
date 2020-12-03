@@ -315,6 +315,7 @@ def Init_cat(cat_):
 
 form_return = []
 products_for_execute = []
+df_data = None
 
 
 def page_Category_Main(request, cat_):
@@ -403,7 +404,6 @@ def page_Category_Main(request, cat_):
         'checked_items': post_return,
         'period': period_mth_rus,
         'bestesellers_links': best_links
-
     }
 
     return render(request, template_name="category.html", context=exit_)
@@ -427,44 +427,16 @@ def page_Product(request, cat_, product_):
         if i not in ['brand', 'name', 'id']:
             dict_ttx[dict_html_names[i]] = Product[0][i]
 
-    # Фильтр, категории
 
-    # Filters = db_tbl['classes'].objects.filter(name__in=form_return).\
-    #     values('type', 'text')
-    # filter_GO = list()
-    # filter_CL = list()
-    # if Filters:
-    #     for i in Filters:
-    #         if i['type'] == 'GO':
-    #             filter_GO.append(i['text'])
-    #         elif i['type'] == 'CL':
-    #             filter_CL.append(i['text'])
-
-    #Выборка продуктов
-    # list_Products_filter = db_tbl['products'].objects.\
-    #                 filter(id__in=products_for_execute).\
-    #                 values('brand', 'name', 'id')
-    #
-    # pprint(list_Products_filter)
-    #
-    # #Нужен ли здесь класс?
-    # class FProducts(object):
-    #     def __init__(self, id, brand, name):
-    #
-    #         self.id = str(id),
-    #         self.brand = str(brand),
-    #         self.name = str(name)
-    #
-    #         self.id = self.id[0]
-    #         self.brand = self.brand[0]
-    #
-    #         print(self.id, self.brand, self.name)
-
-    # fproducts =
-    # for i in list(list_Products_filter):
-    #     fproducts.append(FProducts(id=i['id'], brand=i['brand'], name=i['name']))
-    #
     shop_mod = Get_Shops(product_)
+    try:
+        if not df_data.empty:
+            df_ = df_data.sort_values('brand_name').to_dict()
+        else:
+            df_ = dict()
+    except:
+        df_ = dict()
+
 
 
     exit_ = {
@@ -474,11 +446,13 @@ def page_Product(request, cat_, product_):
         'ttx': dict_ttx,
         'new_form': new_form,
         'checked_items': form_return,
-        'fproducts': df_data,
+        'tbl_data': df_,
         'shop_mod': shop_mod,
-        'action': cat_
+        'action': cat_,
+        'other_products': df_data,
 
     }
+
     return render(request, template_name="product.html", context=exit_)
 
 def Fld_html_names(fields_, cat_, not_change=[]):

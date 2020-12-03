@@ -13,7 +13,7 @@
 <body>
 {% block header %}{% endblock %}
 <div class="general-grid-category container">
-<div class="left-content">
+    <div class="menu">
 
     <div style="flex-direction: row">
     {% for i, link in categories_list %}
@@ -27,20 +27,26 @@
     {% endfor %}
     </div>
 <hr>
-    <div>
-{% block issuance %}{% endblock %}
-
 </div>
-    <div>
-    {% block form_classes %}{% endblock %}
-</div>
-</div>
-<!-- правая колонка -->
-{% block right_col %}{% endblock %}
+    <div class="content">
+        <div class="left_content">
+            <div>
+            {% block issuance %}{% endblock %}
 
-
+            </div>
+            <div>
+            {% block form_classes %}{% endblock %}
+            </div>
+        </div>
+        <!-- правая колонка -->
+        {% block right_col %}{% endblock %}
+    </div>
 
 </div>
 <hr>
+<div calss="footer_conacts">
+    &copy; ITResearch; Приложение к изданию <a href="https://www.itbestsellers.ru" target="_blank">"Бестселлеры ИТ-рынка"</a><br>
+    ООО "ИТ-Аналитика", Москва
+</div>
 </body>
 </html>
