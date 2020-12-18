@@ -102,7 +102,7 @@ dict_categories = {
                         "short": True
                     },
                     'curved': {
-                        "html_name": "Изогнутый",
+                        "html_name": "Вогнутый  ",
                         "id": 4,
                         "short": True
                     },
