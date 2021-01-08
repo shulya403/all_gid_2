@@ -46,6 +46,10 @@ def get_item(dictionary, key):
     return dictionary.get(key)
 
 @register.filter
+def get_value(dictionary, key):
+    return dictionary[key]
+
+@register.filter
 def digit_separator(digit):
     if digit:
         try:
@@ -212,6 +216,16 @@ dict_categories = {
 
        }
 
+dict_tabs = {
+            'marketability': {"rus_name": "ПОПУЛЯРНЫЕ",
+                              "img_active": "Star white-1.svg",
+                              "img_noactive": "Star white-1.svg"},
+            'novelity': {"rus_name": "НОВИНКИ",
+                        "img_active": "Lamp white-1.svg",
+                        "img_noactive": "Lamp gray-1.svg"}
+            }
+
+
 cat_def = ""
 category = dict()
 db_tbl = dict()
@@ -280,12 +294,12 @@ def Get_Products_Mtm(post_return, db_tbl):
     # inner_join_products число упоминаний продуктов в отфильтрованной таблице mtm
     inner_join_products = joined_mtm.values('fk_products') \
         .annotate(Count('fk_products'))
-    pprint(inner_join_products)
+
     # inner_join_products_ - только продукты из inner_join встр в количестве классов равном числу отдачи формы
     inner_join_products_ = inner_join_products \
         .filter(fk_products__count=len(post_return)) \
         .values_list('fk_products')
-    pprint(inner_join_products_)
+
 
     # products_mtm - список записей в mtm с продуктом присутсв. во всех отфильтрованных классах
     products_mtm = db_tbl['mtm_prod_clas'].objects \
@@ -299,7 +313,7 @@ def Get_Products_Mtm(post_return, db_tbl):
 
 def Init_cat(cat_):
 
-    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show, dict_fields_short_show, new_form
+    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show, dict_fields_short_show, new_form, tab_active
 
     cat_def = cat_
     category = dict_categories[cat_def]
@@ -311,6 +325,8 @@ def Init_cat(cat_):
     dict_fields_short_show = {k: v for k, v in dict_sorted_fields_show.items() if category['fields_show'][k]['short'] == True}
 
     new_form = Dict_by_Classes2()
+
+    tab_active = 'marketability'
 
 
 form_return = []
@@ -332,7 +348,8 @@ def page_Category_Main(request, cat_):
         period_mth_rus, \
         period_inbase, \
         df_data, \
-        enabled_return
+        enabled_return,\
+        tab_active
 
     if (cat_ != cat_def):
         Init_cat(cat_)
@@ -349,7 +366,11 @@ def page_Category_Main(request, cat_):
     if request.POST:
         #pprint(request.POST)
         post_return = list(request.POST.keys())
+        print(request.POST)
+        tab_active = request.POST['tabs']
+        print(tab_active)
         post_return.remove('csrfmiddlewaretoken')
+        post_return.remove('tabs')
         form_return = post_return
 
         products_mtm = Get_Products_Mtm(post_return, db_tbl)
@@ -403,10 +424,13 @@ def page_Category_Main(request, cat_):
         'enabled': enabled_return,
         'checked_items': post_return,
         'period': period_mth_rus,
-        'bestesellers_links': best_links
+        'bestesellers_links': best_links,
+        'tab_active': tab_active,
+        'tab_list': list(dict_tabs.keys()),
+        'tab_data': dict_tabs
     }
 
-    return render(request, template_name="category.html", context=exit_)
+    return render(request, template_name="al_category.html", context=exit_)
 
 def page_Product(request, cat_, product_):
 
