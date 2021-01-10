@@ -90,9 +90,50 @@
             </label>
             </div> <!-- tabs_header -->
             {% endfor %}
-            <div class="tab-item" id="marketability_">
-            Популярные {{ category_name.lower }}
-            </div> <!-- marketability -->
+        <div class="tab-item" id="marketability_">
+            <p class="table-sign-text">{{ category_name }} - лидеры продаж за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+            {% endfor %}<p>
+        <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                        <th>
+                            <span>Цена, руб.</span>
+                            <img src="/static/marketability/pict/Icon arrow bottom-1.svg">
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th>{{ fld }}</th>
+                        {% endfor %}
+
+                </tr>
+            {% for i in tbl_data.id.keys  %}
+                <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
+                {{ tbl_data.brand_name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                </td>
+                {% for fld in tbl_data.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td>{{ tbl_data|get_item:fld|get_item:i }}</td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+            <br>
+            {% with len=tbl_data.id.keys|length  %}
+            {% if len > 10 %}
+                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">
+
+
+            {% endif %}
+            {% endwith %}
+
+
+        </div> <!-- marketability -->
 
             <div class="tab-item" id="novelity_">
             Новые модели
