@@ -406,7 +406,7 @@ def page_Category_Main(request, cat_):
         if q_data >= 20:
             tab_marketability = df_data[:20].sort_values('price_avg').to_dict()
         else:
-            tab_marketability = df_data.to_dict()
+            tab_marketability = df_data.sort_values('price_avg').to_dict()
     else:
         tab_marketability = dict()
         tab_novelty = dict()
@@ -441,7 +441,10 @@ def page_Product(request, cat_, product_):
 
     #таблица ТТХ
 
-    Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
+    Product = list()
+    while not Product:
+        Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
+
 
     fields_ = list(Product[0].keys())
 

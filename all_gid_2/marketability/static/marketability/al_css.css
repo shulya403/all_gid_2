@@ -129,7 +129,11 @@
 }
 .form_block_buttons input[type=checkbox]:disabled + label {
         background-color: #F5F4F2;
-        color: #ababa8;
+        color: rgba(0,0,0,0.38);
+        cursor: default;
+        border: 1px solid rgba(0,0,0,0.1);
+
+
 
 }
 .fil-butt-int {

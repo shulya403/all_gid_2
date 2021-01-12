@@ -386,9 +386,10 @@ class DB_insert_from_excel(object):
             df_delete = tup_df[2]
             self.Delete_from_SQL(df_delete, self.tbl_classes)
 
-    def Vardata_to_SQL(self, mth_list=[], update_old=False):
+    def Vardata_to_SQL(self, mth_list=[], update_old=False, now_y="2020"):
 
-        now_y = str(dt.datetime.now().year)
+        if not now_y:
+            now_y = str(dt.datetime.now().year)
 
         def add_0(x):
             if len(str(x)) == 1:
@@ -426,6 +427,7 @@ class DB_insert_from_excel(object):
                     self.connection.execute(delete_qry)
             df_insert = df_insert[df_insert['month'].isin(mth_list)]
         else:
+            print(set(df_old['month'].unique()))
             old_months = {dt.date.strftime(x, "%Y-%m-%d") for x in df_old['month'].unique()}
             print(set(df_old['month'].unique()))
             new_months = set(mth_list) - old_months
@@ -520,15 +522,16 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="nb_models_10_update.xlsx",
-#                       xl_Vardata="NB_Report-10`20.xlsx",
-#                      Category="Nb")
+# FillDB = DB_insert_from_excel(xl_Products="nb_models_11_update.xlsx",
+#                       xl_Vardata="NB_Report-11.xlsx",
+#                      Category="Nb",
+#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\Data\\")
 # FillDB.DB_alchemy(FillDB.Category)
 # FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 # FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [9, 10]
-# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False)
+#mth_list = [11]
+#FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -538,7 +541,7 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  drop_shops = ['yama']):
 
 FillShop = DB_insert_shops(
-                 xl_Shops="Ноутбук-Concat_Prices--Oct-20--Checked.xlsx", #Месячные прайсы Filled/Checked
+                 xl_Shops="Ноутбук-Concat_Prices--Nov-20--Checked.xlsx", #Месячные прайсы Filled/Checked
                  Category='Nb',
                  dir_root="../Data/"
 )
