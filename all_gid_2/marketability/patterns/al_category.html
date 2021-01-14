@@ -83,8 +83,10 @@
             <label for="{{ tab }}">
 
                     {% with thistab=tab_data|get_item:tab %}
-                    <img src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">
-                    <span>{{ thistab|get_item:"rus_name" }}</span>
+                    <div style="margin-top: 16px!important;">
+                   <img src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">
+                    </div>
+                    <div><span>{{ thistab|get_item:"rus_name" }}</span></div>
                     {% endwith %}
 
             </label>
