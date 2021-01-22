@@ -219,9 +219,9 @@ dict_categories = {
 dict_tabs = {
             'marketability': {"rus_name": "ПОПУЛЯРНЫЕ",
                               "img_active": "Star white-1.svg",
-                              "img_noactive": "Star white-1.svg"},
+                              "img_noactive": "Star gray.svg"},
             'novelity': {"rus_name": "НОВИНКИ",
-                        "img_active": "Lamp white-1.svg",
+                        "img_active": "Gray white.svg",
                         "img_noactive": "Lamp gray-1.svg"}
             }
 

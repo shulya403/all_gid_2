@@ -10,7 +10,26 @@
 <body>
 <div class="common-grid">
     <div class="header-menu">
+        <div class="menu">
+        <div class="logo">
+            <div class="logo-img">
+                <img src="/static/marketability/pict/Target white.svg">
+            </div>
+            <div class="logo-text"><span>Гид<br>покупателя</span></div>
+            <div class="logo-space"></div>
+        </div>
 
+        <div class="category-menu">
+
+        {% for i, link in categories_list %}
+        <a href="/{{ link }}/">
+        <button {% if i == category_name %}class="button-menu-active"{% else %}class="button-menu"{% endif %}>{{ i }}</button>
+        </a>
+
+        {% endfor %}
+        </div> <!-- "category-menu" -->
+
+        </div> <!-- "menu" -->
 
     </div> <!-- class="header-menu" -->
 

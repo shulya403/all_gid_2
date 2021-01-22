@@ -10,7 +10,10 @@
 
         </div> <!-- "category-name-header" -->
         <div class="form-reset">
+            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);">
             <span>Сбросить фильтр</span>
+            <img src="/static/marketability/pict/rotate_chev.svg" width="8px">
+            </button>
         </div> <!-- "form-reset" -->
     </div> <!-- "category-header-line" -->
     <div class="filter-form">
@@ -83,8 +86,9 @@
             <label for="{{ tab }}">
 
                     {% with thistab=tab_data|get_item:tab %}
-                    <div style="margin-top: 16px!important;">
-                   <img src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">
+                    <div style="width: 12px; height: 20px; margin-top: 26px!important; background: transparent no-repeat url('/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}'); background-color: transparent;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                        {#                        <img src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
                     </div>
                     <div><span>{{ thistab|get_item:"rus_name" }}</span></div>
                     {% endwith %}
