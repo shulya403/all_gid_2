@@ -23,8 +23,8 @@
 
 
             <div class="form_block_buttons">
-            <span class="form_block_header">Цели использования</span>
-            <br>
+            <div class="form_block_header">Цели использования</div>
+
 
             {% for sub_type in new_form.GO.keys|sort_keys %}
 
@@ -45,10 +45,10 @@
               </label>
           {% endfor %}
       {% endfor %}
-        <br>
+
         </div>
                 <div class="form_block_buttons">
-                <span class="form_block_header">Технические параметры</span>
+                <div class="form_block_header">Технические параметры</div>
         <br>
 
                 {% for sub_type in new_form.CL.keys|sort_keys %}
@@ -149,7 +149,26 @@
     </form>
     </div> <!-- "form-and-table" -->
     <div class="right-news">
-        News
+        <div class="banner-place">
+
+        </div> <!-- banner-place -->
+        <div class="novosti-header">Новости</div>
+
+        {% for lnk in bestesellers_links %}
+            <a href="{{ lnk.href }}" target="_blank" class="news">
+            <div class="news-and-anno">
+                <div class="news-header-link">{{ lnk.header }}</div>
+                <span class="link-annotation">
+                    {{ lnk.annotation }}
+                </span>
+
+            </div>
+                <div class="news-chevron">
+                    <img src="/static/marketability/pict/Double chevron right-1.svg">
+                </div>
+            </a>
+        {% endfor %}
+
 
     </div> <!-- "right-news" -->
 

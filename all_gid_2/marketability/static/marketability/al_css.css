@@ -15,22 +15,29 @@
 
 .header-menu {
         display: inline-flex;
-        flex-direction: row;
         justify-content: space-between;
         background-color: #2E2966;
         width: 100%;
         height: 56px;
+
 }
 .menu {
         display: inline-flex;
-        flex-direction: row;
+        width: 1106px;
+        justify-content: space-between;
+        align: center;
+        margin: 0 auto;
 }
 
+.menu-left {
+        display: inline-flex;
+        justify-content: flex-start;
 
+}
 .logo {
         display: inline-block;
         height: 56px;
-        padding-left: 80px;
+        padding-left: 0px;
 }
 .logo-img {
         display: inline-block;
@@ -69,6 +76,8 @@
         padding-right: 16px;
         font-size: 16px;
         font-weight: 500;
+        letter-spacing: 0.5px;
+        border: 1px transparent;
 }
 .button-menu {
         background-color: transparent;
@@ -82,27 +91,43 @@
 .button-menu-active {
         background-color: #5F609C;
         border: 0px;
-        border-left: #ffffff solid 1px;
-        border-right: #ffffff solid 1px;
+        border-left: #ffffff solid 1px!important;
+        border-right: #ffffff solid 1px!important;
 
 
 }
+.menu-right {
+        height: 100%;
 
+        display: inline-flex;
+}
+
+.menu-right button {
+        height: 100%;
+        color: #ffffff;
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border: 1px transparent;
+}
 .category-content {
         display: flex;
         justify-content: center;
-        flex-wrap: wrap;
+
         link: #3C30BF;
 }
 .form-and-table {
-        display: block;
         justify-content: start;
+        flex-wrap: nowrap;
         margin: 10px;
 
 }
 .right-news {
-        display: block;
-        margin: 10px;
+        width: 256px;
+        margin-left: 24px;
 }
 .category-header-line {
         display: flex;
@@ -148,22 +173,23 @@
 .form_blocks {
         display: flex;
         margin-right: 24px;
-        margin-top: 24px;
+        margin-top: 12px;
+        margin-bottom: 12px;
 
 }
 
 .form_block_buttons {
         justify-content: space-around;
         margin-left: 24px;
-
         }
 
 .form_block_header {
-        color: rgba(0, 0, 0, 0.88);
+        color: rgba(0, 0, 0, 0.63);
         font-size: 18px;
         letter-spacing: 0.1px;
         line-height: 24px;
-        font-weight: bolder;
+        font-weight: 600;
+        margin-bottom: 12px;
 }
 
 .form_subtypes {
@@ -256,6 +282,9 @@
         /*vertical-align: top;*/
 }
 
+.issuance-tabs {
+        margin-top: 12px;
+}
 .issuance-tabs > .tab-item {
         display: None;
         border-top: 1px solid rgba(0,0,0,0.25);
@@ -272,6 +301,8 @@
 .table-data {
         box-sizing: border-box;
         width: 100%;
+        border-collapse: collapse;
+
 }
 .collapse-table-row {
         display: none;
@@ -285,6 +316,7 @@
         letter-spacing: 0.1px;
         line-height: 24px;
         text-align: left;
+        vert-align: top;
 }
 .table-row {
         height: 48px;
@@ -292,12 +324,12 @@
         letter-spacing: 0.1px;
         line-height: 24px;
         text-align: left;
+        border-top: 1px solid rgba(0,0,0,0.13);
 
 }
 .table-row  > td {
         border-top: 1px solid rgba(0,0,0,0.13);
-        border-left: 0px;
-        border-right: 0px;
+
 }
 .table-row > td > a {
         font-weight: bolder;
@@ -305,6 +337,60 @@
         line-height: 24px;
         text-align: left;
         link: #3C30BF;
+        color: #3C30BF;
         padding-left: 12px;
         text-decoration: none;
 }
+
+
+
+.banner-place {
+        box-sizing: border-box;
+        height: 48px;
+
+}
+.novosti-header {
+        color: rgba(0,0,0, 0.63);
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-top: 12px;
+}
+
+.news {
+        display: flex;
+        text-decoration: none;
+        margin-top: 8px;
+        position: relative;
+        width: 256px;
+}
+.news-header-link {
+        color: #3c30bf;
+        font-weight: 550;
+        font-size: 16px;
+}
+.link-annotation {
+        color: rgba(0,0,0,.88);
+        font-weight: 400;
+        font-size: 14px;
+}
+
+
+.news-chevron {
+        display: inline-block;
+        width: 18px;
+
+}
+.news-chevron img {
+       display: block;
+       position: absolute;
+       bottom: 4px;
+       right: 2px;
+
+}
+
+.news-and-anno {
+        width: 256px;
+        position: relative;
+
+        }

@@ -11,6 +11,8 @@
 <div class="common-grid">
     <div class="header-menu">
         <div class="menu">
+        <div class="menu-left">
+
         <div class="logo">
             <div class="logo-img">
                 <img src="/static/marketability/pict/Target white.svg">
@@ -28,8 +30,20 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
+        </div> <!-- menu-left -->
+        <div class="menu-right">
+            <div class="category-menu">
 
+            <a href="/al_about.html">
+                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>
+            </a>
+            </div>
+            <div class="menu-search">
+
+            </div>
+        </div>
         </div> <!-- "menu" -->
+
 
     </div> <!-- class="header-menu" -->
 

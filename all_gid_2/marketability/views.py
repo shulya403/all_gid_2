@@ -229,7 +229,8 @@ dict_tabs = {
 cat_def = ""
 category = dict()
 db_tbl = dict()
-categories_list = list()
+categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+
 dict_sorted_fields_show = dict()
 dict_fields_short_show = dict()
 
@@ -318,7 +319,7 @@ def Init_cat(cat_):
     cat_def = cat_
     category = dict_categories[cat_def]
     db_tbl = category['db_tables']
-    categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+    #categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
 
     dict_sorted_fields_show = {k: v['html_name'] for k, v in
                                sorted(category['fields_show'].items(), key=lambda id: id[1]["id"])}
@@ -599,5 +600,11 @@ def Get_Bestsellers_links(cat):
 
     return qry
 
+def about(request):
+    global categories_list
+
+    exit_ = {'categories_list': categories_list}
+
+    return render(request, template_name="al_about.html", context=exit_)
 
 
