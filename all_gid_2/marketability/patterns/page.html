@@ -2,17 +2,51 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'marketability/my_css.css' %}">
     <title>All-Gid Компьютерная техника</title>
 </head>
 <body>
 {% block header %}{% endblock %}
-<hr>
+<div class="general-grid-category container">
+    <div class="menu">
 
-{% block issuance %}{% endblock %}
+    <div style="flex-direction: row">
+    {% for i, link in categories_list %}
+    <div class="btn-group" role="toolbar" aria-label="top menu">
+        <a href="/{{ link }}/" class="{% if i == category_name %}btn btn-info active{% else %}btn btn-outline-info{% endif %}" aria-pressed="true">
+        {% if i == category_name %}<strong>{{ i }}</strong>
+        {% else %}{{ i }}
+        {% endif %}
+        </a>
+    </div>
+    {% endfor %}
+    </div>
 <hr>
-{% block form_classes %}
+</div>
+    <div class="content">
+        <div class="left_content">
+            <div>
+            {% block issuance %}{% endblock %}
 
-{% endblock %}
+            </div>
+            <div>
+            {% block form_classes %}{% endblock %}
+            </div>
+        </div>
+        <!-- правая колонка -->
+        {% block right_col %}{% endblock %}
+    </div>
+
+</div>
 <hr>
+<div calss="footer_conacts">
+    &copy; ITResearch; Приложение к изданию <a href="https://www.itbestsellers.ru" target="_blank">"Бестселлеры ИТ-рынка"</a><br>
+    ООО "ИТ-Аналитика", Москва
+</div>
 </body>
 </html>

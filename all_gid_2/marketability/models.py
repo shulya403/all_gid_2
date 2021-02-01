@@ -143,6 +143,7 @@ class MfpProducts(models.Model):
     usb = models.CharField(max_length=3, blank=True, null=True)
     wi_fi = models.CharField(max_length=3, blank=True, null=True)
     ethernet = models.CharField(max_length=3, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -191,6 +192,7 @@ class MntProducts(models.Model):
     curved = models.CharField(max_length=45, blank=True, null=True)
     game = models.CharField(max_length=45, blank=True, null=True)
     response_time = models.CharField(max_length=45, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -242,6 +244,7 @@ class NbProducts(models.Model):
     screen_size = models.CharField(max_length=45, blank=True, null=True)
     screen_resulution_list = models.CharField(max_length=45, blank=True, null=True)
     touchscreen = models.CharField(max_length=45, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -268,3 +271,50 @@ class NbVardata(models.Model):
     class Meta:
         managed = False
         db_table = 'nb_vardata'
+
+class MfpShopsPrices(models.Model):
+    fk_products_shop = models.ForeignKey(MfpProducts, models.DO_NOTHING, db_column='fk_products_shop')
+    shop_name = models.CharField(max_length=20, blank=True, null=True)
+    modification_name = models.CharField(max_length=255, blank=True, null=True)
+    modfication_href = models.CharField(max_length=255, blank=True, null=True)
+    modification_price = models.FloatField()
+    month = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mfp_shops_prices'
+
+class MntShopsPrices(models.Model):
+    fk_products_shop = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products_shop')
+    shop_name = models.CharField(max_length=20, blank=True, null=True)
+    modification_name = models.CharField(max_length=255, blank=True, null=True)
+    modfication_href = models.CharField(max_length=255, blank=True, null=True)
+    modification_price = models.FloatField()
+    month = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mnt_shops_prices'
+
+class NbShopsPrices(models.Model):
+    fk_products_shop = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products_shop')
+    shop_name = models.CharField(max_length=20, blank=True, null=True)
+    modification_name = models.CharField(max_length=255, blank=True, null=True)
+    modfication_href = models.CharField(max_length=255, blank=True, null=True)
+    modification_price = models.FloatField(blank=True, null=True)
+    month = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nb_shops_prices'
+
+class TextLinks(models.Model):
+    category = models.CharField(max_length=3, blank=True, null=True)
+    header = models.TextField(blank=True, null=True)
+    annotation = models.TextField(blank=True, null=True)
+    href = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'text_links'

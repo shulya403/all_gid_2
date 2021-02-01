@@ -1,0 +1,92 @@
+{% extends "page.html" %}
+{% load bootstrap4 %}
+
+{% block issuance %}
+<div>
+        <span class="product_brand">
+            {{ vendor }}<br></span>
+        <span class="product_name">
+            {{ name }}</span>
+    <table class="table table-striped table-sm">
+            {% for k, v in ttx.items %}
+                <tr>
+                <td>
+                    <span>{{ k }}:</span>
+                </td>
+                    <td>
+                        <span>{{ v }}</span>
+                    </td>
+                </tr>
+    {% endfor %}
+    </table>
+    <hr>
+    <div>
+       {% if shop_mod %}
+            <h5>Предложения магазинов</h5>
+
+            {% if action == 'Nb' %}
+                <span class="note">
+                Цены могут существенно различаться в зависимости от конфигурации
+                </span>
+            {% endif %}
+           <br><br>
+            {% for mod in shop_mod %}
+                <div class="shops">
+                <b>
+                <a href="{{ mod.modfication_href }}" target="_blank">
+                    {{ mod.modification_name }}
+                </a>
+                </b>
+                <br>
+                <i>{{ mod.shop_name }}</i>
+                <b>{{ mod.modification_price|digit_separator }}</b>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block right_col %}
+<div class="right-col-category col-3">
+
+    {% if tbl_data %}
+    <h5>Другие модели</h5>
+
+    <div class="prodict-other-filter">
+
+    {%  if checked_items %}
+    Фильтр
+    <span>
+        {% for sub_type in new_form.GO.keys %}
+            {% for class_ in new_form.GO|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% for sub_type in new_form.CL.keys %}
+            {% for class_ in new_form.CL|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </span>
+
+    {% endif %}
+    </div>
+    <div class="products-other-list">
+        {% for i in tbl_data.id.keys  %}
+            <div>
+            <a href="/{{ action }}/{{ tbl_data.id|get_item:i}}">{{ tbl_data.brand_name|get_item:i }}</a> {{ tbl_data.price_avg|get_item:i|digit_separator }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+

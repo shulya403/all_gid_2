@@ -9,5 +9,7 @@ app_name = 'marketability'
 
 urlpatterns = [
     path('', RedirectView.as_view(url='/Nb/')),
-    path('<slug:post>/', views.page_Category_Main, name='cat')
+    path('<slug:cat_>/', views.page_Category_Main, name='cat'),
+    path('<slug:cat_>/<slug:product_>', views.page_Product, name='product'),
+    path('al_about.html', views.about, name="about")
 ]

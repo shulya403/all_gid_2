@@ -1,50 +1,258 @@
+
 {% extends "page.html" %}
 
-{% block header %}
-{% for i, link in categories_list %}
-<tr><td>
-&nbsp;&nbsp;
-
-    <a href="/{{ link }}/">{% if i == category_name %}
-        <strong>{{ i }}</strong>
-        {% else %}
-        {{ i }}
-        {% endif %}</a>
-    &nbsp;&nbsp;
-
-</td></tr>
-
-{% endfor %}
-{% endblock %}
+{% load bootstrap4 %}
 
 {% block issuance %}
+    <ul class="nav nav-tabs justify-content-end">
 
-{% for i in joined %}
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" href="#marketabiity">Популярные</a>
+  </li>
+      <li class="nav-item">
+    <a class="nav-link" data-toggle="tab" href="#novelty">Новинки</a>
 
-    {% for key, value in i.items %}
-    {{ value }},
-    {% endfor %}
-{% endfor %}
+  </li>
+    </ul>
 
+<div class="tab-content">
+  <!-- Первый блок (он отображается по умолчанию, т.к. имеет классы show и active) -->
+  <div class="tab-pane fade show active" id="marketabiity" style="padding-left: 5px;">
+  <h3>Самые продаваемые {{ category_name|lower }}</h3>
+    <div class="vardata">
+    <!-- Таблица выдачи -->
 
+        За период
+        <span>{% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+            {% endfor %}</span>
+        <br>
+        {%  if checked_items %}
+        Фильтр
+        <span>
+        {% for sub_type in new_form.GO.keys %}
+            {% for class_ in new_form.GO|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% for sub_type in new_form.CL.keys %}
+            {% for class_ in new_form.CL|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        </span>
 
+    {% endif %}
+    </div>
+  <div class="note footnote">Сортировка по цене*</div>
+      <table>
+        <tr>
+            <th></th>
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">Цена*</th>
+            {% for fld in tbl_ttx_col  %}
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">{{ fld }}</th>
+            {% endfor %}
+
+        </tr>
+        {% for i in tbl_data.id.keys  %}
+        <tr {% if forloop.counter > 5 %}id="collapser_pop" class="collapse"{% endif %}>
+        <td>
+            <a href="/{{ action }}/{{ tbl_data.id|get_item:i }}" class="btn btn-dark btn-sm text-left btn-block">
+                <b>{{ tbl_data.brand_name|get_item:i }}</b>
+            </a>
+        </td>
+        <td style="padding: 3px;">
+            <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+        </td>
+            {% for fld in tbl_data.keys %}
+                {%  if fld in tbl_ttx_col %}
+                <td align=center>
+                {{ tbl_data|get_item:fld|get_item:i }}
+                </td>
+                {% endif %}
+            {% endfor %}
+
+                </tr>
+        {% endfor %}
+        </table>
+        <br>
+        {% with len=tbl_data.id.keys|length  %}
+        {% if len > 5 %}
+        <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#collapser_pop">Еще {{ len|add:-5 }} >></button><br>
+        {% endif %}
+        {% endwith %}
+        <br>
+        <div class="note footnote">* Усредненная цена по предложениям магазинов</div>
+
+  </div>
+
+  <!-- Второй блок -->
+  <div class="tab-pane fade" id="novelty" style="padding-left: 5px;">
+      <div class="vardata">
+        Новые модели за период:
+          <span>
+              {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+    {% endfor %}</span>
+
+          <br>
+    {%  if checked_items %}
+        Классы:
+    <span>
+        {% for sub_type in new_form.GO.keys %}
+            {% for class_ in new_form.GO|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+        {% for sub_type in new_form.CL.keys %}
+            {% for class_ in new_form.CL|get_item:sub_type %}
+                {% if class_.name in checked_items %}
+                    :: {{ class_.text }}
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+
+    </span>
+    {% endif %}
+      </div>
+            <!-- Таблица выдачи -->
+    {% if tbl_data_nov.id %}
+
+        <div class="note footnote">Сортировка по производителям</div>
+        <table>
+        <tr>
+            <th></th>
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">Цена*</th>
+            {% for fld in tbl_ttx_col  %}
+            <th style="border-right: #bbbbbb solid; padding: 3px" class="text-center">{{ fld }}</th>
+            {% endfor %}
+
+        </tr>
+        {% for i in tbl_data_nov.id.keys  %}
+        <tr {% if forloop.counter > 5 %}id="collapser_nov" class="collapse"{% endif %}>
+        <td>
+            <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}" class="btn btn-dark btn-sm text-left btn-block">
+                <b>{{ tbl_data_nov.brand_name|get_item:i }}</b>
+            </a>
+        </td>
+        <td style="padding: 3px" class="text-center">
+            <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
+        </td>
+            {% for fld in tbl_data_nov.keys %}
+                {%  if fld in tbl_ttx_col %}
+                <td align=center>
+                {{ tbl_data_nov|get_item:fld|get_item:i }}
+                </td>
+                {% endif %}
+            {% endfor %}
+
+                </tr>
+        {% endfor %}
+        </table>
+        <br>
+        {% with len=tbl_data_nov.id.keys|length  %}
+        {% if len > 5 %}
+        <button class="btn btn-sm btn-outline-dark" data-toggle="collapse" data-target="#collapser_nov">Еще новинки ({{ len|add:-5 }}) >></button><br>
+        {% endif %}
+        {% endwith %}
+
+        <br>
+        <div class="footnote">* Усредненная цена по предложениям магазинов</div>
+
+    {% else %}
+
+        <br>
+        <div class="message">Не было новинок{% if checked_items %} этого класса{% endif %}</div>
+    {% endif %}
+
+  </div>
+
+</div>
 {% endblock %}
+
 
 {% block form_classes %}
 
-<form action="/{{ action }}/" method="post">
-    <input type="submit" value="обновить">
+    <form action="/{{ action }}/" method="post" id="form_">
+        {% csrf_token %}
     <br>
+    <!-- <input type="submit" class="btn btn-outline-info"> -->
 
-    {% csrf_token %}
+    <div class="form_blocks">
 
-    {% include "form.html" %}
+        <div class="form_my_buttons form_block_goals">
+            <span class="form_block_header">Цели использования</span>
+            <br>
 
-    <input type="submit" value="обновить">
-    <br>
-</form>
+      {% for sub_type in new_form.GO.keys|sort_keys %}
+
+          {% if sub_type != '1'  %}
+                            <span class="form_subtypes">{{ sub_type }}</span>
+          {% endif %}
 
 
+          {% for class_ in new_form.GO|get_item:sub_type %}
+
+            <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
+                <label class="btn btn-outline-info btn-block btn-sm text-left{% if class_.name in checked_items %} active{% endif %}{% if class_.name not in enabled %} disabled disabled_grey{% endif %}" title="{{ class_.explanation }}">
+                    <input type="checkbox" value="Yes" autocomplete="off" {% if class_.name in checked_items %} checked{% endif %}
+                           name="{{ class_.name }}" {% if class_.name not in enabled %}disabled{% endif %}
+                     onchange="$(this).closest('form').submit();"><span class="button_text">{{ class_.text }}</span>
+                </label>
+            </div>
+          {% endfor %}
+      {% endfor %}
+        <br>
+        </div>
+
+        <div class="form_my_buttons">
+        <span class="form_block_header">Технические параметры</span>
+        <br>
+
+      {% for sub_type in new_form.CL.keys|sort_keys %}
+
+          {% if sub_type != '1'  %}
+                            <span  class="form_subtypes">{{ sub_type }}</span>
+          {% endif %}
+
+          {% for class_ in new_form.CL|get_item:sub_type %}
+              <div class="btn-group-toggle form_my_buttons_padding" data-toggle="buttons">
+                <label class="btn btn-outline-info btn-block btn-sm text-left{% if class_.name in checked_items %} active{% endif %}{% if class_.name not in enabled %} disabled disabled_grey{% endif %}" title="{{ class_.explanation }}">
+                    <input type="checkbox" value="Yes" autocomplete="off" {% if class_.name in checked_items %} checked{% endif %}
+                           name="{{ class_.name }}" {% if class_.name not in enabled %}disabled{% endif %}
+                    onchange="$(this).closest('form').submit();"><span class="button_text">{{ class_.text }}</span>
+                </label>
+              </div>
+
+          {% endfor %}
+      {% endfor %}
+        </div>
+
+    </div>
+
+
+    </form>
+
+{% endblock %}
+{% block right_col %}
+<div class="right-col-category col-3">
+    {% if bestesellers_links %}
+        {% for lnk in bestesellers_links %}
+
+            <a href="{{ lnk.href }}" target="_blank" class="link-text">{{ lnk.header }}</a>
+            <br>
+            <span class="link-annotation">
+            {{ lnk.annotation }}
+            </span>
+            <br><br>
+
+        {% endfor %}
+    {% endif %}
+</div>
 {% endblock %}
 
 

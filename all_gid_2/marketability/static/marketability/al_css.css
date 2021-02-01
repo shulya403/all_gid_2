@@ -1,0 +1,443 @@
+@font-face {
+	font-family: Roboto;
+	src: local(Roboto),
+        url("fonts/Roboto-Regular.ttf") format("truetype");
+    font-weight:normal;
+    font-style: oblique;
+}
+
+.common-grid {
+        flex-direction: row;
+        font-family: Roboto;
+        letter-spacing: 0.1px;
+
+}
+
+.header-menu {
+        display: inline-flex;
+        justify-content: space-between;
+        background-color: #2E2966;
+        width: 100%;
+        height: 56px;
+        margin-bottom: 24px;
+
+}
+.menu {
+        display: inline-flex;
+        width: 1106px;
+        justify-content: space-between;
+        align: center;
+        margin: 0 auto;
+}
+
+.menu-left {
+        display: inline-flex;
+        justify-content: flex-start;
+
+}
+.logo {
+        display: inline-block;
+        height: 56px;
+        padding-left: 0px;
+}
+.logo-img {
+        display: inline-block;
+        vertical-align: middle;
+}
+
+.logo-text {
+        display: inline-block;
+        padding-left: 2px;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 16px;
+        vertical-align: middle;
+}
+
+
+.logo-space {
+        display: inline-block;
+        width: 44px;
+        height: 100%;
+        vertical-align: middle;
+}
+
+
+.category-menu {
+        display: inline-flex;
+}
+
+.category-menu button {
+        height: 100%;
+        color: #ffffff;
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border: 1px transparent;
+}
+.button-menu {
+        background-color: transparent;
+        border-left: 1px transparent;
+        border-right: 1px transparent;
+
+}
+.button-menu:hover {
+        background-color: #4B4A8A;
+}
+.button-menu-active {
+        background-color: #5F609C;
+        border: 0px;
+        border-left: #ffffff solid 1px!important;
+        border-right: #ffffff solid 1px!important;
+
+
+}
+.menu-right {
+        height: 100%;
+
+        display: inline-flex;
+}
+
+.menu-right button {
+        height: 100%;
+        color: #ffffff;
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border: 1px transparent;
+}
+.category-content {
+        display: flex;
+        justify-content: center;
+
+        link: #3C30BF;
+}
+.form-and-table {
+        justify-content: start;
+        flex-wrap: nowrap;
+        margin: 10px;
+
+}
+.right-news {
+        width: 256px;
+        margin-left: 24px;
+}
+.category-header-line {
+        display: flex;
+        justify-content: space-between;
+
+}
+.category-name-header {
+        font-size: 24px;
+        font-weight: bolder;
+        letter-spacing: 0;
+        line-height: 28px;
+
+}
+.form-reset {
+        display: flex;
+}
+
+.form-reset button {
+        display: flex;
+        background-color: transparent;
+        cursor: pointer;
+        border: 0;
+}
+
+
+.form-reset span {
+        display: inline-block;
+        font-size: 14px;
+        letter-spacing: 0.1px;
+        line-height: 24px!important;
+        text-align: right;
+        padding-top: 4px;
+        color: #3C30BF;
+
+}
+
+.form-reset div {
+        display: inline-block;
+
+        background-image: url('pict/X blue.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 90%;
+        background-size: 20px 20px;
+        height: 100%;
+        width: 14px;
+        vertical-align: bottom;
+        margin-left: 2px;
+}
+
+.form-reset:hover  span {
+        color: #3C30DF;
+}
+
+.form-reset:hover div {
+        background: url('pict/X hover.svg') no-repeat;
+        background-repeat: no-repeat;
+        background-position: 50% 130%;
+        background-size: 24px 24px;
+
+}
+
+
+.filter-form {
+        background-color: #F5F4F2;
+        border-radius: 8px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        display: inline-block;
+
+}
+.form_blocks {
+        display: flex;
+        margin-right: 24px;
+        margin-top: 12px;
+        margin-bottom: 12px;
+
+}
+
+.form_block_buttons {
+        justify-content: space-around;
+        margin-left: 24px;
+        }
+
+.form_block_header {
+        color: rgba(0, 0, 0, 0.63);
+        font-size: 18px;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-bottom: 12px;
+}
+
+.form_subtypes {
+        color: rgba(0,0,0,0.63);
+        font-size: 14px;
+        letter-spacing: 0.1px;
+        font-weight: bolder;
+        line-height: 20px;
+        margin-top: 2px;
+}
+.form_block_buttons input[type=checkbox] {
+	display:none;
+}
+.form_block_buttons input[type=checkbox] + label {
+        box-sizing: border-box;
+        display: block;
+        height: 32px;
+        width: 380px;
+	    padding: 4px 12px;
+	    margin-bottom: 4px;
+        border: 1px solid rgba(0,0,0,0.25);
+        border-radius: 4px;
+        background-color: #FFFFFF;
+	    line-height: 24px;
+	    text-align: left;
+	    vertical-align: middle;
+	    cursor: pointer;
+        position: relative;
+
+        }
+.form_block_buttons input[type=checkbox]:hover + label {
+        /*background-color: #c5d3ee; */
+        background-color: #F2F4FA;
+}
+.form_block_buttons input[type=checkbox]:checked + label {
+        background-color: #4B4A8A;
+        color: #F5F4F2;
+        /*transition: background-color 12s ease; */
+}
+.form_block_buttons input[type=checkbox]:disabled + label {
+        background-color: #F5F4F2;
+        color: rgba(0,0,0,0.38);
+        cursor: default;
+        border: 1px solid rgba(0,0,0,0.06);
+}
+.fil-butt-int {
+
+        display: inline-grid;
+        position: absolute;
+        right: 12px;
+        top: 8px;
+        height: 32px;
+        width: 24px;
+        vertical-align: middle;
+}
+.form_block_buttons input[type=checkbox]:checked + label > .check-galka {
+        background:url('pict/Check mark white-1.png') no-repeat;
+        /*background-size: 100%;*/
+}
+.tabs-header.tab-active {
+        background-color: #4B4A8A;
+        color: #F5F4F2;
+}
+.tabs-header input[type=radio] {
+        display: None;
+}
+.tabs-header {
+        display: inline-block;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        letter-spacing: 1px;
+        height: 32px;
+}
+.tabs-header:hover {
+        background-color: #F2F4FA;
+
+}
+
+.tabs-header:hover.tab-active {
+        background-color: #4B4A8A;
+}
+.tabs-header label {
+        cursor: pointer;
+        display: flex;
+        height: 100%;
+}
+
+.tabs-rusname {
+        display: inline-block;
+        margin-left: 4px;
+        margin-right: 12px;
+        padding-top: 8px;
+}
+
+
+.issuance-tabs {
+        margin-top: 12px;
+}
+.issuance-tabs > .tab-item {
+        display: None;
+        border-top: 1px solid rgba(0,0,0,0.25);
+}
+
+.issuance-tabs .tab-active#marketability_ ~ .tab-item#marketability_ {
+        display: block;
+}
+
+.issuance-tabs .tab-active#novelity_ ~ .tab-item#novelity_ {
+        display: block;
+}
+
+.table-data {
+        box-sizing: border-box;
+        width: 100%;
+        border-collapse: collapse;
+
+}
+.table-head-price {
+        display: flex;
+}
+
+.table-head-price-arrow {
+        background: url('/static/marketability/pict/Icon arrow bottom-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 18px 18px;
+        width: 18px;
+        display: inline-block;
+        margin-top: 4px;
+}
+.collapse-table-row {
+        display: none;
+
+}
+
+.th-tbl {
+        color:  rgba(0,0,0,0.63);
+        font-size: 16px;
+        font-weight: bolder;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        text-align: left;
+        vert-align: top;
+}
+.table-row {
+        height: 48px;
+        font-size: 16px;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        text-align: left;
+        border-top: 1px solid rgba(0,0,0,0.13);
+
+}
+.table-row  > td {
+        border-top: 1px solid rgba(0,0,0,0.13);
+
+}
+.table-row > td > a {
+        font-weight: bolder;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        text-align: left;
+        link: #3C30BF;
+        color: #3C30BF;
+        padding-left: 12px;
+        text-decoration: none;
+}
+
+
+
+.banner-place {
+        box-sizing: border-box;
+        height: 4px;
+
+}
+.novosti-header {
+        color: rgba(0,0,0, 0.63);
+        font-size: 18px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-top: 12px;
+}
+
+.news {
+        display: flex;
+        text-decoration: none;
+        margin-top: 8px;
+        position: relative;
+        width: 256px;
+}
+.news-header-link {
+        color: #3c30bf;
+        font-weight: 500;
+        font-size: 16px;
+}
+.link-annotation {
+        color: rgba(0,0,0,.88);
+        font-weight: 400;
+        font-size: 14px;
+}
+
+
+.news-chevron {
+        display: inline-block;
+        width: 18px;
+
+}
+.news-chevron img {
+       display: block;
+       position: absolute;
+       bottom: 4px;
+       right: 2px;
+
+}
+
+.news-and-anno {
+        width: 256px;
+        position: relative;
+
+        }

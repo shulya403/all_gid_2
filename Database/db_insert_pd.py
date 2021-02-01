@@ -15,7 +15,13 @@ def df_compare(df_old, df_new):
         for i, row in df_new.iterrows():
             for j in cols:
                 name = row['name']
-                if df_old[df_old['name'] == name][j].values[0] != str(row[j]):
+                if(isinstance(row[j], float)):
+                    str_row = str(int(row[j]))
+                else:
+                    str_row = str(row[j])
+
+                if str(df_old[df_old['name'] == name][j].values[0]) != str_row:
+                    print(name, df_old[df_old['name'] == name][j].values[0], str_row)
                     exit_.loc[exit_loc] = row
                     exit_loc += 1
     else:
@@ -73,6 +79,7 @@ class DB_insert_from_excel(object):
 
             print("Таблца из Excel для {} \n {}".format(self. Category, df_.columns))
 
+
             return df_
 
 # Модели и ТТХ с пределкой намиенование полей согласно JSON "Fields_products"
@@ -87,8 +94,10 @@ class DB_insert_from_excel(object):
                     df_.drop(col, axis='columns', inplace=True)
 
             df_.rename(mapper=dict_fields, axis='columns', inplace=True)
+            df_ = df_[df_['name'].notna()]
 
-            print("df_Pruducts \n", df_.head())
+            print("df_Products \n", df_.head())
+
 
             return df_
 # Autochange
@@ -277,11 +286,13 @@ class DB_insert_from_excel(object):
         sql_tbl_name_class = category.lower()  + '_classes'
         sql_tbl_name_mtm_prod_class = category.lower()  + '_products_has_' + category.lower()  + '_classes'
         sql_tbl_name_vardata = category.lower()  + '_vardata'
+        sql_tbl_name_shops_prices = category.lower()  + '_shops_prices'
 
         self.tbl_products = sql.Table(sql_tbl_name_products, metadata, autoload=True)
         self.tbl_classes = sql.Table(sql_tbl_name_class, metadata, autoload=True)
         self.tbl_mtm_products_classes = sql.Table(sql_tbl_name_mtm_prod_class, metadata, autoload=True)
         self.tbl_vardata = sql.Table(sql_tbl_name_vardata, metadata, autoload=True)
+        self.tbl_shops_prices = sql.Table(sql_tbl_name_shops_prices, metadata, autoload=True)
 
         self.connection = self.sql_engine.connect()
 
@@ -375,9 +386,10 @@ class DB_insert_from_excel(object):
             df_delete = tup_df[2]
             self.Delete_from_SQL(df_delete, self.tbl_classes)
 
-    def Vardata_to_SQL(self, mth_list=[], update_old=False):
+    def Vardata_to_SQL(self, mth_list=[], update_old=False, now_y="2020"):
 
-        now_y = str(dt.datetime.now().year)
+        if not now_y:
+            now_y = str(dt.datetime.now().year)
 
         def add_0(x):
             if len(str(x)) == 1:
@@ -415,6 +427,7 @@ class DB_insert_from_excel(object):
                     self.connection.execute(delete_qry)
             df_insert = df_insert[df_insert['month'].isin(mth_list)]
         else:
+            print(set(df_old['month'].unique()))
             old_months = {dt.date.strftime(x, "%Y-%m-%d") for x in df_old['month'].unique()}
             print(set(df_old['month'].unique()))
             new_months = set(mth_list) - old_months
@@ -423,8 +436,78 @@ class DB_insert_from_excel(object):
 
         self.Insert_df_to_SQL(df_insert, self.tbl_vardata)
 
+class DB_insert_shops(DB_insert_from_excel):
 
-# Vardata to SQL
+    def __init__(self,
+                 xl_Shops, #Месячные прайсы Filled
+                 Category,
+                 dir_root="../Data/",
+                 #JSON_file="categories_fields.json"
+                 drop_shops = ['yama']):
+
+        def Check_Category(Category, df, filename):
+            Cat_check = {
+                "Nb": "Ноутбук",
+                "Mnt": "Монитор"
+            }
+            cat_ = Cat_check[Category].lower()
+            if df['Category'][0].lower() != cat_:
+                print("В файле {} нет категории {}".format(filename, cat_.title()))
+                raise
+
+        self.Category = Category
+
+        if dir_root:
+            xl_filename = dir_root + Category + "/" + xl_Shops
+        self.df_Shopprices = pd.read_excel(xl_filename, usecols=[
+            'Category',
+            'Date',
+            'Modification_href',
+            'Modification_name',
+            'Vendor',
+            'Modification_price',
+            'Name',
+            'Ok',
+            'Site',
+            'Vendor'
+        ])
+        Check_Category(Category, self.df_Shopprices, xl_Shops)
+        set_sites = set(self.df_Shopprices['Site'].unique())
+        set_sites = set_sites - set(drop_shops)
+        self.df_Shopprices = self.df_Shopprices[
+            (self.df_Shopprices['Ok'] == 1) &
+            (self.df_Shopprices['Site'].isin(set_sites))].copy()
+
+        self.DB_alchemy(self.Category)
+        self.df_SQL_Products = self.Select_SQL_to_df(self.tbl_products)
+
+    def df_Shops_Price(self):
+
+        tbl_fld = {
+            'Date': 'month',
+            'Modification_href': 'modfication_href',
+            'Modification_name': 'modification_name',
+            'Modification_price': 'modification_price',
+            'Site': 'shop_name',
+            'Name': 'name'
+        }
+        df_ = self.df_Shopprices.rename(tbl_fld, axis='columns')
+
+
+        df_.drop(columns=['Ok', 'Category', 'Vendor'], inplace=True)
+
+        df_ = df_.merge(self.df_SQL_Products[['id', 'name']], how='inner', on='name')
+        df_.rename({'id': 'fk_products_shop'}, axis='columns', inplace=True)
+
+        return df_
+
+    def To_DB_Shop_Price(self, erise_old=True):
+
+        if erise_old:
+            qry_delete = self.tbl_shops_prices.delete()
+            self.connection.execute(qry_delete)
+
+        self.Insert_df_to_SQL(self.df_Shops_Price(), self.tbl_shops_prices)
 
 
 
@@ -437,22 +520,32 @@ class DB_insert_from_excel(object):
 #                     Category='Nb',
 #                     JSON_file="categories_fields.json"):
 
-# FillDB = DB_insert_from_excel(xl_Products="nb_models_07_update.xlsx",
-#                      xl_Vardata="NB_Report-5`20.xlsx",
-#                     Category="Nb")
+
+
+# FillDB = DB_insert_from_excel(xl_Products="nb_models_11_update.xlsx",
+#                       xl_Vardata="NB_Report-11.xlsx",
+#                      Category="Nb",
+#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\Data\\")
 # FillDB.DB_alchemy(FillDB.Category)
 # FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 # FillDB.MtM_Products_Classes_to_SQL()
-# #mth_list=[2, 4]
-#FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
+#mth_list = [11]
+#FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
 
-FillDB = DB_insert_from_excel(xl_Products="Сегменты и база printMFP-1.xlsx",
-                     xl_Vardata="Сегменты и база printMFP-1.xlsx",
-                    Category="Mfp")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-#mth_list=[2, 4]
-FillDB.Vardata_to_SQL(mth_list=[], update_old=False)
+# class DB_insert_shops(DB_insert_from_excel):
+#     def __init__(self,
+#                  xl_Shops, #Месячные прайсы Filled
+#                  Category,
+#                  dir_root="../Data/",
+#                  drop_shops = ['yama']):
+
+FillShop = DB_insert_shops(
+                 xl_Shops="Ноутбук-Concat_Prices--Nov-20--Checked.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Nb',
+                 dir_root="../Data/"
+)
+
+FillShop.To_DB_Shop_Price()
+
+

@@ -1,0 +1,184 @@
+{% extends "al_page.html" %}
+{% block category %}
+    <div class="category-content">
+    <div class="form-and-table">
+    <form action="/{{ action }}/" method="post" id="form_">
+        {% csrf_token %}
+    <div class="category-header-line">
+        <div class="category-name-header">
+            {{ category_name }}
+
+        </div> <!-- "category-name-header" -->
+        <div class="form-reset">
+            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);">
+            <span>Сбросить</span>
+            <div class="sbros-krestik"></div>
+{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
+            </button>
+        </div> <!-- "form-reset" -->
+    </div> <!-- "category-header-line" -->
+    <div class="filter-form">
+
+
+            <div class="form_blocks">
+
+
+            <div class="form_block_buttons">
+            <div class="form_block_header">Цели использования</div>
+
+
+            {% for sub_type in new_form.GO.keys|sort_keys %}
+
+            {% if sub_type != '1'  %}
+                            <div class="form_subtypes">{{ sub_type }}</div>
+            {% endif %}
+
+
+          {% for class_ in new_form.GO|get_item:sub_type %}
+              <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
+                      {% if class_.name in checked_items %} checked{% endif %}
+                        {% if class_.name not in enabled %} disabled{% endif %}
+                        onchange="$(this).closest('form').submit();">
+              <label for="{{ class_.name }}">
+                  <span>{{ class_.text }}</span>
+                  <div class="fil-butt-int check-galka"></div>
+{#                  <div class="fil-butt-int right-space"></div>#}
+              </label>
+          {% endfor %}
+      {% endfor %}
+
+        </div>
+                <div class="form_block_buttons">
+                <div class="form_block_header">Технические параметры</div>
+        <br>
+
+                {% for sub_type in new_form.CL.keys|sort_keys %}
+
+                {% if sub_type != '1'  %}
+                            <span  class="form_subtypes">{{ sub_type }}</span>
+                {% endif %}
+
+          {% for class_ in new_form.CL|get_item:sub_type %}
+             <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
+                      {% if class_.name in checked_items %} checked{% endif %}
+                        {% if class_.name not in enabled %} disabled{% endif %}
+                        onchange="$(this).closest('form').submit();">
+              <label for="{{ class_.name }}">
+                  <span>{{ class_.text }}</span>
+                  <div class="fil-butt-int check-galka"></div>
+{#                  <div class="fil-butt-int right-space"></div>#}
+              </label>
+
+          {% endfor %}
+      {% endfor %}
+        </div>
+
+    </div> <!-- "form_blocks" -->
+
+
+
+    </div> <!-- "filter-form" -->
+    <div class="issuance-tabs">
+        {% for tab in tab_list %}
+            <div class="tabs-header{% if tab_active == tab %} tab-active{% endif %}" id="{{ tab }}_">
+{#             id="{{ tab }}#}
+            <input type="radio" name="tabs" value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} checked="checked"{% endif %}
+            onchange="$(this).closest('form').submit();">
+            <label for="{{ tab }}">
+
+                    {% with thistab=tab_data|get_item:tab %}
+                    <div style="display: inline-block;
+                                height: 32px;
+                                margin-left: 12px;
+                                background: url('/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}') no-repeat;
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                                background-size: 18px 18px;
+                                width: 18px;">
+                    {#<img hspace="0px"src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
+                    </div>
+                    <div class="tabs-rusname">{{ thistab|get_item:"rus_name" }}</div>
+                    {% endwith %}
+            </label>
+            </div> <!-- tabs_header -->
+            {% endfor %}
+        <div class="tab-item" id="marketability_">
+            <p class="table-sign-text">{{ category_name }} - лидеры продаж за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
+            {% endfor %}<p>
+        <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                        <th class="table-head-price">
+                            <span>Цена, руб.</span>
+                            <div class="table-head-price-arrow"></div>
+
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th>{{ fld }}</th>
+                        {% endfor %}
+
+                </tr>
+            {% for i in tbl_data.id.keys  %}
+                <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
+                {{ tbl_data.brand_name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                </td>
+                {% for fld in tbl_data.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td>{{ tbl_data|get_item:fld|get_item:i }}</td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+            <br>
+            {% with len=tbl_data.id.keys|length  %}
+            {% if len > 10 %}
+                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">
+
+
+            {% endif %}
+            {% endwith %}
+
+
+        </div> <!-- marketability -->
+
+            <div class="tab-item" id="novelity_">
+            Новые модели
+            </div> <!-- novelity -->
+
+    </div><!-- "issuance-tabs" -->
+    </form>
+    </div> <!-- "form-and-table" -->
+    <div class="right-news">
+        <div class="banner-place">
+
+        </div> <!-- banner-place -->
+        <div class="novosti-header">Новости</div>
+
+        {% for lnk in bestesellers_links %}
+            <a href="{{ lnk.href }}" target="_blank" class="news">
+            <div class="news-and-anno">
+                <div class="news-header-link">{{ lnk.header }}</div>
+                <span class="link-annotation">
+                    {{ lnk.annotation }}
+                </span>
+
+            </div>
+                <div class="news-chevron">
+                    <img src="/static/marketability/pict/Double chevron right-1.svg">
+                </div>
+            </a>
+        {% endfor %}
+
+
+    </div> <!-- "right-news" -->
+
+    </div> <!-- "category-content" -->
+
+{% endblock %} <!-- block category -->
