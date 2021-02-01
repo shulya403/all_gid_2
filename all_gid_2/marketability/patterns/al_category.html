@@ -11,8 +11,9 @@
         </div> <!-- "category-name-header" -->
         <div class="form-reset">
             <button onclick="$('input[type=checkbox]:checked').prop('checked', false);">
-            <span>Сбросить фильтр</span>
-            <img src="/static/marketability/pict/rotate_chev.svg" width="8px">
+            <span>Сбросить</span>
+            <div class="sbros-krestik"></div>
+{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
             </button>
         </div> <!-- "form-reset" -->
     </div> <!-- "category-header-line" -->
@@ -86,13 +87,18 @@
             <label for="{{ tab }}">
 
                     {% with thistab=tab_data|get_item:tab %}
-                    <div style="width: 12px; height: 20px; margin-top: 26px!important; background: transparent no-repeat url('/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}'); background-color: transparent;">
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                        {#                        <img src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
+                    <div style="display: inline-block;
+                                height: 32px;
+                                margin-left: 12px;
+                                background: url('/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}') no-repeat;
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                                background-size: 18px 18px;
+                                width: 18px;">
+                    {#<img hspace="0px"src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
                     </div>
-                    <div><span>{{ thistab|get_item:"rus_name" }}</span></div>
+                    <div class="tabs-rusname">{{ thistab|get_item:"rus_name" }}</div>
                     {% endwith %}
-
             </label>
             </div> <!-- tabs_header -->
             {% endfor %}
@@ -102,9 +108,10 @@
         <table class="table-data">
                 <tr class="th-tbl">
                     <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
-                        <th>
+                        <th class="table-head-price">
                             <span>Цена, руб.</span>
-                            <img src="/static/marketability/pict/Icon arrow bottom-1.svg">
+                            <div class="table-head-price-arrow"></div>
+
                         </th>
                         {% for fld in tbl_ttx_col  %}
                         <th>{{ fld }}</th>
