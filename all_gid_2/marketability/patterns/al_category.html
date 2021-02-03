@@ -81,7 +81,7 @@
     <div class="issuance-tabs">
         {% for tab in tab_list %}
             <div class="tabs-header{% if tab_active == tab %} tab-active{% endif %}" id="{{ tab }}_">
-{#             id="{{ tab }}#}
+
             <input type="radio" name="tabs" value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} checked="checked"{% endif %}
             onchange="$(this).closest('form').submit();">
             <label for="{{ tab }}">
@@ -101,15 +101,95 @@
                     {% endwith %}
             </label>
             </div> <!-- tabs_header -->
-            {% endfor %}
+        {% endfor %}
         <div class="tab-item" id="marketability_">
-            <p class="table-sign-text">{{ category_name }} - лидеры продаж за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}
-            {% endfor %}<p>
-        <table class="table-data">
+            <div class="table-sign-text">{{ category_name }} - лидеры продаж за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}{% endfor %}</div>
+
+            <table class="table-data">
                 <tr class="th-tbl">
                     <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
                         <th class="table-head-price">
-                            <span>Цена, руб.</span>
+                            <span>Цена*, руб.</span>
+                            <div class="table-head-price-arrow"></div>
+
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th align="center">{{ fld }}</th>
+                        {% endfor %}
+
+                </tr>
+            {% for i in tbl_data.id.keys  %}
+                <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
+                {{ tbl_data.brand|get_item:i }}&nbsp;{{ tbl_data.name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                </td>
+                {% for fld in tbl_data.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td align="center">
+                        {% with val=tbl_data|get_item:fld|get_item:i%}
+                        {% if val == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif val == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ val }}
+                        {% endif %}
+                        {% endwith %}
+                    </td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+            <div class="under-table">
+            <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
+            {% with len=tbl_data.id.keys|length  %}
+            {% if len > 10 %}
+{#                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">#}
+
+                <input type="checkbox" class="check-eshe" id="eshe"
+                       onclick="if($('.collapse-table-row').css('display') == 'none')
+                       {$('.collapse-table-row').css('display', 'table-row');
+                       $('.pokazat-eshe').css('display', 'none');
+                       $('.svernut').css('display', 'inline-flex');
+                       $('.icon-down').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.collapse-table-row').css('display', 'none');
+                         $('.pokazat-eshe').css('display', 'inline-flex');
+                         $('.svernut').css('display', 'none');
+                         $('.icon-down').css('transform', 'none');};">
+
+                <label for="eshe" class="label-eshe">
+                    <div class="pokazat-eshe">
+                        Показать еще ({{ len|add:-10 }})
+                    </div>
+                    <div class="svernut">Свернуть</div>
+                    <div class="icon-down"></div>
+
+
+                </label>
+
+
+            {% endif %}
+            {% endwith %}
+            </div> <!-- under-table -->
+
+
+        </div> <!-- marketability -->
+
+            <div class="tab-item" id="novelity_">
+                        <div class="table-sign-text">{{ category_name }} - новые модели за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}{% endfor %}</div>
+
+            <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                        <th class="table-head-price">
+                            <span>Цена*, руб.</span>
                             <div class="table-head-price-arrow"></div>
 
                         </th>
@@ -118,38 +198,66 @@
                         {% endfor %}
 
                 </tr>
-            {% for i in tbl_data.id.keys  %}
+            {% for i in tbl_data_nov.id.keys  %}
                 <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
                 <td>
-                <a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
-                {{ tbl_data.brand_name|get_item:i }}
+                <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}">
+                {{ tbl_data_nov.brand|get_item:i }}&nbsp;{{ tbl_data_nov.name|get_item:i }}
                 </a>
                 </td>
                 <td>
-                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
                 </td>
-                {% for fld in tbl_data.keys %}
+                {% for fld in tbl_data_nov.keys %}
                     {%  if fld in tbl_ttx_col %}
-                    <td>{{ tbl_data|get_item:fld|get_item:i }}</td>
+                    <td align="center">
+                        {% with val=tbl_data_nov|get_item:fld|get_item:i%}
+                        {% if val == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif val == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ val }}
+                        {% endif %}
+                        {% endwith %}
+                    </td>
                     {% endif %}
                 {% endfor %}
                 </tr>
             {% endfor %}
         </table>
-            <br>
-            {% with len=tbl_data.id.keys|length  %}
+            <div class="under-table">
+            <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
+            {% with len=tbl_data_nov.id.keys|length  %}
             {% if len > 10 %}
-                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">
+{#                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">#}
+
+                <input type="checkbox" class="check-eshe" id="eshe"
+                       onclick="if($('.collapse-table-row').css('display') == 'none')
+                       {$('.collapse-table-row').css('display', 'table-row');
+                       $('.pokazat-eshe').css('display', 'none');
+                       $('.svernut').css('display', 'inline-flex');
+                       $('.icon-down').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.collapse-table-row').css('display', 'none');
+                         $('.pokazat-eshe').css('display', 'inline-flex');
+                         $('.svernut').css('display', 'none');
+                         $('.icon-down').css('transform', 'none');};">
+
+                <label for="eshe" class="label-eshe">
+                    <div class="pokazat-eshe">
+                        Показать еще ({{ len|add:-10 }})
+                    </div>
+                    <div class="svernut">Свернуть</div>
+                    <div class="icon-down"></div>
+
+
+                </label>
 
 
             {% endif %}
             {% endwith %}
-
-
-        </div> <!-- marketability -->
-
-            <div class="tab-item" id="novelity_">
-            Новые модели
+            </div> <!-- under-table -->
             </div> <!-- novelity -->
 
     </div><!-- "issuance-tabs" -->

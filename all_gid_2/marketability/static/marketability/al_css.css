@@ -196,6 +196,7 @@
         border-radius: 8px;
         margin-top: 8px;
         margin-bottom: 8px;
+        margin-left: -2px;
         display: inline-block;
 
 }
@@ -278,6 +279,8 @@
         background:url('pict/Check mark white-1.png') no-repeat;
         /*background-size: 100%;*/
 }
+
+
 .tabs-header.tab-active {
         background-color: #4B4A8A;
         color: #F5F4F2;
@@ -293,6 +296,7 @@
         font-size: 14px;
         letter-spacing: 1px;
         height: 32px;
+        margin: -2px;
 }
 .tabs-header:hover {
         background-color: #F2F4FA;
@@ -313,6 +317,7 @@
         margin-left: 4px;
         margin-right: 12px;
         padding-top: 8px;
+
 }
 
 
@@ -321,17 +326,32 @@
 }
 .issuance-tabs > .tab-item {
         display: None;
-        border-top: 1px solid rgba(0,0,0,0.25);
+        border-top: 1px solid #4B4A8A;
 }
 
 .issuance-tabs .tab-active#marketability_ ~ .tab-item#marketability_ {
         display: block;
+        margin-top: -4px;
+        margin-left: -2px;
 }
 
 .issuance-tabs .tab-active#novelity_ ~ .tab-item#novelity_ {
         display: block;
+        margin-top: -4px;
+        margin-left: -2px;
 }
+.table-sign-text {
+        background-color: #CACEE3;
+        display: inline-block;
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 4px;
+        margin-top: 4px;
+        height: 32px;
+        line-height: 32px;
+        margin: 12px;
 
+}
 .table-data {
         box-sizing: border-box;
         width: 100%;
@@ -343,7 +363,7 @@
 }
 
 .table-head-price-arrow {
-        background: url('/static/marketability/pict/Icon arrow bottom-1.svg');
+        background: url('pict/Icon arrow bottom-1.svg');
         background-repeat: no-repeat;
         background-position: 50% 50%;
         background-size: 18px 18px;
@@ -388,7 +408,76 @@
         padding-left: 12px;
         text-decoration: none;
 }
+.check-eshe {
+        display: none;
+}
 
+.under-table {
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        margin-top: 8px;
+
+}
+.price-comment {
+        display: inline-block;
+        vertical-align: bottom;
+        padding-top: 16px;
+        font-size: 12px;
+
+}
+
+.label-eshe {
+        display: inline-block;
+        border: 1px solid rgba(0,0,0,0.25);
+        border-radius: 4px;
+        background-color: #FFFFFF;
+        height: 32px;
+        border-radius: 4px;
+}
+
+
+.label-eshe:hover {
+        background-color: #F2F4FA;
+}
+
+.pokazat-eshe {
+        display: inline-block;
+        color: rgba(0,0,0,0.88);
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+        margin-left: 12px;
+        padding-top: 8px;
+
+}
+.svernut {
+        display: none;
+        color: rgba(0,0,0,0.88);
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+        margin-left: 12px;
+        padding-top: 8px;
+}
+
+.icon-down {
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+        background: url('pict/More black-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        vertical-align: middle;
+        margin-right: 12px;
+        margin-left: 4px;
+        transform-origin: center center;
+}
+.label-eshe:hover .icon-down {
+
+        background-size: 18px 18px;
+}
 
 
 .banner-place {

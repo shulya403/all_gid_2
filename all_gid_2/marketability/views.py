@@ -355,14 +355,6 @@ def page_Category_Main(request, cat_):
     if (cat_ != cat_def):
         Init_cat(cat_)
 
-    #category = dict_categories[cat_]
-    #db_tbl = category['db_tables']
-
-    #categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
-
-    #form_fld = db_tbl['classes'].objects.all()
-    #new_form = Dict_by_Classes2()
-    #list_enabled = vlist_to_list(list(form_fld.values_list('name')))
 
     if request.POST:
         #pprint(request.POST)
@@ -400,7 +392,7 @@ def page_Category_Main(request, cat_):
 
     df_data = Get_Sales_Top(products_for_execute, timelag=2)
     if len(df_data) > 0:
-        tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('brand_name').to_dict()
+        tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('price_avg').to_dict()
 
         q_data = len(df_data)
 
@@ -418,7 +410,7 @@ def page_Category_Main(request, cat_):
         'category_name':  category['category_name'],
         'categories_list': categories_list,
         'action': cat_,
-        'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand_name', 'price_avg', 'appear_month']],
+        'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand', 'name', 'price_avg', 'appear_month']],
         'tbl_data': tab_marketability,
         'tbl_data_nov': tab_novelty,
         'new_form': new_form,
@@ -575,8 +567,8 @@ def Get_Sales_Top(list_products, timelag=2):
                 if i not in set(dict_fields_short_show.keys()):
                     df.drop(i, axis='columns', inplace=True)
         rename_ttx = {k: v for k, v in dict_fields_short_show.items() if k not in fix_fields}
-        df['brand_name'] = df['brand'] + ' ' + df['name']
-        df.drop(['brand', 'name'], axis='columns', inplace=True)
+        # df['brand_name'] = df['brand'] + ' ' + df['name']
+        # df.drop(['brand', 'name'], axis='columns', inplace=True)
         df.rename(rename_ttx, axis='columns', inplace=True)
 
         exit_ = df
