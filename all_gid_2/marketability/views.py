@@ -1,13 +1,4 @@
 #TODO:
-# Форма в кнопках
-# Кнопка новинки
-#  Кнопка все актуальные новинки
-#Декоратор для цен с разделителями
-#Шаблон для выдачи десятки со средней ценой (транспонированная таблица)
-#Выбор полей для отображения из числа ТТХ (using)
-#взять сджойниную таблицу products-vardata отбор по фильтру classes и по дате, отсортировать, взять топ
-#Выдать цену по двум последним месяцам
-
 
 from django.shortcuts import render
 #from django.views.generic import View, DetailView, TemplateView
@@ -187,7 +178,7 @@ dict_categories = {
                         "short": False
                     },
                 'type': {
-                        "html_name": "",
+                        "html_name": "Тип",
                         "id": 2,
                         "short": True
                     },
@@ -427,10 +418,23 @@ def page_Category_Main(request, cat_):
 
 def page_Product(request, cat_, product_):
 
-    global form_return, products_for_execute, db_tbl, categories_list, new_form, df_data
+    global form_return, \
+        products_for_execute, \
+        db_tbl, \
+        categories_list, \
+        category, \
+        new_form, \
+        df_data
 
     if not db_tbl:
         Init_cat(cat_)
+
+    try:
+        if df_data.empty:
+            df_data = Get_Sales_Top(products_for_execute, timelag=2)
+    except Exception:
+        if not df_data:
+            df_data = Get_Sales_Top(products_for_execute, timelag=2)
 
     #таблица ТТХ
 
@@ -438,8 +442,13 @@ def page_Product(request, cat_, product_):
     while not Product:
         Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
 
-
     fields_ = list(Product[0].keys())
+
+    list_this_classes = Get_This_Classes(product_, db_tbl)
+    this_classes = db_tbl['classes'].objects.filter(id__in=list_this_classes)
+
+    miscell_products = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
+
 
     dict_ttx = dict()
     dict_html_names = Fld_html_names(fields_, cat_, ['brand', 'name', 'id'])
@@ -447,33 +456,75 @@ def page_Product(request, cat_, product_):
         if i not in ['brand', 'name', 'id']:
             dict_ttx[dict_html_names[i]] = Product[0][i]
 
+    q_data = len(df_data)
+    if q_data >= 20:
+        top20 = df_data[:20][['brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
+    else:
+        top20 = df_data[['brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
 
     shop_mod = Get_Shops(product_)
-    try:
-        if not df_data.empty:
-            df_ = df_data.sort_values('brand_name').to_dict()
-        else:
-            df_ = dict()
-    except:
-        df_ = dict()
 
 
 
     exit_ = {
+        'category_name': category['category_name'],
         'categories_list': categories_list,
         'vendor': Product[0]['brand'],
         'name': Product[0]['name'],
         'ttx': dict_ttx,
         'new_form': new_form,
         'checked_items': form_return,
-        'tbl_data': df_,
         'shop_mod': shop_mod,
         'action': cat_,
-        'other_products': df_data,
+        'top_products': top20,
+        'this_price': df_data[df_data['name'] == Product[0]['name']]['price_avg'].values,
+        'miscell': miscell_products,
+        'this_classes': this_classes
 
     }
 
-    return render(request, template_name="product.html", context=exit_)
+    return render(request, template_name="al_product.html", context=exit_)
+
+def Get_This_Classes(product_, db_tbl):
+
+    return db_tbl['mtm_prod_clas'].objects.filter(fk_products=product_).values_list('fk_classes')
+
+
+def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
+
+    list_df_data = df_data['id'].to_list()
+
+
+    qry_miscell = db_tbl['mtm_prod_clas'].objects.filter(fk_products__in=list_df_data).\
+        values('fk_products').distinct().annotate(fcl = F('fk_classes'))
+    dict_miscell = dict()
+    for fpr in qry_miscell:
+        try:
+            dict_miscell[fpr['fk_products']].add(fpr['fcl'])
+        except Exception:
+            dict_miscell[fpr['fk_products']] = {fpr['fcl']}
+
+    products_miscell = list()
+    for i in dict_miscell:
+        if dict_miscell[i] == set_this_classes:
+            products_miscell.append(i)
+
+    df_miscell = df_data[df_data['id'].isin(products_miscell)]
+    df_miscell_vendor = df_miscell[['brand', 'name', 'price_avg']].groupby('brand')
+    agg_miscell_vendor = df_miscell_vendor[['name', 'price_avg']].agg(list)
+
+    dict_miscell_vendor = dict()
+    for i, row in agg_miscell_vendor.iterrows():
+        list_name_price = list()
+
+        q = len(row['name'])
+        for j in range(q):
+            list_name_price.append({'name': row['name'][j], 'price': row['price_avg'][j]})
+
+        dict_miscell_vendor[i] = list_name_price
+
+    return dict_miscell_vendor
+
 
 def Fld_html_names(fields_, cat_, not_change=[]):
 
@@ -567,8 +618,6 @@ def Get_Sales_Top(list_products, timelag=2):
                 if i not in set(dict_fields_short_show.keys()):
                     df.drop(i, axis='columns', inplace=True)
         rename_ttx = {k: v for k, v in dict_fields_short_show.items() if k not in fix_fields}
-        # df['brand_name'] = df['brand'] + ' ' + df['name']
-        # df.drop(['brand', 'name'], axis='columns', inplace=True)
         df.rename(rename_ttx, axis='columns', inplace=True)
 
         exit_ = df

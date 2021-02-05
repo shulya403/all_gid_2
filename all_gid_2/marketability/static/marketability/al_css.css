@@ -7,7 +7,7 @@
 }
 
 .common-grid {
-        flex-direction: row;
+        /*flex-direction: row;*/
         font-family: Roboto;
         letter-spacing: 0.1px;
 
@@ -19,7 +19,7 @@
         background-color: #2E2966;
         width: 100%;
         height: 56px;
-        margin-bottom: 24px;
+        margin-bottom: 12px;
 
 }
 .menu {
@@ -117,14 +117,11 @@
 .category-content {
         display: flex;
         justify-content: center;
-
-        link: #3C30BF;
 }
 .form-and-table {
         justify-content: start;
         flex-wrap: nowrap;
         margin: 10px;
-
 }
 .right-news {
         width: 256px;
@@ -392,7 +389,6 @@
         line-height: 24px;
         text-align: left;
         border-top: 1px solid rgba(0,0,0,0.13);
-
 }
 .table-row  > td {
         border-top: 1px solid rgba(0,0,0,0.13);
@@ -407,6 +403,12 @@
         color: #3C30BF;
         padding-left: 12px;
         text-decoration: none;
+}
+
+.table-row:hover > td > a {
+
+        color: #3C30DF;
+
 }
 .check-eshe {
         display: none;
@@ -434,6 +436,7 @@
         background-color: #FFFFFF;
         height: 32px;
         border-radius: 4px;
+        cursor: pointer;
 }
 
 
@@ -530,3 +533,146 @@
         position: relative;
 
         }
+
+.product-block {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 10px;
+        width: 732px;
+
+}
+.product-filters{
+        display: flex;
+}
+.k-filtram {
+        display: flex;
+        cursor: pointer;
+        border: solid 1px;
+
+
+}
+.k-filtram:hover .left-chevron {
+        background-size: 18px 18px;
+}
+.k-filtram:hover .k-filtram-text {
+        color: #3C30DF;
+
+}
+.left-chevron {
+        display: inline-block;
+        background: url('pict/Double chevron left-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+}
+.k-filtram-text {
+        display: inline-block;
+        font-size: 14px;
+        letter-spacing: 0.1px;
+        line-height: 20px;
+        color: #3C30BF;
+        height: 20px;
+        box-sizing: content-box;
+        vertical-align: top;
+
+}
+
+.brandname {
+        display: flex;
+        box-sizing: border-box;
+        justify-content: space-between;
+        margin-top: 16px;
+}
+.product-this-name {
+        display: inline-block;
+        font-size: 24px;
+        color: rgba(0,0,0,0.88);
+        line-height: 28px;
+        padding-left: 16px;
+}
+
+.product-this-price {
+        display: inline-block;
+        font-size: 24px;
+        color: rgba(0,0,0,0.63);
+        line-height: 28px;
+        padding-right: 12px;
+}
+
+
+
+.ttx_table {
+        display: inline-block;
+        margin-top: 16px;
+        margin-left: 16px;
+        border-collapse: collapse;
+}
+.ttx_tr {
+        border-top: 1px solid rgba(0,0,0,0.13);
+}
+.ttx_tr_none {
+        display: none;
+}
+.ttx-td {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-top: 1px solid rgba(0,0,0,0.13);
+        color: rgba(0,0,0,0.88);
+}
+
+.filters-klass {
+        margin-left: 16px;
+        margin-top: 12px;
+
+}
+.filters-list {
+        display: inline-flex;
+        margin-top: 8px;
+        margin-left: 24px;
+        flex-wrap: wrap;
+
+}
+.filters-item-check {
+        border-radius: 4px;
+        background-color: #4B4A8A;
+        color: #F5F4F2;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 8px;
+        padding-right: 8px;
+        height: 28px;
+        margin: 4px;
+
+}
+.filters-item {
+        border-radius: 4px;
+        background-color: #CACEE3;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 8px;
+        padding-right: 8px;
+        height: 28px;
+        margin: 4px;
+
+
+}
+
+.right-lists {
+        width: 356px;
+        margin-left: 24px;
+        border: solid 1px;
+}
+.addition-lists {
+        border: 1px solid;
+        display: flex;
+        justify-content: space-between;
+}
+
