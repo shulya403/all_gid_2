@@ -447,8 +447,7 @@ def page_Product(request, cat_, product_):
     list_this_classes = Get_This_Classes(product_, db_tbl)
     this_classes = db_tbl['classes'].objects.filter(id__in=list_this_classes)
 
-    miscell_products = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
-
+    miscell_products, len_miscell = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
 
     dict_ttx = dict()
     dict_html_names = Fld_html_names(fields_, cat_, ['brand', 'name', 'id'])
@@ -458,9 +457,9 @@ def page_Product(request, cat_, product_):
 
     q_data = len(df_data)
     if q_data >= 20:
-        top20 = df_data[:20][['brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
+        top20 = df_data[:20][['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
     else:
-        top20 = df_data[['brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
+        top20 = df_data[['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
 
     shop_mod = Get_Shops(product_)
 
@@ -479,6 +478,7 @@ def page_Product(request, cat_, product_):
         'top_products': top20,
         'this_price': df_data[df_data['name'] == Product[0]['name']]['price_avg'].values,
         'miscell': miscell_products,
+        'len_miscell': len_miscell,
         'this_classes': this_classes
 
     }
@@ -510,8 +510,8 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
             products_miscell.append(i)
 
     df_miscell = df_data[df_data['id'].isin(products_miscell)]
-    df_miscell_vendor = df_miscell[['brand', 'name', 'price_avg']].groupby('brand')
-    agg_miscell_vendor = df_miscell_vendor[['name', 'price_avg']].agg(list)
+    df_miscell_vendor = df_miscell[['brand', 'id', 'name', 'price_avg']].groupby('brand')
+    agg_miscell_vendor = df_miscell_vendor[['id', 'name', 'price_avg']].agg(list)
 
     dict_miscell_vendor = dict()
     for i, row in agg_miscell_vendor.iterrows():
@@ -519,11 +519,11 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
 
         q = len(row['name'])
         for j in range(q):
-            list_name_price.append({'name': row['name'][j], 'price': row['price_avg'][j]})
+            list_name_price.append({'id': row['id'][j], 'name': row['name'][j], 'price': row['price_avg'][j]})
 
         dict_miscell_vendor[i] = list_name_price
 
-    return dict_miscell_vendor
+    return dict_miscell_vendor, len(df_miscell)
 
 
 def Fld_html_names(fields_, cat_, not_change=[]):

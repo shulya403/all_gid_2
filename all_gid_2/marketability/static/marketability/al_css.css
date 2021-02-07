@@ -407,7 +407,7 @@
 
 .table-row:hover > td > a {
 
-        color: #3C30DF;
+        color: #3C30EF;
 
 }
 .check-eshe {
@@ -556,7 +556,7 @@
         background-size: 18px 18px;
 }
 .k-filtram:hover .k-filtram-text {
-        color: #3C30DF;
+        color: #3C30EF;
 
 }
 .left-chevron {
@@ -664,15 +664,183 @@
 
 
 }
+.addition-lists {
+        display: flex;
+        justify-content: space-between;
+}
+.miscell-list {
+        width:60%;
+        margin:12px;
+}
+
+.top20-list {
+        width:60%;
+        margin:12px;
+}
+
+
+.miscell-vendor {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        margin-top: 4px;
+        background-color:  rgba(0,0,0,0.13);
+        border-radius: 4px;
+        cursor: pointer;
+
+}
+.miscell-vendor-name {
+       font-size: 16px;
+       line-height: 24px;
+       margin-left: 12px;
+
+}
+.miscell-vendor-strelka {
+        display: inline-flex;
+        background: url('pict/Expand black-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        background-color: transparent;
+        transform: rotate(180deg);
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
+        margin-top: 4px;
+        transform-origin: center center;
+}
+.check-vendor-clps {
+        display:none;
+}
+.miscell-mod {
+     display: flex;
+     justify-content: space-between;
+     margin-left: 24px;
+     margin-bottom: 4px;
+}
+
+.miscell-mod:hover .link_mod {
+        color: #3C30EF;
+}
+
+.miscell-mod-name {
+        display: inline-flex;
+}
+.miscell-mod-price, .top-mod-price {
+        display: inline-flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        margin-right: 12px;
+        color: rgba(0,0,0,0.63);
+}
+
+
+.link_mod {
+        text-decoration: none;
+        color: #3C30BF;
+}
+
+.top-mod {
+     display: flex;
+     justify-content: space-between;
+     margin-left: 12px;
+     margin-bottom: 4px;
+}
+.top-mod:hover a {
+     color: #3C30EF;
+}
+
+.top-mod-brandname {
+        display: inline-flex;
+}
+
+.top-mod-price {
+        display: inline-flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        margin-right: 12px;
+        color: rgba(0,0,0,0.63);
+}
+
+.nadpis-short {
+        border-radius: 4px;
+        background-color: #4B4A8A;
+        color: #F5F4F2;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 12px;
+        padding-right: 8px;
+        height: 28px;
+        margin-bottom: 8px;
+        margin-left: 8px;
+        margin-right: 12px;
+
+}
+.nadpis-prochie {
+        border-radius: 4px;
+        background-color: #CACEE3;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 12px;
+        padding-right: 8px;
+        height: 28px;
+        margin-bottom: 8px;
+}
 
 .right-lists {
         width: 356px;
         margin-left: 24px;
-        border: solid 1px;
-}
-.addition-lists {
-        border: 1px solid;
-        display: flex;
-        justify-content: space-between;
+
 }
 
+.shops {
+
+}
+.shops-header {
+        font-size: 18px;
+        color: rgba(0,0,0, 0.63);
+        line-height: 24px;
+        font-weight: 600;
+
+}
+.shops-note {
+        font-size: 12px;
+        margin-top: 12px;
+}
+
+.shops-item {
+        margin-bottom: 12px;
+}
+
+.shops-item:hover .shop-name {
+        color: rgba(0,0,0, 0.63);
+}
+.shops-item:hover .shop-link {
+        color: #9b5555;
+        font-weight: 600;
+}
+.shops-item:hover .shop-price {
+        color: rgba(0,0,0, 0.63);
+}
+.shop-name {
+        display: inline-block;
+}
+
+.shop-link {
+        display: inline-block;
+        text-decoration: none;
+        color: #9b0404;
+        margin-left: 4px;
+        margin-bottom: 4px;
+}
+.shop-price {
+        display: flex;
+
+        justify-content: flex-end;
+        margin-right: -10px;
+}
+.shop-price div {
+        justify-content: end;
+}

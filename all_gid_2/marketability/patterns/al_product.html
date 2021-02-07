@@ -10,8 +10,6 @@
         </div>
         </a>
 
-
-
     </div> <!-- К фильтрам -->
     <div class="brandname">
         <div class="product-this-name">{{ vendor }}&nbsp;{{ name }}</div>
@@ -43,20 +41,63 @@
             {% endfor %}
     </div>
     <div class="addition-lists">
-    miscell_products
+        <div class="top20-list">
+    <div class="nadpis-short">Популярные модели по фильтру (ShortList)</div>
+        {%  for i in top_products %}
+            <div class="top-mod">
+            <a href="/{{ action }}/{{ i|get_item:'id' }}" class="link_mod">
+                <div class="top-mod-brandname">
+                <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>
+                    {{ i|get_item:'brand' }}&nbsp;{{ i|get_item:'name' }}
+                </span>
+
+                </div>
+            </a>
+                <div class="top-mod-price">
+                {{ i|get_item:'price_avg'|digit_separator }}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
         <div class="miscell-list">
+            <div class="nadpis-prochie">Прочие модели того же класса</div>
+            {% if len_miscell > 10 %}
+                <script>
+                    $(document).ready(function()
+                    {$('.miscell-mod').css('display', 'none');
+                    $('.miscell-vendor-strelka').css('transform', 'none')}
+                    );
+
+                </script>
+            {% endif %}
+
             {% for ven, md in miscell.items  %}
+                <input type="checkbox" id="{{ ven }}" class="check-vendor-clps"
+                onclick="if($('.miscell-mod#{{ ven }}').css('display') == 'none')
+                       {$('.miscell-mod#{{ ven }}').css('display', 'flex');
+                        $('.miscell-vendor-strelka#{{ ven }}').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.miscell-mod#{{ ven }}').css('display', 'none');
+                         $('.miscell-vendor-strelka#{{ ven }}').css('transform', 'none');};">
+                <label for="{{ ven }}" id="{{ ven }}">
                 <div class="miscell-vendor">
                     <div class="miscell-vendor-name">{{ ven }}</div>
-                    <div class="miscell-vendor-strelka"></div>
+                    <div class="miscell-vendor-strelka" id="{{ ven }}"></div>
+                </label>
                 </div> <!-- miscel-vendor -->
                 {% for i in md %}
-                <div class="miscell-mod">
+                <div class="miscell-mod" id="{{ ven }}">
                     <div class="miscell-mod-name">
+                        <a href="/{{ action }}/{{ i|get_item:'id' }}" class="link_mod">
+                        <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>
                         {{ i|get_item:'name' }}
+                        </span>
+                        </a>
                     </div>
                     <div class="miscell-mod-price">
-                        {{ i|get_item:'price' }}
+                        {{ i|get_item:'price'|digit_separator }}
 
                     </div>
                 </div>
@@ -65,22 +106,7 @@
             {% endfor %}
 
         </div>
-    <div class="top20-list">
-    Top20<br>
-        {%  for i in top_products %}
-            <div class="top-mod-brandname">
-            {{ i|get_item:'brand' }}&nbsp;{{ i|get_item:'name' }}
-            </div>
-            <div class="top-mod-price">
-            {{ i|get_item:'price_avg' }}
-            </div>
-        {% endfor %}
 
-
-
-
-
-    </div>
 
     </div> <!-- addition-list -->
 
@@ -90,6 +116,32 @@
         <div class="banner-place">
 
         </div> <!-- banner-place -->
+    <div class="shops">
+       {% if shop_mod %}
+            <div class="shops-header">Предложения магазинов</div>
+
+            {% if action == 'Nb' %}
+                <div class="shops-note">
+                * Цены могут существенно различаться в зависимости от конфигурации
+                </div>
+            {% endif %}
+           <br><br>
+            {% for mod in shop_mod %}
+                <div class="shops-item">
+                <div class="shop-name">
+                {{ mod.shop_name }}
+                </div>
+                <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">
+                    {{ mod.modification_name }}
+                </a>
+                <br>
+                <div class="shop-price">
+                    <div>{{ mod.modification_price|digit_separator }}</div>
+                </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
     </div> <!-- right-lists -->
     </div> <!-- category-content -->
 {% endblock %}
