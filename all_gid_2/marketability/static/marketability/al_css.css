@@ -7,7 +7,7 @@
 }
 
 .common-grid {
-        flex-direction: row;
+        /*flex-direction: row;*/
         font-family: Roboto;
         letter-spacing: 0.1px;
 
@@ -19,7 +19,7 @@
         background-color: #2E2966;
         width: 100%;
         height: 56px;
-        margin-bottom: 24px;
+        margin-bottom: 12px;
 
 }
 .menu {
@@ -117,14 +117,11 @@
 .category-content {
         display: flex;
         justify-content: center;
-
-        link: #3C30BF;
 }
 .form-and-table {
         justify-content: start;
         flex-wrap: nowrap;
         margin: 10px;
-
 }
 .right-news {
         width: 256px;
@@ -196,6 +193,7 @@
         border-radius: 8px;
         margin-top: 8px;
         margin-bottom: 8px;
+        margin-left: -2px;
         display: inline-block;
 
 }
@@ -218,17 +216,22 @@
         letter-spacing: 0.1px;
         line-height: 24px;
         font-weight: 600;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
 }
 
 .form_subtypes {
+        display: block;
+        box-sizing: border-box;
+        border: 1px;
+        height: 32px;
         color: rgba(0,0,0,0.63);
         font-size: 14px;
-        letter-spacing: 0.1px;
         font-weight: bolder;
-        line-height: 20px;
-        margin-top: 2px;
+        line-height: 14px;
+        margin-bottom: 4px;
+        padding-top: 16px;
 }
+
 .form_block_buttons input[type=checkbox] {
 	display:none;
 }
@@ -247,16 +250,16 @@
 	    vertical-align: middle;
 	    cursor: pointer;
         position: relative;
-
         }
 .form_block_buttons input[type=checkbox]:hover + label {
-        /*background-color: #c5d3ee; */
+
         background-color: #F2F4FA;
 }
 .form_block_buttons input[type=checkbox]:checked + label {
         background-color: #4B4A8A;
         color: #F5F4F2;
-        /*transition: background-color 12s ease; */
+        box-shadow: none;
+
 }
 .form_block_buttons input[type=checkbox]:disabled + label {
         background-color: #F5F4F2;
@@ -264,20 +267,98 @@
         cursor: default;
         border: 1px solid rgba(0,0,0,0.06);
 }
-.fil-butt-int {
+.form_block_buttons input[type=checkbox]:checked + label {
+        background-color: #4B4A8A;
+        color: #F5F4F2;
 
-        display: inline-grid;
-        position: absolute;
-        right: 12px;
-        top: 8px;
-        height: 32px;
-        width: 24px;
-        vertical-align: middle;
 }
+.space-gradient {
+        display: inline-flex;
+        position: absolute;
+        right: 24px;
+        height: 22px;
+        width: 50px;
+        background: linear-gradient(270deg, #FFFFFF 0%, rgba(0,0,0,0) 100%);
+}
+.form_block_buttons input[type=checkbox]:checked + label > .space-gradient,
+.form_block_buttons input[type=checkbox]:hover:checked + label > .space-gradient
+{
+         background: linear-gradient(270deg, #4B4A8A 10%, rgba(0,0,0,0) 100%);
+         right: 46px;
+ }
+
+.form_block_buttons input[type=checkbox]:hover + label > .space-gradient {
+         background: linear-gradient(270deg, #F2F4FA 0%, rgba(0,0,0,0) 100%);
+ }
+
+.check-galka {
+        display: inline-flex;
+        position: absolute;
+        right: 28px;
+        top: 10px;
+        height: 18px;
+        width: 18px;
+}
+
 .form_block_buttons input[type=checkbox]:checked + label > .check-galka {
         background:url('pict/Check mark white-1.png') no-repeat;
         /*background-size: 100%;*/
 }
+
+.hint-quest-mark {
+        display: inline-flex;
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        width: 12px;
+        color: rgba(0,0,0,0.63);
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0px;
+        padding-left: 2px;
+        border: solid rgba(0,0,0,0.48) 1px;
+        border-radius: 8px;
+        cursor: help;
+
+}
+
+.form_block_buttons input[type=checkbox]:checked + label > .hint-quest-mark {
+        color: rgba(255,255,255,0.63);
+        border: solid rgba(255,255,255,0.18) 1px;
+}
+
+.hint-title {
+        display: inline;
+        position: relative;
+}
+.hint-quest-mark:hover > .hint-title::after {
+        content: attr(data-title);
+        position: absolute;
+        top: -10px;
+        left: 26px;
+        font-size: 14px;
+        line-height: 16px;
+        z-index: 1;
+        color: rgba(255,255,255,0.88);
+        background-color: rgba(60,60,60,1);
+        border: solid 1px;
+        width: 256px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
+}
+.hint-quest-mark:hover > .hint-title::before {
+        position: absolute;
+        border-left: 10px solid transparent;
+        border-right: 12px solid rgba(60,60,60,1);
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        content: "";
+        left: 4px;
+        top: 2px;
+}
+
 .tabs-header.tab-active {
         background-color: #4B4A8A;
         color: #F5F4F2;
@@ -293,6 +374,7 @@
         font-size: 14px;
         letter-spacing: 1px;
         height: 32px;
+        margin: -2px;
 }
 .tabs-header:hover {
         background-color: #F2F4FA;
@@ -313,6 +395,7 @@
         margin-left: 4px;
         margin-right: 12px;
         padding-top: 8px;
+
 }
 
 
@@ -321,17 +404,32 @@
 }
 .issuance-tabs > .tab-item {
         display: None;
-        border-top: 1px solid rgba(0,0,0,0.25);
+        border-top: 1px solid #4B4A8A;
 }
 
 .issuance-tabs .tab-active#marketability_ ~ .tab-item#marketability_ {
         display: block;
+        margin-top: -4px;
+        margin-left: -2px;
 }
 
 .issuance-tabs .tab-active#novelity_ ~ .tab-item#novelity_ {
         display: block;
+        margin-top: -4px;
+        margin-left: -2px;
 }
+.table-sign-text {
+        background-color: #CACEE3;
+        display: inline-block;
+        padding-left: 12px;
+        padding-right: 12px;
+        border-radius: 4px;
+        margin-top: 4px;
+        height: 32px;
+        line-height: 32px;
+        margin: 12px;
 
+}
 .table-data {
         box-sizing: border-box;
         width: 100%;
@@ -343,7 +441,7 @@
 }
 
 .table-head-price-arrow {
-        background: url('/static/marketability/pict/Icon arrow bottom-1.svg');
+        background: url('pict/Icon arrow bottom-1.svg');
         background-repeat: no-repeat;
         background-position: 50% 50%;
         background-size: 18px 18px;
@@ -372,7 +470,6 @@
         line-height: 24px;
         text-align: left;
         border-top: 1px solid rgba(0,0,0,0.13);
-
 }
 .table-row  > td {
         border-top: 1px solid rgba(0,0,0,0.13);
@@ -389,6 +486,82 @@
         text-decoration: none;
 }
 
+.table-row:hover > td > a {
+
+        color: #3C30EF;
+
+}
+.check-eshe {
+        display: none;
+}
+
+.under-table {
+        display: flex;
+        justify-content: space-between;
+        box-sizing: border-box;
+        margin-top: 8px;
+
+}
+.price-comment {
+        display: inline-block;
+        vertical-align: bottom;
+        padding-top: 16px;
+        font-size: 12px;
+
+}
+
+.label-eshe {
+        display: inline-block;
+        border: 1px solid rgba(0,0,0,0.25);
+        border-radius: 4px;
+        background-color: #FFFFFF;
+        height: 32px;
+        border-radius: 4px;
+        cursor: pointer;
+}
+
+
+.label-eshe:hover {
+        background-color: #F2F4FA;
+}
+
+.pokazat-eshe {
+        display: inline-block;
+        color: rgba(0,0,0,0.88);
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+        margin-left: 12px;
+        padding-top: 8px;
+
+}
+.svernut {
+        display: none;
+        color: rgba(0,0,0,0.88);
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 600;
+        margin-left: 12px;
+        padding-top: 8px;
+}
+
+.icon-down {
+        display: inline-block;
+        height: 18px;
+        width: 18px;
+        background: url('pict/More black-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        vertical-align: middle;
+        margin-right: 12px;
+        margin-left: 4px;
+        transform-origin: center center;
+}
+.label-eshe:hover .icon-down {
+
+        background-size: 18px 18px;
+}
 
 
 .banner-place {
@@ -441,3 +614,314 @@
         position: relative;
 
         }
+
+.product-block {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        margin: 10px;
+        width: 732px;
+
+}
+.product-filters{
+        display: flex;
+}
+.k-filtram {
+        display: flex;
+        cursor: pointer;
+        border: solid 1px;
+
+
+}
+.k-filtram:hover .left-chevron {
+        background-size: 18px 18px;
+}
+.k-filtram:hover .k-filtram-text {
+        color: #3C30EF;
+
+}
+.left-chevron {
+        display: inline-block;
+        background: url('pict/Double chevron left-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+}
+.k-filtram-text {
+        display: inline-block;
+        font-size: 14px;
+        letter-spacing: 0.1px;
+        line-height: 20px;
+        color: #3C30BF;
+        height: 20px;
+        box-sizing: content-box;
+        vertical-align: top;
+
+}
+
+.brandname {
+        display: flex;
+        box-sizing: border-box;
+        justify-content: space-between;
+        margin-top: 16px;
+}
+.product-this-name {
+        display: inline-block;
+        font-size: 24px;
+        color: rgba(0,0,0,0.88);
+        line-height: 28px;
+        padding-left: 16px;
+}
+
+.product-this-price {
+        display: inline-block;
+        font-size: 24px;
+        color: rgba(0,0,0,0.63);
+        line-height: 28px;
+        padding-right: 12px;
+}
+
+
+
+.ttx_table {
+        display: inline-block;
+        margin-top: 16px;
+        margin-left: 16px;
+        border-collapse: collapse;
+}
+.ttx_tr {
+        border-top: 1px solid rgba(0,0,0,0.13);
+}
+.ttx_tr_none {
+        display: none;
+}
+.ttx-td {
+        padding-left: 16px;
+        padding-right: 16px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        border-top: 1px solid rgba(0,0,0,0.13);
+        color: rgba(0,0,0,0.88);
+}
+
+.filters-klass {
+        margin-left: 16px;
+        margin-top: 12px;
+
+}
+.filters-list {
+        display: inline-flex;
+        margin-top: 8px;
+        margin-left: 24px;
+        flex-wrap: wrap;
+
+}
+.filters-item-check {
+        border-radius: 4px;
+        background-color: #4B4A8A;
+        color: #F5F4F2;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 8px;
+        padding-right: 8px;
+        height: 28px;
+        margin: 4px;
+
+}
+.filters-item {
+        border-radius: 4px;
+        background-color: #CACEE3;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 8px;
+        padding-right: 8px;
+        height: 28px;
+        margin: 4px;
+
+
+}
+.addition-lists {
+        display: flex;
+        justify-content: space-between;
+}
+.miscell-list {
+        width:60%;
+        margin:12px;
+}
+
+.top20-list {
+        width:60%;
+        margin:12px;
+}
+
+
+.miscell-vendor {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 4px;
+        margin-top: 4px;
+        background-color:  rgba(0,0,0,0.13);
+        border-radius: 4px;
+        cursor: pointer;
+
+}
+.miscell-vendor-name {
+       font-size: 16px;
+       line-height: 24px;
+       margin-left: 12px;
+
+}
+.miscell-vendor-strelka {
+        display: inline-flex;
+        background: url('pict/Expand black-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
+        background-color: transparent;
+        transform: rotate(180deg);
+        width: 18px;
+        height: 18px;
+        margin-right: 12px;
+        margin-top: 4px;
+        transform-origin: center center;
+}
+.check-vendor-clps {
+        display:none;
+}
+.miscell-mod {
+     display: flex;
+     justify-content: space-between;
+     margin-left: 24px;
+     margin-bottom: 4px;
+}
+
+.miscell-mod:hover .link_mod {
+        color: #3C30EF;
+}
+
+.miscell-mod-name {
+        display: inline-flex;
+}
+.miscell-mod-price, .top-mod-price {
+        display: inline-flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        margin-right: 12px;
+        color: rgba(0,0,0,0.63);
+}
+
+
+.link_mod {
+        text-decoration: none;
+        color: #3C30BF;
+}
+
+.top-mod {
+     display: flex;
+     justify-content: space-between;
+     margin-left: 12px;
+     margin-bottom: 4px;
+}
+.top-mod:hover a {
+     color: #3C30EF;
+}
+
+.top-mod-brandname {
+        display: inline-flex;
+}
+
+.top-mod-price {
+        display: inline-flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        margin-right: 12px;
+        color: rgba(0,0,0,0.63);
+}
+
+.nadpis-short {
+        border-radius: 4px;
+        background-color: #4B4A8A;
+        color: #F5F4F2;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 12px;
+        padding-right: 8px;
+        height: 28px;
+        margin-bottom: 8px;
+        margin-left: 8px;
+        margin-right: 12px;
+
+}
+.nadpis-prochie {
+        border-radius: 4px;
+        background-color: #CACEE3;
+        font-size: 16px;
+        letter-spacing: 0.5px;
+        line-height: 28px;
+        padding-left: 12px;
+        padding-right: 8px;
+        height: 28px;
+        margin-bottom: 8px;
+}
+
+.right-lists {
+        width: 356px;
+        margin-left: 24px;
+
+}
+
+.shops {
+
+}
+.shops-header {
+        font-size: 18px;
+        color: rgba(0,0,0, 0.63);
+        line-height: 24px;
+        font-weight: 600;
+
+}
+.shops-note {
+        font-size: 12px;
+        margin-top: 12px;
+}
+
+.shops-item {
+        margin-bottom: 12px;
+}
+
+.shops-item:hover .shop-name {
+        color: rgba(0,0,0, 0.63);
+}
+.shops-item:hover .shop-link {
+        color: #9b5555;
+        font-weight: 600;
+}
+.shops-item:hover .shop-price {
+        color: rgba(0,0,0, 0.63);
+}
+.shop-name {
+        display: inline-block;
+}
+
+.shop-link {
+        display: inline-block;
+        text-decoration: none;
+        color: #9b0404;
+        margin-left: 4px;
+        margin-bottom: 4px;
+}
+.shop-price {
+        display: flex;
+
+        justify-content: flex-end;
+        margin-right: -10px;
+}
+.shop-price div {
+        justify-content: end;
+}

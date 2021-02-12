@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="14px" viewBox="0 0 18 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>2A5A8381-02AC-4856-B100-CB4229204F08</title>
+    <g id="Allgid" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Allgid-Hover-1" transform="translate(-879.000000, -1154.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="1280" height="1452"></rect>
+            <g id="Group-11" transform="translate(80.000000, 492.000000)">
+                <g id="Button---text+icon" transform="translate(654.000000, 652.000000)">
+                    <rect id="Rectangle" stroke-opacity="0.25" stroke="#000000" fill="#FFFFFF" x="0.5" y="0.5" width="177" height="31" rx="4"></rect>
+                    <g id="More-black" transform="translate(142.000000, 4.000000)">
+                        <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                        <path d="M3,8 L3,6 L21,6 L21,8 L13,8 L13,16.164 L16.5849057,12.58 L18,13.9950943 L12,19.9950943 L6,13.9950943 L7.41509434,12.58 L11,16.164 L11,8 L3,8 Z" fill-opacity="0.88" fill="#000000"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
