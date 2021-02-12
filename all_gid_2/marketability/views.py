@@ -1,8 +1,6 @@
-#TODO:
-
 from django.shortcuts import render
 #from django.views.generic import View, DetailView, TemplateView
-from django.http import HttpResponse
+#from django.http import HttpResponse
 from .models import MntClasses, \
     MntProductsHasMntClasses, \
     MntVardata, \
@@ -21,13 +19,10 @@ from .models import MntClasses, \
     TextLinks
 
 from datetime import datetime as dt
-#from datetime import date
+from datetime import date
 import django_pandas as pd
+import pandas as pdd
 from django_pandas.io import read_frame
-
-
-#from django import forms
-from pprint import pprint
 from django.db.models import Count, F, Sum, Avg, Q
 
 from django.template.defaulttags import register
@@ -65,193 +60,211 @@ def sort_keys(keys):
 
     return sorted(list(keys))
 
+def DB_table(cat_):
+    ORM_Models_names = {
+    'Mnt': {
+            'products': MntProducts,
+            'classes': MntClasses,
+            'mtm_prod_clas': MntProductsHasMntClasses,
+            'vardata': MntVardata,
+            'shop_prices': MntShopsPrices
+            },
 
+    'Nb': { 'products': NbProducts,
+            'classes': NbClasses,
+            'mtm_prod_clas': NbProductsHasNbClasses,
+            'vardata': NbVardata,
+            'shop_prices': NbShopsPrices
+        },
 
-dict_categories = {
+    'Mfp': {'products': MfpProducts,
+            'classes': MfpClasses,
+            'mtm_prod_clas': MfpProductsHasMfpClasses,
+            'vardata': MfpVardata,
+            'shop_prices': MfpShopsPrices
+        },
+
+    }
+
+    return ORM_Models_names[cat_]
+
+def Dict_tabs_page_form():
+    dict_tabs = {
+        'marketability': {"rus_name": "ПОПУЛЯРНЫЕ",
+                          "img_active": "Star white-1.svg",
+                          "img_noactive": "Star gray.svg"},
+        'novelity': {"rus_name": "НОВИНКИ",
+                     "img_active": "Gray white.svg",
+                     "img_noactive": "Lamp gray-1.svg"}
+    }
+
+    return dict_tabs
+
+#Опредление категории
+def Init_cat(request, cat_, db_tbl):
+    dict_categories = {
         'Mnt': {
             'category_name': "Мониторы",
-            'db_tables':    {
-                'products': MntProducts,
-                'classes': MntClasses,
-                'mtm_prod_clas': MntProductsHasMntClasses,
-                'vardata': MntVardata,
-                'shop_prices': MntShopsPrices
 
-            },
-            'fields_show': {
-
-                    'brand': {
-                        "html_name": "Компания",
-                        "id": 0,
-                        "short": False
-                    },
-
-                    'name': {
-                        "html_name": "Модель",
-                        "id": 1,
-                        "short": False
-                    },
-                    'type': {
-                        "html_name": "Экран",
-                        "id": 2,
-                        "short": True
-                    },
-                    'curved': {
-                        "html_name": "Вогнутый  ",
-                        "id": 4,
-                        "short": True
-                    },
-                    'game': {
-                        "html_name": "Игровой",
-                        "id": 3,
-                        "short": True
-                    }
-            }
-        },
-        'Nb': {
-            'category_name': "Ноутбуки",
-            'db_tables':    {
-                'products': NbProducts,
-                'classes': NbClasses,
-                'mtm_prod_clas': NbProductsHasNbClasses,
-                'vardata': NbVardata,
-                'shop_prices': NbShopsPrices
-            },
-            'fields_show': {
-
-                    'brand': {
-                        "html_name": "Компания",
-                        "id": 0,
-                        "short": False
-                    },
-                    'name': {
-                        "html_name": "Модель",
-                        "id": 1,
-                        "short": False
-                    },
-                    'screen_size': {
-                        "html_name": "Экран",
-                        "id": 2,
-                        "short": True
-                    },
-                    'cpu_vendor': {
-                        "html_name": "Произв. процессора",
-                        "id": 3,
-                        "short": True
-                    },
-                    'base_platform': {
-                        "html_name": "Поколение процессора",
-                        "id": 4,
-                        "short": False
-                    },
-                    'gpu_list': {
-                        "html_name": "Графика",
-                        "id": 5,
-                        "short": True
-                    },
-                    'appear_month': {
-                        "html_name": "Начало продаж",
-                        "id": 6,
-                        "short": False
-                    }
-            }
-        },
-        'Mfp': {
-            'category_name': "Принтеры и МФУ",
-            'db_tables': {
-                'products': MfpProducts,
-                'classes': MfpClasses,
-                'mtm_prod_clas': MfpProductsHasMfpClasses,
-                'vardata': MfpVardata,
-                'shop_prices': MfpShopsPrices
-            },
             'fields_show': {
 
                 'brand': {
-                        "html_name": "Компания",
-                        "id": 0,
-                        "short": False
-                    },
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": False
+                },
+
                 'name': {
-                        "html_name": "Модель",
-                        "id": 1,
-                        "short": False
-                    },
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": False
+                },
                 'type': {
-                        "html_name": "Тип",
-                        "id": 2,
-                        "short": True
-                    },
-                'prt_technology': {
-                        "html_name": "Печать",
-                        "id": 3,
-                        "short": True
-                    },
-                'color': {
-                        "html_name": "Цвет",
-                        "id": 4,
-                        "short": True
-                    },
-                'format_a': {
-                        "html_name": "Формат",
-                        "id": 5,
-                        "short": True
-                    },
-                'photo': {
-                        "html_name": "Фотопринтер",
-                        "id": 6,
-                        "short": True
-                    }
+                    "html_name": "Экран",
+                    "id": 2,
+                    "short": True
+                },
+                'curved': {
+                    "html_name": "Вогнутый  ",
+                    "id": 4,
+                    "short": True
+                },
+                'game': {
+                    "html_name": "Игровой",
+                    "id": 3,
+                    "short": True
                 }
-            }
+            },
+            'timelag': 2
+        },
+        'Nb': {
+            'category_name': "Ноутбуки",
 
-       }
+            'fields_show': {
 
-dict_tabs = {
-            'marketability': {"rus_name": "ПОПУЛЯРНЫЕ",
-                              "img_active": "Star white-1.svg",
-                              "img_noactive": "Star gray.svg"},
-            'novelity': {"rus_name": "НОВИНКИ",
-                        "img_active": "Gray white.svg",
-                        "img_noactive": "Lamp gray-1.svg"}
-            }
+                'brand': {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": False
+                },
+                'name': {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": False
+                },
+                'screen_size': {
+                    "html_name": "Экран",
+                    "id": 2,
+                    "short": True
+                },
+                'cpu_vendor': {
+                    "html_name": "Произв. процессора",
+                    "id": 3,
+                    "short": True
+                },
+                'base_platform': {
+                    "html_name": "Поколение процессора",
+                    "id": 4,
+                    "short": False
+                },
+                'gpu_list': {
+                    "html_name": "Графика",
+                    "id": 5,
+                    "short": True
+                },
+                'appear_month': {
+                    "html_name": "Начало продаж",
+                    "id": 6,
+                    "short": False
+                }
+            },
+            'timelag': 2
+        },
+        'Mfp': {
+            'category_name': "Принтеры и МФУ",
 
+            'fields_show': {
 
-cat_def = ""
-category = dict()
-db_tbl = dict()
-categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+                'brand': {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": False
+                },
+                'name': {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": False
+                },
+                'type': {
+                    "html_name": "Тип",
+                    "id": 2,
+                    "short": True
+                },
+                'prt_technology': {
+                    "html_name": "Печать",
+                    "id": 3,
+                    "short": True
+                },
+                'color': {
+                    "html_name": "Цвет",
+                    "id": 4,
+                    "short": True
+                },
+                'format_a': {
+                    "html_name": "Формат",
+                    "id": 5,
+                    "short": True
+                },
+                'photo': {
+                    "html_name": "Фотопринтер",
+                    "id": 6,
+                    "short": True
+                }
+            },
+            'timelag': 1
+        }
+    }
 
-dict_sorted_fields_show = dict()
-dict_fields_short_show = dict()
+    if cat_:
+        request.session['cat_'] = cat_
 
+        category = dict_categories[cat_]
+
+        request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+
+        #request.session['db_tbl'] = category['db_tables']
+        #db_tbl = DB_table(cat_)
+
+        request.session['cat_rus_name'] = category['category_name']
+
+        request.session['dict_sorted_fields_show'] = {k: v['html_name'] for k, v in
+                                   sorted(category['fields_show'].items(), key=lambda id: id[1]["id"])}
+
+        request.session['dict_fields_short_show'] = {k: v for k, v in request.session['dict_sorted_fields_show'].items() if category['fields_show'][k]['short'] == True}
+
+        request.session['new_form'] = Dict_by_Classes2(request, db_tbl)
+
+        request.session['enabled_return'] = request.session['list_enabled']
+
+        request.session['tab_active'] = 'marketability'
+
+        request.session['timelag'] = category['timelag']
+
+        request.session['form_return'] = []
+
+    else:
+        request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+
+        request.session['cat_'] = cat_
+
+        category = dict_categories[cat_]
+
+        request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+
+    return category
 
 # Формирование вложенного словаря по таблице _classes
-def Dict_by_Classes(query):
-
-    def nested_dict(query):
-        dict_ = dict()
-        subtypes = query.values_list('class_subtype').distinct().order_by('class_subtype')
-        for i in subtypes:
-            dict_[i[0]] = list(query.filter(class_subtype__exact=i[0]).values('name', 'text', 'explanation'))
-
-        return dict_
-
-    dict_ = {}
-    dict_['CL'] = dict()
-    cl_query = query.filter(type__exact="CL")
-    dict_['CL'] = nested_dict(cl_query)
-
-    dict_['GO'] = dict()
-    go_query = query.filter(type__exact="GO")
-
-    dict_['GO'] = nested_dict(go_query)
-
-    return dict_
-
-def Dict_by_Classes2():
-
-    global db_tbl, list_enabled
+def Dict_by_Classes2(request, db_tbl):
 
     def Dict_class_subtype(cl_type, qry_classes):
         exit_sub_ = dict()
@@ -260,13 +273,18 @@ def Dict_by_Classes2():
             if not sub_type:
                 st_name = '1'
             else:
-                st_name= sub_type
-            exit_sub_[st_name] = qry_subtype.filter(class_subtype=sub_type).values('name', 'explanation', 'text')
+                st_name = sub_type
+            exit_sub_[st_name] = list()
+            for cls in qry_subtype.filter(class_subtype=sub_type).values('name', 'explanation', 'text'):
+                exit_sub_[st_name].append(cls)
 
         return exit_sub_
+
     exit_ = dict()
     qry_classes = db_tbl['classes'].objects.all()
-    list_enabled = vlist_to_list(qry_classes.values_list('name'))
+
+    request.session['list_enabled'] = vlist_to_list(qry_classes.values_list('name'))
+
     for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
         exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes)
 
@@ -301,66 +319,44 @@ def Get_Products_Mtm(post_return, db_tbl):
 
     return products_mtm
 
-# выборка из базы
-
-def Init_cat(cat_):
-
-    global categories_list, category, db_tbl, cat_def, dict_sorted_fields_show, dict_fields_short_show, new_form, tab_active
-
-    cat_def = cat_
-    category = dict_categories[cat_def]
-    db_tbl = category['db_tables']
-    #categories_list = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
-
-    dict_sorted_fields_show = {k: v['html_name'] for k, v in
-                               sorted(category['fields_show'].items(), key=lambda id: id[1]["id"])}
-    dict_fields_short_show = {k: v for k, v in dict_sorted_fields_show.items() if category['fields_show'][k]['short'] == True}
-
-    new_form = Dict_by_Classes2()
-
-    tab_active = 'marketability'
-
-
-form_return = []
-products_for_execute = []
-df_data = None
-
 
 def page_Category_Main(request, cat_):
 
-    global categories_list, \
-        category, \
-        db_tbl, \
-        cat_def, \
-        dict_sorted_fields_show, \
-        products_for_execute, \
-        form_return, \
-        new_form, \
-        list_enabled, \
-        period_mth_rus, \
-        period_inbase, \
-        df_data, \
-        enabled_return,\
-        tab_active
+    #Обновление параметров категории - даннае для формы и прочее
+    db_tbl = DB_table(cat_)
 
-    if (cat_ != cat_def):
-        Init_cat(cat_)
+    try:
+        if cat_ != request.session['cat_']:
+            category = Init_cat(request, cat_, db_tbl)
 
+    except KeyError:
+        category = Init_cat(request, cat_, db_tbl)
+
+    #dict_sorted_fields_show = request.session['dict_sorted_fields_show']
+    new_form = request.session['new_form']
+    list_enabled = request.session['list_enabled']
+    #timelag = request.session['timelag']
+    #period_inbase = request.session['period_inbase']
+    category_name = request.session['cat_rus_name']
+    categories_list = request.session['categories_list']
+    tab_active = request.session['tab_active']
+    tab_data = Dict_tabs_page_form()
+    tab_list = list(tab_data.keys())
 
     if request.POST:
-        #pprint(request.POST)
         post_return = list(request.POST.keys())
-        print(request.POST)
         tab_active = request.POST['tabs']
-        print(tab_active)
         post_return.remove('csrfmiddlewaretoken')
         post_return.remove('tabs')
-        form_return = post_return
+
+        request.session['form_return'] = post_return
 
         products_mtm = Get_Products_Mtm(post_return, db_tbl)
 
         # products_for_execute - list id отфильторванных моделей
         products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
+
+        request.session['products_for_execute'] = products_for_execute
 
         # classes_for_execute - list id доступных после фильтра классов
         classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
@@ -370,18 +366,31 @@ def page_Category_Main(request, cat_):
         list_enabled_ = vlist_to_list(list(list_enabled_))
         #print(list_enabled_)
         if list_enabled_:
-            enabled_return = list_enabled_
+            request.session['enabled_return'] = list_enabled_
         else:
-            enabled_return = list_enabled
+            request.session['enabled_return'] = list_enabled
+
+        enabled_return = request.session['enabled_return']
 
     else:
-        post_return = []
-        enabled_return = list_enabled
-        joined_mtm = "пусто"
+        post_return = request.session['form_return']
+        #request.session['enabled_return'] = list_enabled
+        enabled_return = request.session['enabled_return']
 
-        products_for_execute = []
+        if post_return:
+            pass
+        else:
+            request.session['products_for_execute'] = []
 
-    df_data = Get_Sales_Top(products_for_execute, timelag=2)
+        #products_for_execute = request.session['products_for_execute']
+
+    period_inbase = Get_Period_inbase(request, db_tbl)
+    period = request.session['period_mth_rus']
+
+    df_data = Get_Sales_Top(request, db_tbl, period_inbase)
+
+    request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+
     if len(df_data) > 0:
         tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('price_avg').to_dict()
 
@@ -395,10 +404,10 @@ def page_Category_Main(request, cat_):
         tab_marketability = dict()
         tab_novelty = dict()
 
-    best_links = Get_Bestsellers_links(cat_)
+    best_links = Get_Bestsellers_links()
 
     exit_ = {
-        'category_name':  category['category_name'],
+        'category_name':  category_name,
         'categories_list': categories_list,
         'action': cat_,
         'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand', 'name', 'price_avg', 'appear_month']],
@@ -407,38 +416,54 @@ def page_Category_Main(request, cat_):
         'new_form': new_form,
         'enabled': enabled_return,
         'checked_items': post_return,
-        'period': period_mth_rus,
+        'period': period,
         'bestesellers_links': best_links,
         'tab_active': tab_active,
-        'tab_list': list(dict_tabs.keys()),
-        'tab_data': dict_tabs
+        'tab_list': tab_list,
+        'tab_data': tab_data
     }
 
     return render(request, template_name="al_category.html", context=exit_)
 
 def page_Product(request, cat_, product_):
 
-    global form_return, \
-        products_for_execute, \
-        db_tbl, \
-        categories_list, \
-        category, \
-        new_form, \
-        df_data
-
-    if not db_tbl:
-        Init_cat(cat_)
+    db_tbl = DB_table(cat_)
 
     try:
-        if df_data.empty:
-            df_data = Get_Sales_Top(products_for_execute, timelag=2)
-    except Exception:
-        if not df_data:
-            df_data = Get_Sales_Top(products_for_execute, timelag=2)
+        if request.session['cat_'] == cat_:
+            pass
+        else:
+            category = Init_cat(request, cat_, db_tbl)
+    except KeyError:
+        category = Init_cat(request, cat_, db_tbl)
 
-    #таблица ТТХ
+    new_form = request.session['new_form']
+    form_return = request.session['form_return']
+    #list_enabled = request.session['list_enabled']
+    timelag = request.session['timelag']
+    #period = request.session['period_mth_rus']
+    category_name = request.session['cat_rus_name']
+    categories_list = request.session['categories_list']
+    #tab_active = request.session['tab_active']
+    tab_data = Dict_tabs_page_form()
+    #tab_list = list(tab_data.keys())
 
-    Product = list()
+    try:
+        if request.session['products_for_execute']:
+            pass
+
+        df_data = pdd.DataFrame(request.session['dict_df_data'])
+
+    except KeyError:
+        request.session['enabled_return'] = request.session['list_enabled']
+        #enabled_return = request.session['enabled_return']
+
+        request.session['products_for_execute'] = []
+        products_for_execute = request.session['products_for_execute']
+
+        df_data = Get_Sales_Top(products_for_execute, tab_data, Get_Period_inbase(request, tab_data))
+
+    Product = None
     while not Product:
         Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
 
@@ -450,23 +475,21 @@ def page_Product(request, cat_, product_):
     miscell_products, len_miscell = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
 
     dict_ttx = dict()
-    dict_html_names = Fld_html_names(fields_, cat_, ['brand', 'name', 'id'])
+    dict_html_names = Fld_html_names(request, fields_, ['brand', 'name', 'id'])
     for i in fields_:
         if i not in ['brand', 'name', 'id']:
             dict_ttx[dict_html_names[i]] = Product[0][i]
 
     q_data = len(df_data)
     if q_data >= 20:
-        top20 = df_data[:20][['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
+        top20 = df_data[:20][['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
     else:
-        top20 = df_data[['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('record')
+        top20 = df_data[['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
 
-    shop_mod = Get_Shops(product_)
-
-
+    shop_mod = Get_Shops(request, db_tbl, product_)
 
     exit_ = {
-        'category_name': category['category_name'],
+        'category_name': category_name,
         'categories_list': categories_list,
         'vendor': Product[0]['brand'],
         'name': Product[0]['name'],
@@ -485,11 +508,12 @@ def page_Product(request, cat_, product_):
 
     return render(request, template_name="al_product.html", context=exit_)
 
+#Список классов конкретного продукта
 def Get_This_Classes(product_, db_tbl):
 
     return db_tbl['mtm_prod_clas'].objects.filter(fk_products=product_).values_list('fk_classes')
 
-
+#Список продуктов с идентичным набором классов что и у данного продукта
 def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
 
     list_df_data = df_data['id'].to_list()
@@ -526,21 +550,21 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
     return dict_miscell_vendor, len(df_miscell)
 
 
-def Fld_html_names(fields_, cat_, not_change=[]):
+def Fld_html_names(request, fields_, not_change=[]):
 
     exit_ = dict()
     for i in fields_:
         if i not in not_change:
             try:
-                exit_[i] = dict_categories[cat_]['fields_show'][i]['html_name']
+                exit_[i] = request.session['dict_sorted_fields_show'][i]
             except KeyError:
                 exit_[i] = i
 
     return exit_
 
-def Get_Prod_Execute_join_vardata(list_products, qry_period):
+def Get_Prod_Execute_join_vardata(request, db_tbl, list_products, qry_period):
 
-    global db_tbl, cat_def
+    cat_def = request.session['cat_']
 
     sales_sum = cat_def.lower() + "vardata__sales_units"
     filter_months = {
@@ -574,12 +598,11 @@ def months_names(period_):
     for i in period_:
         exit_.append(mth_names[i.month])
 
-
     return exit_
 
-def Get_Period_inbase(timelag):
+def Get_Period_inbase(request, db_tbl):
 
-    global db_tbl, period_mth_rus, period_inbase
+    timelag = request.session['timelag']
 
     period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by())
     if None in period_inbase:
@@ -589,28 +612,29 @@ def Get_Period_inbase(timelag):
 
     period_inbase = period_inbase[-timelag:]
 
-    period_mth_rus = months_names(period_inbase)
-
+    request.session['period_mth_rus'] = months_names(period_inbase)
 
     return period_inbase
 
 
-def Get_Sales_Top(list_products, timelag=2):
+def Get_Sales_Top(request, db_tbl, period_inbase):
 
-    global db_tbl, dict_fields_short_show
+    list_products = request.session['products_for_execute']
+    dict_fields_short_show = request.session['dict_fields_short_show']
+
 
     if None in list_products:
         list_products.remove(None)
 
-    now = int(dt.strftime(dt.now(), "%m"))
+    #now = int(dt.strftime(dt.now(), "%m"))
 
     if list_products:
-        total_ = Get_Prod_Execute_join_vardata(list_products, Get_Period_inbase(timelag))
+        total_ = Get_Prod_Execute_join_vardata(request, db_tbl, list_products, period_inbase)
     else:
         all_ = vlist_to_list(db_tbl['vardata'].objects.values_list('fk_products').distinct())
-        total_ = Get_Prod_Execute_join_vardata(all_, Get_Period_inbase(timelag))
-    if total_:
+        total_ = Get_Prod_Execute_join_vardata(request, db_tbl, all_, period_inbase)
 
+    if total_:
         df = read_frame(total_.order_by("-sales_sum"))
         fix_fields = {'id', 'brand', 'name', 'price_avg', 'appear_month'}
         for i in df.columns:
@@ -623,26 +647,30 @@ def Get_Sales_Top(list_products, timelag=2):
         exit_ = df
 
     else:
-        exit_ = []
+        exit_ = read_frame(db_tbl['vardata'].objects.none())
 
     return exit_
 
-def Get_Shops(product_):
-    global db_tbl
+def Get_Shops(request, db_tbl, product_):
 
     product_in_shops = db_tbl['shop_prices'].objects.\
             filter(fk_products_shop=product_).order_by('modification_price')
 
     return product_in_shops
 
-def Get_Bestsellers_links(cat):
+def Get_Bestsellers_links():
 
     qry = TextLinks.objects.all().order_by('-date')[:10]
 
     return qry
 
 def about(request):
-    global categories_list
+
+    try:
+        categories_list = request.session['categories_list']
+    except KeyError:
+        ctg = Init_cat(request, '', {})
+        categories_list = request.session['categories_list']
 
     exit_ = {'categories_list': categories_list}
 

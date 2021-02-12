@@ -216,17 +216,22 @@
         letter-spacing: 0.1px;
         line-height: 24px;
         font-weight: 600;
-        margin-bottom: 12px;
+        margin-bottom: 8px;
 }
 
 .form_subtypes {
+        display: block;
+        box-sizing: border-box;
+        border: 1px;
+        height: 32px;
         color: rgba(0,0,0,0.63);
         font-size: 14px;
-        letter-spacing: 0.1px;
         font-weight: bolder;
-        line-height: 20px;
-        margin-top: 2px;
+        line-height: 14px;
+        margin-bottom: 4px;
+        padding-top: 16px;
 }
+
 .form_block_buttons input[type=checkbox] {
 	display:none;
 }
@@ -245,16 +250,16 @@
 	    vertical-align: middle;
 	    cursor: pointer;
         position: relative;
-
         }
 .form_block_buttons input[type=checkbox]:hover + label {
-        /*background-color: #c5d3ee; */
+
         background-color: #F2F4FA;
 }
 .form_block_buttons input[type=checkbox]:checked + label {
         background-color: #4B4A8A;
         color: #F5F4F2;
-        /*transition: background-color 12s ease; */
+        box-shadow: none;
+
 }
 .form_block_buttons input[type=checkbox]:disabled + label {
         background-color: #F5F4F2;
@@ -262,21 +267,97 @@
         cursor: default;
         border: 1px solid rgba(0,0,0,0.06);
 }
-.fil-butt-int {
+.form_block_buttons input[type=checkbox]:checked + label {
+        background-color: #4B4A8A;
+        color: #F5F4F2;
 
-        display: inline-grid;
-        position: absolute;
-        right: 12px;
-        top: 8px;
-        height: 32px;
-        width: 24px;
-        vertical-align: middle;
 }
+.space-gradient {
+        display: inline-flex;
+        position: absolute;
+        right: 24px;
+        height: 22px;
+        width: 50px;
+        background: linear-gradient(270deg, #FFFFFF 0%, rgba(0,0,0,0) 100%);
+}
+.form_block_buttons input[type=checkbox]:checked + label > .space-gradient,
+.form_block_buttons input[type=checkbox]:hover:checked + label > .space-gradient
+{
+         background: linear-gradient(270deg, #4B4A8A 10%, rgba(0,0,0,0) 100%);
+         right: 46px;
+ }
+
+.form_block_buttons input[type=checkbox]:hover + label > .space-gradient {
+         background: linear-gradient(270deg, #F2F4FA 0%, rgba(0,0,0,0) 100%);
+ }
+
+.check-galka {
+        display: inline-flex;
+        position: absolute;
+        right: 28px;
+        top: 10px;
+        height: 18px;
+        width: 18px;
+}
+
 .form_block_buttons input[type=checkbox]:checked + label > .check-galka {
         background:url('pict/Check mark white-1.png') no-repeat;
         /*background-size: 100%;*/
 }
 
+.hint-quest-mark {
+        display: inline-flex;
+        position: absolute;
+        right: 8px;
+        top: 8px;
+        width: 12px;
+        color: rgba(0,0,0,0.63);
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: 0px;
+        padding-left: 2px;
+        border: solid rgba(0,0,0,0.48) 1px;
+        border-radius: 8px;
+        cursor: help;
+
+}
+
+.form_block_buttons input[type=checkbox]:checked + label > .hint-quest-mark {
+        color: rgba(255,255,255,0.63);
+        border: solid rgba(255,255,255,0.18) 1px;
+}
+
+.hint-title {
+        display: inline;
+        position: relative;
+}
+.hint-quest-mark:hover > .hint-title::after {
+        content: attr(data-title);
+        position: absolute;
+        top: -10px;
+        left: 26px;
+        font-size: 14px;
+        line-height: 16px;
+        z-index: 1;
+        color: rgba(255,255,255,0.88);
+        background-color: rgba(60,60,60,1);
+        border: solid 1px;
+        width: 256px;
+        padding: 8px 12px;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
+}
+.hint-quest-mark:hover > .hint-title::before {
+        position: absolute;
+        border-left: 10px solid transparent;
+        border-right: 12px solid rgba(60,60,60,1);
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        content: "";
+        left: 4px;
+        top: 2px;
+}
 
 .tabs-header.tab-active {
         background-color: #4B4A8A;
