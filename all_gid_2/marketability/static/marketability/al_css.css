@@ -566,7 +566,7 @@
 
 .banner-place {
         box-sizing: border-box;
-        height: 4px;
+        height: 44px;
 
 }
 .novosti-header {
@@ -710,16 +710,38 @@
 .filters-klass {
         margin-left: 16px;
         margin-top: 12px;
+        font-size: 18px;
 
 }
 .filters-list {
-        display: inline-flex;
+        display: block;
         margin-top: 8px;
         margin-left: 24px;
         flex-wrap: wrap;
 
 }
+
+.filter-type-block {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 8px;
+
+}
+.filters-type-name {
+        display: inline-flex;
+        width: 15%;
+        padding-top: 4px;
+}
+
+.filters-type-buttons {
+        display: inline-block;
+
+        width: 100%;
+
+}
 .filters-item-check {
+        display: inline-block;
+        border: 1px solid #4B4A8A;
         border-radius: 4px;
         background-color: #4B4A8A;
         color: #F5F4F2;
@@ -729,33 +751,41 @@
         padding-left: 8px;
         padding-right: 8px;
         height: 28px;
-        margin: 4px;
+        margin-bottom: 4px;
 
 }
+.filters-item-check-galka {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background:url('pict/Check mark white-1.png') no-repeat;
+        vertical-align: middle;
+        margin-right: 4px;
+}
 .filters-item {
+        display: inline-block;
+        border: 1px solid rgba(0, 0, 0, 0.88);
         border-radius: 4px;
-        background-color: #CACEE3;
+        background-color: rgba(0, 0, 0, 0.06);
         font-size: 14px;
         letter-spacing: 0.5px;
         line-height: 28px;
         padding-left: 8px;
         padding-right: 8px;
         height: 28px;
-        margin: 4px;
-
-
+        margin-bottom: 4px;
 }
 .addition-lists {
-        display: flex;
-        justify-content: space-between;
+        display: block;
+
 }
 .miscell-list {
-        width:60%;
+        width:100%;
         margin:12px;
 }
 
 .top20-list {
-        width:60%;
+        width:100%;
         margin:12px;
 }
 
@@ -824,7 +854,6 @@
 .top-mod {
      display: flex;
      justify-content: space-between;
-     margin-left: 12px;
      margin-bottom: 4px;
 }
 .top-mod:hover a {
@@ -844,29 +873,22 @@
 }
 
 .nadpis-short {
-        border-radius: 4px;
-        background-color: #4B4A8A;
-        color: #F5F4F2;
-        font-size: 16px;
+
+        font-size: 18px;
+        font-weight: 600;
+        color: rgba(0,0,0,0.63);
         letter-spacing: 0.5px;
-        line-height: 28px;
-        padding-left: 12px;
-        padding-right: 8px;
-        height: 28px;
+        line-height: 20px;
         margin-bottom: 8px;
-        margin-left: 8px;
-        margin-right: 12px;
+
 
 }
 .nadpis-prochie {
-        border-radius: 4px;
-        background-color: #CACEE3;
-        font-size: 16px;
+        font-size: 18px;
+        font-weight: 600;
+        color: rgba(0,0,0,0.63);
         letter-spacing: 0.5px;
-        line-height: 28px;
-        padding-left: 12px;
-        padding-right: 8px;
-        height: 28px;
+        line-height: 20px;
         margin-bottom: 8px;
 }
 
@@ -877,8 +899,9 @@
 }
 
 .shops {
-
+        margin-top: 16px;
 }
+
 .shops-header {
         font-size: 18px;
         color: rgba(0,0,0, 0.63);
@@ -891,37 +914,29 @@
         margin-top: 12px;
 }
 
-.shops-item {
-        margin-bottom: 12px;
+.shops-table {
+        width: 100%;
+
 }
 
-.shops-item:hover .shop-name {
-        color: rgba(0,0,0, 0.63);
-}
-.shops-item:hover .shop-link {
-        color: #9b5555;
-        font-weight: 600;
-}
-.shops-item:hover .shop-price {
-        color: rgba(0,0,0, 0.63);
-}
 .shop-name {
-        display: inline-block;
 }
 
 .shop-link {
-        display: inline-block;
         text-decoration: none;
-        color: #9b0404;
-        margin-left: 4px;
-        margin-bottom: 4px;
+
 }
 .shop-price {
-        display: flex;
 
-        justify-content: flex-end;
-        margin-right: -10px;
 }
-.shop-price div {
-        justify-content: end;
+.shop-link:hover .shop-chevron {
+        background-size: 18px 18px;
+}
+
+.shop-chevron {
+        width:18px;
+        background: url('pict/Double chevron right-1.svg');
+        background-repeat: no-repeat;
+        background-position: 50% 50%;
+        background-size: 16px 16px;
 }
