@@ -35,6 +35,10 @@
         justify-content: flex-start;
 
 }
+.link-home {
+   text-decoration: none;
+   cursor: pointer;
+}
 .logo {
         display: inline-block;
         height: 56px;
@@ -79,6 +83,7 @@
         font-weight: 500;
         letter-spacing: 0.5px;
         border: 1px transparent;
+
 }
 .button-menu {
         background-color: transparent;
@@ -88,6 +93,7 @@
 }
 .button-menu:hover {
         background-color: #4B4A8A;
+        cursor: pointer;
 }
 .button-menu-active {
         background-color: #5F609C;
@@ -114,6 +120,20 @@
         letter-spacing: 0.5px;
         border: 1px transparent;
 }
+
+.menu-search {
+        display: inline-block;
+        background: url("pict/Search-1.svg");
+        background-position: 50% 67%;
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 100%;
+        vertical-align: middle;
+        margin-left: 12px;
+        cursor: pointer;
+}
+
+
 .category-content {
         display: flex;
         justify-content: center;
@@ -289,6 +309,9 @@
 
 .form_block_buttons input[type=checkbox]:hover + label > .space-gradient {
          background: linear-gradient(270deg, #F2F4FA 0%, rgba(0,0,0,0) 100%);
+ }
+.form_block_buttons input[type=checkbox]:disabled + label > .space-gradient {
+         background: linear-gradient(270deg, #F5F4F2 0%, rgba(0,0,0,0) 100%);
  }
 
 .check-galka {
@@ -939,4 +962,75 @@
         background-repeat: no-repeat;
         background-position: 50% 50%;
         background-size: 16px 16px;
+}
+
+.home-grid {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        justify-content: center;
+
+}
+.home-shortlist, .home-gid {
+        display: block;
+        text-align: center;
+
+}
+
+.home-gid {
+      font-size: 36px;
+      margin: 18px;
+}
+
+.home-shortlist {
+      font-size: 24px;
+      margin: 18px;
+        color: #570000;
+}
+
+.search {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        justify-content: center;
+}
+.search-header {
+        display: block;
+        text-align: center;
+        font-size: 36px;
+        margin: 18px;
+}
+.search-text {
+        display: block;
+        text-align: center;
+        font-size: 20px;
+        margin: 12px;
+}
+.search-content {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+}
+
+.search-all-cat {
+        display: inline-block;
+        vertical-align: top;
+}
+
+.search-all-cat-name {
+        display: block;
+        text-align: center;
+}
+.search-all-cat-list > a {
+        text-decoration: none;
+}
+
+.search-all-cat-list > li {
+        list-style-type: none;
+        color: #3c30Bf;
+}
+
+.search-all-cat-list > li:hover {
+        color: #3c30Df;
+        background-color: #F2F4FA;
 }

@@ -1,0 +1,25 @@
+{% extends "al_page.html" %}
+{% block category %}
+    <div class="search">
+    <div class="search-header">Гид покупателя. Компьютеры и оргтехника.</div>
+    <div class="search-text">Цена, Характеристики, Предложения магазинов, Маркетплейсы</div>
+    <div class="search-content">
+
+
+    {% for cat, cat_ in categories_list %}
+    <div class="search-all-cat">
+        <div class="search-all-cat-name">{{ cat }}</div>
+        <ul class="search-all-cat-list">
+            {% for ls_mod in dict_cat|get_item:cat_ %}
+                <li>
+                    <a href="/{{ cat_ }}/{{ ls_mod.id }}">
+                        {{ ls_mod.brand }}&nbsp;{{ ls_mod.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+    </div> <!-- search-content -->
+    </div>
+{% endblock %}

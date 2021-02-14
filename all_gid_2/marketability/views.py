@@ -389,7 +389,10 @@ def page_Category_Main(request, cat_):
 
     df_data = Get_Sales_Top(request, db_tbl, period_inbase)
 
-    request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+    if not df_data.empty:
+        request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+    else:
+        request.session['dict_df_data'] = {}
 
     if len(df_data) > 0:
         tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('price_avg').to_dict()
@@ -431,37 +434,36 @@ def page_Product(request, cat_, product_):
 
     try:
         if request.session['cat_'] == cat_:
-            pass
+            df_data = pdd.DataFrame(request.session['dict_df_data'])
         else:
             category = Init_cat(request, cat_, db_tbl)
+            #tab_data = Dict_tabs_page_form()
+            request.session['enabled_return'] = request.session['list_enabled']
+            request.session['products_for_execute'] = []
+            df_data = Get_Sales_Top(request, db_tbl, Get_Period_inbase(request, db_tbl))
+            if not df_data.empty:
+                request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+            else:
+                request.session['dict_df_data'] = {}
+
+
     except KeyError:
         category = Init_cat(request, cat_, db_tbl)
+        request.session['enabled_return'] = request.session['list_enabled']
+        request.session['products_for_execute'] = []
+        df_data = Get_Sales_Top(request, db_tbl, Get_Period_inbase(request, db_tbl))
+        if not df_data.empty:
+            request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+        else:
+            request.session['dict_df_data'] = {}
 
     new_form = request.session['new_form']
     form_return = request.session['form_return']
-    #list_enabled = request.session['list_enabled']
-    timelag = request.session['timelag']
-    #period = request.session['period_mth_rus']
     category_name = request.session['cat_rus_name']
     categories_list = request.session['categories_list']
     #tab_active = request.session['tab_active']
-    tab_data = Dict_tabs_page_form()
     #tab_list = list(tab_data.keys())
 
-    try:
-        if request.session['products_for_execute']:
-            pass
-
-        df_data = pdd.DataFrame(request.session['dict_df_data'])
-
-    except KeyError:
-        request.session['enabled_return'] = request.session['list_enabled']
-        #enabled_return = request.session['enabled_return']
-
-        request.session['products_for_execute'] = []
-        products_for_execute = request.session['products_for_execute']
-
-        df_data = Get_Sales_Top(products_for_execute, tab_data, Get_Period_inbase(request, tab_data))
 
     Product = None
     while not Product:
@@ -676,4 +678,32 @@ def about(request):
 
     return render(request, template_name="al_about.html", context=exit_)
 
+def home(request):
+    try:
+        categories_list = request.session['categories_list']
+    except KeyError:
+        ctg = Init_cat(request, '', {})
+        categories_list = request.session['categories_list']
 
+    exit_ = {'categories_list': categories_list}
+
+    return render(request, template_name="al_home.html", context=exit_)
+
+def search_all(request):
+    try:
+        categories_list = request.session['categories_list']
+    except KeyError:
+        ctg = Init_cat(request, '', {})
+        categories_list = request.session['categories_list']
+    dict_cat_model_list = dict()
+    for cat_ in categories_list:
+        db_tbl = DB_table(cat_[1])
+        qry_all = db_tbl['products'].objects.all().order_by('brand', 'name').values('id','brand','name')
+        dict_cat_model_list[cat_[1]] = qry_all
+
+
+    exit_ = {'categories_list': categories_list,
+             'dict_cat': dict_cat_model_list
+             }
+
+    return render(request, template_name="search_all.html", context=exit_)
