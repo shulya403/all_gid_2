@@ -426,7 +426,7 @@ def page_Category_Main(request, cat_):
         'tab_data': tab_data
     }
 
-    return render(request, template_name="al_category.html", context=exit_)
+    return render(request, template_name="al_pict_category.html", context=exit_)
 
 def page_Product(request, cat_, product_):
 

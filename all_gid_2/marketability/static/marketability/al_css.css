@@ -1034,3 +1034,27 @@
         color: #3c30Df;
         background-color: #F2F4FA;
 }
+
+.form-background {
+        background-image: linear-gradient(270deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)),
+        url('pict/themes/devka-z-ulitjoi-h500-left.jpg');
+        background-repeat: no-repeat;
+        background-position: 100% 100%;
+        background-color: #F5F4F2;
+        border-radius: 8px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+        margin-left: -2px;
+        display: inline-block;
+}
+.theme-pic-place {
+        margin-top: 110px;
+        margin-left: -34px;
+        height: 550px;
+        width:256px;
+        background: url('pict/themes/devka-z-ulitjoi-h500-right.jpg');
+        background-repeat: no-repeat;
+        #background-size: 16px 16px;
+
+}
+
