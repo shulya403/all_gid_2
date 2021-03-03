@@ -1036,7 +1036,8 @@
 }
 
 .form-background {
-        background-image: linear-gradient(90deg, rgba(255,240,230,0.9) 80%, rgba(255,240,230,0.5)),  url('pict/themes/slimbook_cut2.jpg');
+        background-image: linear-gradient(90deg, rgba(255,240,230,0.9) 80%, rgba(255,240,230,0.5)),
+        url('pict/themes/slimbook_cut2-Pen.jpg');
         background-position: 0% 100%;
         background-color: #F5F4F2;
         border-radius: 8px;
@@ -1049,10 +1050,9 @@
 .theme-pic-place {
         margin-top: 12px;
         margin-left: 0px;
-        height: 512px;
+        height: 630px;
         width: 256px;
-        background: linear-gradient(180deg, rgba(255,254,255,0) 70%, rgba(255,254,255,0.9)),
-                url('pict/themes/cabinet-home.jpg');
+        background: url('pict/themes/cabinet-home-scream.jpg');
         background-repeat: no-repeat;
         #background-size: 16px 16px;
 
