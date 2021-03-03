@@ -1036,23 +1036,23 @@
 }
 
 .form-background {
-        background-image: linear-gradient(270deg, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1)),
-        url('pict/themes/devka-z-ulitjoi-h500-left.jpg');
-        background-repeat: no-repeat;
-        background-position: 100% 100%;
+        background-image: linear-gradient(90deg, rgba(255,240,230,0.9) 80%, rgba(255,240,230,0.5)),  url('pict/themes/slimbook_cut2.jpg');
+        background-position: 0% 100%;
         background-color: #F5F4F2;
         border-radius: 8px;
+        border-bottom-right-radius: 0px;
         margin-top: 8px;
         margin-bottom: 8px;
         margin-left: -2px;
         display: inline-block;
 }
 .theme-pic-place {
-        margin-top: 110px;
-        margin-left: -34px;
-        height: 550px;
-        width:256px;
-        background: url('pict/themes/devka-z-ulitjoi-h500-right.jpg');
+        margin-top: 12px;
+        margin-left: 0px;
+        height: 512px;
+        width: 256px;
+        background: linear-gradient(180deg, rgba(255,254,255,0) 70%, rgba(255,254,255,0.9)),
+                url('pict/themes/cabinet-home.jpg');
         background-repeat: no-repeat;
         #background-size: 16px 16px;
 
