@@ -760,20 +760,35 @@
         display: inline-block;
 
         width: 100%;
+        margin-left: 8px;
 
+}
+
+.filters-item {
+        display: inline-block;
+        border: 1px solid rgba(0, 0, 0, 0.88);
+        border-radius: 12px;
+        background-color: rgba(0, 0, 0, 0.06);
+        font-size: 14px;
+        letter-spacing: 0.1px;
+        line-height: 26px;
+        padding-left: 12px;
+        padding-right: 12px;
+        height: 24px;
+        margin-bottom: 4px;
 }
 .filters-item-check {
         display: inline-block;
         border: 1px solid #4B4A8A;
-        border-radius: 4px;
+        border-radius: 12px;
         background-color: #4B4A8A;
         color: #F5F4F2;
         font-size: 14px;
-        letter-spacing: 0.5px;
-        line-height: 28px;
-        padding-left: 8px;
-        padding-right: 8px;
-        height: 28px;
+        letter-spacing: 0.1px;
+        line-height: 26px;
+        padding-left: 12px;
+        padding-right: 12px;
+        height: 24px;
         margin-bottom: 4px;
 
 }
@@ -785,19 +800,7 @@
         vertical-align: middle;
         margin-right: 4px;
 }
-.filters-item {
-        display: inline-block;
-        border: 1px solid rgba(0, 0, 0, 0.88);
-        border-radius: 4px;
-        background-color: rgba(0, 0, 0, 0.06);
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        line-height: 28px;
-        padding-left: 8px;
-        padding-right: 8px;
-        height: 28px;
-        margin-bottom: 4px;
-}
+
 .addition-lists {
         display: block;
 
@@ -1052,7 +1055,7 @@
         margin-left: 0px;
         height: 630px;
         width: 256px;
-        background: url('pict/themes/cabinet-home-scream.jpg');
+        background: url('pict/themes/cabinet-home-kandinsky.jpg');
         background-repeat: no-repeat;
         #background-size: 16px 16px;
 
