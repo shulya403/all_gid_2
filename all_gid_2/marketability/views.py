@@ -684,8 +684,14 @@ def home(request):
     except KeyError:
         ctg = Init_cat(request, '', {})
         categories_list = request.session['categories_list']
+    categories_pict = {
+        "Ноутбуки": "/static/marketability/pict/cat/nb.jpg",
+        "Мониторы": "/static/marketability/pict/cat/Mnt.jpg",
+        "Принтеры и МФУ": "/static/marketability/pict/cat/Mfp.jpg"
+    }
 
-    exit_ = {'categories_list': categories_list}
+    exit_ = {'categories_list': categories_list,
+             'categories_pict': categories_pict}
 
     return render(request, template_name="al_home.html", context=exit_)
 
