@@ -111,7 +111,7 @@ class DB_insert_from_excel(object):
 
                             map_[j] = j
                             for k in map_:
-                                if j.title() == k.title() and k != j:
+                                if str(j).title() == str(k).title() and k != j:
                                     map_[j] = map_[k]
                                     break
 
@@ -522,16 +522,16 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="nb_models_11_update.xlsx",
-#                       xl_Vardata="NB_Report-11.xlsx",
-#                      Category="Nb",
-#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\Data\\")
-# FillDB.DB_alchemy(FillDB.Category)
+FillDB = DB_insert_from_excel(xl_Products="Mon models Jan-21.xlsx",
+                      xl_Vardata="Vardata dec20-Jan21.xlsx",
+                     Category="Mnt",
+                    dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
+FillDB.DB_alchemy(FillDB.Category)
 # FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 # FillDB.MtM_Products_Classes_to_SQL()
-#mth_list = [11]
-#FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
+mth_list = [12]
+FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -540,12 +540,12 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  dir_root="../Data/",
 #                  drop_shops = ['yama']):
 
-FillShop = DB_insert_shops(
-                 xl_Shops="Ноутбук-Concat_Prices--Nov-20--Checked.xlsx", #Месячные прайсы Filled/Checked
-                 Category='Nb',
-                 dir_root="../Data/"
-)
-
-FillShop.To_DB_Shop_Price()
+# FillShop = DB_insert_shops(
+#                  xl_Shops="Ноутбук-Concat_Prices--Nov-20--Checked.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Nb',
+#                  dir_root="../Data/"
+# )
+#
+# FillShop.To_DB_Shop_Price()
 
 

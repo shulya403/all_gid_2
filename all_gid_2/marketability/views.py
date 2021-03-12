@@ -20,7 +20,7 @@ from .models import MntClasses, \
 
 from datetime import datetime as dt
 from datetime import date
-import django_pandas as pd
+#import django_pandas as pd
 import pandas as pdd
 from django_pandas.io import read_frame
 from django.db.models import Count, F, Sum, Avg, Q
@@ -250,6 +250,10 @@ def Init_cat(request, cat_, db_tbl):
 
         request.session['timelag'] = category['timelag']
 
+        request.session['period_inbase'] = Get_Period_inbase(request, db_tbl)
+
+       # request.session['period_mth_rus'] = months_names(request.session['period_inbase'])
+
         request.session['form_return'] = []
 
     else:
@@ -342,6 +346,9 @@ def page_Category_Main(request, cat_):
     tab_active = request.session['tab_active']
     tab_data = Dict_tabs_page_form()
     tab_list = list(tab_data.keys())
+    str_period_inbase = request.session['period_inbase']
+    period_inbase = Recover_Date_period_inbase(str_period_inbase)
+    period = request.session['period_mth_rus']
 
     if request.POST:
         post_return = list(request.POST.keys())
@@ -383,9 +390,6 @@ def page_Category_Main(request, cat_):
             request.session['products_for_execute'] = []
 
         #products_for_execute = request.session['products_for_execute']
-
-    period_inbase = Get_Period_inbase(request, db_tbl)
-    period = request.session['period_mth_rus']
 
     df_data = Get_Sales_Top(request, db_tbl, period_inbase)
 
@@ -440,7 +444,9 @@ def page_Product(request, cat_, product_):
             #tab_data = Dict_tabs_page_form()
             request.session['enabled_return'] = request.session['list_enabled']
             request.session['products_for_execute'] = []
-            df_data = Get_Sales_Top(request, db_tbl, Get_Period_inbase(request, db_tbl))
+            str_period_inbase = request.session['period_inbase']
+            period_inbase = Recover_Date_period_inbase(str_period_inbase)
+            df_data = Get_Sales_Top(request, db_tbl, period_inbase)
             if not df_data.empty:
                 request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
             else:
@@ -451,7 +457,10 @@ def page_Product(request, cat_, product_):
         category = Init_cat(request, cat_, db_tbl)
         request.session['enabled_return'] = request.session['list_enabled']
         request.session['products_for_execute'] = []
-        df_data = Get_Sales_Top(request, db_tbl, Get_Period_inbase(request, db_tbl))
+        str_period_inbase = request.session['period_inbase']
+        period_inbase = Recover_Date_period_inbase(str_period_inbase)
+        df_data = Get_Sales_Top(request, db_tbl, period_inbase)
+
         if not df_data.empty:
             request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
         else:
@@ -597,15 +606,35 @@ def months_names(period_):
         }
 
     exit_ = list()
-    for i in period_:
-        exit_.append(mth_names[i.month])
+    print(period_, period_[0], period_[0].year)
+
+    if len(period_) > 1:
+        date_tuple = (period_[0], period_[-1])
+        if date_tuple[0].year > date_tuple[1].year:
+            date_tuple = (date_tuple[1], date_tuple[0])
+        print(date_tuple[0])
+        if date_tuple[0].year == date_tuple[1].year:
+            exit_ = mth_names[date_tuple[0].month] + \
+                    "\u2013" + \
+                    mth_names[date_tuple[1].month] + \
+                    " " + str(date_tuple[0].year)
+        else:
+            exit_ = mth_names[date_tuple[0].month] + \
+                    "`" + date_tuple[0].strftime("%y") + \
+                    "\u2013" + \
+                    mth_names[date_tuple[1].month] + \
+                    "`" + date_tuple[1].strftime("%y")
+    else:
+        exit_ = mth_names[period_[0].month] + "`" + period_[0].strftime("%y")
+
+    # for i in period_:
+    #     exit_.append(mth_names[i.month])
 
     return exit_
 
 def Get_Period_inbase(request, db_tbl):
 
     timelag = request.session['timelag']
-
     period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by())
     if None in period_inbase:
             period_inbase.remove(None)
@@ -616,7 +645,16 @@ def Get_Period_inbase(request, db_tbl):
 
     request.session['period_mth_rus'] = months_names(period_inbase)
 
-    return period_inbase
+    exit_str = [date_.strftime('%Y.%m.%d') for date_ in period_inbase]
+
+
+    return exit_str
+
+def Recover_Date_period_inbase(str_period_inbase):
+
+    exit_ = [dt.strptime(str_, '%Y.%m.%d').date() for str_ in str_period_inbase]
+
+    return exit_
 
 
 def Get_Sales_Top(request, db_tbl, period_inbase):

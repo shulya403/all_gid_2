@@ -109,7 +109,7 @@
             </div> <!-- tabs_header -->
         {% endfor %}
         <div class="tab-item" id="marketability_">
-            <div class="table-sign-text">{{ category_name }} - лидеры продаж за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}{% endfor %}</div>
+            <div class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </div>
 
             <table class="table-data">
                 <tr class="th-tbl">
@@ -189,7 +189,7 @@
         </div> <!-- marketability -->
 
             <div class="tab-item" id="novelity_">
-                        <div class="table-sign-text">{{ category_name }} - новые модели за {% for i in period %}{% if forloop.first %}{{ i }}{% else %}- {{ i }}{% endif %}{% endfor %}</div>
+                        <div class="table-sign-text">{{ category_name }} - новые модели за {{ period }}</div>
 
             <table class="table-data">
                 <tr class="th-tbl">
