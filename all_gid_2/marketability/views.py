@@ -270,17 +270,128 @@ def Init_cat(request, cat_, db_tbl):
 # Формирование вложенного словаря по таблице _classes
 def Dict_by_Classes2(request, db_tbl):
 
-    def Dict_class_subtype(cl_type, qry_classes):
+    dict_sorting_classes = {
+        'Nb': {
+            'sub_types': {
+                'Коммерческий': 2,
+                'Потребительский': 1,
+                'Специализация': 3,
+                'Форм-фактор': 1,
+                'Производительность': 2
+            },
+            'classes': {
+                'Премиальный': 1,
+                'Для коммуникаций и просмотра': 1,
+                '\"Рабочая лошадка\"': 3,
+                'Корпоративный': 1,
+                'Бизнес средний': 2,
+                'Для рабочих мест': 3,
+                'Универсальный домашний': 1,
+                'Игровой среднего класса': 2,
+                'Игровой топового уровня': 3,
+                'Расширенная функциональность': 3,
+                'Начального уровня': 1,
+                'Средней производительности': 2,
+                'Мощная начинка': 4,
+                'Трансформер с поворотным touch-экраном': 5,
+                'Мини': 1,
+                'Компактный': 2,
+                'Стандартный размер': 3,
+                'Большой экран': 4,
+                'Профессиональная рабочая станция': 1,
+                'Для образования': 2
+
+            }
+        },
+        'Mnt': {
+            'sub_types': {
+                'Размеры': 2,
+            },
+            'classes': {}
+        },
+        'Mfp':
+        {
+            'sub_types': {
+                'Начальный уровень': 2,
+                'Фото': 2,
+                'Офис': 3,
+                'Тип аппарата': 2,
+                '': 1,
+                'Цвет': 3,
+                'Технология печати': 4,
+                'Коммуникации': 5
+
+            },
+            'classes': {}
+        }
+    }
+    def Sort_dict_by_values(dict_):
+
+        print('дикт сырой', dict_)
+        list_tuples = list(dict_.items())
+        list_tuples.sort(key=lambda i: i[1])
+        print('возврат', list_tuples)
+        if list_tuples:
+            exit_ = [i[0] for i in list_tuples]
+        else:
+            exit_ = []
+        print('экзит сорт', exit_)
+        return exit_
+
+    def Sort_Sub_types(Sub_types_list, cat_, level='sub_types'):
+
+        exit_ = list()
+        sorted_list_ = Sort_dict_by_values(dict_sorting_classes[cat_][level])
+        if sorted_list_:
+            for sbt in Sub_types_list:
+                if not sbt in sorted_list_:
+                        exit_.append(sbt)
+            for sbt in sorted_list_:
+                if sbt in Sub_types_list:
+                    exit_.append(sbt)
+        else:
+            exit_ = Sub_types_list
+
+        return exit_
+
+    def Sort_Classes_in_sbtype(qry_classes, cat_, level='classes'):
+
+        exit_ = list()
+        sorted_list_ = Sort_dict_by_values(dict_sorting_classes[cat_][level])
+        print('class_sorted_list_', sorted_list_)
+        if sorted_list_:
+            print(qry_classes)
+            for cls in qry_classes:
+                if not cls['text'] in sorted_list_:
+                    exit_.append(cls)
+            for txt in sorted_list_:
+                for i in qry_classes:
+                    if i['text'] == txt:
+                        exit_.append(i)
+                        break
+        else:
+            exit_ = list(qry_classes)
+
+        return exit_
+
+    def Dict_class_subtype(cl_type, qry_classes, cat_):
+
         exit_sub_ = dict()
         qry_subtype = qry_classes.filter(type=cl_type)
-        for sub_type in vlist_to_list(qry_subtype.values_list('class_subtype').distinct()):
+        list_sub_types_ = vlist_to_list(qry_subtype.values_list('class_subtype').distinct())
+        print('list_sub_types_', list_sub_types_)
+        list_sub_types_sorted = Sort_Sub_types(list_sub_types_, cat_)
+        print('list_sub_types_sorted', list_sub_types_sorted)
+        for sub_type in list_sub_types_sorted:
             if not sub_type:
                 st_name = '1'
             else:
                 st_name = sub_type
             exit_sub_[st_name] = list()
-            for cls in qry_subtype.filter(class_subtype=sub_type).values('name', 'explanation', 'text'):
-                exit_sub_[st_name].append(cls)
+            cls_ = qry_subtype.filter(class_subtype=sub_type).values('name', 'explanation', 'text')
+            cls = Sort_Classes_in_sbtype(cls_, cat_)
+            for i in cls:
+                exit_sub_[st_name].append(i)
 
         return exit_sub_
 
@@ -290,7 +401,7 @@ def Dict_by_Classes2(request, db_tbl):
     request.session['list_enabled'] = vlist_to_list(qry_classes.values_list('name'))
 
     for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
-        exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes)
+        exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes, request.session['cat_'])
 
     return exit_
 
@@ -606,13 +717,12 @@ def months_names(period_):
         }
 
     exit_ = list()
-    print(period_, period_[0], period_[0].year)
 
     if len(period_) > 1:
         date_tuple = (period_[0], period_[-1])
         if date_tuple[0].year > date_tuple[1].year:
             date_tuple = (date_tuple[1], date_tuple[0])
-        print(date_tuple[0])
+
         if date_tuple[0].year == date_tuple[1].year:
             exit_ = mth_names[date_tuple[0].month] + \
                     "\u2013" + \
@@ -626,9 +736,6 @@ def months_names(period_):
                     "`" + date_tuple[1].strftime("%y")
     else:
         exit_ = mth_names[period_[0].month] + "`" + period_[0].strftime("%y")
-
-    # for i in period_:
-    #     exit_.append(mth_names[i.month])
 
     return exit_
 

@@ -27,7 +27,7 @@
             <div class="form_block_header">Цели использования</div>
 
 
-            {% for sub_type in new_form.GO.keys|sort_keys %}
+            {% for sub_type in new_form.GO.keys %}
 
             {% if sub_type != '1'  %}
               <div class="form_subtypes">{{ sub_type }}</div>
@@ -55,7 +55,7 @@
             <div class="form_block_buttons">
                 <div class="form_block_header">Технические параметры</div>
 
-                {% for sub_type in new_form.CL.keys|sort_keys %}
+                {% for sub_type in new_form.CL.keys %}
                 {% if sub_type != '1'  %}
                             <div class="form_subtypes">{{ sub_type }}</div>
                 {% endif %}
