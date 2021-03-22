@@ -666,6 +666,7 @@ def Choice_Pic(cat_, post_return, method='first_choice'):
             'GO_smb': 'pict/themes/nb_smb-256-512.jpg',
             'GO_content': 'pict/themes/nb_content_256-512.jpg',
             'GO_universum_home': 'pict/themes/nb_home_256-512.jpg',
+            'GO_corporate': 'pict/themes/nb_corporate_256-512.jpg'
         },
         'Mnt': {
             'Игровой': 'pict/themes/all_game-256-512.jpg',
