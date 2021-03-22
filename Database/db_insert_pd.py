@@ -522,16 +522,16 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Mon models Jan-21.xlsx",
-                      xl_Vardata="Vardata dec20-Jan21.xlsx",
-                     Category="Mnt",
+FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Feb1.xlsx",
+                      xl_Vardata="nb_Report-12-120_1-21.xlsx",
+                     Category="Nb",
                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
 FillDB.DB_alchemy(FillDB.Category)
-# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-# FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [12]
-FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [12]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,

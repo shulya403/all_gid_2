@@ -366,7 +366,7 @@
         color: rgba(255,255,255,0.88);
         background-color: rgba(60,60,60,1);
         border: solid 1px;
-        width: 256px;
+        width: 380px;
         padding: 8px 12px;
         border: none;
         border-radius: 4px;
@@ -1119,7 +1119,7 @@
         width: 256px;
         background: url(pict/themes/cabinet-home-kandinsky.jpg);
         background-repeat: no-repeat;
-
+        border-radius: 8px;
 
 }
 
