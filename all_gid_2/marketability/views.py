@@ -261,6 +261,8 @@ def Init_cat(request, cat_, db_tbl):
 
         request.session['form_return'] = []
 
+        request.session['theme_pic'] = ('', None)
+
     else:
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
 
@@ -467,6 +469,8 @@ def page_Category_Main(request, cat_):
     str_period_inbase = request.session['period_inbase']
     period_inbase = Recover_Date_period_inbase(str_period_inbase)
     period = request.session['period_mth_rus']
+    theme_pic = request.session['theme_pic']
+
 
     if request.POST:
         post_return = list(request.POST.keys())
@@ -531,6 +535,15 @@ def page_Category_Main(request, cat_):
 
     best_links = Get_Bestsellers_links()
 
+    if (not theme_pic[1]) \
+        or (not theme_pic[0] in post_return):
+            theme_pic = Choice_Pic(cat_, post_return, method='first_choice')
+            request.session['theme_pic'] = theme_pic
+
+    theme_pic_this = theme_pic[1]
+
+
+
     exit_ = {
         'category_name':  category_name,
         'categories_list': categories_list,
@@ -545,8 +558,10 @@ def page_Category_Main(request, cat_):
         'bestesellers_links': best_links,
         'tab_active': tab_active,
         'tab_list': tab_list,
-        'tab_data': tab_data
+        'tab_data': tab_data,
+        'theme_pic': theme_pic_this
     }
+    print(post_return)
 
     return render(request, template_name="al_pict_category.html", context=exit_)
 
@@ -636,6 +651,48 @@ def page_Product(request, cat_, product_):
     }
 
     return render(request, template_name="al_product.html", context=exit_)
+
+#Подбор картинки
+def Choice_Pic(cat_, post_return, method='first_choice'):
+
+    dict_go_pic = {
+        'Nb': {
+            'GO_education': 'pict/themes/cabinet-home-paper.jpg',
+            'GO_premium': 'pict/themes/nb_premium_256-512.jpg',
+            'zaglushka': 'pict/themes/nb_general2-256-512.jpg',
+            'GO_horse_work': 'pict/themes/nb_loshadka_256-512.jpg',
+            'GO_game_mid': 'pict/themes/all_game-256-512.jpg',
+            'GO_game_high': 'pict/themes/all_game-256-512.jpg',
+            'GO_smb': 'pict/themes/nb_smb-256-512.jpg',
+            'GO_content': 'pict/themes/nb_content_256-512.jpg',
+            'GO_universum_home': 'pict/themes/nb_home_256-512.jpg',
+        },
+        'Mnt': {
+            'Игровой': 'pict/themes/all_game-256-512.jpg',
+            'zaglushka': 'pict/themes/mnt_general_256-512.jpg'
+
+        }
+
+    }
+    def First_choice(cat_, post_return):
+
+        if cat_ in list(dict_go_pic.keys()):
+
+            for go in dict_go_pic[cat_]:
+                if go in post_return:
+                    return (go, dict_go_pic[cat_][go])
+            return ('zaglushka', dict_go_pic[cat_]['zaglushka'])
+        else:
+            return ('zaglushka', 'pict/themes/cabinet-home-clown.jpg')
+
+
+    if method == 'first_choice':
+        exit_ = First_choice(cat_, post_return)
+
+
+    return exit_
+
+
 
 #Список классов конкретного продукта
 def Get_This_Classes(product_, db_tbl):

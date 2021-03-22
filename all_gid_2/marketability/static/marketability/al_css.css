@@ -1117,9 +1117,9 @@
         margin-left: 0px;
         height: 512px;
         width: 256px;
-        background: url('pict/themes/cabinet-home-kandinsky.jpg');
+        background: url(pict/themes/cabinet-home-kandinsky.jpg);
         background-repeat: no-repeat;
-        #background-size: 16px 16px;
+
 
 }
 

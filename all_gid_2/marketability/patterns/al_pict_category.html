@@ -270,7 +270,14 @@
     </form>
     </div> <!-- "form-and-table" -->
     <div class="right-news">
-        <div class="theme-pic-place">
+{#        <script>#}
+{#                    $(document).ready(function()#}
+{#                    {$('.theme-pic-place').css('background', 'url({{ theme_pic }})')}#}
+{#                    );#}
+{##}
+{#        </script>#}
+
+        <div class="theme-pic-place" style="background: url(/static/marketability/{{ theme_pic }});">
 
         </div> <!-- banner-place -->
         <div class="novosti-header">Новости</div>
