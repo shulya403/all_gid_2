@@ -947,10 +947,26 @@
 }
 
 .shop-name {
+        width: 116px;
+        text-align: start;
+        padding-left: 8px;
+}
+
+.shop-price {
+        width: 112px;
+        text-align: end;
+        padding-right: 8px;
 }
 
 .shop-link {
         text-decoration: none;
+        color: #3C30BF;
+
+}
+
+.shop-link:hover {
+        text-decoration: none;
+        color: #3C30EF;
 
 }
 .shop-price {

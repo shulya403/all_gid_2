@@ -471,6 +471,7 @@ class DB_insert_shops(DB_insert_from_excel):
             'Site',
             'Vendor'
         ])
+
         Check_Category(Category, self.df_Shopprices, xl_Shops)
         set_sites = set(self.df_Shopprices['Site'].unique())
         set_sites = set_sites - set(drop_shops)
@@ -522,14 +523,14 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Feb1.xlsx",
-                      xl_Vardata="nb_Report-12-120_1-21.xlsx",
-                     Category="Nb",
-                    dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
+# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Feb1.xlsx",
+#                       xl_Vardata="nb_Report-12-120_1-21.xlsx",
+#                      Category="Nb",
+#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+# FillDB.MtM_Products_Classes_to_SQL()
 # mth_list = [12]
 # FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
 
@@ -540,12 +541,12 @@ FillDB.MtM_Products_Classes_to_SQL()
 #                  dir_root="../Data/",
 #                  drop_shops = ['yama']):
 
-# FillShop = DB_insert_shops(
-#                  xl_Shops="Ноутбук-Concat_Prices--Nov-20--Checked.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Nb',
-#                  dir_root="../Data/"
-# )
-#
-# FillShop.To_DB_Shop_Price()
+FillShop = DB_insert_shops(
+                 xl_Shops="Монитор-Concat_Prices--Jan-21--Filled.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Mnt',
+                 dir_root="../Data/"
+)
+
+FillShop.To_DB_Shop_Price()
 
 
