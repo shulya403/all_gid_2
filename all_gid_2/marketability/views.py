@@ -27,6 +27,8 @@ from django.db.models import Count, F, Sum, Avg, Q
 
 from django.template.defaulttags import register
 
+import json
+
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
@@ -102,136 +104,147 @@ def Dict_tabs_page_form():
 
 #Опредление категории
 def Init_cat(request, cat_, db_tbl):
-    dict_categories = {
-        'Mnt': {
-            'category_name': "Мониторы",
 
-            'fields_show': {
+    # dict_categories = {
+    #     'Mnt': {
+    #         'category_name': "Мониторы",
+    #
+    #         'fields_show': {
+    #
+    #             'brand': {
+    #                 "html_name": "Компания",
+    #                 "id": 0,
+    #                 "short": False
+    #             },
+    #
+    #             'name': {
+    #                 "html_name": "Модель",
+    #                 "id": 1,
+    #                 "short": False
+    #             },
+    #             'type': {
+    #                 "html_name": "Экран",
+    #                 "id": 2,
+    #                 "short": True
+    #             },
+    #             'curved': {
+    #                 "html_name": "Вогнутый  ",
+    #                 "id": 4,
+    #                 "short": True
+    #             },
+    #             'game': {
+    #                 "html_name": "Игровой",
+    #                 "id": 3,
+    #                 "short": True
+    #             }
+    #         },
+    #         'timelag': 2
+    #     },
+    #     'Nb': {
+    #         'category_name': "Ноутбуки",
+    #
+    #         'fields_show': {
+    #
+    #             'brand': {
+    #                 "html_name": "Компания",
+    #                 "id": 0,
+    #                 "short": False
+    #             },
+    #             'name': {
+    #                 "html_name": "Модель",
+    #                 "id": 1,
+    #                 "short": False
+    #             },
+    #             'screen_size': {
+    #                 "html_name": "Экран",
+    #                 "id": 2,
+    #                 "short": True
+    #             },
+    #             'cpu_vendor': {
+    #                 "html_name": "Произв. процессора",
+    #                 "id": 3,
+    #                 "short": True
+    #             },
+    #             'base_platform': {
+    #                 "html_name": "Поколение процессора",
+    #                 "id": 4,
+    #                 "short": False
+    #             },
+    #             'gpu_list': {
+    #                 "html_name": "Графика",
+    #                 "id": 5,
+    #                 "short": True
+    #             },
+    #             'appear_month': {
+    #                 "html_name": "Начало продаж",
+    #                 "id": 7,
+    #                 "short": False
+    #             },
+    #             'touchscreen': {
+    #                 "html_name": "Сенсорный экран",
+    #                 "id": 6,
+    #                 "short": False
+    #             }
+    #         },
+    #         'timelag': 2
+    #     },
+    #     'Mfp': {
+    #         'category_name': "Принтеры и МФУ",
+    #
+    #         'fields_show': {
+    #
+    #             'brand': {
+    #                 "html_name": "Компания",
+    #                 "id": 0,
+    #                 "short": False
+    #             },
+    #             'name': {
+    #                 "html_name": "Модель",
+    #                 "id": 1,
+    #                 "short": False
+    #             },
+    #             'type': {
+    #                 "html_name": "Тип",
+    #                 "id": 2,
+    #                 "short": True
+    #             },
+    #             'prt_technology': {
+    #                 "html_name": "Печать",
+    #                 "id": 3,
+    #                 "short": True
+    #             },
+    #             'color': {
+    #                 "html_name": "Цвет",
+    #                 "id": 4,
+    #                 "short": True
+    #             },
+    #             'format_a': {
+    #                 "html_name": "Формат",
+    #                 "id": 5,
+    #                 "short": True
+    #             },
+    #             'photo': {
+    #                 "html_name": "Фотопринтер",
+    #                 "id": 6,
+    #                 "short": True
+    #             }
+    #         },
+    #         'timelag': 1
+    #     }
+    # }
+#Категории
+    with open('marketability/static/marketability/json/dict_categories.json', encoding='utf-8') as f_cat:
+        dict_categories = json.load(f_cat)
 
-                'brand': {
-                    "html_name": "Компания",
-                    "id": 0,
-                    "short": False
-                },
+#Картинки для категории
+    with open('marketability/static/marketability/json/dict_to_pic.json', encoding='utf-8') as f_pic:
+        dict_to_cat = json.load(f_pic)[cat_]
 
-                'name': {
-                    "html_name": "Модель",
-                    "id": 1,
-                    "short": False
-                },
-                'type': {
-                    "html_name": "Экран",
-                    "id": 2,
-                    "short": True
-                },
-                'curved': {
-                    "html_name": "Вогнутый  ",
-                    "id": 4,
-                    "short": True
-                },
-                'game': {
-                    "html_name": "Игровой",
-                    "id": 3,
-                    "short": True
-                }
-            },
-            'timelag': 2
-        },
-        'Nb': {
-            'category_name': "Ноутбуки",
-
-            'fields_show': {
-
-                'brand': {
-                    "html_name": "Компания",
-                    "id": 0,
-                    "short": False
-                },
-                'name': {
-                    "html_name": "Модель",
-                    "id": 1,
-                    "short": False
-                },
-                'screen_size': {
-                    "html_name": "Экран",
-                    "id": 2,
-                    "short": True
-                },
-                'cpu_vendor': {
-                    "html_name": "Произв. процессора",
-                    "id": 3,
-                    "short": True
-                },
-                'base_platform': {
-                    "html_name": "Поколение процессора",
-                    "id": 4,
-                    "short": False
-                },
-                'gpu_list': {
-                    "html_name": "Графика",
-                    "id": 5,
-                    "short": True
-                },
-                'appear_month': {
-                    "html_name": "Начало продаж",
-                    "id": 7,
-                    "short": False
-                },
-                'touchscreen': {
-                    "html_name": "Сенсорный экран",
-                    "id": 6,
-                    "short": False
-                }
-            },
-            'timelag': 2
-        },
-        'Mfp': {
-            'category_name': "Принтеры и МФУ",
-
-            'fields_show': {
-
-                'brand': {
-                    "html_name": "Компания",
-                    "id": 0,
-                    "short": False
-                },
-                'name': {
-                    "html_name": "Модель",
-                    "id": 1,
-                    "short": False
-                },
-                'type': {
-                    "html_name": "Тип",
-                    "id": 2,
-                    "short": True
-                },
-                'prt_technology': {
-                    "html_name": "Печать",
-                    "id": 3,
-                    "short": True
-                },
-                'color': {
-                    "html_name": "Цвет",
-                    "id": 4,
-                    "short": True
-                },
-                'format_a': {
-                    "html_name": "Формат",
-                    "id": 5,
-                    "short": True
-                },
-                'photo': {
-                    "html_name": "Фотопринтер",
-                    "id": 6,
-                    "short": True
-                }
-            },
-            'timelag': 1
-        }
-    }
 
     if cat_:
         request.session['cat_'] = cat_
+
+        request.session['dict_to_cat'] = dict_to_cat
 
         category = dict_categories[cat_]
 
@@ -279,62 +292,67 @@ def Init_cat(request, cat_, db_tbl):
 # Формирование вложенного словаря по таблице _classes
 def Dict_by_Classes2(request, db_tbl):
 
-    dict_sorting_classes = {
-        'Nb': {
-            'sub_types': {
-                'Коммерческий': 4,
-                'Потребительский': 3,
-                'Общее назначение': 2,
-                'Форм-фактор': 1,
-                'Производительность': 2,
-                '': 1,
-                'Общее назначение': 2
-            },
-            'classes': {
-                'Премиальный': 1,
-                'Для коммуникаций и просмотра': 1,
-                'Для творчества или разработки': 3,
-                '\"Рабочая лошадка\"': 2,
-                'Профессиональная рабочая станция': 4,
-                'Корпоративный': 3,
-                'Бизнес средний': 2,
-                'Для массовых рабочих мест': 1,
-                'Универсальный домашний': 1,
-                'Игровой': 2,
-                'Легкая внешняя графика': 3,
-                'Начального уровня': 1,
-                'Встроенная графика': 2,
-                'Мощная начинка': 4,
-                'Трансформер с поворотным экраном': 5,
-                'Мини': 1,
-                'Компактный': 2,
-                'Стандартный размер': 3,
-                'Большой экран': 4,
+    # dict_sorting_classes = {
+    #     'Nb': {
+    #         'sub_types': {
+    #             'Коммерческий': 4,
+    #             'Потребительский': 3,
+    #             'Общее назначение': 2,
+    #             'Форм-фактор': 1,
+    #             'Производительность': 2,
+    #             '': 1,
+    #             'Общее назначение': 2
+    #         },
+    #         'classes': {
+    #             'Премиальный': 1,
+    #             'Для коммуникаций и просмотра': 1,
+    #             'Для творчества или разработки': 3,
+    #             '\"Рабочая лошадка\"': 2,
+    #             'Профессиональная рабочая станция': 4,
+    #             'Корпоративный': 3,
+    #             'Бизнес средний': 2,
+    #             'Для массовых рабочих мест': 1,
+    #             'Универсальный домашний': 1,
+    #             'Игровой': 2,
+    #             'Легкая внешняя графика': 3,
+    #             'Начального уровня': 1,
+    #             'Встроенная графика': 2,
+    #             'Мощная начинка': 4,
+    #             'Трансформер с поворотным экраном': 5,
+    #             'Мини': 1,
+    #             'Компактный': 2,
+    #             'Стандартный размер': 3,
+    #             'Большой экран': 4,
+    #
+    #         }
+    #     },
+    #     'Mnt': {
+    #         'sub_types': {
+    #             'Размеры': 2,
+    #         },
+    #         'classes': {}
+    #     },
+    #     'Mfp':
+    #     {
+    #         'sub_types': {
+    #             'Начальный уровень': 2,
+    #             'Фото': 2,
+    #             'Офис': 3,
+    #             'Тип аппарата': 2,
+    #             '': 1,
+    #             'Цвет': 3,
+    #             'Технология печати': 4,
+    #             'Коммуникации': 5
+    #
+    #         },
+    #         'classes': {}
+    #     }
+    # }
 
-            }
-        },
-        'Mnt': {
-            'sub_types': {
-                'Размеры': 2,
-            },
-            'classes': {}
-        },
-        'Mfp':
-        {
-            'sub_types': {
-                'Начальный уровень': 2,
-                'Фото': 2,
-                'Офис': 3,
-                'Тип аппарата': 2,
-                '': 1,
-                'Цвет': 3,
-                'Технология печати': 4,
-                'Коммуникации': 5
+    # Картинки для категории
+    with open('marketability/static/marketability/json/dict_sorting_classes.json', encoding='utf-8') as f_cls:
+        dict_sorting_classes = json.load(f_cls)
 
-            },
-            'classes': {}
-        }
-    }
     def Sort_dict_by_values(dict_):
 
         print('дикт сырой', dict_)
@@ -368,7 +386,7 @@ def Dict_by_Classes2(request, db_tbl):
 
         exit_ = list()
         sorted_list_ = Sort_dict_by_values(dict_sorting_classes[cat_][level])
-        print('class_sorted_list_', sorted_list_)
+
         if sorted_list_:
             print(qry_classes)
             for cls in qry_classes:
@@ -538,7 +556,7 @@ def page_Category_Main(request, cat_):
 
     if (not theme_pic[1]) \
         or (not theme_pic[0] in post_return):
-            theme_pic = Choice_Pic(cat_, post_return, method='first_choice')
+            theme_pic = Choice_Pic(request.session['dict_to_cat'], post_return, method='first_choice')
             request.session['theme_pic'] = theme_pic
 
     theme_pic_this = theme_pic[1]
@@ -654,42 +672,43 @@ def page_Product(request, cat_, product_):
     return render(request, template_name="al_product.html", context=exit_)
 
 #Подбор картинки
-def Choice_Pic(cat_, post_return, method='first_choice'):
+def Choice_Pic(dict_to_pic, post_return, method='first_choice'):
 
-    dict_go_pic = {
-        'Nb': {
-            'GO_education': 'pict/themes/cabinet-home-paper.jpg',
-            'GO_premium': 'pict/themes/nb_premium_256-512.jpg',
-            'zaglushka': 'pict/themes/nb_general2-256-512.jpg',
-            'GO_horse_work': 'pict/themes/nb_loshadka_256-512.jpg',
-            'GO_game_mid': 'pict/themes/all_game-256-512.jpg',
-            'GO_game_high': 'pict/themes/all_game-256-512.jpg',
-            'GO_smb': 'pict/themes/nb_smb-256-512.jpg',
-            'GO_content': 'pict/themes/nb_content_256-512.jpg',
-            'GO_universum_home': 'pict/themes/nb_home_256-512.jpg',
-            'GO_corporate': 'pict/themes/nb_corporate_256-512.jpg'
-        },
-        'Mnt': {
-            'Игровой': 'pict/themes/all_game-256-512.jpg',
-            'zaglushka': 'pict/themes/mnt_general_256-512.jpg'
+    # dict_go_pic = {
+    #     'Nb': {
+    #         'GO_education': 'pict/themes/cabinet-home-paper.jpg',
+    #         'GO_premium': 'pict/themes/nb_premium_256-512.jpg',
+    #         'zaglushka': 'pict/themes/nb_general2-256-512.jpg',
+    #         'GO_horse_work': 'pict/themes/nb_loshadka_256-512.jpg',
+    #         'GO_game_mid': 'pict/themes/all_game-256-512.jpg',
+    #         'GO_game_high': 'pict/themes/all_game-256-512.jpg',
+    #         'GO_smb': 'pict/themes/nb_smb-256-512.jpg',
+    #         'GO_content': 'pict/themes/nb_content_256-512.jpg',
+    #         'GO_universum_home': 'pict/themes/nb_home_256-512.jpg',
+    #         'GO_corporate': 'pict/themes/nb_corporate_256-512.jpg'
+    #     },
+    #     'Mnt': {
+    #         'Игровой': 'pict/themes/all_game-256-512.jpg',
+    #         'zaglushka': 'pict/themes/mnt_general_256-512.jpg'
+    #
+    #     }
+    #
+    # }
 
-        }
+    def First_choice(dict_to_pic, post_return):
 
-    }
-    def First_choice(cat_, post_return):
+        if dict_to_pic:
 
-        if cat_ in list(dict_go_pic.keys()):
-
-            for go in dict_go_pic[cat_]:
+            for go in dict_to_pic:
                 if go in post_return:
-                    return (go, dict_go_pic[cat_][go])
-            return ('zaglushka', dict_go_pic[cat_]['zaglushka'])
+                    return (go, dict_to_pic[go])
+            return ('zaglushka', dict_to_pic['zaglushka'])
         else:
             return ('zaglushka', 'pict/themes/cabinet-home-clown.jpg')
 
 
     if method == 'first_choice':
-        exit_ = First_choice(cat_, post_return)
+        exit_ = First_choice(dict_to_pic, post_return)
 
 
     return exit_

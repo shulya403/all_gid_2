@@ -1,0 +1,127 @@
+{
+        "Mnt": {
+            "category_name": "Мониторы",
+
+            "fields_show": {
+
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "type": {
+                    "html_name": "Экран",
+                    "id": 2,
+                    "short": true
+                },
+                "curved": {
+                    "html_name": "Вогнутый",
+                    "id": 4,
+                    "short": true
+                },
+                "game": {
+                    "html_name": "Игровой",
+                    "id": 3,
+                    "short": true
+                }
+            },
+            "timelag": 2
+        },
+        "Nb": {
+            "category_name": "Ноутбуки",
+
+            "fields_show": {
+
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "screen_size": {
+                    "html_name": "Экран",
+                    "id": 2,
+                    "short": true
+                },
+                "cpu_vendor": {
+                    "html_name": "Произв. процессора",
+                    "id": 3,
+                    "short": true
+                },
+                "base_platform": {
+                    "html_name": "Поколение процессора",
+                    "id": 4,
+                    "short": false
+                },
+                "gpu_list": {
+                    "html_name": "Графика",
+                    "id": 5,
+                    "short": true
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 7,
+                    "short": false
+                },
+                "touchscreen": {
+                    "html_name": "Сенсорный экран",
+                    "id": 6,
+                    "short": false
+                }
+            },
+            "timelag": 2
+        },
+        "Mfp": {
+            "category_name": "Принтеры и МФУ",
+
+            "fields_show": {
+
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "type": {
+                    "html_name": "Тип",
+                    "id": 2,
+                    "short": true
+                },
+                "prt_technology": {
+                    "html_name": "Печать",
+                    "id": 3,
+                    "short": true
+                },
+                "color": {
+                    "html_name": "Цвет",
+                    "id": 4,
+                    "short": true
+                },
+                "format_a": {
+                    "html_name": "Формат",
+                    "id": 5,
+                    "short": true
+                },
+                "photo": {
+                    "html_name": "Фотопринтер",
+                    "id": 6,
+                    "short": true
+                }
+            },
+            "timelag": 1
+        }
+    }
