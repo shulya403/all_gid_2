@@ -110,12 +110,12 @@ def Init_cat(request, cat_, db_tbl):
     with open('marketability/static/marketability/json/dict_categories.json', encoding='utf-8') as f_cat:
         dict_categories = json.load(f_cat)
 
-#Картинки для категории
-    with open('marketability/static/marketability/json/dict_to_pic.json', encoding='utf-8') as f_pic:
-        dict_to_cat = json.load(f_pic)[cat_]
-
-
     if cat_:
+
+        # Картинки для категории
+        with open('marketability/static/marketability/json/dict_to_pic.json', encoding='utf-8') as f_pic:
+            dict_to_cat = json.load(f_pic)[cat_]
+
         request.session['cat_'] = cat_
 
         request.session['dict_to_cat'] = dict_to_cat
@@ -155,9 +155,7 @@ def Init_cat(request, cat_, db_tbl):
 
         request.session['cat_'] = cat_
 
-        category = dict_categories[cat_]
-
-        request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+        category = []
 
         request.session['theme_pic'] = ('', None)
 
