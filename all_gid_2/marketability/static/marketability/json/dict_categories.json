@@ -27,9 +27,30 @@
                 },
                 "game": {
                     "html_name": "Игровой",
-                    "id": 3,
+                    "id": 5,
                     "short": true
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 8,
+                    "short": false
+                },
+                "resolution_abb": {
+                    "html_name": "Разрешение",
+                    "id": 3,
+                    "short": false
+                },
+                "matrix_type": {
+                    "html_name": "Тип матрицы",
+                    "id": 6,
+                    "short": false
+                },
+                "response_time": {
+                    "html_name": "Время отклика",
+                    "id": 7,
+                    "short": false
                 }
+
             },
             "timelag": 2
         },
@@ -116,12 +137,41 @@
                     "id": 5,
                     "short": true
                 },
-                "photo": {
-                    "html_name": "Фотопринтер",
+                "speed": {
+                    "html_name": "Скорость печати, стр/мин",
+                    "id": 5,
+                    "short": false
+                },
+                "duplex": {
+                    "html_name": "Двусторонняя печать (дуплекс)",
                     "id": 6,
-                    "short": true
+                    "short": false
+                },
+                "wi_fi": {
+                    "html_name": "Wi-Fi (беспроводное подключение)",
+                    "id": 7,
+                    "short": false
+                },
+                "ethernet": {
+                    "html_name": "Ethernet RJ-45 (проводная локальная сеть)",
+                    "id": 8,
+                    "short": false
+                },
+                "fax": {
+                    "html_name": "Факс",
+                    "id": 10,
+                    "short": false
+
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 11,
+                    "short": false
                 }
+
             },
+
+
             "timelag": 1
         }
     }

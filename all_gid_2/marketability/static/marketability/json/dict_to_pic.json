@@ -9,14 +9,16 @@
     "GO_smb": "pict/themes/nb_smb2_256-512.jpg",
     "GO_content": "pict/themes/nb_content_256-512.jpg",
     "GO_universum_home": "pict/themes/nb_home_256-512.jpg",
-    "GO_corporate": "pict/themes/nb_corporate_256-512.jpg"
+    "GO_corporate": "pict/themes/nb_corporate_256-512.jpg",
+    "GO_bus_essential": "pict/themes/nb_mass2b_256-512.jpg"
   },
 
   "Mnt": {
             "zaglushka": "pict/themes/mnt_zaglushka2_256-512.jpg",
             "Игровой": "pict/themes/mnt_game5-256-512.jpg",
             "Для офиса (Корпоративный)": "pict/themes/mnt_corporate-25-512.jpg",
-            "Фото, видео, полиграфия, CAD": "pict/themes/mnt_profi3-256-512.jpg"
+            "Фото, видео, полиграфия, CAD": "pict/themes/mnt_profi3-256-512.jpg",
+            "Для офиса (Корпоративный)": "pict/themes/mnt_corporate-256-512.jpg"
 
         },
   "Mfp": {

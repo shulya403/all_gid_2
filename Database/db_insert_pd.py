@@ -16,7 +16,11 @@ def df_compare(df_old, df_new):
             for j in cols:
                 name = row['name']
                 if(isinstance(row[j], float)):
-                    str_row = str(int(row[j]))
+                    try:
+                        str_row = str(int(row[j]))
+                    except ValueError:
+                        print(row["name"], j, row[j])
+                        str_row = str(row[j])
                 else:
                     str_row = str(row[j])
 
@@ -104,16 +108,38 @@ class DB_insert_from_excel(object):
         def df_Autochange_Products(df, dict_fields):
 
             for i in dict_fields:
-                if "autochange" in dict_fields[i].keys():
-                    map_ = dict_fields[i]["autochange"]
-                    for j in df[dict_fields[i]['db_name']].unique():
-                        if not j in dict_fields[i]["autochange"]:
+                print(i, dict_fields[i].keys())
 
-                            map_[j] = j
-                            for k in map_:
-                                if str(j).title() == str(k).title() and k != j:
-                                    map_[j] = map_[k]
+                if dict_fields[i]['db_name'] == 'speed':
+                    dict_fields[i]['db_name']
+                    pass
+
+                if "autochange" in dict_fields[i].keys():
+                    if dict_fields[i]["autochange"]["part"]:
+                        map_ = dict()
+                        for j in df[dict_fields[i]['db_name']].unique():
+                            for k in dict_fields[i]["autochange"]['change'].keys():
+                                if str(k).lower() in str(j).lower():
+                                    map_[j] = str(j).\
+                                        replace(k, dict_fields[i]["autochange"]['change'][k]).\
+                                        replace(k.title(), dict_fields[i]["autochange"]['change'][k])
                                     break
+                                else:
+                                    map_[j] = j
+                    else:
+
+
+                        map_ = dict_fields[i]["autochange"]['change']
+                        for j in df[dict_fields[i]['db_name']].unique():
+
+                            if not j in dict_fields[i]["autochange"]['change']:
+
+                             map_[j] = j
+                             for k in map_:
+                                 if str(j).title() == str(k).title() and k != j:
+                                     map_[j] = map_[k]
+                                     break
+
 
                     df[dict_fields[i]['db_name']] = df[dict_fields[i]['db_name']].map(map_, na_action='ignore')
             return df
@@ -523,16 +549,16 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Feb1.xlsx",
-#                       xl_Vardata="nb_Report-12-120_1-21.xlsx",
-#                      Category="Nb",
-#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
-# FillDB.DB_alchemy(FillDB.Category)
-# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-# FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [12]
-# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
+FillDB = DB_insert_from_excel(xl_Products="printMFP для ГП-02'21.xlsx",
+                      xl_Vardata="printMFP для ГП-02'21.xlsx",
+                     Category="Mfp",
+                    dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
+FillDB.DB_alchemy(FillDB.Category)
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+FillDB.MtM_Products_Classes_to_SQL()
+mth_list = [2]
+FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -541,12 +567,12 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  dir_root="../Data/",
 #                  drop_shops = ['yama']):
 
-FillShop = DB_insert_shops(
-                 xl_Shops="Монитор-Concat_Prices--Jan-21--Filled.xlsx", #Месячные прайсы Filled/Checked
-                 Category='Mnt',
-                 dir_root="../Data/"
-)
-
-FillShop.To_DB_Shop_Price()
+# FillShop = DB_insert_shops(
+#                  xl_Shops="Монитор-Concat_Prices--Jan-21--Filled.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Mnt',
+#                  dir_root="../Data/"
+# )
+#
+# FillShop.To_DB_Shop_Price()
 
 
