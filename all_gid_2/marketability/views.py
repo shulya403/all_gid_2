@@ -88,7 +88,12 @@ def DB_table(cat_):
 
     }
 
-    return ORM_Models_names[cat_]
+    try:
+        exit_ = ORM_Models_names[cat_]
+    except KeyError:
+        exit_ = None
+
+    return exit_
 
 def Dict_tabs_page_form():
     dict_tabs = {
@@ -285,121 +290,124 @@ def page_Category_Main(request, cat_):
     #Обновление параметров категории - даннае для формы и прочее
     db_tbl = DB_table(cat_)
 
-    try:
-        if cat_ != request.session['cat_']:
+    if db_tbl:
+        try:
+            if cat_ != request.session['cat_']:
+                category = Init_cat(request, cat_, db_tbl)
+
+        except KeyError:
             category = Init_cat(request, cat_, db_tbl)
 
-    except KeyError:
-        category = Init_cat(request, cat_, db_tbl)
-
-    #dict_sorted_fields_show = request.session['dict_sorted_fields_show']
-    new_form = request.session['new_form']
-    list_enabled = request.session['list_enabled']
-    #timelag = request.session['timelag']
-    #period_inbase = request.session['period_inbase']
-    category_name = request.session['cat_rus_name']
-    categories_list = request.session['categories_list']
-    tab_active = request.session['tab_active']
-    tab_data = Dict_tabs_page_form()
-    tab_list = list(tab_data.keys())
-    str_period_inbase = request.session['period_inbase']
-    period_inbase = Recover_Date_period_inbase(str_period_inbase)
-    period = request.session['period_mth_rus']
-    theme_pic = request.session['theme_pic']
+        #dict_sorted_fields_show = request.session['dict_sorted_fields_show']
+        new_form = request.session['new_form']
+        list_enabled = request.session['list_enabled']
+        #timelag = request.session['timelag']
+        #period_inbase = request.session['period_inbase']
+        category_name = request.session['cat_rus_name']
+        categories_list = request.session['categories_list']
+        tab_active = request.session['tab_active']
+        tab_data = Dict_tabs_page_form()
+        tab_list = list(tab_data.keys())
+        str_period_inbase = request.session['period_inbase']
+        period_inbase = Recover_Date_period_inbase(str_period_inbase)
+        period = request.session['period_mth_rus']
+        theme_pic = request.session['theme_pic']
 
 
-    if request.POST:
-        post_return = list(request.POST.keys())
-        tab_active = request.POST['tabs']
-        post_return.remove('csrfmiddlewaretoken')
-        post_return.remove('tabs')
+        if request.POST:
+            post_return = list(request.POST.keys())
+            tab_active = request.POST['tabs']
+            post_return.remove('csrfmiddlewaretoken')
+            post_return.remove('tabs')
 
-        request.session['form_return'] = post_return
+            request.session['form_return'] = post_return
 
-        products_mtm = Get_Products_Mtm(post_return, db_tbl)
+            products_mtm = Get_Products_Mtm(post_return, db_tbl)
 
-        # products_for_execute - list id отфильторванных моделей
-        products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
+            # products_for_execute - list id отфильторванных моделей
+            products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
 
-        request.session['products_for_execute'] = products_for_execute
+            request.session['products_for_execute'] = products_for_execute
 
-        # classes_for_execute - list id доступных после фильтра классов
-        classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
+            # classes_for_execute - list id доступных после фильтра классов
+            classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
 
-        #print(products_for_execute)
-        list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
-        list_enabled_ = vlist_to_list(list(list_enabled_))
-        #print(list_enabled_)
-        if list_enabled_:
-            request.session['enabled_return'] = list_enabled_
+            #print(products_for_execute)
+            list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
+            list_enabled_ = vlist_to_list(list(list_enabled_))
+            #print(list_enabled_)
+            if list_enabled_:
+                request.session['enabled_return'] = list_enabled_
+            else:
+                request.session['enabled_return'] = list_enabled
+
+            enabled_return = request.session['enabled_return']
+
         else:
-            request.session['enabled_return'] = list_enabled
+            post_return = request.session['form_return']
+            #request.session['enabled_return'] = list_enabled
+            enabled_return = request.session['enabled_return']
 
-        enabled_return = request.session['enabled_return']
+            if post_return:
+                pass
+            else:
+                request.session['products_for_execute'] = []
 
-    else:
-        post_return = request.session['form_return']
-        #request.session['enabled_return'] = list_enabled
-        enabled_return = request.session['enabled_return']
+            #products_for_execute = request.session['products_for_execute']
 
-        if post_return:
-            pass
+        df_data = Get_Sales_Top(request, db_tbl, period_inbase)
+
+        if not df_data.empty:
+            request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
         else:
-            request.session['products_for_execute'] = []
+            request.session['dict_df_data'] = {}
 
-        #products_for_execute = request.session['products_for_execute']
+        if len(df_data) > 0:
+            tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('price_avg').to_dict()
 
-    df_data = Get_Sales_Top(request, db_tbl, period_inbase)
+            q_data = len(df_data)
 
-    if not df_data.empty:
-        request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
-    else:
-        request.session['dict_df_data'] = {}
-
-    if len(df_data) > 0:
-        tab_novelty = df_data[df_data['appear_month'].isin(period_inbase)].sort_values('price_avg').to_dict()
-
-        q_data = len(df_data)
-
-        if q_data >= 20:
-            tab_marketability = df_data[:20].sort_values('price_avg').to_dict()
+            if q_data >= 20:
+                tab_marketability = df_data[:20].sort_values('price_avg').to_dict()
+            else:
+                tab_marketability = df_data.sort_values('price_avg').to_dict()
         else:
-            tab_marketability = df_data.sort_values('price_avg').to_dict()
+            tab_marketability = dict()
+            tab_novelty = dict()
+
+        best_links = Get_Bestsellers_links()
+
+        if (not theme_pic[1]) \
+            or (not theme_pic[0] in post_return):
+                theme_pic = Choice_Pic(request.session['dict_to_cat'], post_return, method='first_choice')
+                request.session['theme_pic'] = theme_pic
+
+        theme_pic_this = theme_pic[1]
+
+
+
+        exit_ = {
+            'category_name':  category_name,
+            'categories_list': categories_list,
+            'action': cat_,
+            'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand', 'name', 'price_avg', 'appear_month']],
+            'tbl_data': tab_marketability,
+            'tbl_data_nov': tab_novelty,
+            'new_form': new_form,
+            'enabled': enabled_return,
+            'checked_items': post_return,
+            'period': period,
+            'bestesellers_links': best_links,
+            'tab_active': tab_active,
+            'tab_list': tab_list,
+            'tab_data': tab_data,
+            'theme_pic': theme_pic_this
+        }
+        print(post_return)
+
+        return render(request, template_name="al_pict_category.html", context=exit_)
     else:
-        tab_marketability = dict()
-        tab_novelty = dict()
-
-    best_links = Get_Bestsellers_links()
-
-    if (not theme_pic[1]) \
-        or (not theme_pic[0] in post_return):
-            theme_pic = Choice_Pic(request.session['dict_to_cat'], post_return, method='first_choice')
-            request.session['theme_pic'] = theme_pic
-
-    theme_pic_this = theme_pic[1]
-
-
-
-    exit_ = {
-        'category_name':  category_name,
-        'categories_list': categories_list,
-        'action': cat_,
-        'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'brand', 'name', 'price_avg', 'appear_month']],
-        'tbl_data': tab_marketability,
-        'tbl_data_nov': tab_novelty,
-        'new_form': new_form,
-        'enabled': enabled_return,
-        'checked_items': post_return,
-        'period': period,
-        'bestesellers_links': best_links,
-        'tab_active': tab_active,
-        'tab_list': tab_list,
-        'tab_data': tab_data,
-        'theme_pic': theme_pic_this
-    }
-    print(post_return)
-
-    return render(request, template_name="al_pict_category.html", context=exit_)
+        return home(request)
 
 def page_Product(request, cat_, product_):
 
