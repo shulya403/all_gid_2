@@ -7,6 +7,8 @@ from . import views
 
 app_name = 'marketability'
 
+handler404 = 'marketability.views.handler404'
+
 urlpatterns = [
     path('', RedirectView.as_view(url='/al_home.html')),
     path('<slug:cat_>/', views.page_Category_Main, name='cat'),
