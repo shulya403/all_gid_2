@@ -18,7 +18,9 @@
             "Игровой": "pict/themes/mnt_game5-256-512.jpg",
             "Фото, видео, полиграфия, CAD": "pict/themes/mnt_profi3-256-512.jpg",
             "Для офиса (Корпоративный)": "pict/themes/mnt_corporate-256-512.jpg",
-            "Начального уровня": "pict/themes/mnt_beginner2-256-512.jpg"
+            "Начального уровня": "pict/themes/mnt_beginner3-256-512.jpg",
+            "Для учебы, работы и развлечений": "pict/themes/mnt_universum2-256-512.jpg",
+            "Премиальный": "pict/themes/mnt_premium-256-512.jpg"
 
         },
   "Mfp": {
