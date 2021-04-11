@@ -16,5 +16,6 @@ urlpatterns = [
     path('al_about.html', views.about, name="about"),
     path('al_home.html', views.home, name="home"),
     path('search_all.html', views.search_all, name="doorway"),
-    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain"))
+    path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('favicon.ico', RedirectView.as_view(url='/static/marketability/Target-G.ico', permanent=True))
 ]

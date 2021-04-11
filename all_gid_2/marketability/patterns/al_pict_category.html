@@ -1,4 +1,15 @@
 {% extends "al_page.html" %}
+{% block meta %}
+    <title>AllGid - Гид покупателя. {{ category_name }}</title>
+    <meta name="discription" content="
+        {{ category_name }}: Шорт лист (Top20 самых популярных) в России за {{ period }}.
+        Плюс - новинки.
+        Фильтр по целям использования и базовым характеристикам." />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="компьютеры, периферия, рейтинг, популярность, популярные, новинки, дом, офис, цены, модель, характеристики, выбрать, фильтр, критерий, критериии, сравнение, сценарии использования, выбор продукта, выбор покупателей, {{ category_name }}"  />
+
+{% endblock %}
+
 {% block category %}
     <div class="category-content">
     <div class="form-and-table">
