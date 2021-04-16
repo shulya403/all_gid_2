@@ -1,7 +1,7 @@
 {% extends "al_page.html" %}
 {% block meta %}
-    <title>AllGid - Гид покупателя. {{ category_name }}: {{ vendor }}&nbsp;{{ name }}</title>
-    <meta name="discription" content="{{ vendor }}&nbsp;{{ name }}. ~{{ this_price|digit_separator }}&nbsp;руб.; {% for k, v in ttx.items %} {{ k }}-{{ v }};{% endfor %}" />
+    <title>Гид покупателя. {{ category_name }}: {{ vendor }}&nbsp;{{ name }}</title>
+    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}. ~{{ this_price|digit_separator }}&nbsp;руб.; {% for k, v in ttx.items %} {{ k }}-{{ v }};{% endfor %}" />
     <meta name="keywords" content="{{ vendor }}, {{ name }}, {% for k in ttx.keys %}{{ k }}, {% endfor %}, {{ category_name }}, характеристики, параметры, цены, цена, где купить, покупки, свойства, предложения, аналоги, магазины" />
     <meta name="robots" content="index, follow" />
 {% endblock %}
