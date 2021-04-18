@@ -18,13 +18,13 @@
         justify-content: space-between;
         background-color: #2E2966;
         width: 100%;
-        height: 56px;
+        height: 64px;
         margin-bottom: 12px;
 
 }
 .menu {
         display: inline-flex;
-        width: 1106px;
+        width: 100%;
         justify-content: space-between;
         align: center;
         margin: 0 auto;
@@ -41,16 +41,22 @@
 }
 .logo {
         display: inline-block;
-        height: 56px;
+        height: 64px;
         padding-left: 0px;
 }
 .logo-img {
         display: inline-block;
         vertical-align: middle;
+        background: url("pict/Target white.svg");
+        background-size: 100%;
+        width: 44px;
+        height: 44px;
+        margin-top: 0px;
+        margin-left: 16px;
 }
 
 .logo-text {
-        display: inline-block;
+        display: none;
         padding-left: 2px;
         color: #FFFFFF;
         font-size: 16px;
@@ -77,11 +83,11 @@
         height: 100%;
         color: #ffffff;
         padding-top: 16px;
-        padding-left: 16px;
-        padding-right: 16px;
-        font-size: 16px;
+        padding-left: 24px;
+        padding-right: 24px;
+        font-size: 32px;
         font-weight: 500;
-        letter-spacing: 0.5px;
+        letter-spacing: 1.0px;
         border: 1px transparent;
 
 }
@@ -110,6 +116,7 @@
 }
 
 .menu-right button {
+        display: none;
         height: 100%;
         color: #ffffff;
         padding-top: 16px;
@@ -118,18 +125,20 @@
         font-size: 16px;
         font-weight: 500;
         letter-spacing: 0.5px;
-        border: 1px transparent;
+
 }
 
 .menu-search {
         display: inline-block;
         background: url("pict/Search-1.svg");
-        background-position: 50% 67%;
+
+        background-size: 100%;
         background-repeat: no-repeat;
-        width: 20px;
-        height: 100%;
-        vertical-align: middle;
-        margin-left: 12px;
+        width: 40px;
+        height: 40px;
+
+        margin-right: 12px;
+        margin-top: 12px;
         cursor: pointer;
 }
 
@@ -155,17 +164,20 @@
 
 }
 .category-name-header {
-        font-size: 24px;
+        font-size: 44px;
         font-weight: bolder;
         letter-spacing: 0;
-        line-height: 28px;
+        line-height: 44px;
+        height: 100%;
+        margin-top: 0px;
+        margin-bottom: 4px;
 
 }
 .form-reset {
         display: flex;
 }
 
-.form-reset button {
+.form-reset-button {
         display: flex;
         background-color: transparent;
         cursor: pointer;
@@ -175,66 +187,68 @@
 
 .form-reset span {
         display: inline-block;
-        font-size: 14px;
+        font-size: 32px;
+        font-weight: bolder;
         letter-spacing: 0.1px;
-        line-height: 24px!important;
+        line-height: 32px!important;
         text-align: right;
-        padding-top: 4px;
+        margin-top: 64px;
         color: #3C30BF;
 
 }
 
-.form-reset div {
+.sbros-krestik {
         display: inline-block;
 
         background-image: url('pict/X blue.svg');
         background-repeat: no-repeat;
-        background-position: 50% 90%;
-        background-size: 20px 20px;
-        height: 100%;
-        width: 14px;
-        vertical-align: bottom;
+        background-size: 100%;
+        background-size: 44px 44px;
+        width: 44px;
+        height: 44px;
         margin-left: 2px;
+        margin-top: 56px;
+
 }
 
 .form-reset:hover  span {
         color: #3C30DF;
 }
 
-.form-reset:hover div {
+.form-reset:hover .sbros-krestik {
         background: url('pict/X hover.svg') no-repeat;
         background-repeat: no-repeat;
-        background-position: 50% 130%;
-        background-size: 24px 24px;
-
+        background-size: 100%;
+        background-size: 46px 46px;
+        margin-top: 56px;
 }
 
 
-.filter-form {
-        background-color: #F5F4F2;
+.form-background {
         border-radius: 8px;
         margin-top: 8px;
         margin-bottom: 8px;
         margin-left: -2px;
         display: inline-block;
-
 }
+
 .form_blocks {
         display: flex;
         flex-direction: column;
         margin-right: 24px;
-        margin-top: 12px;
-        margin-bottom: 12px;
+        margin-top: 0px;
 
 }
 
 .form_block_buttons {
         /*justify-content: space-around;*/
-        margin-left: 44px;
-        margin-bottom: 22px;
-        border: 1px solid;
+        margin-left: 32px;
+        margin-bottom: 16px;
+        margin-top: 12px;
+        border: 1px solid rgba(0,0,0,0.63);
         border-radius: 8px;
-
+        background-color: #F5F4F2;
+        padding-bottom: 12px;
         }
 
 .form_block_header {
@@ -245,6 +259,7 @@
         font-weight: 600;
         margin-bottom: 12px;
         margin-left: 12px;
+        margin-top: 12px;
 
 }
 
@@ -254,7 +269,7 @@
         border: 1px;
         height: 56px;
         color: rgba(0,0,0,0.63);
-        font-size: 44px;
+        font-size: 40px;
         font-weight: bolder;
         line-height: 36px;
         margin-bottom: 12px;
@@ -267,7 +282,7 @@
 }
 .form_block_buttons input[type=checkbox] + label {
         box-sizing: border-box;
-        font-size: 44px;
+        font-size: 40px;
         display: block;
         height: 72px;
         width: 800px;
@@ -406,13 +421,13 @@
 }
 .tabs-header {
         display: inline-block;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
+        border-top-left-radius: 16px;
+        border-top-right-radius: 16px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 44px;
         letter-spacing: 1px;
-        height: 32px;
-        margin: -2px;
+        height: 72px;
+        margin-bottom: 4px;
 }
 .tabs-header:hover {
         background-color: #F2F4FA;
@@ -430,12 +445,11 @@
 
 .tabs-rusname {
         display: inline-block;
-        margin-left: 4px;
-        margin-right: 12px;
-        padding-top: 8px;
+        margin-left: 8px;
+        margin-right: 24px;
+        padding-top: 12px;
 
 }
-
 
 .issuance-tabs {
         margin-top: 12px;
@@ -461,17 +475,19 @@
         display: inline-block;
         padding-left: 12px;
         padding-right: 12px;
+        padding-top: 12px;
         border-radius: 4px;
-        margin-top: 4px;
-        height: 32px;
+        margin-top: 12px;
+        height: 44px;
         line-height: 32px;
-        margin: 12px;
+
 
 }
 .table-data {
         box-sizing: border-box;
         width: 100%;
         border-collapse: collapse;
+
 
 }
 .table-head-price {
@@ -494,16 +510,16 @@
 
 .th-tbl {
         color:  rgba(0,0,0,0.63);
-        font-size: 16px;
+        font-size: 36px;
         font-weight: bolder;
         letter-spacing: 0.1px;
-        line-height: 24px;
+        line-height: 52px;
         text-align: left;
         vert-align: top;
 }
 .table-row {
-        height: 48px;
-        font-size: 16px;
+        height: 106px;
+        font-size: 36px;
         letter-spacing: 0.1px;
         line-height: 24px;
         text-align: left;
@@ -511,16 +527,18 @@
 }
 .table-row  > td {
         border-top: 1px solid rgba(0,0,0,0.13);
+        line-height: 40px;
+        padding-right: 12px;
 
 }
 .table-row > td > a {
         font-weight: bolder;
         letter-spacing: 0.1px;
-        line-height: 24px;
+        line-height: 40px;
         text-align: left;
         link: #3C30BF;
         color: #3C30BF;
-        padding-left: 12px;
+
         text-decoration: none;
 }
 
@@ -1062,16 +1080,7 @@
         background-color: #F2F4FA;
 }
 
-.form-background {
-        background-position: 0% 100%;
-        background-color: #F5F4F2;
-        border-radius: 8px;
-        border-bottom-right-radius: 0px;
-        margin-top: 8px;
-        margin-bottom: 8px;
-        margin-left: -2px;
-        display: inline-block;
-}
+
 .theme-pic-place {
         margin-top: 52px;
         margin-left: 0px;

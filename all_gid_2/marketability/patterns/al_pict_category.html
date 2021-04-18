@@ -15,12 +15,12 @@
     <form action="/{{ action }}/" method="post" id="form_">
         {% csrf_token %}
     <div class="category-header-line">
-        <div class="category-name-header">
-            {{ category_name }}
+        <h1 class="category-name-header">
+            {{ category_name }}: выбери цели и параметры
 
-        </div> <!-- "category-name-header" -->
+        </h1> <!-- "category-name-header" -->
         <div class="form-reset">
-            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);">
+            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
             <span>Сбросить</span>
             <div class="sbros-krestik"></div>
 {#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
@@ -119,7 +119,7 @@
             </div> <!-- tabs_header -->
         {% endfor %}
         <div class="tab-item" id="marketability_">
-            <div class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </div>
+            <h2 class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </h2>
 
             <table class="table-data">
                 <tr class="th-tbl">
@@ -199,7 +199,7 @@
         </div> <!-- marketability -->
 
             <div class="tab-item" id="novelity_">
-                        <div class="table-sign-text">{{ category_name }} - новые модели за {{ period }}</div>
+                        <h2 class="table-sign-text">{{ category_name }} - новые модели за {{ period }}</h2>
 
             <table class="table-data">
                 <tr class="th-tbl">

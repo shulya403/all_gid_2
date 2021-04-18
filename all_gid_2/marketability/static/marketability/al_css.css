@@ -47,6 +47,10 @@
 .logo-img {
         display: inline-block;
         vertical-align: middle;
+        background: url("pict/Target white.svg");
+        background-size: 100%;
+        width: 32px;
+        height: 32px;
 }
 
 .logo-text {
@@ -151,6 +155,7 @@
 .category-header-line {
         display: flex;
         justify-content: space-between;
+        height: 100%;
 
 }
 .category-name-header {
@@ -158,13 +163,16 @@
         font-weight: bolder;
         letter-spacing: 0;
         line-height: 28px;
-
+        height: 100%;
+        margin-top: 0px;
+        margin-bottom: 4px;
 }
 .form-reset {
         display: flex;
+        height: 32px;
 }
 
-.form-reset button {
+.form-reset-button {
         display: flex;
         background-color: transparent;
         cursor: pointer;
@@ -176,11 +184,10 @@
         display: inline-block;
         font-size: 14px;
         letter-spacing: 0.1px;
-        line-height: 24px!important;
+        line-height: 14px;
         text-align: right;
-        padding-top: 4px;
         color: #3C30BF;
-
+        margin-top: 12px;
 }
 
 .form-reset div {
@@ -192,8 +199,8 @@
         background-size: 20px 20px;
         height: 100%;
         width: 14px;
-        vertical-align: bottom;
         margin-left: 2px;
+        margin-bottom: 4px;
 }
 
 .form-reset:hover  span {
@@ -208,16 +215,15 @@
 
 }
 
-
-.filter-form {
+.form-background {
         background-color: #F5F4F2;
         border-radius: 8px;
         margin-top: 8px;
         margin-bottom: 8px;
         margin-left: -2px;
         display: inline-block;
-
 }
+
 .form_blocks {
         display: flex;
         margin-right: 24px;
@@ -452,6 +458,7 @@
         height: 32px;
         line-height: 32px;
         margin: 12px;
+        font-size: 14px;
 
 }
 .table-data {
@@ -1118,16 +1125,7 @@
         background-color: #F2F4FA;
 }
 
-.form-background {
-        background-position: 0% 100%;
-        background-color: #F5F4F2;
-        border-radius: 8px;
-        border-bottom-right-radius: 0px;
-        margin-top: 8px;
-        margin-bottom: 8px;
-        margin-left: -2px;
-        display: inline-block;
-}
+
 .theme-pic-place {
         margin-top: 52px;
         margin-left: 0px;
