@@ -705,6 +705,7 @@
         color: rgba(0,0,0,0.88);
         line-height: 28px;
         padding-left: 16px;
+        margin-top: 0px;
 }
 
 .product-this-price {

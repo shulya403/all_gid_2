@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
 #from django.http import HttpResponse
@@ -315,9 +315,9 @@ def page_Category_Main(request, cat_):
         theme_pic = request.session['theme_pic']
 
 
-        if request.POST:
-            post_return = list(request.POST.keys())
-            tab_active = request.POST['tabs']
+        if request.GET:
+            post_return = list(request.GET.keys())
+            tab_active = request.GET['tabs']
             post_return.remove('csrfmiddlewaretoken')
             post_return.remove('tabs')
 
@@ -406,7 +406,7 @@ def page_Category_Main(request, cat_):
         }
         print(post_return)
 
-        return render(request, template_name="al_pict_category.html", context=exit_)
+        return render(request, template_name="category_get.html", context=exit_)
     else:
         return handler404(request)
 
@@ -492,7 +492,8 @@ def page_Product(request, cat_, product_):
                 'this_price': df_data[df_data['name'] == Product[0]['name']]['price_avg'].values,
                 'miscell': miscell_products,
                 'len_miscell': len_miscell,
-                'this_classes': this_classes
+                'this_classes': this_classes,
+                'id': Product[0]['id']
 
             }
 

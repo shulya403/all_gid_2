@@ -18,5 +18,5 @@ urlpatterns = [
     path('search_all.html', views.search_all, name="doorway"),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', TemplateView.as_view(template_name="sitemap.xml", content_type="text/xml")),
-    path('favicon.ico', RedirectView.as_view(url='/static/marketability/Target-G.ico', permanent=True))
+    # path('favicon.ico', RedirectView.as_view(url='/favicon.ico', permanent=True))
 ]

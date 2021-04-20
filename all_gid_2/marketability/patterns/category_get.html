@@ -10,7 +10,7 @@
 {% block category %}
     <div class="category-content">
     <div class="form-and-table">
-    <form action="/{{ action }}/" method="post" id="form_">
+    <form action="/{{ action }}/" method="get" id="form_">
         {% csrf_token %}
     <div class="category-header-line">
         <h1 class="category-name-header">
