@@ -12,11 +12,16 @@
     <div class="form-and-table">
     <form action="/{{ action }}/" method="get" id="form_">
         {% csrf_token %}
+    <div class="category-header-wrap">
     <div class="category-header-line">
         <h1 class="category-name-header">
-            {{ category_name }}: выбери цели и параметры
-
+            {{ category_name }}. Выбирайте цели и параметры.
         </h1> <!-- "category-name-header" -->
+        <div class="help-block">
+            &nbsp;?
+        <span class="help-picture"></span>
+        </div>
+    </div> <!-- "category-header-line" -->
         <div class="form-reset">
             <button onclick="$('input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
             <span>Сбросить</span>
@@ -24,7 +29,8 @@
 {#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
             </button>
         </div> <!-- "form-reset" -->
-    </div> <!-- "category-header-line" -->
+    </div>
+
     <div class="form-background">
 
 
