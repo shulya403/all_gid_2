@@ -478,6 +478,20 @@ def page_Product(request, cat_, product_):
 
             shop_mod = Get_Shops(request, db_tbl, product_)
 
+            #price
+            this_price = df_data[df_data['name'] == Product[0]['name']]['price_avg'].values
+
+            if not this_price:
+                try:
+
+                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))
+                except:
+                    str_period_inbase = request.session['period_inbase']
+                    period_inbase = Recover_Date_period_inbase(str_period_inbase)
+                    this_price = int(db_tbl['vardata'].objects.filter(fk_products=product_,
+                                                                  month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg'])
+
+
             exit_ = {
                 'category_name': category_name,
                 'categories_list': categories_list,
@@ -489,7 +503,7 @@ def page_Product(request, cat_, product_):
                 'shop_mod': shop_mod,
                 'action': cat_,
                 'top_products': top20,
-                'this_price': df_data[df_data['name'] == Product[0]['name']]['price_avg'].values,
+                'this_price': this_price,
                 'miscell': miscell_products,
                 'len_miscell': len_miscell,
                 'this_classes': this_classes,
