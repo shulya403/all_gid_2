@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 66" width="66" height="66">
+	<defs>
+		<image  width="66" height="32" id="img1" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEIAAAAgAQMAAACcpjz6AAAAAXNSR0IB2cksfwAAAAZQTFRFAAAA////pdmf3QAAAAJ0Uk5TAP9bkSK1AAAAfUlEQVR4nF1QsQ3AIAwL6sDIA6h3dOCojhk5LadwAic0AbuVGgnkRLZxEBFJXVCHEeVBVCZRbUTXSXQXopFhk+yA2CcQO0s3ciVs2mqidBGiJjOksY/3fc/dDlzoKkwgVrwIcthsg7ixmIKxdOUNVP8hv+Au5E+YGHeVTvAASUMc5KC3R/cAAAAASUVORK5CYII="/>
+	</defs>
+	<style>
+		tspan { white-space:pre }
+		.shp0 { fill: #ffffff } 
+	</style>
+	<path id="Background" class="shp0" d="" />
+	<use id="Слой 1" href="#img1" x="0" y="21" />
+</svg>

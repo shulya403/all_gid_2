@@ -9,9 +9,10 @@
 
 {% block category %}
     <div class="category-content">
-    <div class="form-and-table">
     <form action="/{{ action }}/" method="get" id="form_">
-        {% csrf_token %}
+{% comment %}    <div class="form-and-table">{% endcomment %}
+
+       {% csrf_token %}
     <div class="category-header-wrap">
     <div class="category-header-line">
         <h1 class="category-name-header">
@@ -22,16 +23,17 @@
         <span class="help-picture"></span>
         </div>
     </div> <!-- "category-header-line" -->
-        <div class="form-reset">
+
+    </div>
+
+    <div class="form-background">
+            <div class="form-reset">
             <button onclick="$('input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
             <span>Сбросить</span>
             <div class="sbros-krestik"></div>
 {#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
             </button>
         </div> <!-- "form-reset" -->
-    </div>
-
-    <div class="form-background">
 
 
             <div class="form_blocks">
@@ -281,8 +283,9 @@
             </div> <!-- novelity -->
 
     </div><!-- "issuance-tabs" -->
+
+{#    </div> <!-- "form-and-table" -->#}
     </form>
-    </div> <!-- "form-and-table" -->
     <div class="right-news">
 {#        <script>#}
 {#                    $(document).ready(function()#}

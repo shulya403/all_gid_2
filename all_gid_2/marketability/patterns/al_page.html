@@ -8,7 +8,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="/static/marketability/favicon.ico">
 
     <link rel="stylesheet" type="text/css" media="screen and (min-width:1024px)" href="/static/marketability/al_css.css">
-    <link rel="stylesheet" type="text/css" media="screen and (max-width:1024px)"  href="/static/marketability/al_css_1024.css">
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:1024px)"  href="/static/marketability/css_1024_adopt.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script type="text/javascript" src="/static/marketability/js/jquery-3.5.1.min.js"></script>
 <!-- Yandex.Metrika counter -->
@@ -44,13 +45,15 @@
         <div class="menu-left">
         <a href="/al_home.html" class="link-home">
         <div class="logo">
+            <a href="/al_home.html" class="link-home">
             <div class="logo-img">
 {#                <img src="/static/marketability/pict/Target white.svg">#}
             </div>
             <div class="logo-text"><span>Гид<br>покупателя</span></div>
+            </a>
             <div class="logo-space"></div>
         </div>
-        </a>
+
 
         <div class="category-menu">
 
@@ -61,6 +64,35 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
+        <script>
+            $(function() {
+                $(document).ready(function () {
+                    $('.menu-gamburger').click(function() {
+                        if ($('.menu-gamburger-popup').css('display') == 'none') {
+                            $('.menu-gamburger-popup').css('display', 'block');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)').css('background-color', '#4B4A8A');
+                        }
+                        else {
+                            $('.menu-gamburger-popup').css('display', 'none');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)').css('background-color', 'transparent');
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="menu-gamburger">
+
+       <div class="menu-gamburger-popup">
+			<ul>
+                {% for i, link in categories_list %}
+                    <li {% if i == category_name %}class="button-menu-gamburger-active"{% else %}class="button-menu-gamburger"{% endif %}>
+                        <a href="/{{ link }}/">{{ i }}</a>
+                    </li>
+
+                {% endfor %}
+			</ul>
+		</div> <!-- menu-gamburger-popup -->
+        </div> <!-- menu-gamburger -->
         </div> <!-- menu-left -->
         <div class="menu-right">
             <div class="category-menu">

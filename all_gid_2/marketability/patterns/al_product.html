@@ -5,7 +5,29 @@
     <meta name="keywords" content="{{ vendor }}, {{ name }}, {% for k in ttx.keys %}{{ k }}, {% endfor %}, {{ category_name }}, характеристики, параметры, цены, цена, где купить, покупки, свойства, предложения, аналоги, магазины" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
-{% endblock %}
+
+
+<!-- Yandex.Market Widget -->
+<script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript"></script>
+<script type="text/javascript">
+    (function (w) {
+        function start() {
+            w.removeEventListener("YaMarketAffiliateLoad", start);
+            w.YaMarketAffiliate.createWidget({type:"offers",
+	containerId:"marketWidget",
+	fallback:true,
+	params:{clid:2310490,
+		searchText: "{{ vendor }} {{ name }}",
+		themeId:1 } });
+        }
+        w.YaMarketAffiliate
+            ? start()
+            : w.addEventListener("YaMarketAffiliateLoad", start);
+    })(window);
+</script>
+<!-- End Yandex.Market Widget -->
+
+    {% endblock %}
 
 {% block category %}
     <div class="category-content">
@@ -109,6 +131,7 @@
         {% endif %}
 
     </div>
+    <div id="marketWidget"></div>
 
 
 

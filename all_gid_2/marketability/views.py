@@ -318,7 +318,7 @@ def page_Category_Main(request, cat_):
         if request.GET:
             post_return = list(request.GET.keys())
             tab_active = request.GET['tabs']
-            post_return.remove('csrfmiddlewaretoken')
+            # post_return.remove('csrfmiddlewaretoken')
             post_return.remove('tabs')
 
             request.session['form_return'] = post_return
