@@ -35,11 +35,38 @@
             </button>
         </div> <!-- "form-reset" -->
 
+            {% if goals_fbb_mobile %}
+            <script>
+                $(function() {
+                    $(document).ready(function () {
+                        $('label[for=goals]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=goals]').css('display', 'none');
+                    });
+                });
+            </script>
+            {% endif %}
 
             <div class="form_blocks">
+            <input type="checkbox" class="form_block_buttons_mobile" id="goals" name="goals_fbb_mobile" value="open"
+                   {%  if goals_fbb_mobile %} checked {% endif %}
+                            onchange="$('label[for=goals]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=goals]').css('display', 'none');">
 
+            <label for="goals" class="form_block_mobile_present">
 
+                <div class="form_block_mobile_present_text">Цели использования</div>
+                <div class="form_block_mobile_present_strelka"></div>
+
+            </label>
             <div class="form_block_buttons">
+
+            <div class="form_block_header_mobile"
+                 onclick="$(this).parent().css('display', 'none');
+                           $('input#goals + label').css('display', 'flex');
+                            $('input#goals').prop('checked', false);">
+                <div class="form_block_header_mobile_text">Цели использования</div>
+                <div class="form_block_header_mobile_strelka"></div>
+            </div>
             <div class="form_block_header">Цели использования</div>
 
 
@@ -67,8 +94,36 @@
           {% endfor %}
       {% endfor %}
         </div>
+        {% if classes_fbb_mobile %}
+            <script>
+                $(function() {
+                    $(document).ready(function () {
+                        $('label[for=classes]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=classes]').css('display', 'none');
+                    });
+                });
+            </script>
+            {% endif %}
+        <input type="checkbox" class="form_block_buttons_mobile" id="classes" name="classes_fbb_mobile" value="open"
+                   {%  if classes_fbb_mobile %} checked {% endif %}
+                            onchange="$('label[for=classes]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=classes]').css('display', 'none');">
+
+            <label for="classes" class="form_block_mobile_present">
+
+                <div class="form_block_mobile_present_text">Технические параметры</div>
+                <div class="form_block_mobile_present_strelka"></div>
+
+            </label>
 
             <div class="form_block_buttons">
+                <div class="form_block_header_mobile"
+                 onclick="$(this).parent().css('display', 'none');
+                           $('input#classes + label').css('display', 'flex');
+                            $('input#classes').prop('checked', false);">
+                <div class="form_block_header_mobile_text">Цели использования</div>
+                <div class="form_block_header_mobile_strelka"></div>
+            </div>
                 <div class="form_block_header">Технические параметры</div>
 
                 {% for sub_type in new_form.CL.keys %}

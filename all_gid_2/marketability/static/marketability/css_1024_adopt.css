@@ -354,6 +354,46 @@
 
 }
 
+.form_block_buttons_mobile {
+        display: none;
+}
+.form_block_mobile_present {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 2px;
+        margin-bottom: 16px;
+        margin-top: 8px;
+        border: 1px solid rgba(0,0,0,0.63);
+        border-radius: 8px;
+        background-color: #F5F4F2;
+        padding-bottom: 8px;
+        width: 340px;
+        margin-right: 12px;
+}
+
+.form_block_mobile_present_text {
+        color: rgba(0, 0, 0, 0.63);
+        font-size: 22px;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        margin-left: 12px;
+        margin-top: 12px;
+}
+.form_block_mobile_present_strelka {
+        width: 30px;
+        height: 26px;
+        background: url('pict/Expand black-1.svg');
+        background-size: 24px 20px;
+        background-repeat: no-repeat;
+        margin-right: 20px;
+        margin-top: 16px;
+}
+.form_block_mobile_present + .form_block_buttons {
+        display: none;
+}
+
 .form_block_buttons {
         /*justify-content: space-around;*/
         margin-left: 2px;
@@ -365,7 +405,38 @@
         padding-bottom: 8px;
         }
 
+.form_block_header_mobile {
+        display: flex;
+        justify-content: space-between;
+
+        width: 340px;
+        margin-right: 12px;
+
+}
+.form_block_header_mobile_text {
+        color: rgba(0, 0, 0, 0.63);
+        font-size: 22px;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        font-weight: 600;
+        margin-bottom: 12px;
+        margin-left: 12px;
+        margin-top: 12px;
+}
+
+.form_block_header_mobile_strelka {
+        width: 30px;
+        height: 26px;
+        background: url('pict/Expand black-1.svg');
+        transform: rotate(180deg);
+        background-size: 24px 20px;
+        background-repeat: no-repeat;
+        margin-right: 28px;
+        margin-top: 8px;
+}
+
 .form_block_header {
+        display: none;
         color: rgba(0, 0, 0, 0.63);
         font-size: 22px;
         letter-spacing: 0.1px;
@@ -546,7 +617,7 @@
 .tabs-rusname {
         display: inline-block;
         margin-left: 8px;
-        margin-right: 24px;
+        margin-right: 12px;
         padding-top: 0px;
 
 }
@@ -580,6 +651,7 @@
         margin-top: 12px;
         line-height: 32px;
         max-width: 320px;
+        font-size: 18px;
 
 }
 .table-data {

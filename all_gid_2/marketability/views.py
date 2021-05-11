@@ -316,10 +316,22 @@ def page_Category_Main(request, cat_):
 
 
         if request.GET:
+            print(request.GET)
             post_return = list(request.GET.keys())
             tab_active = request.GET['tabs']
-            # post_return.remove('csrfmiddlewaretoken')
+            post_return.remove('csrfmiddlewaretoken')
             post_return.remove('tabs')
+            if 'goals_fbb_mobile' in post_return:
+                goals_fbb_mobile = True
+                post_return.remove('goals_fbb_mobile')
+            else:
+                goals_fbb_mobile = False
+
+            if 'classes_fbb_mobile' in post_return:
+                classes_fbb_mobile = True
+                post_return.remove('classes_fbb_mobile')
+            else:
+                classes_fbb_mobile = False
 
             request.session['form_return'] = post_return
 
@@ -354,6 +366,9 @@ def page_Category_Main(request, cat_):
             else:
                 request.session['products_for_execute'] = []
 
+            goals_fbb_mobile = False
+            classes_fbb_mobile = False
+
             #products_for_execute = request.session['products_for_execute']
 
         df_data = Get_Sales_Top(request, db_tbl, period_inbase)
@@ -385,8 +400,6 @@ def page_Category_Main(request, cat_):
 
         theme_pic_this = theme_pic[1]
 
-
-
         exit_ = {
             'category_name':  category_name,
             'categories_list': categories_list,
@@ -402,7 +415,9 @@ def page_Category_Main(request, cat_):
             'tab_active': tab_active,
             'tab_list': tab_list,
             'tab_data': tab_data,
-            'theme_pic': theme_pic_this
+            'theme_pic': theme_pic_this,
+            'goals_fbb_mobile': goals_fbb_mobile,
+            'classes_fbb_mobile': classes_fbb_mobile
         }
         print(post_return)
 

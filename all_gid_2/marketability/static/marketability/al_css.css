@@ -312,6 +312,15 @@
         justify-content: space-around;
         margin-left: 24px;
         }
+.form_block_buttons_mobile {
+        display: none;
+}
+.form_block_mobile_present {
+        display: none;
+}
+.form_block_header_mobile {
+        display: none;
+}
 
 .form_block_header {
         color: rgba(0, 0, 0, 0.63);
