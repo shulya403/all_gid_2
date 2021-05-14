@@ -2,10 +2,17 @@
 	font-family: Roboto;
 	src: local(Roboto),
         url("fonts/Roboto-Regular.ttf") format("truetype");
-    font-weight:normal;
+    font-weight: normal;
     font-style: oblique;
 }
 
+@font-face {
+	font-family: Roboto-Italic;
+	src: local(Roboto-Italic),
+        url("fonts/Roboto-Italic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+}
 .common-grid {
         /*flex-direction: row;*/
         font-family: Roboto;
@@ -1104,7 +1111,7 @@
 }
 
 .home-slogan  {
-        color: #4B4A8A;
+        margin-top: 24px;
         font-size: 48px;
         font-weight: 500;
         line-height: 64px;
@@ -1163,6 +1170,27 @@
 
        text-align: center;
         padding-top: 12px;
+}
+
+.home-explanation {
+        width: 100%;
+        border-top: 1px solid #3C3979;
+        margin-top: 12px;
+}
+
+
+.home-about-link {
+        font-size: larger;
+        border-radius: 8px;
+        background-color: #3C3979;
+        border: 2px solid #3C3979;
+        color: #ffffff;
+        padding: 12px;
+        padding-left: 24px;
+        padding-right: 24px;
+        letter-spacing: 0.5px;
+        cursor: pointer;
+
 }
 
 .search {
@@ -1224,5 +1252,49 @@
 
 }
 
+.home-bottom {
+        font-family: Roboto;
+        letter-spacing: 0.1px;
+        width: 1106px;
+        border-top: 1px solid #3C3979;
+        font-size: smaller;
+        padding-top: 8px;
+        margin: 0 auto;
+        margin-top: 12px;
+}
+.bottom-buttons {
+        display: inline-block;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+}
 
+.about {
 
+        width: 800px;
+        margin: 0 auto;
+}
+
+.about-content > p {
+       text-align: justify;
+       text-justify: auto;
+}
+
+.about-content img {
+        margin: 0px 0px 12px 8px;
+
+}
+.about-h1 {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+
+}
+.about-h2 {
+        margin: 0;
+        border-bottom: 1px solid #3C3979;
+
+}
+.about-content {
+
+        width: 100%;
+}

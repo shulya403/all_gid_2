@@ -12,7 +12,7 @@
     <form action="/{{ action }}/" method="get" id="form_">
 {% comment %}    <div class="form-and-table">{% endcomment %}
 
-       {% csrf_token %}
+{% comment %}    {% csrf_token %}{% endcomment %}
     <div class="category-header-wrap">
     <div class="category-header-line">
         <h1 class="category-name-header">
@@ -373,5 +373,6 @@
     </div> <!-- "right-news" -->
 
     </div> <!-- "category-content" -->
+
 
 {% endblock %} <!-- block category -->
