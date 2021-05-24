@@ -186,49 +186,62 @@
 
 }
 .help-block {
-        display: none;
-        border-radius: 16px;
-        border: solid 3px #4B4A8A;
-        background-color: #4B4A8A;
+        display: inline-block;
+        border-radius: 20px;
+        border: solid 3px #2E2966;
+        background-color: #2E2966;
         color: #F5F4F2;
         font-size: 22px;
         font-weight: 600;
         margin-left: 24px;
-        height: 24px;
-        width: 24px;
+        height: 28px;
+        width: 28px;
         padding-left: 2px;
         padding-top: -4px;
 }
 .help-picture {
-        display: inline;
+        display: block;
         position: relative;
+        background-image: url("pict/Student-1.svg");
+        background-size: 20px;
+        background-repeat: no-repeat;
+        left: 3px;
+        top: 3px;
+        height: 24px;
+        width: 24px;
+
 }
 .help-block:hover > .help-picture::after {
         content: "";
         position: absolute;
-        top: 46px;
-        left: -450px;
+        top: 41px;
+        left: -700px;
         z-index: 1;
-        background: url('pict/help.png');
-        width: 825px;
-        height: 620px;
+        background-image: url('pict/voprosic_1000.gif');
+        background-repeat: no-repeat;
+        background-size: 800px;
+        width: 800px;
+        height: 448px;
         /*padding: 8px 12px;*/
-        border: none;
+        border: 1px solid #800101;
         border-radius: 4px;
         box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
 }
 .help-block:hover > .help-picture::before {
         position: absolute;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 10px solid transparent;
-        border-bottom: 12px solid rgba(255,255,255,1.0);
+        /*border-left: 4px solid transparent;*/
+        /*border-right: 4px solid transparent;*/
+        /*border-top: 10px solid transparent;*/
+        /*border-bottom: 12px solid rgba(55,255,255,1.0);*/
+        width: 20px;
+        height: 20px;
+        background-image: url("pict/hint_bottom_oblique.png");
+        background-size: 20px 20px;
         content: "";
-        left: -12px;
-        top: 24px;
+        left: -20px;
+        top: 22px;
+        z-index: 2;
 }
-
-
 
 .form-background {
         background-color: #F5F4F2;
@@ -362,7 +375,7 @@
 	    vertical-align: middle;
 	    cursor: pointer;
         position: relative;
-        overflow: hidden;
+        /*overflow: hidden;*/
         }
 .form_block_buttons input[type=checkbox]:hover + label {
 
@@ -423,18 +436,19 @@
 
 .hint-quest-mark {
         display: inline-flex;
-        position: absolute;
-        right: 8px;
-        top: 8px;
+        position: relative;
         width: 12px;
         color: rgba(0,0,0,0.63);
         font-size: 12px;
         line-height: 14px;
         letter-spacing: 0px;
-        padding-left: 2px;
+        padding-left: 1px;
+        padding-right: 1px;
         border: solid rgba(0,0,0,0.48) 1px;
         border-radius: 8px;
         cursor: help;
+        top: -2px;
+
 
 }
 
@@ -448,10 +462,11 @@
         position: relative;
 }
 .hint-quest-mark:hover > .hint-title::after {
+        display: block;
         content: attr(data-title);
         position: absolute;
-        top: -10px;
-        left: 26px;
+        top: -24px;
+        left: 27px;
         font-size: 14px;
         line-height: 16px;
         z-index: 1;
@@ -460,19 +475,23 @@
         border: solid 1px;
         width: 380px;
         padding: 8px 12px;
-        border: none;
         border-radius: 4px;
         box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
 }
 .hint-quest-mark:hover > .hint-title::before {
+        display: block;
         position: absolute;
-        border-left: 10px solid transparent;
-        border-right: 12px solid rgba(60,60,60,1);
-        border-top: 4px solid transparent;
-        border-bottom: 4px solid transparent;
+        /*border-left: 10px solid transparent;*/
+        /*border-right: 12px solid rgba(60,60,60,1);*/
+        /*border-top: 4px solid transparent;*/
+        /*border-bottom: 4px solid transparent;*/
+        width: 20px;
+        height: 20px;
+        background: url("pict/hint_left_oblique.png") no-repeat;
         content: "";
-        left: 4px;
-        top: 2px;
+        left: 12px;
+        top: -12px;
+        z-index: 2;
 }
 
 .tabs-header.tab-active {

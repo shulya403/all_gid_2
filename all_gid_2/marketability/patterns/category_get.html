@@ -19,7 +19,6 @@
             {{ category_name }}. Выбирайте цели и параметры.
         </h1> <!-- "category-name-header" -->
         <div class="help-block">
-            &nbsp;?
         <span class="help-picture"></span>
         </div>
     </div> <!-- "category-header-line" -->
@@ -86,11 +85,13 @@
                   <div class="space-gradient"></div>
                   <div class="check-galka"></div>
                   {%  if  class_.explanation %}
-                  <div class="hint-quest-mark">
-                     &nbsp;?<span class="hint-title" data-title="{{ class_.explanation }}"></span>
-                  </div>
+
                   {% endif %}
+                    <div class="hint-quest-mark">
+                     &nbsp;?<span class="hint-title" data-title="{{ class_.explanation }}"></span>
+                    </div>
               </label>
+
           {% endfor %}
       {% endfor %}
         </div>

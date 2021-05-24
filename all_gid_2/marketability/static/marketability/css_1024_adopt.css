@@ -537,7 +537,7 @@
 
 .hint-quest-mark {
         display: none;
-        position: absolute;
+        position: relative;
         right: 8px;
         top: 8px;
         width: 12px;
@@ -574,7 +574,6 @@
         border: solid 1px;
         width: 256px;
         padding: 8px 12px;
-        border: none;
         border-radius: 4px;
         box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
 }
