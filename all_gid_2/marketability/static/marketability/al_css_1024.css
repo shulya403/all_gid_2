@@ -1107,6 +1107,11 @@
         font-weight: 500;
         line-height: 64px;
 }
+.home-explanation {
+        width: 100%;
+        border-top: 1px solid #3C3979;
+        margin-top: 12px;
+}
 
 .search {
         display: flex;
@@ -1167,3 +1172,9 @@
 
 }
 
+.home-bottom {
+        width: 100%;
+        border-top: 1px solid #3c30Bf;
+        margin-top: 12px;
+        font-size: smaller;
+}

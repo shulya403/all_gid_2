@@ -319,8 +319,11 @@ def page_Category_Main(request, cat_):
             print(request.GET)
             post_return = list(request.GET.keys())
             tab_active = request.GET['tabs']
-            post_return.remove('csrfmiddlewaretoken')
+            if 'csrfmiddlewaretoken' in post_return:
+              post_return.remove('csrfmiddlewaretoken')
+
             post_return.remove('tabs')
+
             if 'goals_fbb_mobile' in post_return:
                 goals_fbb_mobile = True
                 post_return.remove('goals_fbb_mobile')

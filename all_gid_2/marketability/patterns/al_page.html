@@ -38,12 +38,41 @@
 
 </head>
 <body>
+<!-- Top100 (Kraken) Counter -->
+<script>
+    (function (w, d, c) {
+    (w[c] = w[c] || []).push(function() {
+        var options = {
+            project: 7424053,
+        };
+        try {
+            w.top100Counter = new top100(options);
+        } catch(e) { }
+    });
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src =
+    (d.location.protocol == "https:" ? "https:" : "http:") +
+    "//st.top100.ru/top100/top100.js";
+
+    if (w.opera == "[object Opera]") {
+    d.addEventListener("DOMContentLoaded", f, false);
+} else { f(); }
+})(window, document, "_top100q");
+</script>
+<noscript>
+  <img src="//counter.rambler.ru/top100.cnt?pid=7424053" alt="Топ-100" />
+</noscript>
+<!-- END Top100 (Kraken) Counter -->
 
 <div class="common-grid">
     <div class="header-menu">
         <div class="menu">
         <div class="menu-left">
-        <a href="/al_home.html" class="link-home">
+
         <div class="logo">
             <a href="/al_home.html" class="link-home">
             <div class="logo-img">
@@ -111,7 +140,15 @@
     </div> <!-- class="header-menu" -->
 
     {% block category %}{% endblock %}
-
+        <div class="home-bottom">
+            <div class="adress-bar">
+            &#169; 2021 ООО&nbsp;«ИТ Аналитика». <br>
+            109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
+            </div>
+            <div class="bottom-buttons">
+            <a href="https://zen.yandex.ru/id/5daeda0b2f1e4400ae172973" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
+            </div>
+        </div>
 </div> <!-- class="common-grid" -->
 
 </body>
