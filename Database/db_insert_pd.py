@@ -549,15 +549,15 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="printMFP для ГП-02'21.xlsx",
-                      xl_Vardata="printMFP для ГП-02'21.xlsx",
+FillDB = DB_insert_from_excel(xl_Products="Копия База printMFP для ГП-04'21.xlsm",
+                      xl_Vardata="Копия База printMFP для ГП-04'21.xlsm", #Менять месяцы на правильные согласно ctaiegoris_fields.json
                      Category="Mfp",
                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
 FillDB.DB_alchemy(FillDB.Category)
 FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [2]
+mth_list = [4]
 FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
@@ -568,7 +568,7 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 #                  drop_shops = ['yama']):
 
 # FillShop = DB_insert_shops(
-#                  xl_Shops="Монитор-Concat_Prices--Jan-21--Filled.xlsx", #Месячные прайсы Filled/Checked
+#                  xl_Shops="Монитор-Concat_Prices--Mar-21--Filled_update.xlsx", #Месячные прайсы Filled/Checked
 #                  Category='Mnt',
 #                  dir_root="../Data/"
 # )

@@ -2,19 +2,19 @@
 {% block meta %}
 
     <title>Гид покупателя. Компьютеры и периферия.</title>
-    <meta name="description" content="Allgid.ru: Сформируй свой Шорт-лист самых продаваемых моделей. Рейтинг популярности. Фильтр по целям использования и базовым характеристикам. Средние цены по рынку. Близкие аналоги. Предложения основных Интернет-магазинов." />
+    <meta name="description" content="Рейтинг реальных продаж в России.&#x0A;&#9830;Ноутбук &#9830;Монитор &#9830;Принтер. Выбрать по целям, задачам, характеристикам. Средние цены. Сравнить. Где купить." />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="компьютеры, периферия, рейтинг, популярность, популярные, новинки, дом, офис, цены, модель, характеристики, выбрать, фильтр, критерий, критериии, сравнение, сценарии использования, выбор продукта, выбор покупателей, ноутбук, монитор, принтер, мфу"  />
+
 {#    <meta name="viewport" content="width=device-width, initial-scale=1.0">#}
-    <link rel="canonical" href="https://allgid.ru/al_home.html"/>
+    <link rel="canonical" href="https://allgid.ru/"/>
 {% endblock %}
 {% block category %}
     <div class="home-grid">
 {#    <div class="home-h1">Гид покупателя <span>AllGid.ru</span></div>#}
-        <div class="home-slogan">&#171;Гид покупателя&#187;</div>
-    <div class="home-h2">Компьютеры и периферия<br>Бестселлеры</div>
+    <h1 class="home-slogan">&#171;Гид покупателя&#187;</h1>
+    <h2 class="home-h2">Компьютеры и периферия<br>Бестселлеры</h2>
 
-    </div>
+
     <div class="home-categories">
     <div class="home-cat-cards">
         {% for i, link in categories_list %}
@@ -32,6 +32,7 @@
             </a>
         {% endfor %}
     </div>
+    </div>
     <div class="home-explanation">
     <p><strong>Гид Покупателя</strong> – это сервис, который позволяет формировать <strong>Short List</strong> самых популярных продуктов и решений,
 максимально отвечающим вашим целям и задачам. </p>
@@ -45,7 +46,7 @@
         <button class="home-about-link">Подробнее о методике >></button>
     </a>
     </div>
-
+    </div>
 
 
 {% endblock %}

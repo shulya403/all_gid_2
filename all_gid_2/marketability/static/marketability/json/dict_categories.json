@@ -91,14 +91,19 @@
                 },
                 "appear_month": {
                     "html_name": "Начало продаж",
-                    "id": 7,
+                    "id": 8,
                     "short": false
                 },
                 "touchscreen": {
                     "html_name": "Сенсорный экран",
+                    "id": 7,
+                    "short": false
+                },
+                "screen_resulution_list": {
+                    "html_name": "Разрешение экрана",
                     "id": 6,
                     "short": false
-                }
+               }
             },
             "timelag": 2
         },
@@ -135,12 +140,12 @@
                 "format_a": {
                     "html_name": "Формат",
                     "id": 5,
-                    "short": true
+                    "short": false
                 },
                 "speed": {
                     "html_name": "Скорость печати, стр/мин",
                     "id": 5,
-                    "short": false
+                    "short": true
                 },
                 "duplex": {
                     "html_name": "Двусторонняя печать (дуплекс)",

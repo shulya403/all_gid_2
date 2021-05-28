@@ -40,9 +40,10 @@ class DB():
         lastmod_ = list()
         for cat in self.dict_cat_conn:
             for i, row in self.dict_cat_conn[cat].iterrows():
-                loc_.append('http://www.allgid.ru/' + cat + '/' + str(row['id']))
+                loc_.append('https://www.allgid.ru/' + cat + '/' + str(row['id']))
                 lastmod_.append(row['appear_month'])
         df = pd.DataFrame({'loc': loc_, 'lastmod': lastmod_})
+        print("Всего модлей:", len(df))
 
         xml_f = open(filename, "w")
 
@@ -50,17 +51,18 @@ class DB():
 
         now = dt.datetime.now()
 
-        tup_dt = (cat, time.strftime("%Y-%m-%d", time.struct_time(
-            (now.year, now.month, now.day, 0, 0, 0, now.weekday(), now.day, -1))))
 
-        xml_f.write("<url>\n<loc>http://www.allgid.ru/al_home.html</loc>\n</url>\n")
+
+        xml_f.write("<url>\n<loc>https://www.allgid.ru/</loc>\n</url>\n")
 
         for cat in self.dict_cat_conn:
-            xml_f.write("<url>\n<loc>http://www.allgid.ru/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>0.9</priority>\n</url>\n".format(*tup_dt))
+            tup_dt = (cat, time.strftime("%Y-%m-%d", time.struct_time(
+                (now.year, now.month, now.day, 0, 0, 0, now.weekday(), now.day, -1))))
+            xml_f.write("<url>\n<loc>https://www.allgid.ru/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>0.9</priority>\n</url>\n".format(*tup_dt))
 
-        xml_f.write("<url>\n<loc>http://www.allgid.ru/search_all.html</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>1.0</priority>\n</url>\n".format(
+        xml_f.write("<url>\n<loc>https://www.allgid.ru/search_all.html</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>1.0</priority>\n</url>\n".format(
                 tup_dt[1]))
-        xml_f.write("<url>\n<loc>http://www.allgid.ru/al_about.html</loc>\n</url>\n")
+        xml_f.write("<url>\n<loc>https://www.allgid.ru/al_about.html</loc>\n</url>\n")
 
 
         for i, row in df.iterrows():

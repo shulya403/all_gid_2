@@ -10,7 +10,8 @@ app_name = 'marketability'
 handler404 = 'marketability.views.handler404'
 
 urlpatterns = [
-    path('', RedirectView.as_view(url='/al_home.html')),
+    # path('', RedirectView.as_view(url='/al_home.html')),
+    path('', views.home, name="home"),
     path('<slug:cat_>/', views.page_Category_Main, name='cat'),
     path('<slug:cat_>/<slug:product_>', views.page_Product, name='product'),
     path('al_about.html', views.about, name="about"),

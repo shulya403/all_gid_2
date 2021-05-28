@@ -43,7 +43,7 @@ def digit_separator(digit):
     if digit:
         try:
             str_digit = str(int(digit))
-        except ValueError:
+        except Exception:
             return 'n/a'
         exit_ = str()
         tail = len(str_digit) % 3
@@ -56,7 +56,7 @@ def digit_separator(digit):
         else:
             return exit_[1:]
     else:
-        return digit
+        return 'n/a'
 
 @register.filter
 def sort_keys(keys):
@@ -502,12 +502,11 @@ def page_Product(request, cat_, product_):
             if not this_price:
                 try:
 
-                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))
+                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
                 except:
                     str_period_inbase = request.session['period_inbase']
                     period_inbase = Recover_Date_period_inbase(str_period_inbase)
-                    this_price = int(db_tbl['vardata'].objects.filter(fk_products=product_,
-                                                                  month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg'])
+                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
 
 
             exit_ = {

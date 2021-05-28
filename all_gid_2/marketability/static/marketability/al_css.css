@@ -1192,7 +1192,8 @@
 }
 
 .home-explanation {
-        width: 100%;
+        width: 1106px;
+        margin: 0 auto;
         border-top: 1px solid #3C3979;
         margin-top: 12px;
 }
