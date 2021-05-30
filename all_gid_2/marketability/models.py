@@ -6,7 +6,34 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from ckeditor_uploader.fields import RichTextUploadingField
 
+class TxtHow(models.Model):
+    idtxt_how = models.AutoField(primary_key=True)
+    article_html_body = RichTextUploadingField()
+    artice_title = models.TextField(blank=True, null=True)
+    article_description = models.TextField(blank=True, null=True)
+    article_keywords = models.TextField(blank=True, null=True)
+    cat = models.CharField(max_length=3, blank=True, null=True)
+    article_anno = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'txt_how'
+
+
+class TxtRatings(models.Model):
+    idtxt_ratings = models.AutoField(primary_key=True)
+    article_html_body = RichTextUploadingField()
+    article_title = models.TextField(blank=True, null=True)
+    article_description = models.TextField(blank=True, null=True)
+    article_keywords = models.TextField(blank=True, null=True)
+    cat = models.CharField(max_length=3, blank=True, null=True)
+    article_anno = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'txt_ratings'
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
@@ -201,9 +228,8 @@ class MntProducts(models.Model):
 
 
 class MntProductsHasMntClasses(models.Model):
-    fk_products = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
+    fk_products = models.ForeignKey(MntProducts, models.DO_NOTHING, db_column='fk_products')
     fk_classes = models.ForeignKey(MntClasses, models.DO_NOTHING, db_column='fk_classes')
-    id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -253,9 +279,8 @@ class NbProducts(models.Model):
 
 
 class NbProductsHasNbClasses(models.Model):
-    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products', primary_key=True)
+    fk_products = models.ForeignKey(NbProducts, models.DO_NOTHING, db_column='fk_products')
     fk_classes = models.ForeignKey(NbClasses, models.DO_NOTHING, db_column='fk_classes')
-    id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False

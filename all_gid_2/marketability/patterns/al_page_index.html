@@ -2,8 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="yandex-verification" content="3344c37d6a27e5f9" />
-    <meta name="google-site-verification" content="il_P0Z1GJHmnHv1aHt33-8fjUVIY7xf2rQsUFqdo2A8" />
+
     <meta name='wmail-verification' content='93320888614eed9e528184a150b896ee' />
 
     {% block meta %}{% endblock %}
@@ -28,8 +27,12 @@
         accurateTrackBounce:true
    });
 </script>
+
+{#    {% autoescape off %}#}
+
 <noscript><div><img src="https://mc.yandex.ru/watch/75335146" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
+{#    {% endautoescape %}#}
+    <!-- /Yandex.Metrika counter -->
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HTCCXF3FFD"></script>
@@ -78,7 +81,7 @@
         <div class="menu-left">
 
         <div class="logo">
-            <a href="/al_home.html" class="link-home">
+            <a href="/" class="link-home">
             <div class="logo-img">
 
             </div>
