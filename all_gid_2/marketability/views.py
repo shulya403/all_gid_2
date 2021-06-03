@@ -316,7 +316,7 @@ def page_Category_Main(request, cat_):
 
 
         if request.GET:
-            print(request.GET)
+            #print(request.GET)
             post_return = list(request.GET.keys())
             tab_active = request.GET['tabs']
             if 'csrfmiddlewaretoken' in post_return:
@@ -670,13 +670,16 @@ def months_names(period_):
 def Get_Period_inbase(request, db_tbl):
 
     timelag = request.session['timelag']
-    period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by())
+
+    period_inbase = vlist_to_list(db_tbl['vardata'].objects.values_list('month').distinct().order_by('month'))
+
     if None in period_inbase:
             period_inbase.remove(None)
     if len(period_inbase) < timelag:
          timelag=len(period_inbase)
 
     period_inbase = period_inbase[-timelag:]
+
 
     request.session['period_mth_rus'] = months_names(period_inbase)
 

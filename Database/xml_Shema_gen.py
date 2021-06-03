@@ -38,10 +38,14 @@ class DB():
 
         loc_ = list()
         lastmod_ = list()
+
+        now = dt.datetime.now()
+        now_ = time.strftime("%Y-%m-%d", time.struct_time(
+                (now.year, now.month, now.day, 0, 0, 0, now.weekday(), now.day, -1)))
         for cat in self.dict_cat_conn:
             for i, row in self.dict_cat_conn[cat].iterrows():
-                loc_.append('https://www.allgid.ru/' + cat + '/' + str(row['id']))
-                lastmod_.append(row['appear_month'])
+                loc_.append('https://allgid.ru/' + cat + '/' + str(row['id']))
+                lastmod_.append(now_)
         df = pd.DataFrame({'loc': loc_, 'lastmod': lastmod_})
         print("Всего модлей:", len(df))
 
@@ -49,25 +53,22 @@ class DB():
 
         xml_f.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n")
 
-        now = dt.datetime.now()
 
 
-
-        xml_f.write("<url>\n<loc>https://www.allgid.ru/</loc>\n</url>\n")
+        xml_f.write("<url>\n<loc>https://allgid.ru/</loc>\n</url>\n")
 
         for cat in self.dict_cat_conn:
-            tup_dt = (cat, time.strftime("%Y-%m-%d", time.struct_time(
-                (now.year, now.month, now.day, 0, 0, 0, now.weekday(), now.day, -1))))
-            xml_f.write("<url>\n<loc>https://www.allgid.ru/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>0.9</priority>\n</url>\n".format(*tup_dt))
+            tup_dt = (cat, now_)
+            xml_f.write("<url>\n<loc>https://allgid.ru/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>0.9</priority>\n</url>\n".format(*tup_dt))
 
-        xml_f.write("<url>\n<loc>https://www.allgid.ru/search_all.html</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>1.0</priority>\n</url>\n".format(
+        xml_f.write("<url>\n<loc>https://allgid.ru/search_all.html</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>1.0</priority>\n</url>\n".format(
                 tup_dt[1]))
-        xml_f.write("<url>\n<loc>https://www.allgid.ru/al_about.html</loc>\n</url>\n")
+        xml_f.write("<url>\n<loc>https://allgid.ru/al_about.html</loc>\n</url>\n")
 
 
         for i, row in df.iterrows():
             xml_f.write("<url>\n")
-            xml_f.write("<loc>{}</loc>\n<changefreq>monthly</changefreq>\n".format(row['loc']))
+            xml_f.write("<loc>{}</loc>\n<changefreq>weekly</changefreq>\n".format(row['loc']))
             if row['lastmod']:
                 xml_f.write("<lastmod>{}</lastmod>\n".format(row['lastmod']))
             xml_f.write("</url>\n")

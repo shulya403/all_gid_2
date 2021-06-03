@@ -1,4 +1,5 @@
 User-Agent: *
 Allow: /
 Disallow: /404.html
-sitemap: https://www.allgid.ru/sitemap.xml
+Disallow: /how
+sitemap: https://allgid.ru/sitemap.xml

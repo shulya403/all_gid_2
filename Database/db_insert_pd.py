@@ -536,7 +536,36 @@ class DB_insert_shops(DB_insert_from_excel):
 
         self.Insert_df_to_SQL(self.df_Shops_Price(), self.tbl_shops_prices)
 
+class Monitor_Models_Base_Update():
+    def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
+        old_filename = dir + old_base
+        new_filename = dir + new_base
 
+        self.df_old = pd.read_excel(old_filename)
+        self.df_new = pd.read_excel(new_filename)
+
+        self.df_new = self.df_new[self.df_old.columns]
+
+        self.df_old['name_low'] = self.df_old['Vendor'] + self.df_old['Model'].apply(lambda nm: str(nm).lower())
+        self.df_new['name_low'] = self.df_new['Vendor'] + self.df_new['Model'].apply(lambda nm: str(nm).lower())
+
+
+    def Concat_old_new(self, old, new):
+
+        return pd.concat([old, new], ignore_index=True)
+
+    def Drop_duplicates(self, df):
+        df.drop_duplicates(subset=['name_low'], keep='last')
+        df.drop(axis=1, columns=['name_low'], inplace=True)
+        return df
+
+    def Write_excel(self):
+
+        df = self.Drop_duplicates(self.Concat_old_new(self.df_old, self.df_new))
+        filename = 'Monitors_Model_Base_'
+        print(max(list(df['Appear_month'].unique())))
+
+        #df.to_excel(filename)
 
 # MAIN
 
@@ -549,16 +578,16 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Копия База printMFP для ГП-04'21.xlsm",
-                      xl_Vardata="Копия База printMFP для ГП-04'21.xlsm", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Mfp",
-                    dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [4]
-FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
+# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Apr1.xlsx",
+#                       xl_Vardata="NB_Report-4-21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Nb",
+#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+# FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [4]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -567,12 +596,19 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 #                  dir_root="../Data/",
 #                  drop_shops = ['yama']):
 
+# Заполение магазинов для мониторов и ноутбуков
 # FillShop = DB_insert_shops(
-#                  xl_Shops="Монитор-Concat_Prices--Mar-21--Filled_update.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Mnt',
+#                  xl_Shops="Ноутбук-Concat_Prices--Apr-21--Cheked.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Nb',
 #                  dir_root="../Data/"
 # )
 #
 # FillShop.To_DB_Shop_Price()
 
 
+# Мониторы добавка и исправление моделей за месяц
+# class Monitor_Models_Base_Update():
+#     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
+
+Apr_monitors = Monitor_Models_Base_Update('Monitors_Model_Base_Jan-21.xlsx', 'Mon models Mar-21.xlsx')
+Apr_monitors.Write_excel()
