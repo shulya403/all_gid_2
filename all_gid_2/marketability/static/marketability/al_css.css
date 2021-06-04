@@ -468,9 +468,19 @@
         display: inline;
         position: relative;
 }
-.hint-quest-mark:hover > .hint-title::after {
-        display: block;
-        content: attr(data-title);
+
+.hint-title-pin {
+        display: none;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: url("pict/hint_left_oblique.png") no-repeat;
+        left: 12px;
+        top: -12px;
+        z-index: 2;
+}
+.hint-title-hover {
+        display: none;
         position: absolute;
         top: -24px;
         left: 27px;
@@ -485,22 +495,6 @@
         border-radius: 4px;
         box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
 }
-.hint-quest-mark:hover > .hint-title::before {
-        display: block;
-        position: absolute;
-        /*border-left: 10px solid transparent;*/
-        /*border-right: 12px solid rgba(60,60,60,1);*/
-        /*border-top: 4px solid transparent;*/
-        /*border-bottom: 4px solid transparent;*/
-        width: 20px;
-        height: 20px;
-        background: url("pict/hint_left_oblique.png") no-repeat;
-        content: "";
-        left: 12px;
-        top: -12px;
-        z-index: 2;
-}
-
 .tabs-header.tab-active {
         background-color: #4B4A8A;
         color: #F5F4F2;

@@ -84,12 +84,23 @@
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
                   <div class="check-galka"></div>
-                  {%  if  class_.explanation %}
+                                    {%  if  class_.explanation %}
+
+
+                  <div class="hint-quest-mark" onmouseover="$(this).children('.hint-title-hover').css('display', 'block');
+                                                            $(this).children('.hint-title-pin').css('display', 'block');"
+                                                onmouseleave="$(this).children('.hint-title-hover').css('display', 'none');
+                                                            $(this).children('.hint-title-pin').css('display', 'none');">
+
+                     &nbsp;?
+                      <div class="hint-title-pin"></div>
+                    <div class="hint-title-hover">
+                    <span>{{ class_.explanation|linebreaksbr }}</span>
+                  </div>
+                  </div>
 
                   {% endif %}
-                    <div class="hint-quest-mark">
-                     &nbsp;?<span class="hint-title" data-title="{{ class_.explanation }}"></span>
-                    </div>
+
               </label>
 
           {% endfor %}
@@ -142,9 +153,20 @@
                   <div class="space-gradient"></div>
                   <div class="check-galka"></div>
                   {%  if  class_.explanation %}
-                  <div class="hint-quest-mark">
-                     &nbsp;?<span class="hint-title" data-title="{{ class_.explanation }}"></span>
+
+
+                  <div class="hint-quest-mark" onmouseover="$(this).children('.hint-title-hover').css('display', 'block');
+                                                            $(this).children('.hint-title-pin').css('display', 'block');"
+                                                onmouseleave="$(this).children('.hint-title-hover').css('display', 'none');
+                                                            $(this).children('.hint-title-pin').css('display', 'none');">
+
+                     &nbsp;?
+                      <div class="hint-title-pin"></div>
+                    <div class="hint-title-hover">
+                    <span>{{ class_.explanation|linebreaksbr }}</span>
                   </div>
+                  </div>
+
                   {% endif %}
               </label>
           {% endfor %}

@@ -27,6 +27,7 @@ from django_pandas.io import read_frame
 from django.db.models import Count, F, Sum, Avg, Q
 
 from django.template.defaulttags import register
+from django.template.defaultfilters import linebreaksbr
 
 import json
 
