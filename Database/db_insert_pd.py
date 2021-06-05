@@ -575,21 +575,21 @@ class Monitor_Models_Base_Update():
 # def __init__ (self,
 #                     xl_Products,
 #                     xl_Vardata,
-#                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\",
+#                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\",C:/Users/User/ITResearch/all_gid_2/Data/
 #                     Category='Nb',
 #                     JSON_file="categories_fields.json"):
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_04-1.xlsx",
-                      xl_Vardata="Monitors_Sales-Jan`21-Apr`21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Mnt",
-                    dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
+FillDB = DB_insert_from_excel(xl_Products="Allgid UPS.xlsx",
+                      xl_Vardata="Allgid UPS.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Ups",
+                    dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
 FillDB.DB_alchemy(FillDB.Category)
 FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [1,2,3,4]
+# mth_list = [3]
 # FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):

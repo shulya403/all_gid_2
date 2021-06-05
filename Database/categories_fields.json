@@ -450,7 +450,7 @@
       }
 
   },
-"Mfp": {
+  "Mfp": {
       "Fields_products": {
         "Бренд": {
           "db_name": "brand",
@@ -672,6 +672,169 @@
           "col_name": "Модель ITR"
         }
       }
-}
+},
+  "Ups": {
+      "Fields_products": {
+        "vendor": {
+          "db_name": "brand"
+        },
+        "model": {
+          "db_name": "name"
+        },
+        "power, kVA": {
+          "db_name": "power"
+        },
+        "type": {
+          "db_name": "type_line",
+          "autochange": {
+            "part": false,
+            "change": {
+              "c01__Off-line": "Off-line",
+              "c02__Line-interactive, AS": "Line-interactive, AS",
+              "c03__Line-interactive, Sin": "Line-interactive, Sin",
+              "c04__On-line, less 3 kVA": "On-line"
+            }
+          }
+        },
+        "form 2": {
+          "db_name": "form_factor",
+          "autochange": {
+            "part": false,
+            "change": {
+              "RT": "Rack/Tower",
+              "Modular": "Модульный",
+              "RM": "Rack"
+            }
+          }
+        },
+        "type2": {
+          "db_name": "level",
+          "autochange": {
+            "part": false,
+            "change": {
+              "Light corporate": "Корпоративный",
+              "Mass": "Массовый"
+          }
+        }
+        },
+
+        "Appear_month": {
+          "db_name": "appear_month",
+          "autochange": {
+            "part": false,
+            "change": {
+              "2020_01": "2020-01-01",
+              "2021_06": "2021-06-01",
+              "": null
+
+            }
+          }
+        }
+
+
+        },
+      "xl_sales_page": "Лист1",
+      "xl_page": "Лист1",
+      "Fields_classes": {
+        "GO_lowend": {
+          "text": "Для дома, начального уровня",
+          "class_subtype": "Домашний",
+          "type": "GO"
+      },
+        "GO_homeplus": {
+          "text": "Для дома, продвинутого уровня",
+          "class_subtype": "Домашний",
+          "type": "GO"
+      },
+        "GO_gamer": {
+          "text": "Для игровых ПК и рабочих станций",
+          "class_subtype": "Домашний",
+          "type": "GO"
+      },
+        "GO_soho": {
+          "text": "Домашний офис, малый офис",
+          "class_subtype": "Домашний",
+          "type": "GO"
+      },
+        "GO_smb": {
+          "text": "Малый и средний бизнес",
+          "class_subtype": "Коммерческий",
+          "type": "GO"
+      },
+        "GO_corporativ": {
+          "text": "Корпоративный (большие организации)",
+          "class_subtype": "Коммерческий",
+          "type": "GO"
+      },
+        "GO_server": {
+          "text": "Критичное оборудование (серверы и т .д.)",
+          "class_subtype": "Коммерческий",
+          "type": "GO"
+      },
+        "CL_euro": {
+          "text": "Евро-розетки",
+          "class_subtype": "Подключение",
+          "type": "CL"
+      },
+        "CL_iec": {
+          "text": "IEC-розетки",
+          "class_subtype": "Подключение",
+          "type": "CL"
+      },
+        "CL_homeabove": {
+          "text": "Розетки сверху корпуса (Home-вариант)",
+          "class_subtype": "Форм-фактор",
+          "type": "CL"
+      },
+        "CL_tower": {
+          "text": "Розетки сзади корпуса (Башня)",
+          "class_subtype": "Форм-фактор",
+          "type": "CL"
+      },
+        "CL_universal": {
+          "text": "Универсальный Стойка/Башня",
+          "class_subtype": "Форм-фактор",
+          "type": "CL"
+      },
+        "CL_rack": {
+          "text": "Rackmount (Монтаж в стойку)",
+          "class_subtype": "Форм-фактор",
+          "type": "CL"
+      },
+        "CL_aproximate": {
+          "text": "Апроксимированная синусоида (AS)",
+          "class_subtype": "Топология включения в линию",
+          "type": "CL"
+      },
+        "CL_online": {
+          "text": "On-line (двойное преобразование)",
+          "class_subtype": "Топология включения в линию",
+          "type": "CL"
+      },
+        "CL_sin": {
+          "text": "Чистая синусоида (SIN)",
+          "class_subtype": "Топология включения в линию",
+          "type": "CL"
+      }
+      },
+      "Fields_sales": {
+        "month": {
+          "col_name": "QQ",
+          "change": {
+            "2021_Q1": "2021-03-01",
+            "2021_Q2": "2021-06-01"
+          }
+        },
+        "sales_units": {
+          "col_name": "units"
+        },
+        "price_rur": {
+          "col_name": "price, Rur"
+        },
+        "product_name": {
+          "col_name": "model"
+        }
+      }
+  }
 }
 

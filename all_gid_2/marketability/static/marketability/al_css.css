@@ -408,23 +408,26 @@
 .space-gradient {
         display: inline-flex;
         position: absolute;
-        right: 24px;
+        right: 4px;
         height: 22px;
-        width: 50px;
+        width: 150px;
         background: linear-gradient(270deg, #FFFFFF 0%, rgba(0,0,0,0) 100%);
 }
 .form_block_buttons input[type=checkbox]:checked + label > .space-gradient,
 .form_block_buttons input[type=checkbox]:hover:checked + label > .space-gradient
 {
          background: linear-gradient(270deg, #4B4A8A 10%, rgba(0,0,0,0) 100%);
-         right: 46px;
+
  }
 
 .form_block_buttons input[type=checkbox]:hover + label > .space-gradient {
          background: linear-gradient(270deg, #F2F4FA 0%, rgba(0,0,0,0) 100%);
+
  }
 .form_block_buttons input[type=checkbox]:disabled + label > .space-gradient {
          background: linear-gradient(270deg, #F5F4F2 0%, rgba(0,0,0,0) 100%);
+         position: absolute;
+
  }
 
 .check-galka {
@@ -1182,7 +1185,7 @@
        width: 100%;
 
        text-align: center;
-        padding-top: 12px;
+        padding-top: 24px;
 }
 
 .home-explanation {

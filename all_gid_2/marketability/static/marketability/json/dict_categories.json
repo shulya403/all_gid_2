@@ -212,14 +212,14 @@
                     "short": false
                 },
                 "power":{
-                    "html_name": "Мощность",
+                    "html_name": "Мощность, кВА",
                     "id": 2,
                     "short": true
                 },
                 "type_line": {
                     "html_name": "Тип",
                     "id": 3,
-                    "short": false
+                    "short": true
                 },
                 "form_factor": {
                     "html_name": "Форм-фактор",
@@ -229,7 +229,7 @@
                 "level": {
                     "html_name": "Уровень",
                     "id": 5,
-                    "short": true
+                    "short": false
                 },
                 "appear_month": {
                     "html_name": "Начало продаж",
