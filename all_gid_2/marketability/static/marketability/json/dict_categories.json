@@ -1,6 +1,10 @@
 {
         "Mnt": {
             "category_name": "Мониторы",
+            "categoty_name_singular": {
+                "stable": true,
+                "cat": "Монитор"
+            },
 
             "fields_show": {
 
@@ -56,6 +60,10 @@
         },
         "Nb": {
             "category_name": "Ноутбуки",
+            "categoty_name_singular": {
+                "stable": true,
+                "cat": "Ноутбук"
+            },
 
             "fields_show": {
 
@@ -109,6 +117,12 @@
         },
         "Mfp": {
             "category_name": "Принтеры и МФУ",
+            "category_name_singular": {
+                "stable": false,
+                "name": "Принтер, МФУ",
+                "field": "type"
+            },
+
 
             "fields_show": {
 
@@ -177,6 +191,52 @@
             },
 
 
+            "timelag": 1
+        },
+
+        "Ups": {
+            "category_name": "ИБП",
+            "categoty_name_singular": {
+                "stable": true,
+                "cat": "Источник бесперебойного питания"
+            },
+            "fields_show": {
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "power":{
+                    "html_name": "Мощность",
+                    "id": 2,
+                    "short": true
+                },
+                "type_line": {
+                    "html_name": "Тип",
+                    "id": 3,
+                    "short": false
+                },
+                "form_factor": {
+                    "html_name": "Форм-фактор",
+                    "id": 4,
+                    "short": true
+                },
+                "level": {
+                    "html_name": "Уровень",
+                    "id": 5,
+                    "short": true
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 11,
+                    "short": false
+                }
+            },
             "timelag": 1
         }
     }

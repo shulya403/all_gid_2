@@ -16,7 +16,12 @@ from .models import MntClasses, \
     MfpVardata,\
     MfpShopsPrices,\
     MntShopsPrices,\
-    NbShopsPrices,\
+    NbShopsPrices, \
+    UpsClasses, \
+    UpsProducts, \
+    UpsProductsHasUpsClasses, \
+    UpsVardata, \
+    UpsShopsPrices, \
     TextLinks
 
 from datetime import datetime as dt
@@ -87,6 +92,13 @@ def DB_table(cat_):
             'vardata': MfpVardata,
             'shop_prices': MfpShopsPrices
         },
+    'Ups': {'products': UpsProducts,
+            'classes': UpsClasses,
+            'mtm_prod_clas': UpsProductsHasUpsClasses,
+            'vardata': UpsVardata,
+            'shop_prices': UpsShopsPrices
+
+    }
 
     }
 
@@ -664,7 +676,10 @@ def months_names(period_):
                     mth_names[date_tuple[1].month] + \
                     "`" + date_tuple[1].strftime("%y")
     else:
-        exit_ = mth_names[period_[0].month] + "`" + period_[0].strftime("%y")
+        try:
+            exit_ = mth_names[period_[0].month] + "`" + period_[0].strftime("%y")
+        except:
+            exit_ = "2021"
 
     return exit_
 
@@ -764,7 +779,8 @@ def home(request):
     categories_pict = {
         "Ноутбуки": "/static/marketability/pict/cat/nb.jpg",
         "Мониторы": "/static/marketability/pict/cat/Mnt.jpg",
-        "Принтеры и МФУ": "/static/marketability/pict/cat/Mfp.jpg"
+        "Принтеры и МФУ": "/static/marketability/pict/cat/Mfp.jpg",
+        "ИБП": "/static/marketability/pict/cat/Ups.jpg"
     }
 
     exit_ = {'categories_list': categories_list,

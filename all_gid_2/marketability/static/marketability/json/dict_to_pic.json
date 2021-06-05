@@ -25,5 +25,8 @@
         },
   "Mfp": {
       "zaglushka": "pict/themes/mfp_zaglushka_256_512.jpg"
+  },
+  "Ups": {
+      "zaglushka": "pict/themes/ups_zaglushka_256_512.jpg"
   }
 }
