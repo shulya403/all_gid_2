@@ -16,7 +16,11 @@ def df_compare(df_old, df_new):
             for j in cols:
                 name = row['name']
                 if(isinstance(row[j], float)):
-                    str_row = str(int(row[j]))
+                    try:
+                        str_row = str(int(row[j]))
+                    except ValueError:
+                        print(row["name"], j, row[j])
+                        str_row = str(row[j])
                 else:
                     str_row = str(row[j])
 
@@ -104,16 +108,38 @@ class DB_insert_from_excel(object):
         def df_Autochange_Products(df, dict_fields):
 
             for i in dict_fields:
-                if "autochange" in dict_fields[i].keys():
-                    map_ = dict_fields[i]["autochange"]
-                    for j in df[dict_fields[i]['db_name']].unique():
-                        if not j in dict_fields[i]["autochange"]:
+                print(i, dict_fields[i].keys())
 
-                            map_[j] = j
-                            for k in map_:
-                                if j.title() == k.title() and k != j:
-                                    map_[j] = map_[k]
+                if dict_fields[i]['db_name'] == 'speed':
+                    dict_fields[i]['db_name']
+                    pass
+
+                if "autochange" in dict_fields[i].keys():
+                    if dict_fields[i]["autochange"]["part"]:
+                        map_ = dict()
+                        for j in df[dict_fields[i]['db_name']].unique():
+                            for k in dict_fields[i]["autochange"]['change'].keys():
+                                if str(k).lower() in str(j).lower():
+                                    map_[j] = str(j).\
+                                        replace(k, dict_fields[i]["autochange"]['change'][k]).\
+                                        replace(k.title(), dict_fields[i]["autochange"]['change'][k])
                                     break
+                                else:
+                                    map_[j] = j
+                    else:
+
+
+                        map_ = dict_fields[i]["autochange"]['change']
+                        for j in df[dict_fields[i]['db_name']].unique():
+
+                            if not j in dict_fields[i]["autochange"]['change']:
+
+                             map_[j] = j
+                             for k in map_:
+                                 if str(j).title() == str(k).title() and k != j:
+                                     map_[j] = map_[k]
+                                     break
+
 
                     df[dict_fields[i]['db_name']] = df[dict_fields[i]['db_name']].map(map_, na_action='ignore')
             return df
@@ -471,6 +497,7 @@ class DB_insert_shops(DB_insert_from_excel):
             'Site',
             'Vendor'
         ])
+
         Check_Category(Category, self.df_Shopprices, xl_Shops)
         set_sites = set(self.df_Shopprices['Site'].unique())
         set_sites = set_sites - set(drop_shops)
@@ -509,7 +536,39 @@ class DB_insert_shops(DB_insert_from_excel):
 
         self.Insert_df_to_SQL(self.df_Shops_Price(), self.tbl_shops_prices)
 
+class Monitor_Models_Base_Update():
+    def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
+        old_filename = dir + old_base
+        new_filename = dir + new_base
 
+        self.df_old = pd.read_excel(old_filename)
+        self.df_new = pd.read_excel(new_filename)
+
+        self.df_new = self.df_new[self.df_old.columns]
+
+        self.df_old['name_low'] = self.df_old['Vendor'] + self.df_old['Model'].apply(lambda nm: str(nm).lower())
+        self.df_new['name_low'] = self.df_new['Vendor'] + self.df_new['Model'].apply(lambda nm: str(nm).lower())
+
+        self.num = num
+        self.dir = dir
+
+
+    def Concat_old_new(self, old, new):
+
+        return pd.concat([old, new], ignore_index=True)
+
+    def Drop_duplicates(self, df):
+        df.drop_duplicates(subset=['name_low'], keep='last', inplace=True)
+        df.drop(axis=1, columns=['name_low'], inplace=True)
+        return df
+
+    def Write_excel(self):
+
+        df = self.Drop_duplicates(self.Concat_old_new(self.df_old, self.df_new))
+        filename = self.dir + 'Monitors_Model_Base_' + str(max(list(df['Appear_month'].unique()))) + "-" + str(self.num) + ".xlsx"
+        print(max(list(df['Appear_month'].unique())))
+
+        df.to_excel(filename, index=False)
 
 # MAIN
 
@@ -522,16 +581,16 @@ class DB_insert_shops(DB_insert_from_excel):
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="nb_models_11_update.xlsx",
-#                       xl_Vardata="NB_Report-11.xlsx",
-#                      Category="Nb",
-#                     dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\Data\\")
-# FillDB.DB_alchemy(FillDB.Category)
-# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-# FillDB.MtM_Products_Classes_to_SQL()
-#mth_list = [11]
-#FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2020")
+FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_04-1.xlsx",
+                      xl_Vardata="Monitors_Sales-Jan`21-Apr`21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Mnt",
+                    dir_root = "C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\")
+FillDB.DB_alchemy(FillDB.Category)
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [1,2,3,4]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -540,12 +599,19 @@ class DB_insert_shops(DB_insert_from_excel):
 #                  dir_root="../Data/",
 #                  drop_shops = ['yama']):
 
-FillShop = DB_insert_shops(
-                 xl_Shops="Ноутбук-Concat_Prices--Nov-20--Checked.xlsx", #Месячные прайсы Filled/Checked
-                 Category='Nb',
-                 dir_root="../Data/"
-)
+# Заполение магазинов для мониторов и ноутбуков
+# FillShop = DB_insert_shops(
+#                  xl_Shops="Ноутбук-Concat_Prices--Apr-21--Cheked.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Nb',
+#                  dir_root="../Data/"
+# )
+#
+# FillShop.To_DB_Shop_Price()
 
-FillShop.To_DB_Shop_Price()
 
+# Мониторы добавка и исправление моделей за месяц
+# class Monitor_Models_Base_Update():
+#     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 
+# Apr_monitors = Monitor_Models_Base_Update('Monitors_Model_Base_2021_03-1.xlsx', 'Monitors_Models Apr 2021.xlsx')
+# Apr_monitors.Write_excel()

@@ -2,24 +2,87 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>AllGid - Гид покупателя. Компьютеры и оргтехника</title>
+{#    <title>AllGid - Гид покупателя. Компьютеры и оргтехника</title>#}
+    {% block meta %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="/static/marketability/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/marketability/favicon.ico">
 
-    <link rel="stylesheet" type="text/css" href="/static/marketability/al_css.css">
+    <link rel="stylesheet" type="text/css" media="screen and (min-width:1024px)" href="/static/marketability/al_css.css">
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:1024px)"  href="/static/marketability/css_1024_adopt.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <script type="text/javascript" src="/static/marketability/js/jquery-3.5.1.min.js"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(75335146, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/75335146" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HTCCXF3FFD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HTCCXF3FFD');
+</script>
+<!-- Top100 (Kraken) Counter -->
+<script>
+    (function (w, d, c) {
+    (w[c] = w[c] || []).push(function() {
+        var options = {
+            project: 7424053,
+        };
+        try {
+            w.top100Counter = new top100(options);
+        } catch(e) { }
+    });
+    var n = d.getElementsByTagName("script")[0],
+    s = d.createElement("script"),
+    f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src =
+    (d.location.protocol == "https:" ? "https:" : "http:") +
+    "//st.top100.ru/top100/top100.js";
+
+    if (w.opera == "[object Opera]") {
+    d.addEventListener("DOMContentLoaded", f, false);
+} else { f(); }
+})(window, document, "_top100q");
+</script>
+<noscript>
+  <img src="//counter.rambler.ru/top100.cnt?pid=7424053" alt="Топ-100" />
+</noscript>
+<!-- END Top100 (Kraken) Counter -->
 </head>
 <body>
+
+
 <div class="common-grid">
     <div class="header-menu">
         <div class="menu">
         <div class="menu-left">
 
         <div class="logo">
+            <a href="/" class="link-home">
             <div class="logo-img">
-                <img src="/static/marketability/pict/Target white.svg">
+{#                <img src="/static/marketability/pict/Target white.svg">#}
             </div>
             <div class="logo-text"><span>Гид<br>покупателя</span></div>
+            </a>
             <div class="logo-space"></div>
         </div>
+
 
         <div class="category-menu">
 
@@ -30,6 +93,35 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
+        <script>
+           $(function() {
+                $(document).ready(function () {
+                    $('.menu-gamburger').click(function() {
+                        if ($('.menu-gamburger-popup').css('display') == 'none') {
+                            $('.menu-gamburger-popup').css('display', 'block');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)').css('background-color', '#4B4A8A');
+                        }
+                        else {
+                            $('.menu-gamburger-popup').css('display', 'none');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)').css('background-color', 'transparent');
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="menu-gamburger">
+
+       <div class="menu-gamburger-popup">
+			<ul>
+                {% for i, link in categories_list %}
+                    <li {% if i == category_name %}class="button-menu-gamburger-active"{% else %}class="button-menu-gamburger"{% endif %}>
+                        <a href="/{{ link }}/">{{ i }}</a>
+                    </li>
+
+                {% endfor %}
+			</ul>
+		</div> <!-- menu-gamburger-popup -->
+        </div> <!-- menu-gamburger -->
         </div> <!-- menu-left -->
         <div class="menu-right">
             <div class="category-menu">
@@ -38,9 +130,9 @@
                 <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>
             </a>
             </div>
-            <div class="menu-search">
-
-            </div>
+            <a href="/search_all.html">
+            <div class="menu-search"></div>
+            </a>
         </div>
         </div> <!-- "menu" -->
 
@@ -48,7 +140,15 @@
     </div> <!-- class="header-menu" -->
 
     {% block category %}{% endblock %}
-
+        <div class="home-bottom">
+            <div class="adress-bar">
+            &#169; 2021 ООО&nbsp;«ИТ Аналитика». <br>
+            109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
+            </div>
+            <div class="bottom-buttons">
+            <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
+            </div>
+        </div>
 </div> <!-- class="common-grid" -->
 
 </body>

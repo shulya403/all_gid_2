@@ -1,0 +1,22 @@
+<svg width="30" height="26" xmlns="http://www.w3.org/2000/svg">
+ <title>E89A5C3C-246A-434F-B04B-627EC033BF33</title>
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="28" width="32" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g fill-rule="evenodd" fill="none" id="Allgid">
+   <g id="Allgid-Notebooks---320">
+    <rect id="svg_1" height="1280" width="320" y="-14.875" x="-16.875" fill="#FFFFFF"/>
+    <g id="Header">
+     <rect height="56" width="320" y="-14.875" x="-16.875" fill="#2E2966" id="Rectangle"/>
+     <g fill="#FFFFFF" id="Icon/Hamburger-32-White">
+      <path id="svg_2" d="m26.125,19.125c0.55228,0 1,0.44772 1,1l0,2c0,0.55228 -0.44772,1 -1,1l-22,0c-0.55228,0 -1,-0.44772 -1,-1l0,-2c0,-0.55228 0.44772,-1 1,-1l22,0zm0,-8c0.55228,0 1,0.44772 1,1l0,2c0,0.55228 -0.44772,1 -1,1l-22,0c-0.55228,0 -1,-0.44772 -1,-1l0,-2c0,-0.55228 0.44772,-1 1,-1l22,0zm0,-8c0.55228,0 1,0.44772 1,1l0,2c0,0.55228 -0.44772,1 -1,1l-22,0c-0.55228,0 -1,-0.44772 -1,-1l0,-2c0,-0.55228 0.44772,-1 1,-1l22,0z"/>
+     </g>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>

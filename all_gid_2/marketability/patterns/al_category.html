@@ -27,7 +27,7 @@
             <div class="form_block_header">Цели использования</div>
 
 
-            {% for sub_type in new_form.GO.keys|sort_keys %}
+            {% for sub_type in new_form.GO.keys %}
 
             {% if sub_type != '1'  %}
               <div class="form_subtypes">{{ sub_type }}</div>
