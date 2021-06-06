@@ -123,7 +123,7 @@
         <div class="menu-right">
             <div class="category-menu">
                 <a href="/how/">
-                    <button class="button-menu"><span style="font-size: larger;">&#9819;</span>&nbsp;Рейтинги</button>
+                    <button class="button-menu"><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
             </a>
              <a href="/how/">
                 <button class="button-menu-active"><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
@@ -141,7 +141,7 @@
     </div> <!-- class="header-menu" -->
 <div class="how_listing">
     <h1 class="how_general_header">Как выбрать {{ categories_list_singular }} для своих целей и задач?<br>Отвечают эксперты</h1>
-    <div class="how_general_header_comment"> Статьи снабжены актуальными шорт-листами популярных моделей устройств</div>
+    <div class="how_general_header_comment"> Статьи снабжены актуальными шорт-листами популярных моделей</div>
 
         {% for i in listing %}
         <div class="how-listing-item">
@@ -155,9 +155,8 @@
             <div class="how_listing-item-img">
             <img src="{{ i.img }}" alt="" width="200px">
             </div>
-
-        </div>
         {% endif %}
+        </div>
         {% endfor %}
 
 

@@ -1343,7 +1343,6 @@
         display: flex;
         flex-direction: row;
 
-
 }
 
 .how-listig-item-text > a {
@@ -1352,6 +1351,8 @@
 
 .how_listing_title_h2 {
         margin: 0px;
+        letter-spacing: 0.5px;
+
 
 }
 

@@ -35,6 +35,8 @@ def how_cat_Listing(request, cat_):
 
     listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'artice_title', 'article_anno', 'img', 'pin', 'date')
 
+    ctg = views.Init_cat(request, '', {})
+
     try:
            categories_list = request.session['categories_list']
            categories_list_singular = request.session['categories_list_singular']
@@ -47,7 +49,7 @@ def how_cat_Listing(request, cat_):
 
     exit_ = {
            'categories_list': categories_list,
-           'categories_list_singular': categories_list,
+           'categories_list_singular': categories_list_singular[cat_],
            'listing': listing,
            'cat': cat_
         }
