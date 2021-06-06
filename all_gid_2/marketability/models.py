@@ -16,6 +16,9 @@ class TxtHow(models.Model):
     article_keywords = models.TextField(blank=True, null=True)
     cat = models.CharField(max_length=3, blank=True, null=True)
     article_anno = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    img = models.CharField(max_length=100, blank=True, null=True)
+    pin = models.IntegerField()
 
     class Meta:
         managed = False
@@ -30,6 +33,10 @@ class TxtRatings(models.Model):
     article_keywords = models.TextField(blank=True, null=True)
     cat = models.CharField(max_length=3, blank=True, null=True)
     article_anno = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    img = models.CharField(max_length=100, blank=True, null=True)
+    pin = models.IntegerField()
+
 
     class Meta:
         managed = False

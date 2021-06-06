@@ -181,6 +181,13 @@ def Init_cat(request, cat_, db_tbl):
 
     else:
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+        print(request.session['categories_list'])
+
+        request.session['categories_list_singular'] = dict()
+        for cat in dict_categories:
+            request.session['categories_list_singular'][cat] = dict_categories[cat]['category_name_singular']['name']
+
+        print(request.session['categories_list_singular'])
 
         request.session['cat_'] = cat_
 

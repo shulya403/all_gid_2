@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
 {#    <title>AllGid - Гид покупателя. Компьютеры и оргтехника</title>#}
-    {% block meta %}{% endblock %}
+    {% block meta %}
+     <title>Советы по выбору.</title>
+    <meta name="description" content="Как выбрать устройство для">
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
+    {% endblock %}
     <link rel="icon" type="image/x-icon" href="/static/marketability/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="/static/marketability/favicon.ico">
 
@@ -65,7 +70,7 @@
 </noscript>
 <!-- END Top100 (Kraken) Counter -->
 </head>
-<body>
+<body style="font-family: Roboto;">
     <div class="header-menu">
         <div class="menu">
         <div class="menu-left">
@@ -122,13 +127,14 @@
         </div> <!-- menu-left -->
         <div class="menu-right">
             <div class="category-menu">
+                <a href="/how/">
+                    <button class="button-menu"><span style="font-size: larger;">&#9819;</span>&nbsp;Рейтинги</button>
+            </a>
              <a href="/how/">
-                <button class="button-menu-active">Как выбрать для?..</button>
+                <button class="button-menu-active"><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
             </a>
 
-            <a href="/al_about.html">
-                <button class="button-menu">О проекте</button>
-            </a>
+
             </div>
             <a href="/search_all.html">
             <div class="menu-search"></div>
@@ -138,16 +144,52 @@
 
 
     </div> <!-- class="header-menu" -->
-<div class="ttx_listing">
-    {% for i in listing %}
-        <div class="ttx-listing-item">
-        <a href="/how/{{ i.idtxt_how }}" target="_blank" class="ttx_listing_title_href">
-            <h2 class="ttx_listing_title_h2">{{ i.artice_title }}</h2>
-            <p class="ttx_listing_anno_p">{{ i.article_anno }}</p>
+<div class="how_listing">
+    <h1 class="how_general_header">Как выбрать устройство для своих целей и задач?<br>Отвечают эксперты</h1>
+    <div class="how_general_header_comment"> Статьи снабжены актуальными шорт-листами популярных моделей устройств</div>
+    {% for cat_rus_name, cat in categories_list %}
+        {% if listing|get_item:cat_rus_name %}
+        <a href="/how/{{ cat }}/">
+            <div class="how_cat_block"><h2>{{ cat_rus_name }}</h2></div>
+        </a>
+        {% for i in listing|get_item:cat_rus_name %}
+        <div class="how-listing-item">
+        <div class="how-listig-item-text">
+        <a href="/how/{{ cat }}/{{ i.idtxt_how }}" target="_blank" class="how_listing_title_href">
+            <h3 class="how_listing_title_h2">{{ i.artice_title }}</h3>
+            <p class="how_listing_anno_p">{{ i.article_anno }}</p>
         </a>
         </div>
+        {% if i.img %}
+            <div class="how_listing-item-img">
+            <img src="{{ i.img }}" alt="" width="200px">
+            </div>
+
+        {% endif %}
+
+        </div>
+        {% endfor %}
+        {% endif %}
     {% endfor %}
 </div>
 
+
+        <div class="home-bottom">
+            <div class="category-menu">
+
+            <a href="/al_about.html">
+                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>
+            </a>
+            </div>
+
+            <div class="adress-bar">
+            &#169; 2021 ООО&nbsp;«ИТ Аналитика». <br>
+            109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
+            </div>
+            <div class="bottom-buttons">
+            <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
+
+            </div>
+        </div>
 </body>
 </html>
