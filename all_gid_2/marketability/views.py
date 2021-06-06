@@ -121,6 +121,8 @@ def Dict_tabs_page_form():
 
     return dict_tabs
 
+
+
 #Опредление категории
 def Init_cat(request, cat_, db_tbl):
 
@@ -137,11 +139,19 @@ def Init_cat(request, cat_, db_tbl):
 
         request.session['cat_'] = cat_
 
+        if dict_categories[cat_]["category_name_singular"]["stable"]:
+            request.session['cat_singular'] = dict_categories[cat_]['category_name_singular']['name']
+        else:
+            request.session['cat_singular'] = ""
+            request.session['cat_singular_fld'] = dict_categories[cat_]['category_name_singular']["field"]
+
         request.session['dict_to_cat'] = dict_to_cat
 
         category = dict_categories[cat_]
 
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+
+
 
         #request.session['db_tbl'] = category['db_tables']
         #db_tbl = DB_table(cat_)
@@ -312,11 +322,8 @@ def page_Category_Main(request, cat_):
         except KeyError:
             category = Init_cat(request, cat_, db_tbl)
 
-        #dict_sorted_fields_show = request.session['dict_sorted_fields_show']
         new_form = request.session['new_form']
         list_enabled = request.session['list_enabled']
-        #timelag = request.session['timelag']
-        #period_inbase = request.session['period_inbase']
         category_name = request.session['cat_rus_name']
         categories_list = request.session['categories_list']
         tab_active = request.session['tab_active']
@@ -479,10 +486,21 @@ def page_Product(request, cat_, product_):
         new_form = request.session['new_form']
         form_return = request.session['form_return']
         category_name = request.session['cat_rus_name']
+
+
         categories_list = request.session['categories_list']
+
 
         Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
         if Product.count() > 0:
+
+            if request.session['cat_singular']:
+                category_name_singilar = request.session['cat_singular']
+            else:
+                try:
+                    category_name_singilar = Product[0][request.session['cat_singular_fld']]
+                except Exception:
+                    category_name_singilar = category_name
 
             fields_ = list(Product[0].keys())
 
@@ -524,6 +542,7 @@ def page_Product(request, cat_, product_):
 
             exit_ = {
                 'category_name': category_name,
+                'category_name_singular': category_name_singilar,
                 'categories_list': categories_list,
                 'vendor': Product[0]['brand'],
                 'name': Product[0]['name'],

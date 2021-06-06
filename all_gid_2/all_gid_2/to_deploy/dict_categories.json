@@ -1,9 +1,9 @@
 {
         "Mnt": {
             "category_name": "Мониторы",
-            "category_name_singular": {
+            "categoty_name_singular": {
                 "stable": true,
-                "name": "Монитор"
+                "cat": "Монитор"
             },
 
             "fields_show": {
@@ -60,9 +60,9 @@
         },
         "Nb": {
             "category_name": "Ноутбуки",
-            "category_name_singular": {
+            "categoty_name_singular": {
                 "stable": true,
-                "name": "Ноутбук"
+                "cat": "Ноутбук"
             },
 
             "fields_show": {
@@ -191,52 +191,6 @@
             },
 
 
-            "timelag": 1
-        },
-
-        "Ups": {
-            "category_name": "ИБП",
-            "category_name_singular": {
-                "stable": true,
-                "name": "Источник бесперебойного питания"
-            },
-            "fields_show": {
-                "brand": {
-                    "html_name": "Компания",
-                    "id": 0,
-                    "short": false
-                },
-                "name": {
-                    "html_name": "Модель",
-                    "id": 1,
-                    "short": false
-                },
-                "power":{
-                    "html_name": "Мощность, кВА",
-                    "id": 2,
-                    "short": true
-                },
-                "type_line": {
-                    "html_name": "Тип",
-                    "id": 3,
-                    "short": true
-                },
-                "form_factor": {
-                    "html_name": "Форм-фактор",
-                    "id": 4,
-                    "short": true
-                },
-                "level": {
-                    "html_name": "Уровень",
-                    "id": 5,
-                    "short": false
-                },
-                "appear_month": {
-                    "html_name": "Начало продаж",
-                    "id": 11,
-                    "short": false
-                }
-            },
             "timelag": 1
         }
     }
