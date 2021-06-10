@@ -581,12 +581,12 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Allgid UPS.xlsx",
-                      xl_Vardata="Allgid UPS.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Ups",
-                    dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
+FillDB = DB_insert_from_excel(xl_Products="Копия База printMFP для ГП-04'21.xlsm",
+                      xl_Vardata="Копия База printMFP для ГП-04'21.xlsm", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Mfp",
+                    dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
 FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+#FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 FillDB.MtM_Products_Classes_to_SQL()
 # mth_list = [3]

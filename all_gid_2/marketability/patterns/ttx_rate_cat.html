@@ -73,7 +73,6 @@
         <div class="logo">
             <a href="/" class="link-home">
             <div class="logo-img">
-{#                <img src="/static/marketability/pict/Target white.svg">#}
             </div>
             <div class="logo-text"><span>Гид<br>покупателя</span></div>
             </a>
@@ -123,13 +122,11 @@
         <div class="menu-right">
             <div class="category-menu">
                 <a href="/rate/">
-                    <button class="button-menu"><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
+                    <button class="button-menu-active"><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
             </a>
              <a href="/how/">
-                <button class="button-menu-active"><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
+                <button class="button-menu"><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
             </a>
-
-
             </div>
             <a href="/search_all.html">
             <div class="menu-search"></div>
@@ -146,7 +143,7 @@
         {% for i in listing %}
         <div class="how-listing-item">
         <div class="how-listig-item-text">
-        <a href="/rate/{{ cat }}/{{ i.idtxt_rating }}" target="_blank" class="how_listing_title_href">
+        <a href="/rate/{{ cat }}/{{ i.idtxt_ratings }}" target="_blank" class="how_listing_title_href">
             <h2 class="how_listing_title_h2">{{ i.article_title }}</h2>
             <p class="how_listing_anno_p">{{ i.article_anno }}</p>
         </a>
@@ -164,10 +161,10 @@
 
 
         <div class="home-bottom">
-            <div class="category-menu">
+            <div>
 
             <a href="/al_about.html">
-                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>
+                <button class="button-menu">О проекте</button>
             </a>
             </div>
 
@@ -176,9 +173,11 @@
             109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
             </div>
 
-            <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
+        <div>
 
-            </div>
+            <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
+        </div>
+
         </div>
 </body>
 </html>

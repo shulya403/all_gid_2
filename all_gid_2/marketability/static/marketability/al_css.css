@@ -115,6 +115,10 @@
 
 }
 
+.button-menu#advice, .button-menu-active#advice {
+        display: none;
+}
+
 .menu-gamburger {
         display: none;
 }
@@ -410,7 +414,7 @@
         position: absolute;
         right: 4px;
         height: 22px;
-        width: 150px;
+        width: 100px;
         background: linear-gradient(270deg, #FFFFFF 0%, rgba(0,0,0,0) 100%);
 }
 .form_block_buttons input[type=checkbox]:checked + label > .space-gradient,
@@ -570,6 +574,7 @@
         font-size: 14px;
 
 }
+
 .table-data {
         box-sizing: border-box;
         width: 100%;
@@ -1293,7 +1298,15 @@
         width: 100%;
         text-align: center;
 }
+.bottom-our-button {
+        display: block;
+        text-decoration: none;
+        height: 100%;
+        color: #ffffff;
+        background-color: #2E2966;
+        padding: 12px;
 
+}
 .about {
 
         width: 800px;
@@ -1336,6 +1349,7 @@
         margin-bottom: 24px;
 }
 
+
 .how-listing-item {
         width: 960px;
         margin: 0 auto;
@@ -1368,8 +1382,70 @@
         border-radius: 8px;
         border: solid 1px rgba(0,0,0,0.20);
         background-color: #F2F4FA;
+        text-decoration: none;
 
+}
+.how_cat_block_a {
+        text-decoration: none;
 }
 .how_cat_block > h2 {
         margin: 12px;
+}
+.article-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+}
+.article-wrap a {
+        text-decoration: none;
+}
+.article-content {
+        width: 840px;
+        padding: 12px;
+        margin-bottom: 24px;
+}
+
+.article-right {
+        width: 256px;
+        max-width: 256px;
+        padding: 12px;
+}
+.article-right p {
+        margin-top: 4px;
+}
+.article-right h3 {
+        margin-bottom: 4px;
+}
+.article_body {
+
+}
+.inarticle_table_wrap {
+        width: 260px;
+        overflow: scroll auto;
+        scrollbar-width: thin;
+        scrollbar-color: #2E2966 #F2F4FA;
+}
+/*.inarticle_table_wrap*/
+/* для Chrome/Edge/Safari */
+.inarticle_table_wrap::-webkit-scrollbar {
+  height: 12px;
+  width: 6px;
+}
+.inarticle_table_wrap::-webkit-scrollbar-track {
+  background: #F2F4FA;
+}
+.inarticle_table_wrap::-webkit-scrollbar-thumb {
+  background-color: #2E2966;
+  border-radius: 5px;
+  border: 3px solid #F2F4FA;
+}
+.inarticle_table {
+        width: 100%;
+        border-collapse: collapse;
+}
+.inarticle_table tr:nth-child(2n+1) {
+
+}
+.inarticle_table tr:nth-child(2n) {
+        background-color: #F2F4FA;
 }

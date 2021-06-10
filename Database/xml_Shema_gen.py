@@ -43,9 +43,12 @@ class DB():
         now_ = time.strftime("%Y-%m-%d", time.struct_time(
                 (now.year, now.month, now.day, 0, 0, 0, now.weekday(), now.day, -1)))
         for cat in self.dict_cat_conn:
+            count=0
             for i, row in self.dict_cat_conn[cat].iterrows():
                 loc_.append('https://allgid.ru/' + cat + '/' + str(row['id']))
                 lastmod_.append(now_)
+                count+=1
+            print(cat, count)
         df = pd.DataFrame({'loc': loc_, 'lastmod': lastmod_})
         print("Всего модлей:", len(df))
 
@@ -78,4 +81,4 @@ class DB():
         #url_.append(self.dict_cat_conn[cat][id])
 
 
-db = DB(['Nb', 'Mnt', 'Mfp']).xml_write('sitemap.xml')
+db = DB(['Nb', 'Mnt', 'Mfp', 'Ups']).xml_write('sitemap.xml')

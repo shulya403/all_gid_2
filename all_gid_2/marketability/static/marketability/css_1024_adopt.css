@@ -340,7 +340,6 @@
 
 .sbros-krestik {
         display: inline-block;
-
         background-image: url('pict/X blue.svg');
         background-repeat: no-repeat;
         background-size: 100%;
@@ -373,14 +372,14 @@
         margin-top: 8px;
         border: 1px solid rgba(0,0,0,0.63);
         border-radius: 8px;
-        background-color: #F5F4F2;
+        background-color: #CACEE3;
         padding-bottom: 8px;
         width: 340px;
         margin-right: 12px;
 }
 
 .form_block_mobile_present_text {
-        color: rgba(0, 0, 0, 0.63);
+        color: rgba(0, 0, 0, 0.88);
         font-size: 22px;
         letter-spacing: 0.1px;
         line-height: 24px;
@@ -395,6 +394,7 @@
         background: url('pict/Expand black-1.svg');
         background-size: 24px 20px;
         background-repeat: no-repeat;
+        background-color: #CACEE3;
         margin-right: 20px;
         margin-top: 16px;
 }
@@ -409,7 +409,7 @@
         margin-top: 8px;
         border: 1px solid rgba(0,0,0,0.63);
         border-radius: 8px;
-        background-color: #F5F4F2;
+        background-color: #CACEE3;
         padding-bottom: 8px;
         }
 
@@ -422,7 +422,7 @@
 
 }
 .form_block_header_mobile_text {
-        color: rgba(0, 0, 0, 0.63);
+        color: rgba(0, 0, 0, 0.88);
         font-size: 22px;
         letter-spacing: 0.1px;
         line-height: 24px;
@@ -439,6 +439,7 @@
         transform: rotate(180deg);
         background-size: 24px 20px;
         background-repeat: no-repeat;
+        background-color: #F5F4F2;
         margin-right: 28px;
         margin-top: 8px;
 }
@@ -476,7 +477,7 @@
         box-sizing: border-box;
         font-size: 18px;
         display: block;
-        height: 28px;
+        height: 36px;
 	    padding-left: 8px;
         padding-top: 4px;
 	    margin-bottom: 4px;
@@ -485,7 +486,7 @@
         border: 1px solid rgba(0,0,0,0.25);
         border-radius: 4px;
         background-color: #FFFFFF;
-	    line-height: 20px;
+	    line-height: 28px;
 	    text-align: left;
 	    vertical-align: middle;
 	    cursor: pointer;
@@ -514,7 +515,7 @@
         position: absolute;
         right: 0px;
         height: 64px;
-        width: 150px;
+        width: 100px;
         background: linear-gradient(270deg, #FFFFFF 0%, rgba(0,0,0,0) 100%);
 }
 .form_block_buttons input[type=checkbox]:checked + label > .space-gradient
@@ -661,11 +662,29 @@
         font-size: 18px;
 
 }
+
+.table-wrap-mobile {
+        width: 100vw;
+        overflow-x: scroll;
+}
+.table-wrap-mobile::-webkit-scrollbar {
+  height: 12px;
+  width: 6px;
+}
+.table-wrap-mobile::-webkit-scrollbar-track {
+  background: #F2F4FA;
+}
+.table-wrap-mobile::-webkit-scrollbar-thumb {
+  background-color: #2E2966;
+  border-radius: 5px;
+  border: 3px solid #F2F4FA;
+}
 .table-data {
         /*box-sizing: border-box;*/
         /*width: 1024px;*/
         border-collapse: collapse;
 }
+
 .table-head-price {
         display: flex;
 }
@@ -691,7 +710,10 @@
         letter-spacing: 0.1px;
         line-height: 18px;
         text-align: left;
-        vert-align: top;
+
+}
+.th-tbl > div {
+        width: 40vw;
 }
 .table-row {
         height: 44px;
@@ -705,7 +727,10 @@
         line-height: 18px;
         padding-right: 4px;
         font-size: 16px;
+}
 
+.table-row  > td  > div {
+        width: 40vw;
 }
 .table-row > td > a {
         font-weight: bolder;
@@ -721,7 +746,6 @@
 
 .check-eshe {
         display: none;
-        width: 200px;
 }
 
 .under-table {
@@ -732,7 +756,7 @@
 
 }
 .price-comment {
-        display: inline-block;
+        display: none;
         vertical-align: bottom;
         padding-top: 16px;
 
@@ -747,7 +771,7 @@
         height: 32px;
         border-radius: 4px;
         cursor: pointer;
-        width: 100%;
+
 }
 
 
@@ -956,7 +980,6 @@
         line-height: 20px;
         padding-left: 8px;
         padding-right: 8px;
-
         margin-bottom: 8px;
         margin-left: 8px;
 }

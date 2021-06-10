@@ -95,7 +95,7 @@
                      &nbsp;?
                       <div class="hint-title-pin"></div>
                     <div class="hint-title-hover">
-                    <span>{{ class_.explanation|linebreaksbr }}</span>
+                    {% autoescape off %}{{ class_.explanation|linebreaksbr }}{% endautoescape %}
                   </div>
                   </div>
 
@@ -163,8 +163,10 @@
                      &nbsp;?
                       <div class="hint-title-pin"></div>
                     <div class="hint-title-hover">
-                    <span>{{ class_.explanation|linebreaksbr }}</span>
-                  </div>
+                        {% autoescape off %}
+                            {{ class_.explanation|linebreaksbr }}
+                        {% endautoescape %}
+                    </div>
                   </div>
 
                   {% endif %}
@@ -204,7 +206,7 @@
         {% endfor %}
         <div class="tab-item" id="marketability_">
             <h2 class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </h2>
-
+            <div class="table-wrap-mobile">
             <table class="table-data">
                 <tr class="th-tbl">
                     <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
@@ -246,6 +248,7 @@
                 </tr>
             {% endfor %}
         </table>
+
             <div class="under-table">
             <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
             {% with len=tbl_data.id.keys|length  %}
@@ -278,7 +281,7 @@
             {% endif %}
             {% endwith %}
             </div> <!-- under-table -->
-
+        </div>
 
         </div> <!-- marketability -->
 
@@ -287,30 +290,37 @@
 
             <table class="table-data">
                 <tr class="th-tbl">
-                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                    <th class="th-tbl"><div><span style="padding-left: 12px;">Название</span></div></th>
                         <th class="table-head-price">
+                            <div>
                             <span>Цена*, руб.</span>
                             <div class="table-head-price-arrow"></div>
+                            </div>
 
                         </th>
                         {% for fld in tbl_ttx_col  %}
-                        <th>{{ fld }}</th>
+                        <th class="th-tbl">{{ fld }}</th>
                         {% endfor %}
 
                 </tr>
             {% for i in tbl_data_nov.id.keys  %}
                 <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
                 <td>
+                <div>
                 <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}">
                 {{ tbl_data_nov.brand|get_item:i }}&nbsp;{{ tbl_data_nov.name|get_item:i }}
                 </a>
+                </div>
                 </td>
                 <td>
+                <div>
                 <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
+                </div>
                 </td>
                 {% for fld in tbl_data_nov.keys %}
                     {%  if fld in tbl_ttx_col %}
                     <td align="center">
+                        <div>
                         {% with val=tbl_data_nov|get_item:fld|get_item:i%}
                         {% if val == 'Да' %}
                             <img src="/static/marketability/pict/Check mark green-1.svg">
@@ -320,6 +330,7 @@
                         {{ val }}
                         {% endif %}
                         {% endwith %}
+                        </div>
                     </td>
                     {% endif %}
                 {% endfor %}
@@ -336,11 +347,11 @@
                        onclick="if($('.collapse-table-row').css('display') == 'none')
                        {$('.collapse-table-row').css('display', 'table-row');
                        $('.pokazat-eshe').css('display', 'none');
-                       $('.svernut').css('display', 'inline-flex');
+                       $('.svernut').css('display', 'inline-block');
                        $('.icon-down').css('transform', 'rotate(180deg)');}
                        else
                         {$('.collapse-table-row').css('display', 'none');
-                         $('.pokazat-eshe').css('display', 'inline-flex');
+                         $('.pokazat-eshe').css('display', 'inline-block');
                          $('.svernut').css('display', 'none');
                          $('.icon-down').css('transform', 'none');};">
 
