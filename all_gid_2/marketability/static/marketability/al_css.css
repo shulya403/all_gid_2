@@ -420,7 +420,8 @@
 .form_block_buttons input[type=checkbox]:checked + label > .space-gradient,
 .form_block_buttons input[type=checkbox]:hover:checked + label > .space-gradient
 {
-         background: linear-gradient(270deg, #4B4A8A 10%, rgba(0,0,0,0) 100%);
+        background: linear-gradient(270deg, #4B4A8A 40%, rgba(0,0,0,0) 100%);
+        width: 120px;
 
  }
 
@@ -1285,23 +1286,21 @@
         margin: 0 auto;
         margin-top: 12px;
         display: flex;
-        flex-direction: row;
+
         justify-content: space-around;
 }
 
-.home-bottom > .category-menu {
-        margin-right: 12px;
-        cursor: pointer;
-}
 .bottom-buttons {
-        margin: 0 auto;
-        width: 100%;
         text-align: center;
 }
+
+.adress-bar {
+        width: 100%;
+}
 .bottom-our-button {
-        display: block;
+       display: flex;
         text-decoration: none;
-        height: 100%;
+        margin-right: 12px;
         color: #ffffff;
         background-color: #2E2966;
         padding: 12px;

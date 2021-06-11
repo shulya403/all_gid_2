@@ -123,10 +123,13 @@ def rate_cat_Listing(request, cat_):
 
     exit_ = {
            'categories_list': categories_list,
-           'categories_list_singular': categories_list_singular[cat_],
+           'categories_name_singular': categories_list_singular[cat_],
+           'categories_name_plural': [name[0] for name in categories_list if name[1] == cat_][0],
            'listing': listing,
            'cat': cat_
+
         }
+    print(exit_['categories_name_plural'])
 
     return render(request, template_name="ttx_rate_cat.html", context=exit_)
 
