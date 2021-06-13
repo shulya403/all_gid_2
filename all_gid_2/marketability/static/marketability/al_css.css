@@ -13,11 +13,15 @@
     font-weight: normal;
     font-style: italic;
 }
-.common-grid {
+body {
         /*flex-direction: row;*/
         font-family: Roboto;
         letter-spacing: 0.1px;
 
+}
+
+em {
+       font-family: Roboto-Italic;
 }
 
 .header-menu {
@@ -130,6 +134,9 @@
         height: 100%;
 
         display: inline-flex;
+}
+.menu-right-mobile {
+        display: none;
 }
 
 .menu-right button {
@@ -1336,6 +1343,10 @@
         width: 100%;
 }
 
+.how_listing {
+        padding-bottom: 56px;
+}
+
 .how_general_header {
         width: 1100px;
         margin: 0 auto;
@@ -1348,13 +1359,14 @@
         margin-bottom: 24px;
 }
 
-
+.how-listig-item-text {
+        display: inline-block;
+        height: content-box;
+}
 .how-listing-item {
         width: 960px;
         margin: 0 auto;
         margin-top: 12px;
-        display: flex;
-        flex-direction: row;
 
 }
 
@@ -1363,7 +1375,9 @@
 }
 
 .how_listing_title_h2 {
+        width: 100%;
         margin: 0px;
+        margin-bottom: 12px;
         letter-spacing: 0.5px;
 
 
@@ -1399,7 +1413,7 @@
         text-decoration: none;
 }
 .article-content {
-        width: 840px;
+        width: 640px;
         padding: 12px;
         margin-bottom: 24px;
 }
@@ -1418,9 +1432,13 @@
 .article_body {
 
 }
+.inarticle_table_wrap_outer {
+        position: relative;
+}
 .inarticle_table_wrap {
-        width: 260px;
-        overflow: scroll auto;
+
+        overflow-x: scroll;
+        overflow-y: visible;
         scrollbar-width: thin;
         scrollbar-color: #2E2966 #F2F4FA;
 }
@@ -1441,10 +1459,42 @@
 .inarticle_table {
         width: 100%;
         border-collapse: collapse;
-}
-.inarticle_table tr:nth-child(2n+1) {
 
 }
-.inarticle_table tr:nth-child(2n) {
+.inarticle_table thead {
+        color:  rgba(0,0,0,0.63);
+        font-size: 16px;
+        font-weight: bolder;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        text-align: left;
+        vert-align: top;
+}
+
+.inarticle_table th {
+        text-justify: auto;
+
+}
+
+.inarticle_table tr {
+        height: 48px;
+        font-size: 16px;
+        letter-spacing: 0.1px;
+        line-height: 24px;
+        text-align: left;
+        border-top: 1px solid rgba(0,0,0,0.13);
+}
+
+.inarticle_table tbody tr:nth-child(2n)  {
         background-color: #F2F4FA;
+}
+.inarticle_disclimer {
+        font-family: Roboto-Italic;
+        background-color: #8abeb7;
+        border-radius: 8px;
+        padding: 8px;
+}
+
+button#how {
+        display: none;
 }

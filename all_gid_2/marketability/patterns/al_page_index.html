@@ -75,7 +75,6 @@
 </head>
 <body>
 
-<div class="common-grid">
     <div class="header-menu">
         <div class="menu">
         <div class="menu-left">
@@ -83,7 +82,7 @@
         <div class="logo">
             <a href="/" class="link-home">
             <div class="logo-img">
-
+{#                <img src="/static/marketability/pict/Target white.svg">#}
             </div>
             <div class="logo-text"><span>Гид<br>покупателя</span></div>
             </a>
@@ -100,9 +99,8 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
-
         <script>
-            $(function() {
+           $(function() {
                 $(document).ready(function () {
                     $('.menu-gamburger').click(function() {
                         if ($('.menu-gamburger-popup').css('display') == 'none') {
@@ -130,23 +128,45 @@
 			</ul>
 		</div> <!-- menu-gamburger-popup -->
         </div> <!-- menu-gamburger -->
-
         </div> <!-- menu-left -->
         <div class="menu-right">
-            <div class="category-menu">
 
-            <a href="/al_about.html">
-                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>
+            <a href="/rate/">
+                    <button {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
             </a>
-            </div>
+             <a href="/how/">
+                <button  {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
+            <a href="/search_all.html">
+            <div class="menu-search"></div>
+            </a>
+        </div>
+                <div class="menu-right-mobile">
+
+            <a href="/rate/">
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Top</button>
+            </a>
+             <a href="/how/">
+                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9775;</span> Советы</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
             <a href="/search_all.html">
             <div class="menu-search"></div>
             </a>
         </div>
         </div> <!-- "menu" -->
-
-
-    </div> <!-- class="header-menu" -->
+        </div> <!-- class="header-menu" -->
 
     {% block category %}{% endblock %}
         <div class="home-bottom">
@@ -160,7 +180,7 @@
 
             </div>
         </div>
-</div> <!-- class="common-grid" -->
+
 
 
 </body>

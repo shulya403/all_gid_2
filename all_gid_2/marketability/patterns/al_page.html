@@ -68,7 +68,6 @@
 <body>
 
 
-<div class="common-grid">
     <div class="header-menu">
         <div class="menu">
         <div class="menu-left">
@@ -124,19 +123,37 @@
         </div> <!-- menu-gamburger -->
         </div> <!-- menu-left -->
         <div class="menu-right">
-            <div class="category-menu">
+
             <a href="/rate/">
-                    <button class="button-menu"><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
             </a>
              <a href="/how/">
-                <button  {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
+                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9775;</span>&nbsp;Советы по выбору</button>
             </a>
 
 
 {#            <a href="/al_about.html">#}
 {#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
 {#            </a>#}
-            </div>
+
+            <a href="/search_all.html">
+            <div class="menu-search"></div>
+            </a>
+        </div>
+                <div class="menu-right-mobile">
+
+            <a href="/rate/">
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Top</button>
+            </a>
+             <a href="/how/">
+                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9775;</span> Советы</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
             <a href="/search_all.html">
             <div class="menu-search"></div>
             </a>
@@ -161,7 +178,7 @@
             <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
             </div>
         </div>
-</div> <!-- class="common-grid" -->
+
 
 </body>
 </html>

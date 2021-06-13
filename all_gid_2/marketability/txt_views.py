@@ -26,7 +26,8 @@ def how_Listing(request):
 
     exit_ = {
            'categories_list': categories_list,
-            'listing': listing
+            'listing': listing,
+            'txt': 'how'
         }
 
     return render(request, template_name="ttx_how.html", context=exit_)
@@ -50,8 +51,10 @@ def how_cat_Listing(request, cat_):
     exit_ = {
            'categories_list': categories_list,
            'categories_list_singular': categories_list_singular[cat_],
+           'categories_name_plural': [name[0] for name in categories_list if name[1] == cat_][0],
            'listing': listing,
-           'cat': cat_
+           'cat': cat_,
+           'txt': 'how'
         }
 
     return render(request, template_name="ttx_how_cat.html", context=exit_)
@@ -68,10 +71,15 @@ def how_Article(request, cat_, article):
             ctg = views.Init_cat(request, '', {})
             categories_list = request.session['categories_list']
 
+        cat_rus = [ct[0] for ct in categories_list if ct[1] == cat_][0]
         exit_ = {
             'categories_list':  categories_list,
+            'categories_name_plural': [name[0] for name in categories_list if name[1] == cat_][0],
             'article': article[0],
-            'category': cat_
+            'category': cat_,
+            'cat_rus': cat_rus,
+            'txt': 'how'
+
         }
 
         return render(request, template_name="ttx_how_article.html", context=exit_)
@@ -100,7 +108,8 @@ def rate_Listing(request):
 
     exit_ = {
            'categories_list': categories_list,
-            'listing': listing
+            'listing': listing,
+            'txt': 'rate'
         }
 
     return render(request, template_name="ttx_rate.html", context=exit_)
@@ -126,7 +135,8 @@ def rate_cat_Listing(request, cat_):
            'categories_name_singular': categories_list_singular[cat_],
            'categories_name_plural': [name[0] for name in categories_list if name[1] == cat_][0],
            'listing': listing,
-           'cat': cat_
+           'cat': cat_,
+            'txt': 'rate'
 
         }
     print(exit_['categories_name_plural'])
@@ -148,9 +158,11 @@ def rate_Article(request, cat_, article):
         cat_rus = [ct[0] for ct in categories_list if ct[1] == cat_][0]
         exit_ = {
             'categories_list':  categories_list,
+            'categories_name_plural': [name[0] for name in categories_list if name[1] == cat_][0],
             'article': article[0],
             'category': cat_,
-            'cat_rus': cat_rus
+            'cat_rus': cat_rus,
+            'txt': 'rate'
 
         }
 

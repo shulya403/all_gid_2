@@ -1,9 +1,8 @@
 {% extends "al_page.html" %}
 {% block meta %}
-    <title>Гид покупателя. {{ category_name }}</title>
-    <meta name="description" content="{{ category_name }}: Шорт-лист (Top20 самых популярных) в России за {{ period }}. Плюс - новинки. Фильтр по целям использования и базовым характеристикам." />
+    <title>{{ article.article_title }}</title>
+    <meta name="description" content="{{ article.article_anno|truncatechars_html:160 }}" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="компьютеры, периферия, рейтинг, популярность, популярные, новинки, дом, офис, цены, модель, характеристики, выбрать, фильтр, критерий, критериии, сравнение, сценарии использования, выбор продукта, выбор покупателей, {{ category_name }}"  />
     <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
 {% endblock %}
 
