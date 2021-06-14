@@ -279,6 +279,7 @@ class NbProducts(models.Model):
     screen_resulution_list = models.CharField(max_length=45, blank=True, null=True)
     touchscreen = models.CharField(max_length=45, blank=True, null=True)
     appear_month = models.DateField(blank=True, null=True)
+    classes_mtm = models.ManyToManyField(NbClasses, through='NbProductsHasNbClasses')
 
     class Meta:
         managed = False
