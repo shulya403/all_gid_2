@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from . import views
 import time
-from datetime import datetime as dt
 
 
 def vendor(request, cat_, vendor_=""):

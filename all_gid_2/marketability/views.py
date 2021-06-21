@@ -25,7 +25,7 @@ from .models import MntClasses, \
     TextLinks
 
 from datetime import datetime as dt
-from datetime import date
+import time
 #import django_pandas as pd
 import pandas as pdd
 from django_pandas.io import read_frame
@@ -198,8 +198,6 @@ def Init_cat(request, cat_, db_tbl):
 # Формирование вложенного словаря по таблице _classes
 def Dict_by_Classes2(request, db_tbl):
 
-
-
     # Картинки для категории
     with open('marketability/static/marketability/json/dict_sorting_classes.json', encoding='utf-8') as f_cls:
         dict_sorting_classes = json.load(f_cls)
@@ -214,6 +212,7 @@ def Dict_by_Classes2(request, db_tbl):
             exit_ = [i[0] for i in list_tuples]
         else:
             exit_ = []
+
 
         return exit_
 
@@ -278,6 +277,7 @@ def Dict_by_Classes2(request, db_tbl):
     qry_classes = db_tbl['classes'].objects.all()
 
     request.session['list_enabled'] = vlist_to_list(qry_classes.values_list('name'))
+    print(request.session['list_enabled'])
 
     for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
         exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes, request.session['cat_'])
@@ -308,8 +308,10 @@ def Get_Products_Mtm(post_return, db_tbl):
     # products_mtm - список записей в mtm с продуктом присутсв. во всех отфильтрованных классах
     products_mtm = db_tbl['mtm_prod_clas'].objects \
         .filter(fk_products__in=inner_join_products_) \
-        .order_by('fk_products') \
         .values('fk_products', 'fk_classes')
+
+
+# .order_by('fk_products') \
 
     return products_mtm
 
@@ -372,10 +374,13 @@ def page_Category_Main(request, cat_):
 
             # classes_for_execute - list id доступных после фильтра классов
             classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
+            print(classes_for_execute )
 
             #print(products_for_execute)
             list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
+
             list_enabled_ = vlist_to_list(list(list_enabled_))
+
             #print(list_enabled_)
             if list_enabled_:
                 request.session['enabled_return'] = list_enabled_
@@ -447,7 +452,7 @@ def page_Category_Main(request, cat_):
             'goals_fbb_mobile': goals_fbb_mobile,
             'classes_fbb_mobile': classes_fbb_mobile
         }
-        print(post_return)
+
 
         return render(request, template_name="category_get.html", context=exit_)
     else:
@@ -662,6 +667,7 @@ def Get_Prod_Execute_join_vardata(request, db_tbl, list_products, qry_period):
         filter(id__in=list_products).\
         annotate(sales_sum=Sum(sales_sum, filter=Q(**filter_months)),
                  price_avg=Avg(price_avg, filter=Q(**filter_months))).exclude(sales_sum__isnull=True)
+
 
     return qry_total_execute
 

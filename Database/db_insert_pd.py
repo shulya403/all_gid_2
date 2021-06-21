@@ -457,6 +457,7 @@ class DB_insert_from_excel(object):
             old_months = {dt.date.strftime(x, "%Y-%m-%d") for x in df_old['month'].unique()}
             print(set(df_old['month'].unique()))
             new_months = set(mth_list) - old_months
+            print(new_months)
 
             df_insert = df_insert[df_insert['month'].isin(new_months)]
 
@@ -581,16 +582,16 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Копия База printMFP для ГП-04'21.xlsm",
-                      xl_Vardata="Копия База printMFP для ГП-04'21.xlsm", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Mfp",
-                    dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
+FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Apr1.xlsx",
+                      xl_Vardata="NB_Report-4-21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Nb",
+                    dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
 FillDB.DB_alchemy(FillDB.Category)
 #FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [3]
-# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=False, now_y="2021")
+#FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+#FillDB.MtM_Products_Classes_to_SQL()
+mth_list = [4]
+FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
