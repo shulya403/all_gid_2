@@ -22,7 +22,10 @@ from .models import MntClasses, \
     UpsProductsHasUpsClasses, \
     UpsVardata, \
     UpsShopsPrices, \
-    TextLinks
+    TextLinks, \
+    TxtHow, \
+    TxtRatings
+
 
 from datetime import datetime as dt
 import time
@@ -424,7 +427,9 @@ def page_Category_Main(request, cat_):
             tab_marketability = dict()
             tab_novelty = dict()
 
-        best_links = Get_Bestsellers_links()
+        #best_links = Get_Bestsellers_links()
+        best_links = Get_Ratings_links(cat_)
+        print(best_links)
 
         if (not theme_pic[1]) \
             or (not theme_pic[0] in post_return):
@@ -849,4 +854,14 @@ def handler404(request, exception=None):
     response.status_code = 404
 
     return response
+def Get_Ratings_links(cat_):
+
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'article_title', 'article_anno', 'img', 'pin',
+                                                         'date').order_by('date')
+    len_list = len(listing)
+    print(listing)
+    if len_list > 5:
+        return listing[:5]
+    else:
+        return listing
 

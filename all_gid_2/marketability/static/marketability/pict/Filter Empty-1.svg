@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="15px" viewBox="0 0 18 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>2FAB3CD0-B162-47D2-A622-E163536C5515</title>
+    <defs>
+        <filter x="-6.7%" y="-20.0%" width="113.4%" height="140.0%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.38 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Allgid" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Allgid-Notebooks---720" transform="translate(-600.000000, -89.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="720" height="1024"></rect>
+            <g id="FAB---Filter" transform="translate(585.000000, 76.000000)" filter="url(#filter-1)">
+                <rect id="Rectangle" fill="#4B4A8A" x="0" y="0" width="119" height="40" rx="20"></rect>
+                <g id="Filter-Empty" transform="translate(12.000000, 8.000000)">
+                    <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                    <path d="M19.9976985,5.99994086 L12.498687,13.5071771 L12.4994358,17.9638432 L11.6554538,17.5883362 L11.4813407,13.4887064 L4.0017565,6 L19.9976985,5.99994086 Z" stroke="#FFFFFF" stroke-width="2"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -3,7 +3,7 @@
 	src: local(Roboto),
         url("fonts/Roboto-Regular.ttf") format("truetype");
     font-weight: normal;
-    font-style: oblique;
+    font-style: normal;
 }
 
 @font-face {
@@ -15,13 +15,13 @@
 }
 body {
         /*flex-direction: row;*/
-        font-family: Roboto;
+        font-family: Roboto, Arial, Helvetica;
         letter-spacing: 0.1px;
 
 }
 
 em {
-       font-family: Roboto-Italic;
+       font-family: Roboto-Italic, Arial-i;
 }
 
 .header-menu {
@@ -729,6 +729,10 @@ em {
         font-weight: 600;
         margin-top: 12px;
 }
+.novosti-header a {
+        text-decoration: none;
+        color: rgba(0,0,0, 0.63);
+}
 
 .news {
         display: flex;
@@ -767,7 +771,16 @@ em {
         position: relative;
 
         }
+.rаtings_list_bottom {
+        width: 100%;
+        justify-content: end;
+        color: rgba(0,0,0, 0.63);
 
+}
+.rаtings_list_bottom a {
+        text-decoration: none;
+        color: rgba(0,0,0, 0.63);
+}
 .product-block {
         display: flex;
         flex-direction: column;
@@ -1460,6 +1473,7 @@ em {
         width: 100%;
         border-collapse: collapse;
 
+
 }
 .inarticle_table thead {
         color:  rgba(0,0,0,0.63);
@@ -1473,6 +1487,11 @@ em {
 
 .inarticle_table th {
         text-justify: auto;
+        padding: 4px;
+
+}
+.inarticle_table td {
+        padding: 4px;
 
 }
 
@@ -1488,13 +1507,61 @@ em {
 .inarticle_table tbody tr:nth-child(2n)  {
         background-color: #F2F4FA;
 }
-.inarticle_disclimer {
+.inarticle_disclaimer > p {
         font-family: Roboto-Italic;
+        font-size: smaller;
         background-color: #8abeb7;
         border-radius: 8px;
         padding: 8px;
 }
 
+.inarticle_cit1 > p {
+        background-color: #F2F4FA;
+        border-left: 2px solid #2E2966;
+        padding: 8px;
+}
+
+
 button#how {
         display: none;
+}
+
+.filter_button_big {
+        width: 60%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        background-color: #4B4A8A;
+        border-radius: 20px;
+        align-items: center;
+
+}
+
+.filter_button_big .fltr_pic {
+        display: inline-block;
+        background: url("pict/Filter Empty-1.svg") no-repeat;
+        background-size: 20px 20px;
+        background-position: center;
+        height: 24px;
+        width: 24px;
+
+        margin-left: 20px;
+
+}
+.filter_button_big .fltr_text {
+        display: inline-block;
+        font-size: larger;
+        color: #FFFFFF;
+        link: #FFFFFF;
+        padding: 8px;
+        letter-spacing: 1px;
+
+}
+.filter_button_big a {
+        color: #FFFFFF;
+
+}
+
+.inarticle-rignt-filter .filters-item-check a {
+        color: #FFFFFF;
 }
