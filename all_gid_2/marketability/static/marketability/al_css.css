@@ -1306,12 +1306,14 @@ em {
         margin: 0 auto;
         margin-top: 12px;
         display: flex;
-
         justify-content: space-around;
 }
 
 .bottom-buttons {
+        display: inline-block;
         text-align: center;
+        width: 100%;
+
 }
 
 .adress-bar {
@@ -1564,4 +1566,13 @@ button#how {
 
 .inarticle-rignt-filter .filters-item-check a {
         color: #FFFFFF;
+}
+
+.social-buttons {
+        width: 100%;
+        text-align: right;
+
+}
+.ya-share2 {
+        display: inline-block;
 }

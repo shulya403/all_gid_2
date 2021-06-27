@@ -2,8 +2,18 @@
 {% block meta %}
     <title>{{ article.article_title }}</title>
     <meta name="description" content="{{ article.article_anno|truncatechars_html:160 }}" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
+    <meta name="robots" content="all" />
+    <link rel="canonical" href="https://allgid.ru/{{ article.cat }}/{{ article.idtxt_ratings }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{ article.article_title }}"/>
+    <meta property="og:site_name" content="Allgid.ru Гид покупателя."/>
+    <meta property="og:description" content="{{ article.article_anno|truncatechars_html:160  }}"/>
+    <meta property="og:image" content="https://allgid.ru{{ article.img }}"/>
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="150">
+    <meta property="og:url" content="https://allgid.ru/rate/{{ article.cat }}/{{ article.idtxt_ratings }}"/>
+
+
 {% endblock %}
 
 {% block category %}
@@ -23,7 +33,13 @@
         {{ article.article_html_body }}
     </div>
    {% endautoescape %}
+        <div class="social-buttons">
+{#    <script src="https://yastatic.net/share2/share.js"></script>#}
+    <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+        <div class="ya-share2" data-services="facebook,twitter,vkontakte,telegram,whatsapp"></div>
+    </div>
     </div> <!-- article-content -->
+
     <div class="article-right">
   {% autoescape off %}
     <div class="article_body">

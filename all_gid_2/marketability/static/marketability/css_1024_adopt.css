@@ -1361,7 +1361,7 @@ em {
 }
 
 .home-bottom {
-        display: none;
+        display: flex;
         font-family: Roboto;
         letter-spacing: 0.1px;
         width: 100%;
@@ -1371,6 +1371,15 @@ em {
         padding-top: 8px;
 }
 
+.bottom-our-button {
+       display: flex;
+        text-decoration: none;
+        margin-right: 12px;
+        color: #ffffff;
+        background-color: #2E2966;
+        padding: 12px;
+
+}
 .home-explanation {
         width: 100%;
         border-top: 1px solid #3C3979;
@@ -1616,4 +1625,13 @@ button#how {
 
 .inarticle-rignt-filter .filters-item-check a {
         color: #FFFFFF;
+}
+
+.social-buttons {
+        width: 100%;
+        text-align: right;
+
+}
+.ya-share2 {
+        display: inline-block;
 }
