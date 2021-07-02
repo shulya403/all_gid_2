@@ -4,3 +4,6 @@ Disallow: /404.html
 Disallow: /how
 Disallow: /vendors
 sitemap: https://allgid.ru/sitemap.xml
+
+User-Agent: Yandex
+Disallow:

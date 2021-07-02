@@ -1,10 +1,10 @@
 {% extends "al_page.html" %}
 {% block meta %}
-    <title>Гид покупателя. {{ category_name }}</title>
-    <meta name="description" content="{{ category_name }}: Шорт-лист (Top20 самых популярных) в России за {{ period }}. Плюс - новинки. Фильтр по целям использования и базовым характеристикам." />
+    <title>{{ category_name }}. Лучшие ({{ tab_data|get_item:tab_active|get_item:"rus_name" }}). Гид покупателя. {% for i in checked_items %}&#9733;{% endfor %}</title>
+    <meta name="description" content="{{ category_name }}:{% if tab_active == "marketability"  %} Рейтинг (Top-20 самых популярных) в России{% elif tab_active == "novelity" %} Новинки - модели появившиеся в продаже в России{% endif %} за {{ period }}. Выбор по целям использования и базовым характеристикам.  {% for i in checked_items %}&#9733;{% endfor %}" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="компьютеры, периферия, рейтинг, популярность, популярные, новинки, дом, офис, цены, модель, характеристики, выбрать, фильтр, критерий, критериии, сравнение, сценарии использования, выбор продукта, выбор покупателей, {{ category_name }}"  />
-    <link rel="canonical" href="https://allgid.ru/{{ action }}/"/>
+    <meta name="keywords" content="рейтинг, популярность, популярные, новинки, выбор покупателей, {{ category_name }}"  />
+
 {% endblock %}
 
 {% block category %}

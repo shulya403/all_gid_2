@@ -3,6 +3,7 @@ import sqlalchemy as sql
 #import json
 import time
 import datetime as dt
+from datetime import timedelta
 
 class DB():
     def __init__(self, list_cat):
@@ -50,7 +51,13 @@ class DB():
             count=0
             for i, row in self.dict_cat_conn[cat].iterrows():
                 loc_.append('https://allgid.ru/' + cat + '/' + str(row['id']))
-                lastmod_.append(now_)
+                date_ = row['appear_month']
+                try:
+                    date_ += timedelta(days=45)
+                except TypeError:
+                    pass
+                lastmod_.append(date_)
+
                 count+=1
             print(cat, count)
         df = pd.DataFrame({'loc': loc_, 'lastmod': lastmod_})
@@ -72,10 +79,10 @@ class DB():
 
         for cat in list(self.df_rate['cat'].unique()):
                 tup_txt = (cat, now_)
-                xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n</url>\n".format(*tup_txt))
-                for article in self.df_rate[self.df_rate['cat'] == cat]['idtxt_ratings']:
-                    tup_article = (cat, article, now_)
-                    xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/{1}</loc>\n<lastmod>{2}</lastmod>\n<changefreq>weekly</changefreq>\n</url>\n".format(*tup_article))
+                xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n</url>\n".format(*tup_txt))
+                for i, row in self.df_rate[self.df_rate['cat'] == cat][['idtxt_ratings', 'date']].iterrows():
+                    tup_article = (cat, row.idtxt_ratings, row.date)
+                    xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/{1}</loc>\n<lastmod>{2}</lastmod>\n</url>\n".format(*tup_article))
 
         xml_f.write("<url>\n<loc>https://allgid.ru/search_all.html</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>1.0</priority>\n</url>\n".format(
                 tup_dt[1]))
@@ -84,7 +91,7 @@ class DB():
 
         for i, row in df.iterrows():
             xml_f.write("<url>\n")
-            xml_f.write("<loc>{}</loc>\n<changefreq>weekly</changefreq>\n".format(row['loc']))
+            xml_f.write("<loc>{}</loc>\n".format(row['loc']))
             if row['lastmod']:
                 xml_f.write("<lastmod>{}</lastmod>\n".format(row['lastmod']))
             xml_f.write("</url>\n")
