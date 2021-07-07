@@ -3,7 +3,7 @@ from django.urls import path
 from django.views.generic.base import RedirectView, TemplateView
 #from django.conf.urls.defaults import *
 
-from . import views, txt_views, ven_views
+from . import views, txt_views, ven_views, rss_views
 
 app_name = 'marketability'
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('how/<slug:cat_>/', txt_views.how_cat_Listing, name="how_cat_listing"),
     path('how/<slug:cat_>/<slug:article>', txt_views.how_Article, name="how_article"),
     path('rate/', txt_views.rate_Listing, name="how_list"),
+    # path('rate/rss/', rss_views.RateFeed()),
     path('rate/<slug:cat_>/', txt_views.rate_cat_Listing, name="how_cat_listing"),
     path('rate/<slug:cat_>/<slug:article>', txt_views.rate_Article, name="how_article"),
     path('<slug:cat_>/', views.page_Category_Main, name='cat'),

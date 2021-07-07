@@ -32,6 +32,17 @@
 {% block category %}
     <div class="category-content">
     <div class="product-block">
+    <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
+        <span itemprop="brand" content={{ vendor }}></span>
+        <span itemprop="name" content={{ name }}></span>
+        <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
+        <div itemprop="offers" itemscope="" itemtype="https://schema.org/Offer">
+            <span itemprop="priceCurrency" content="RUB"></span>
+            <span itemprop="price" content={{ this_price }}></span>
+
+        </div>
+
+    </div>
     <div class="product-filters">
         <a href="/{{ action }}/" style="text-decoration: none;">
         <div class="k-filtram">
@@ -42,10 +53,15 @@
 
     </div> <!-- К фильтрам -->
     <div class="brandname">
-        <h1 class="product-this-name">{{ vendor }}&nbsp;{{ name }}</h1>
+        <h1 class="product-this-name">
+            {{ category_name_singular }}&nbsp;{{ vendor }}&nbsp;<br/>
+            {{ name }}
+        </h1>
         {% with price=this_price|digit_separator  %}
             {% if price != 'n/a' %}
-                <div class="product-this-price">~&nbsp;{{ price }}&nbsp;руб.</div>
+                <div class="product-this-price">~&nbsp;{{ price }}&nbsp;руб.
+                </div>
+
             {% else %}
                 <div class="product-this-price">Нет данных о ценах</div>
             {% endif %}

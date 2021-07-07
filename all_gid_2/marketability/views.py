@@ -857,7 +857,7 @@ def handler404(request, exception=None):
 def Get_Ratings_links(cat_):
 
     listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'article_title', 'article_anno', 'img', 'pin',
-                                                         'date').order_by('date')
+                                                         'date').order_by('-date')
     len_list = len(listing)
     print(listing)
     if len_list > 5:

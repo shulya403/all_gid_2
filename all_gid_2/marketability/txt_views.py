@@ -99,9 +99,7 @@ def rate_Listing(request):
 
     listing = dict()
     for cat_ in  categories_list:
-        print(cat_)
-        listing_cat = total_txt_rate.filter(cat=cat_[1]).order_by('pin', 'date')
-        print(listing_cat)
+        listing_cat = total_txt_rate.filter(cat=cat_[1]).order_by('pin', '-date')
         if len(listing_cat) > 0:
                listing[cat_[0]] = listing_cat
 
@@ -116,7 +114,7 @@ def rate_Listing(request):
 
 def rate_cat_Listing(request, cat_):
 
-    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'article_title', 'article_anno', 'img', 'pin', 'date')
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'article_title', 'article_anno', 'img', 'pin', 'date').order_by('pin', '-date')
 
     ctg = views.Init_cat(request, '', {})
 
@@ -170,5 +168,16 @@ def rate_Article(request, cat_, article):
     else:
         return views.handler404(request)
 
+def RSS_Rate(request):
 
+    items = 0
+
+    exit_ = {
+        "channel_title": "Гид покупателя. Рейтинги. Мониторы, Ноутбуки, Принтеры и МФУ, ИБП, ",
+        "channel_description": "Рейтинги. Top самых популярных моделей в России. Обзоры и подборки. Лучшие Мониторы, Ноутбуки, Принтеры и МФУ, ИБП, ",
+
+        "items": items
+    }
+
+    return 0
 

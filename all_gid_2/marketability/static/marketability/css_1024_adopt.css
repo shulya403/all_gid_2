@@ -1569,6 +1569,9 @@ em {
 .inarticle_table tbody tr:nth-child(2n) {
         background-color: #F2F4FA;
 }
+.tr-top {
+        background-color: #fbffc6;
+}
 
 .inarticle_disclaimer > p {
         font-family: Roboto-Italic;
