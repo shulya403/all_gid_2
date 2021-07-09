@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:yandex="http://news.yandex.ru"
+     xmlns:media="http://search.yahoo.com/mrss/"
+     xmlns:turbo="http://turbo.yandex.ru"
+     version="2.0">
+    <channel>
+        <!-- Информация о сайте-источнике -->
+        <title>{{ channel_title }}</title>
+        <link>https://allgid.ru</link>
+        <description>{{ channel_description }}</description>
+        <language>ru</language>
+        <turbo:analytics type="Yandex" id="75335146"></turbo:analytics>
+
+        {% for item in items %}
+        <item turbo="true">
+
+            <turbo:extendedHtml>true</turbo:extendedHtml>
+            <link>https://allgid.ru/rate/{{ item.cat }}/{{ item.idtxt_ratings }}</link>
+            <turbo:source>https://allgid.ru/rate/{{ item.cat }}/{{ item.idtxt_ratings }}</turbo:source>
+            <turbo:topic>{{ item.article_title }}</turbo:topic>
+{#            <pubDate>{{ item.pub_date }}</pubDate>#}
+            <author>Гид покупателя. Компьютеры и оргтехника</author>
+            <yandex:related></yandex:related>
+            <turbo:content>
+                <![CDATA[
+                 <header>
+                    <h1>{{ item.article_title }}</h1>
+                </header>
+                <menu>
+                    {%  for i, link in categories_list %}
+                        <a href="/{{ link }}/">{{ i }}</a>
+                    {% endfor %}
+                </menu>
+                <div data-block="cards">
+                <div data-block="card">
+
+                            <a href="https://algid.ru/rate/">
+                                <span>Рейтинги</span>
+                            </a>
+                        &rArr;
+
+                            <a href="/rate/{{ item.cat }}/">
+                                <span>Ноутбуки</span>
+                            </a>
+
+
+
+                        {% autoescape off %}
+                            {{ item.article_html_body }}
+                        {% endautoescape %}
+                </div> <!-- card -->
+                 <div data-block="card">
+                        {% autoescape off %}
+                            {{ item.article_keywords }}
+                        {% endautoescape %}
+                 </div> <!-- card -->
+                 <div data-block="card">
+                    <div data-block="share" data-network="facebook, odnoklassniki, telegram, twitter, vkontakte, whatsapp"></div>
+                 </div> <!-- card -->
+                 </div> <!-- cards -->
+                ]]>
+            </turbo:content>
+        </item>
+    {% endfor %}
+    </channel>
+</rss>

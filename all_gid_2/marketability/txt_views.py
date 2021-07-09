@@ -170,14 +170,32 @@ def rate_Article(request, cat_, article):
 
 def RSS_Rate(request):
 
-    items = 0
+    articles = TxtRatings.objects.all()
+    for i, article in enumerate(articles):
+        articles[i].pub_date = dt.strftime(article.date, "%a, %d %b %Y 08:00:00 +0300")
+        #Tue, 21 Apr 2015 14:15:00 +0300
+
+    if article:
+
+        try:
+            categories_list = request.session['categories_list']
+        except KeyError:
+            ctg = views.Init_cat(request, '', {})
+            categories_list = request.session['categories_list']
+
 
     exit_ = {
+        'categories_list': categories_list,
         "channel_title": "Гид покупателя. Рейтинги. Мониторы, Ноутбуки, Принтеры и МФУ, ИБП, ",
         "channel_description": "Рейтинги. Top самых популярных моделей в России. Обзоры и подборки. Лучшие Мониторы, Ноутбуки, Принтеры и МФУ, ИБП, ",
 
-        "items": items
+        "items": articles
+
     }
 
-    return 0
+    #rendered = render_to_string('rss-turbo.xml', exit_)
+
+    return render(request, template_name="rss-turbo.xml", context=exit_, content_type="application/rss-xml")
+
+
 
