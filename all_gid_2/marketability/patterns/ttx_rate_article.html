@@ -3,11 +3,11 @@
     <title>{{ article.article_title }}</title>
     <meta name="description" content="{{ article.article_anno|truncatechars_html:160 }}" />
     <meta name="robots" content="all" />
-    <link rel="canonical" href="https://allgid.ru/{{ article.cat }}/{{ article.idtxt_ratings }}"/>
+    <link rel="canonical" href="https://allgid.ru/rate/{{ article.cat }}/{{ article.idtxt_ratings }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{ article.article_title }}"/>
     <meta property="og:site_name" content="Allgid.ru Гид покупателя."/>
-    <meta property="og:description" content="{{ article.article_anno|truncatechars_html:160  }}"/>
+    <meta property="og:description" content="{{ article.article_anno|truncatechars_html:260  }}"/>
     <meta property="og:image" content="https://allgid.ru{{ article.img }}"/>
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="150">
@@ -26,8 +26,9 @@
         <span itemprop="description" content="{{ article.article_anno }}"></span>
         <span itemprop="datePublished" content="{{ article.date }}"></span>
             <div itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://allgid.ru/rate/{{ article.cat }}/{{ article.idtxt_ratings }}"></div>
-     {% endautoescape %}
+
     </div>
+     {% endautoescape %}
     <div class="article-content">
         <div class="article-backlink-listing" itemscope itemtype="http://schema.org/BreadcrumbList">
             <div style="display: inline;" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">

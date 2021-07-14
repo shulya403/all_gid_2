@@ -1,14 +1,13 @@
 User-Agent: *
 Allow: /
 Disallow: /404.html
-Disallow: /how
 Disallow: /vendors
 sitemap: https://allgid.ru/sitemap.xml
 
 User-Agent: Yandex
 Allow: /rss-turbo.xml
 Disallow:
-Clean-param: tabs https://allgid.ru/Nb/
-Clean-param: tabs https://allgid.ru/Mnt/
-Clean-param: tabs https://allgid.ru/Mfp/
-Clean-param: tabs https://allgid.ru/Ups/
+Clean-param: tabs /Nb/
+Clean-param: tabs /Mnt/
+Clean-param: tabs /Mfp/
+Clean-param: tabs /Ups/

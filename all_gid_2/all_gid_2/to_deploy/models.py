@@ -19,6 +19,8 @@ class TxtHow(models.Model):
     date = models.DateField(blank=True, null=True)
     img = models.CharField(max_length=100, blank=True, null=True)
     pin = models.IntegerField()
+    faq_question = models.CharField(max_length=255, blank=True, null=True)
+    faq_unswer = models.TextField(blank=True, null=True)
 
     class Meta:
         managed = False
