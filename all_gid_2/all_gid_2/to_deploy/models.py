@@ -11,7 +11,7 @@ from django.db import models
 class TxtHow(models.Model):
     idtxt_how = models.AutoField(primary_key=True)
     article_html_body = models.TextField(blank=True, null=True)
-    artice_title = models.TextField(blank=True, null=True)
+    article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
     article_keywords = models.TextField(blank=True, null=True)
     cat = models.CharField(max_length=3, blank=True, null=True)

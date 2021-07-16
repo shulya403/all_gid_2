@@ -11,7 +11,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 class TxtHow(models.Model):
     idtxt_how = models.AutoField(primary_key=True)
     article_html_body = RichTextUploadingField()
-    artice_title = models.TextField(blank=True, null=True)
+    article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
     article_keywords = RichTextUploadingField()
     cat = models.CharField(max_length=3, blank=True, null=True)

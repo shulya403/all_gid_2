@@ -16,8 +16,8 @@
         {% for i in listing %}
         <div class="how-listing-item">
         <div class="how-listig-item-text">
-        <a href="/rate/{{ cat }}/{{ i.idtxt_rating }}" target="_blank" class="how_listing_title_href">
-            <h2 class="how_listing_title_h2">{{ i.artice_title }}</h2>
+        <a href="/how/{{ cat }}/{{ i.idtxt_how }}" target="_blank" class="how_listing_title_href">
+            <h2 class="how_listing_title_h2">{{ i.article_title }}</h2>
               <p class="how_listing_anno_p">                {% if i.img %}
                     <img src="{{ i.img }}" alt="" height="100px" align="right">
             {% endif %}

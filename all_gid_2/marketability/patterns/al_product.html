@@ -1,7 +1,7 @@
 {% extends "al_page.html" %}
 {% block meta %}
     <title>{{ category_name_singular }} {{ vendor }} {{ name }} сравнить цены, характеристики</title>
-    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}.  Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, выбрать магазин." />
+    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}. Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, выбрать магазин." />
 
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
@@ -32,16 +32,17 @@
 {% block category %}
     <div class="category-content">
     <div class="product-block">
+    {% with price=this_price|digit_separator  %}
     <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
-        <span itemprop="brand" content={{ vendor }}></span>
-        <span itemprop="name" content={{ name }}></span>
+        <span itemprop="brand" content="{{ vendor }}"></span>
+        <span itemprop="name" content="{{ name }}"></span>
         <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
+        {%  if price != 'n/a' %}
         <div itemprop="offers" itemscope="" itemtype="https://schema.org/Offer">
             <span itemprop="priceCurrency" content="RUB"></span>
-            <span itemprop="price" content={{ this_price }}></span>
-
+            <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
         </div>
-
+        {% endif %}
     </div>
     <div class="product-filters">
         <a href="/{{ action }}/" style="text-decoration: none;">
@@ -57,7 +58,7 @@
             {{ category_name_singular }}&nbsp;{{ vendor }}&nbsp;<br/>
             {{ name }}
         </h1>
-        {% with price=this_price|digit_separator  %}
+
             {% if price != 'n/a' %}
                 <div class="product-this-price">~&nbsp;{{ price }}&nbsp;руб.
                 </div>
@@ -65,8 +66,9 @@
             {% else %}
                 <div class="product-this-price">Нет данных о ценах</div>
             {% endif %}
-        {% endwith %}
+
     </div>
+    {% endwith %}
      <div class="filters-klass">Класс</div>
     <div class="filters-list">
     <div class="filter-type-block">

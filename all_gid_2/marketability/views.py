@@ -68,6 +68,18 @@ def digit_separator(digit):
         return 'n/a'
 
 @register.filter
+def digit_to_float(digit):
+    if digit:
+        try:
+            str_digit = float(digit)
+        except Exception:
+            return 'n/a'
+
+    else:
+        return 'n/a'
+    return str(str_digit)
+
+@register.filter
 def sort_keys(keys):
 
     return sorted(list(keys))

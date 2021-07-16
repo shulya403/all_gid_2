@@ -3,7 +3,7 @@
     <title>{{ article.article_title }}</title>
     <meta name="description" content="{{ article.article_anno|truncatechars_html:160 }}" />
     <meta name="robots" content="all" />
-    <link rel="canonical" href="https://allgid.ru/how/{{ article.cat }}/{{ article.idtxt_ratings }}"/>
+    <link rel="canonical" href="https://allgid.ru/how/{{ article.cat }}/{{ article.idtxt_how }}"/>
     <meta property="og:type" content="website"/>
     <meta property="og:title" content="{{ article.article_title }}"/>
     <meta property="og:site_name" content="Allgid.ru Гид покупателя."/>
@@ -11,8 +11,8 @@
     <meta property="og:image" content="https://allgid.ru{{ article.img }}"/>
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="150">
-    <meta property="og:url" content="https://allgid.ru/rate/{{ article.cat }}/{{ article.idtxt_ratings }}"/>
-    <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
+    <meta property="og:url" content="https://allgid.ru/how/{{ article.cat }}/{{ article.idtxt_how }}"/>
+    <link rel="canonical" href="https://allgid.ru/how/{{ article.cat }}/{{ article.idtxt_how }}"/>
 {% endblock %}
 
 {% block category %}
@@ -24,7 +24,7 @@
         <span itemprop="image" content="https://allgid.ru{{ article.img }}"></span>
         <span itemprop="description" content="{{ article.article_anno }}"></span>
         <span itemprop="datePublished" content="{{ article.date }}"></span>
-            <div itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://allgid.ru/how/{{ article.cat }}/{{ article.idtxt_ratings }}"></div>
+            <div itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://allgid.ru/how/{{ article.cat }}/{{ article.idtxt_how }}"></div>
         </div>
         <div class="shema_org" itemscope itemtype="https://schema.org/Question" style="display: none;">
         <span itemprop="name" content="{{ article.faq_question }}"></span>

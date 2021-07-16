@@ -6,7 +6,7 @@ from datetime import datetime as dt
 
 def how_Listing(request):
 
-    total_txt_how = TxtHow.objects.all().values('idtxt_how', 'artice_title', 'cat', 'article_anno', 'img', 'pin', 'date')
+    total_txt_how = TxtHow.objects.all().values('idtxt_how', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
 
     try:
            categories_list = request.session['categories_list']
@@ -34,7 +34,7 @@ def how_Listing(request):
 
 def how_cat_Listing(request, cat_):
 
-    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'artice_title', 'article_anno', 'img', 'pin', 'date')
+    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'article_title', 'article_anno', 'img', 'pin', 'date')
 
     ctg = views.Init_cat(request, '', {})
 
