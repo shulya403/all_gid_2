@@ -582,15 +582,15 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_May2.xlsx",
-                      xl_Vardata="NB_Report-5-21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Nb",
-                    dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [5]
+# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_June1.xlsx",
+#                       xl_Vardata="NB_Report-6-21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Nb",
+#                     dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+# FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [6]
 # FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
@@ -601,13 +601,13 @@ FillDB.MtM_Products_Classes_to_SQL()
 #                  drop_shops = ['yama']):
 
 # Заполение магазинов для мониторов и ноутбуков
-# FillShop = DB_insert_shops(
-#                  xl_Shops="Ноутбук-Concat_Prices--Apr-21--Cheked.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Nb',
-#                  dir_root="../Data/"
-# )
-#
-# FillShop.To_DB_Shop_Price()
+FillShop = DB_insert_shops(
+                 xl_Shops="Ноутбук-Concat_Prices--Jun-21--Checked.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Nb',
+                 dir_root="../Data/"
+)
+
+FillShop.To_DB_Shop_Price()
 
 
 # Мониторы добавка и исправление моделей за месяц
