@@ -1527,9 +1527,9 @@ em {
 }
 
 
-button#how {
-        display: none;
-}
+/*button#how {*/
+/*        display: none;*/
+/*}*/
 
 .filter_button_big {
         width: 60%;

@@ -1585,9 +1585,10 @@ em {
         padding: 8px;
 }
 
-button#how {
-        display: none;
-}
+/*button#how {*/
+/*        display: none;*/
+/*}*/
+
 .filter_button_big {
         width: 50%;
         display: flex;

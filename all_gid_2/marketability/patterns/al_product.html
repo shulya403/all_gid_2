@@ -37,12 +37,19 @@
         <span itemprop="brand" content="{{ vendor }}"></span>
         <span itemprop="name" content="{{ name }}"></span>
         <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
+        <span itemprop="category" content="{{ category_name_singular }}"></span>
+        <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
         {%  if price != 'n/a' %}
         <div itemprop="offers" itemscope="" itemtype="https://schema.org/Offer">
             <span itemprop="priceCurrency" content="RUB"></span>
             <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
         </div>
         {% endif %}
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <span itemprop="description" content="{% for i in this_classes %}- {{ i.text }} {% endfor %}"></span>
+            <span itemprop="author" content="Allgid.ru"></span>
+        </div>
+
     </div>
     <div class="product-filters">
         <a href="/{{ action }}/" style="text-decoration: none;">
