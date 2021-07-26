@@ -20,11 +20,14 @@ class DB():
 
         for i in list_cat:
             tbl_products = sql.Table(i.lower() + '_products', metadata, autoload=True)
-            tbl_rate = sql.Table('txt_ratings', metadata, autoload=True)
             self.connection = sql_engine.connect()
             self.dict_cat_conn[i] = self.Select_SQL_to_df(tbl_products)
 
+        tbl_rate = sql.Table('txt_ratings', metadata, autoload=True)
         self.df_rate = self.Select_SQL_to_df(tbl_rate)
+
+        tbl_how = sql.Table('txt_how', metadata, autoload=True)
+        self.df_how = self.Select_SQL_to_df(tbl_how)
 
 
 # df из из таблицы SQL
@@ -83,6 +86,14 @@ class DB():
                 for i, row in self.df_rate[self.df_rate['cat'] == cat][['idtxt_ratings', 'date']].iterrows():
                     tup_article = (cat, row.idtxt_ratings, row.date)
                     xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/{1}</loc>\n<lastmod>{2}</lastmod>\n</url>\n".format(*tup_article))
+
+        for cat in list(self.df_how['cat'].unique()):
+                tup_txt = (cat, now_)
+                xml_f.write("<url>\n<loc>https://allgid.ru/how/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n</url>\n".format(*tup_txt))
+                for i, row in self.df_how[self.df_how['cat'] == cat][['idtxt_how', 'date']].iterrows():
+                    tup_article = (cat, row.idtxt_how, row.date)
+                    xml_f.write("<url>\n<loc>https://allgid.ru/how/{0}/{1}</loc>\n<lastmod>{2}</lastmod>\n</url>\n".format(*tup_article))
+
 
         xml_f.write("<url>\n<loc>https://allgid.ru/search_all.html</loc>\n<lastmod>{0}</lastmod>\n<changefreq>weekly</changefreq>\n<priority>1.0</priority>\n</url>\n".format(
                 tup_dt[1]))

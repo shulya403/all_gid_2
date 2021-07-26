@@ -582,10 +582,10 @@ class Monitor_Models_Base_Update():
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_June1.xlsx",
-#                       xl_Vardata="NB_Report-6-21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-#                      Category="Nb",
-#                     dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
+# FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_06-1.xlsx",
+#                       xl_Vardata="Копия allgid monitors june 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Mnt",
+#                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
 # FillDB.DB_alchemy(FillDB.Category)
 # FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
@@ -602,8 +602,8 @@ class Monitor_Models_Base_Update():
 
 # Заполение магазинов для мониторов и ноутбуков
 FillShop = DB_insert_shops(
-                 xl_Shops="Ноутбук-Concat_Prices--Jun-21--Checked.xlsx", #Месячные прайсы Filled/Checked
-                 Category='Nb',
+                 xl_Shops="Мониторы_June_21_price_Checked.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Mnt',
                  dir_root="../Data/"
 )
 
@@ -614,5 +614,7 @@ FillShop.To_DB_Shop_Price()
 # class Monitor_Models_Base_Update():
 #     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 
-# Apr_monitors = Monitor_Models_Base_Update('Monitors_Model_Base_2021_03-1.xlsx', 'Monitors_Models Apr 2021.xlsx')
-# Apr_monitors.Write_excel()
+# June_monitors = Monitor_Models_Base_Update('Monitors_Model_Base_2021_04-1.xlsx',
+#                                            'Копия allgid monitors june 2021.xlsx',
+#                                            dir="C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\")
+# June_monitors.Write_excel()
