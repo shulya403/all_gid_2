@@ -1569,7 +1569,7 @@ em {
         background-color: #F2F4FA;
 }
 .tr-top {
-        background-color: #fbffc6;
+        background-color: #fbffc6!important;
 }
 
 .inarticle_disclaimer > p {

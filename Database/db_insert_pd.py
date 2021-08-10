@@ -582,16 +582,16 @@ class Monitor_Models_Base_Update():
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_06-1.xlsx",
-#                       xl_Vardata="Копия allgid monitors june 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-#                      Category="Mnt",
-#                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
-# FillDB.DB_alchemy(FillDB.Category)
-# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-# FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [6]
-# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
+FillDB = DB_insert_from_excel(xl_Products="Mfp_Model_Base_06'2021-1.xlsx",
+                      xl_Vardata="Mfp_Model_Base_06'2021-1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Mfp",
+                    dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
+FillDB.DB_alchemy(FillDB.Category)
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=False)
+FillDB.MtM_Products_Classes_to_SQL()
+mth_list = [6]
+FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -601,20 +601,19 @@ class Monitor_Models_Base_Update():
 #                  drop_shops = ['yama']):
 
 # Заполение магазинов для мониторов и ноутбуков
-FillShop = DB_insert_shops(
-                 xl_Shops="Мониторы_June_21_price_Checked.xlsx", #Месячные прайсы Filled/Checked
-                 Category='Mnt',
-                 dir_root="../Data/"
-)
-
-FillShop.To_DB_Shop_Price()
+# FillShop = DB_insert_shops(
+#                  xl_Shops="Мониторы_June_21_price_Checked.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Mnt',
+#                  dir_root="../Data/"
+# )
+#
+# FillShop.To_DB_Shop_Price()
 
 
 # Мониторы добавка и исправление моделей за месяц
-# class Monitor_Models_Base_Update():
-#     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
+#
 
-# June_monitors = Monitor_Models_Base_Update('Monitors_Model_Base_2021_04-1.xlsx',
-#                                            'Копия allgid monitors june 2021.xlsx',
-#                                            dir="C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\")
+# June_monitors = Monitor_Models_Base_Update("Mfp_Model_Base_04'2021-1.xlsx",
+#                                            "База printMFP для ГП-05'21.xlsm",
+#                                            dir="C:/Users/User/ITResearch/all_gid_2/Data/Mfp/")
 # June_monitors.Write_excel()

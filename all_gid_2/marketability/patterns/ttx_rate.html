@@ -18,7 +18,7 @@
         <a href="/rate/{{ cat }}/" class="how_cat_block_a">
             <div class="how_cat_block"><h2>{{ cat_rus_name }}</h2></div>
         </a>
-        {% for i in listing|get_item:cat_rus_name %}
+        {% for i in listing|get_item:cat_rus_name|slice:"3" %}
         <div class="how-listing-item">
         <div class="how-listig-item-text">
         <a href="/rate/{{ cat }}/{{ i.idtxt_ratings }}" target="_blank" class="how_listing_title_href">
@@ -33,11 +33,13 @@
             </p>
         </a>
         </div>
-
-
         </div>
+
         {% endfor %}
         {% endif %}
+                    {% if listing|get_item:cat_rus_name|length > 3 %}
+                        <div class="article_list_other"><a href="/rate/{{ cat }}/" class="how_cat_block_a">Прочие рейтинги >></a></div>
+            {% endif %}
     {% endfor %}
 </div>
 
