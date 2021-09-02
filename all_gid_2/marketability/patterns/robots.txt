@@ -6,8 +6,3 @@ sitemap: https://allgid.ru/sitemap.xml
 
 User-Agent: Yandex
 Allow: /rss-turbo.xml
-Disallow:
-Clean-param: tabs /Nb/
-Clean-param: tabs /Mnt/
-Clean-param: tabs /Mfp/
-Clean-param: tabs /Ups/

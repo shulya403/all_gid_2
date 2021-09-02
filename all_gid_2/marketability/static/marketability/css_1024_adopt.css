@@ -853,6 +853,15 @@ em {
 
         }
 
+.rаtings_list_bottom {
+        text-decoration: none;
+        padding-top: 8px;
+        color: #3c30bf;
+}
+.rаtings_list_bottom > a {
+        text-decoration: none;
+}
+
 .product-block {
         display: flex;
         flex-direction: column;
@@ -1480,6 +1489,16 @@ em {
 }
 .how_cat_block > h2 {
         margin: 12px;
+}
+
+.article_list_other {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+        text-align: left;
+        font-size: larger;
+        padding-bottom: 12px;
+
 }
 .article-wrap {
         display: flex;

@@ -7,25 +7,25 @@
     <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
 
 
-<!-- Yandex.Market Widget -->
-<script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript"></script>
-<script type="text/javascript">
-    (function (w) {
-        function start() {
-            w.removeEventListener("YaMarketAffiliateLoad", start);
-            w.YaMarketAffiliate.createWidget({type:"offers",
-	containerId:"marketWidget",
-	fallback:true,
-	params:{clid:2310490,
-		searchText: "{{ vendor }} {{ name }}",
-		themeId:1 } });
-        }
-        w.YaMarketAffiliate
-            ? start()
-            : w.addEventListener("YaMarketAffiliateLoad", start);
-    })(window);
-</script>
-<!-- End Yandex.Market Widget -->
+{#<!-- Yandex.Market Widget -->#}
+{#<script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript"></script>#}
+{#<script type="text/javascript">#}
+{#    (function (w) {#}
+{#        function start() {#}
+{#            w.removeEventListener("YaMarketAffiliateLoad", start);#}
+{#            w.YaMarketAffiliate.createWidget({type:"offers",#}
+{#	containerId:"marketWidget",#}
+{#	fallback:true,#}
+{#	params:{clid:2310490,#}
+{#		searchText: "{{ vendor }} {{ name }}",#}
+{#		themeId:1 } });#}
+{#        }#}
+{#        w.YaMarketAffiliate#}
+{#            ? start()#}
+{#            : w.addEventListener("YaMarketAffiliateLoad", start);#}
+{#    })(window);#}
+{#</script>#}
+{#<!-- End Yandex.Market Widget -->#}
 
     {% endblock %}
 
@@ -205,22 +205,23 @@
             {% endif %}
 
             {% for ven, md in miscell.items  %}
-                <input type="checkbox" id="{{ ven }}" class="check-vendor-clps"
-                onclick="if($('.miscell-mod#{{ ven }}').css('display') == 'none')
-                       {$('.miscell-mod#{{ ven }}').css('display', 'flex');
-                        $('.miscell-vendor-strelka#{{ ven }}').css('transform', 'rotate(180deg)');}
+                {% with ven_1=ven|slugify %}
+                <input type="checkbox" id="{{ ven_1 }}" class="check-vendor-clps"
+                onclick="if($('.miscell-mod#{{ ven_1 }}').css('display') == 'none')
+                       {$('.miscell-mod#{{ ven_1 }}').css('display', 'flex');
+                        $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'rotate(180deg)');}
                        else
-                        {$('.miscell-mod#{{ ven }}').css('display', 'none');
-                         $('.miscell-vendor-strelka#{{ ven }}').css('transform', 'none');};">
-                <label for="{{ ven }}" id="{{ ven }}">
+                        {$('.miscell-mod#{{ ven_1 }}').css('display', 'none');
+                         $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'none');};">
+                <label for="{{ ven_1 }}" id="{{ ven_1 }}">
                 <div class="miscell-vendor">
                     <div class="miscell-vendor-name">{{ ven }}</div>
-                    <div class="miscell-vendor-strelka" id="{{ ven }}"></div>
+                    <div class="miscell-vendor-strelka" id="{{ ven_1 }}"></div>
                 </div> <!-- miscel-vendor -->
                 </label>
 
                 {% for i in md %}
-                <div class="miscell-mod" id="{{ ven }}">
+                <div class="miscell-mod" id="{{ ven_1 }}">
                     <div class="miscell-mod-name">
                         <a href="/{{ action }}/{{ i|get_item:'id' }}" class="link_mod">
                         <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>
@@ -235,6 +236,7 @@
                 </div>
                 {% endfor %}
 
+                {% endwith %}
             {% endfor %}
 
         </div>
