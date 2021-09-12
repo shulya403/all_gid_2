@@ -18,7 +18,7 @@ def how_Listing(request):
     listing = dict()
     for cat_ in  categories_list:
         print(cat_)
-        listing_cat = total_txt_how.filter(cat=cat_[1]).order_by('pin', 'date')
+        listing_cat = total_txt_how.filter(cat=cat_[1]).order_by('pin', '-date')
         print(listing_cat)
         if len(listing_cat) > 0:
                listing[cat_[0]] = listing_cat
@@ -171,18 +171,16 @@ def rate_Article(request, cat_, article):
 def RSS_Rate(request):
 
     articles = TxtRatings.objects.all()
-    for i, article in enumerate(articles):
-        articles[i].pub_date = dt.strftime(article.date, "%a, %d %b %Y 08:00:00 +0300")
-        #Tue, 21 Apr 2015 14:15:00 +0300
 
-    if article:
-
-        try:
+    try:
             categories_list = request.session['categories_list']
-        except KeyError:
+    except KeyError:
             ctg = views.Init_cat(request, '', {})
             categories_list = request.session['categories_list']
 
+    for i, article in enumerate(articles):
+        articles[i].pub_date = dt.strftime(article.date, "%a, %d %b %Y 08:00:00 +0300")
+        articles[i].cat_plural = [name[0] for name in categories_list if name[1] == article.cat][0]
 
     exit_ = {
         'categories_list': categories_list,
@@ -197,5 +195,31 @@ def RSS_Rate(request):
 
     return render(request, template_name="rss-turbo.xml", context=exit_, content_type="application/rss-xml")
 
+def RSS_How(request):
+
+    articles = TxtHow.objects.all()
+
+    try:
+            categories_list = request.session['categories_list']
+    except KeyError:
+            ctg = views.Init_cat(request, '', {})
+            categories_list = request.session['categories_list']
+
+    for i, article in enumerate(articles):
+        articles[i].pub_date = dt.strftime(article.date, "%a, %d %b %Y 08:00:00 +0300")
+        articles[i].cat_plural = [name[0] for name in categories_list if name[1] == article.cat][0]
+
+    exit_ = {
+        'categories_list': categories_list,
+        "channel_title": "Гид покупателя. Как выбрать. Мониторы, Ноутбуки, Принтеры и МФУ, ИБП",
+        "channel_description": "Советы по выбору. Обзоры и подборки. Лучшие Мониторы, Ноутбуки, Принтеры, МФУ, ИБП",
+
+        "items": articles
+
+    }
+
+    #rendered = render_to_string('rss-turbo.xml', exit_)
+
+    return render(request, template_name="rss-turbo-how.xml", context=exit_, content_type="application/rss-xml")
 
 

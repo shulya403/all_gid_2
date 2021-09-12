@@ -27,5 +27,6 @@ urlpatterns = [
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', TemplateView.as_view(template_name="sitemap.xml", content_type="text/xml")),
     path('favicon.ico', RedirectView.as_view(url='/static/marketability/favicon.ico', permanent=True)),
-    path('rss-turbo.xml', txt_views.RSS_Rate)
+    path('rss-turbo.xml', txt_views.RSS_Rate),
+    path('rss-turbo-how.xml', txt_views.RSS_How)
 ]

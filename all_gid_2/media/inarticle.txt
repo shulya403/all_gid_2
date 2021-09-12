@@ -1,5 +1,5 @@
 /static/marketability/pict/rate/
-
+/static/marketability/pict/how/
 #################
 
 <div class="inarticle_table_wrap_outer">
@@ -96,6 +96,17 @@
 Цены - средние розничные на середину Июля 2021. К настоящему моменту могут быть иные.&nbsp;<br />
 </div>
 ################
+<div>
+<div class="inarticle-rignt-filter">
+<h3><a href="">Top...</a></h3>
+
+<div class="filters-item-check">
+<div class="filters-item-check-galka"><a href="">&nbsp;</a></div>
+<a href="">...;</a></div>
+</div>
+</div>
+
+№№№№№№№
 <div>
 <div class="inarticle-rignt-filter">
 <h3><a href="/Mnt/?%D0%98%D0%B3%D1%80%D0%BE%D0%B2%D0%BE%D0%B9=Yes&amp;4K+%D0%BC%D0%BE%D0%BD%D0%B8%D1%82%D0%BE%D1%80=Yes&amp;%D0%92%D0%BE%D0%B3%D0%BD%D1%83%D1%82%D1%8B%D0%B9=Yes&amp;%D0%91%D0%BE%D0%BB%D1%8C%D1%88%D0%BE%D0%B9=Yes&amp;tabs=marketability">Top-20 игровых моделей c вогнутыми экранами 4K</a></h3>
