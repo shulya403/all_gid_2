@@ -306,11 +306,9 @@
             {% for i in tbl_data_nov.id.keys  %}
                 <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
                 <td>
-                <div>
                 <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}">
                 {{ tbl_data_nov.brand|get_item:i }}&nbsp;{{ tbl_data_nov.name|get_item:i }}
                 </a>
-                </div>
                 </td>
                 <td>
                 <div>

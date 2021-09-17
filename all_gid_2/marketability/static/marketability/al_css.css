@@ -616,6 +616,9 @@ em {
         text-align: left;
         vert-align: top;
 }
+.table-row:nth-child(2n)  {
+        background-color: #F2F4FA;
+}
 .table-row {
         height: 48px;
         font-size: 16px;
@@ -1085,20 +1088,36 @@ em {
 
 .shops-table {
         width: 100%;
+        border: none;
 
 }
+.shops-table tbody tr:nth-child(2n)  {
+        background-color: #F2F4FA;
+}
+.shops-table-table {
 
-.shop-name {
-        width: 116px;
-        text-align: start;
-        padding-left: 8px;
+        width: 100%;
+        border: none;
 }
 
-.shop-price {
+.shops-table-tr {
+
+}
+.shops-table-td-link {
+        /*width: 100%;*/
+}
+.shops-table-shop-price {
         width: 112px;
         text-align: end;
         padding-right: 8px;
 }
+.shops-table-shop-name {
+        /*font-size: larger;*/
+        font-weight: bolder;
+        font-style: oblique;
+}
+
+
 
 .shop-link {
         text-decoration: none;
@@ -1111,9 +1130,7 @@ em {
         color: #3C30EF;
 
 }
-.shop-price {
 
-}
 .shop-link:hover .shop-chevron {
         background-size: 18px 18px;
 }

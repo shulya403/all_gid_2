@@ -140,25 +140,52 @@
                 <div class="shops-note">
                 * Цены могут существенно различаться в зависимости от конфигурации
                 </div>
+                <br/>
             {% endif %}
         <table class="shops-table">
-        <tr><td style="width:100%;">
+        <tbody>
             {% for mod in shop_mod %}
+                <tr>
+                <td>
+
                 <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">
-                <table style="width:100%; ">
-                <tr class="shops-item">
+                <table class="shops-table-table">
+                    <tbody>
+                <tr class="shops-table-tr">
+                <td>
+                    <div class="shops-table-td-link">
+                    <div class="shops-table-shop-name">{{ mod.shop_name }}</div>
+                    <div class="shops-table-mod-name">{{ mod.modification_name }}</div>
+                    </div>
 
-                <td class="shop-mod-name">{{ mod.modification_name }}</td>
-                <td class="shop-price">{{ mod.modification_price|digit_separator }}</td>
-                <td class="shop-name">{{ mod.shop_name }}</td>
-                <td class="shop-chevron"></td>
+                </td>
+                <td class="shops-table-shop-price">
+                    <div>{{ mod.modification_price|digit_separator }}</div>
+
+                </td>
+                    <td class="shop-chevron"></td>
                 </tr>
-                </table>
-                </a>
-            {% endfor %}
-        </td></tr>
 
-         </table>
+                </tbody></table></a></td></tr>
+            {% endfor %}
+{#        <tr><td style="width:100%;">#}
+{#            #}
+{#                <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">#}
+{#                <table style="width:100%; ">#}
+{#                <tr class="shops-item">#}
+{##}
+{#                <td class="shop-mod-name">{{ mod.modification_name }}</td>#}
+{#                <td class="shop-price">{{ mod.modification_price|digit_separator }}</td>#}
+{#                <td class="shop-name">{{ mod.shop_name }}</td>#}
+{#                #}
+{#                </tr>#}
+{#                </table>#}
+{#                </a>#}
+{##}
+{#        </td></tr>#}
+{##}
+  </tbody></table>
+
         {% endif %}
 
     </div>

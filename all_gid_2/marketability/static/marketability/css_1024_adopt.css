@@ -715,6 +715,9 @@ em {
         text-align: left;
         border-top: 1px solid rgba(0,0,0,0.13);
 }
+.table-row:nth-child(2n)  {
+        background-color: #F2F4FA;
+}
 .table-row  > td {
         border-top: 1px solid rgba(0,0,0,0.13);
         line-height: 18px;
@@ -1171,34 +1174,53 @@ em {
 
         margin-top: 12px;
 }
-
 .shops-table {
         width: 100%;
-
-        margin-top: 12px;
-}
-
-.shops-table tr td {
-        border-top: 1px solid rgba(0,0,0, 0.63);
-        padding-top: 8px;
-        padding-bottom: 8px;
+        border: none;
 
 }
+.shops-table tbody tr:nth-child(2n)  {
+        background-color: #F2F4FA;
+}
+.shops-table-table {
 
-.shop-name {
-        width: 124px;
-        text-align: start;
+        width: 100%;
+        border: none;
+}
+
+.shops-table-tr {
+
+}
+.shops-table-td-link {
+        /*width: 100%;*/
+}
+.shops-table-shop-price {
+        width: 112px;
+        text-align: end;
         padding-right: 8px;
-        padding-left: 8px;
 }
+.shops-table-shop-name {
+        /*font-size: larger;*/
+        font-weight: bolder;
+        font-style: oblique;
+}
+
+
 
 .shop-link {
         text-decoration: none;
+        color: #3C30BF;
 
 }
-.shop-price {
 
-        text-align: end;
+.shop-link:hover {
+        text-decoration: none;
+        color: #3C30EF;
+
+}
+
+.shop-link:hover .shop-chevron {
+        background-size: 18px 18px;
 }
 
 .shop-chevron {
@@ -1206,8 +1228,9 @@ em {
         background: url('pict/Double chevron right-1.svg');
         background-repeat: no-repeat;
         background-position: 50% 50%;
-        background-size: 18px 18px;
+        background-size: 16px 16px;
 }
+
 
 
 
