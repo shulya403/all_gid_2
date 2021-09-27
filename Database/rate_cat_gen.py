@@ -1,9 +1,11 @@
 import pandas as pd
 import sqlalchemy as sql
+from sqlalchemy.sql import and_
 import json
 import time
 import datetime as dt
 from datetime import timedelta
+
 
 # "Premium": {
 #     "cl_gl_name": "премиальные ноутбуки",
@@ -16,8 +18,10 @@ from datetime import timedelta
 
 class Mth_cat(object):
 
-    def __init__(self, Mth_, Cat_, num=0):
-        self.mth_ = Mth_
+    def __init__(self, Mth_, Year_, Cat_, top_q=10, num=0):
+        self.mth_ = self.Date_Handler(Mth_, Year_)
+        print(self.mth_)
+        self.top_q = top_q
 
         if Cat_ in ['Nb', 'Mnt', 'Ups', 'Mfp']:
 
@@ -27,7 +31,7 @@ class Mth_cat(object):
             self.db_products = self.cat + '_products'
             self.db_vardata = self.cat + '_vardata'
             self.db_classes = self.cat + '_classes'
-            self.db_mtm_pr_cl = self.cat + '_products' + '_has_' + 'self.cat' + '_classes'
+            self.db_mtm_pr_cl = self.cat + '_products' + '_has_' + self.cat + '_classes'
 
         # JSON
             with open('rate_autogen.json', encoding='utf-8') as f_cat:
@@ -54,30 +58,84 @@ class Mth_cat(object):
         self.file_output = open(self.filename, "w")
         print("Output -> ", self.filename)
 
+    def Date_Handler(self, Mth, Year):
+
+        mt_names = {
+            'Jan': dt.date(Year, 1, 1),
+            'Feb': dt.date(Year, 2, 1),
+            'Mar': dt.date(Year, 3, 1),
+            'Apr': dt.date(Year, 4, 1),
+            'May': dt.date(Year, 5, 1),
+            'Jun': dt.date(Year, 6, 1),
+            'Jul': dt.date(Year, 7, 1),
+            'Aug': dt.date(Year, 8, 1),
+            'Sep': dt.date(Year, 9, 1),
+            'Oct': dt.date(Year, 10, 1),
+            'Nov': dt.date(Year, 11, 1),
+            'Dec': dt.date(Year, 12, 1),
+        }
+
+        try:
+            return mt_names[Mth]
+        except KeyError:
+            print('Неправильный месяц: ', Mth)
+            raise
+
     def Select_Classes(self, list_classes):
 
         if list_classes:
             tbl_classes = sql.Table(self.db_classes, self.metadata, autoload=True)
-            df_classes_ = pd.read_sql(tbl_classes.select().where(tbl_classes.c.name.in_(list_classes)), self.connection)
+            self.df_classes_ = pd.read_sql(tbl_classes.select().where(tbl_classes.c.name.in_(list_classes)), self.connection)
 
-        return df_classes_
+    def Select_Vardata(self, Mth):
+        tbl_vardata = sql.Table(self.db_vardata, self.metadata, autoload=True)
+        df_varadta_ = pd.read_sql(tbl_vardata.select().where(tbl_vardata.c.month == Mth), self.connection)
 
-    #def Select_Vardata_
-    def Select_Top10_in_Classes(self, list_classes):
+        return df_varadta_
+
+    def Select_Top_in_Classes(self, list_classes):
+
+        def top_q_handler(len_df, top_q):
+            if len_df < top_q:
+                return len_df
+            else:
+                return top_q
+
+        self.Select_Classes(list_classes)
+        df_vardata = self.Select_Vardata(self.mth_)
+
+        fk_classes = self.df_classes['id'].to_list()
+        len_classes = len(fk_classes)
+        fk_mth_products = df_vardata['fk_products'].to_list()
 
 
+        tbl_mtm = sql.Table(self.db_mtm_pr_cl, self.metadata, autoload=True)
+        df_mtm = pd.read_sql(tbl_mtm.select().
+                             where(and_(tbl_mtm.c.fk_products.in_(fk_mth_products), tbl_mtm.c.fk_classes.in_(fk_classes))), self.connection)
+
+        df_agg_mtm = df_mtm[['fk_products', 'fk_classes']].groupby('fk_products').count()
+
+        list_exec_products = df_agg_mtm[df_agg_mtm['fk_classes'] == len_classes].index.to_list()
+        tbl_products = sql.Table(self.db_products, self.metadata, autoload=True)
+        df_exec_product = pd.read_sql(tbl_products.select().where(tbl_products.c.id.in_(list_exec_products)), self.connection)
+
+        df_exit = df_vardata.merge(df_exec_product, left_on='fk_products', right_on='id', how='inner')
+        df_ = df_exit.sort_values(by=['sales_units'], ascending=False)
+
+        return df_[0:top_q_handler(len(df_), self.top_q)]
 
     def Autogen(self):
 
         for i in self.json_cat:
             print(i)
-            df_classes = self.Select_Classes(self.json_cat[i]["classes"])
-            print(df_classes)
+            df_ = self.Select_Top_in_Classes(self.json_cat[i]["classes"])
+            print(df_)
+
 
 
 ###### MAIN
 
-Jul = Mth_cat('Jul', 'Nb')
+Jul = Mth_cat('Jul', 2021, 'Nb', top_q=5)
 Jul.Autogen()
 
 
