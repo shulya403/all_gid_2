@@ -104,7 +104,7 @@ class Mth_cat(object):
         self.Select_Classes(list_classes)
         df_vardata = self.Select_Vardata(self.mth_)
 
-        fk_classes = self.df_classes['id'].to_list()
+        fk_classes = self.df_classes_['id'].to_list()
         len_classes = len(fk_classes)
         fk_mth_products = df_vardata['fk_products'].to_list()
 
@@ -126,10 +126,94 @@ class Mth_cat(object):
 
     def Autogen(self):
 
+        def TTX_Table_Fields(jsn_, columns_):
+
+            if "ttx_show" in jsn_.keys():
+                return list(jsn_.keys())
+            else:
+                return list(set(columns_) - {'id', 'brand', 'name', 'appear_month', 'id_x', 'month', 'sales_units'})
+
+        def Q_tbl(jsn_):
+            if "q_table" in jsn_.keys():
+                return jsn_['q_table']
+            else:
+                return 10
+
         for i in self.json_cat:
+
+
+            jsn_ = self.json_cat[i]
             print(i)
-            df_ = self.Select_Top_in_Classes(self.json_cat[i]["classes"])
-            print(df_)
+            df_ = self.Select_Top_in_Classes(jsn_['classes'])
+            lead_model_name = df_.iloc[0]['name']
+            df_price_q = df_.sort_values(by=['price_rur'])[0:Q_tbl(jsn_)]
+            self.Write_to_file(lead_model_name, df_price_q, jsn_)
+
+    def Write_to_file(self, lead_model_name, df_price_q, jsn_):
+
+        mth_padege = {
+            1: ("январе", "Январь"),
+            2: ("феврале", "Февраль"),
+            3: ("марте", "Март"),
+            4: ("апреле", "Апрель"),
+            5: ("мае", "Май"),
+            6: ("Июне", "Июнь"),
+            7: ("Июле", "Июль"),
+            8: ("августе", "Август"),
+            9: ("сентябре", "Сентябрь"),
+            10: ("октябре", "Октябрь"),
+            11: ("ноябре", "Ноябрь"),
+            12: ("декабре", "Декабре")
+        }
+
+        cat_rus = {
+            'Nb': ("Ноутбуки", "ноутбуков"),
+            'Mnt': ("Мониторы", "мониторов"),
+            'Mfp': ("Устройства печати", "печатающих устройств"),
+            'Ups': ("Источники бесперебойного питания", "ИБП")
+        }
+
+
+        def List_Classses_Text(df_classes):
+
+            exit_ = list()
+            for i, row in df_classes.iterrows():
+                string_out = ""
+                if row['class_subtype']:
+                    string_out += "\"" + row['class_subtype'] +": "
+                string_out += "\"" + row['text'] + "\""
+                exit_.append(string_out)
+            return exit_
+
+
+        def P_Leader_Model(Lead_model_row, Mth, Cat, Classes_):
+
+
+            year_ = str(Mth.year)
+            mth_ = mth_padege[Mth.month][0]
+            cat_ = cat_rus[Cat.title()][1]
+            str_classes = Classes_[0]
+            if len(Classes_) > 1:
+                for i in Classes_[1:len(Classes_)]:
+                    str_classes += "; " + i
+            leader_model = Lead_model_row.loc['brand'] + " " + Lead_model_row.loc['name']
+            href_model = "/" + Cat.title() + "/" + str(Lead_model_row['id_y'])
+            string_out = "В {0} {1} г. лидером продаж в сегменте {2} {3} стала модель <strong><a href=\"{4}\" target=\"_blank\">{5}</a></strong>.".\
+                format(mth_, year_, cat_, str_classes, href_model, leader_model)
+
+            return string_out
+
+        self.file_output.write("<!-- {0} -->\n\n".format(jsn_['cl_gl_name']))
+        self.file_output.write("<h1>{0}</h1>\n\n".format(jsn_['header']))
+        self.file_output.write("<p><em>Источник: аналитическая компания <a href=\"https://itbestsellers.ru\" target=\"_blank\">ITResearch</a>, проект <a href=\"https://allgid.ru\">allgid.ru \"Гид покупателя\"</a>\n<br>\nДанные по рынку России</em>\n</p>\n")
+        self.file_output.write("<div class=\".inarticle_cit1\">{0}</div>\n\n".format(jsn_['cat_description']))
+
+        classes_ = List_Classses_Text(self.df_classes_)
+        lead_model_row_ = df_price_q[df_price_q['name'] == lead_model_name].iloc[0]
+        self.file_output.write("<p>{0}</p>\n".format(P_Leader_Model(lead_model_row_, self.mth_, self.cat, classes_)))
+
+
+
 
 
 
