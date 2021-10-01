@@ -582,15 +582,15 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Allgid UPS Q2 2021.xlsx",
-                      xl_Vardata="Allgid UPS Q2 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Ups",
+FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_08-1.xlsx",
+                      xl_Vardata="Allgid monitors august 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Mnt",
                     dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
 FillDB.DB_alchemy(FillDB.Category)
 FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=False)
 FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [6]
+mth_list = [8]
 FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
@@ -603,8 +603,8 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 #Заполение магазинов для мониторов и ноутбуков
 
 # FillShop = DB_insert_shops(
-#                  xl_Shops="Монитор-Concat_Prices--Jul-21--Cheked.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Mnt',
+#                  xl_Shops="Ноутбук-Concat_Prices--Aug-21--Filled.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Nb',
 #                  dir_root="../Data/"
 # )
 #
@@ -616,7 +616,7 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 # class Monitor_Models_Base_Update():
 #     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 
-# July_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_06-1.xlsx",
-#                                            "allgid monitors july 2021.xlsx",
-#                                            dir="C:/Users/User/ITResearch/all_gid_2/Data/Mnt/")
-# July_monitors.Write_excel()
+July_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_07-1.xlsx",
+                                           "Allgid monitors august 2021.xlsx",
+                                           dir="C:/Users/User/ITResearch/all_gid_2/Data/Mnt/")
+July_monitors.Write_excel()

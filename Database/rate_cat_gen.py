@@ -55,7 +55,7 @@ class Mth_cat(object):
 
         # File name
         self.filename = "Autogen/" + Cat_ + "_Autogen_" + Mth_ + "_" + str(num) + ".html"
-        self.file_output = open(self.filename, "w")
+        self.file_output = open(self.filename, "w", encoding='utf8')
         print("Output -> ", self.filename)
 
     def Date_Handler(self, Mth, Year):
@@ -138,7 +138,7 @@ class Mth_cat(object):
                 return jsn_['q_table']
             else:
                 return 10
-
+        self.file_output.write("<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<title>{0}</title>\n</head>\n<body>\n".format(self.cat.title() + self.mth_.strftime("  %b `%Y")))
         for i in self.json_cat:
 
 
@@ -146,10 +146,14 @@ class Mth_cat(object):
             print(i)
             df_ = self.Select_Top_in_Classes(jsn_['classes'])
             lead_model_name = df_.iloc[0]['name']
+            ser_min_price_name = df_.loc[df_[['price_rur']].idxmin()].iloc[0][['brand', 'name', 'price_rur','id_y']]
             df_price_q = df_.sort_values(by=['price_rur'])[0:Q_tbl(jsn_)]
-            self.Write_to_file(lead_model_name, df_price_q, jsn_)
 
-    def Write_to_file(self, lead_model_name, df_price_q, jsn_):
+            self.Write_to_file(lead_model_name, ser_min_price_name, df_price_q, jsn_)
+            self.file_output.write("</body></html>")
+
+
+    def Write_to_file(self, lead_model_name, ser_min_price_name, df_price_q, jsn_):
 
         mth_padege = {
             1: ("январе", "Январь"),
@@ -173,20 +177,44 @@ class Mth_cat(object):
             'Ups': ("Источники бесперебойного питания", "ИБП")
         }
 
-
         def List_Classses_Text(df_classes):
 
             exit_ = list()
+            used_subtype = set()
             for i, row in df_classes.iterrows():
                 string_out = ""
+
                 if row['class_subtype']:
-                    string_out += "\"" + row['class_subtype'] +": "
+                   if row['class_subtype'] not in used_subtype:
+                        string_out += "\"" + row['class_subtype'] +"\": "
+                        used_subtype.add(row['class_subtype'])
                 string_out += "\"" + row['text'] + "\""
                 exit_.append(string_out)
             return exit_
 
+        def digit_separator(digit):
+            if digit:
+                try:
+                    str_digit = str(int(digit))
+                except Exception:
+                    return 'n/a'
+                exit_ = str()
+                tail = len(str_digit) % 3
+                for i in range(len(str_digit) - 3, -1, -3):
+                    exit_ = "\xa0" + str_digit[i:i + 3] + exit_
+
+                if tail != 0:
+                    exit_ = str_digit[:tail] + exit_
+                    return exit_
+                else:
+                    return exit_[1:]
+            else:
+                return 'n/a'
+
 
         def P_Leader_Model(Lead_model_row, Mth, Cat, Classes_):
+
+
 
 
             year_ = str(Mth.year)
@@ -210,10 +238,44 @@ class Mth_cat(object):
 
         classes_ = List_Classses_Text(self.df_classes_)
         lead_model_row_ = df_price_q[df_price_q['name'] == lead_model_name].iloc[0]
-        self.file_output.write("<p>{0}</p>\n".format(P_Leader_Model(lead_model_row_, self.mth_, self.cat, classes_)))
+        self.file_output.write("<p>{0}".format(P_Leader_Model(lead_model_row_, self.mth_, self.cat, classes_)))
+        if lead_model_row_.loc['name'] != ser_min_price_name['name']:
+            self.file_output.write("</p>\n<p>Самым же недорогим устройством данного класса является модель <a href=\"{0}\" target=\"_blank\">{1}</a> стоимостью {2} тыс. руб. в среднем.</p>".
+                                   format("/" + self.cat.title() + "/" + str(round(ser_min_price_name['id_y'] / 1000, 1)),
+                                    ser_min_price_name['brand'] + " " + ser_min_price_name['name'],
+                                    ser_min_price_name['price_rur']))
+        else:
+            self.file_output.write(" Она же - самое доступное по цене устройство в данном классе ноутбуков. </p>\n")
 
+        self.file_output.write(
+            "<h2>{0} класса {1}: Top-{2}</h2> \n".format(cat_rus[self.cat.title()][0], jsn_['cl_gl_name'], len(df_price_q)))
+        self.file_output.write("<div class=\"inarticle_table_wrap_outer\">\n<div class=\"inarticle_table_wrap\">\n<table class=\"inarticle_table\">\n<thead>\n<tr>\n")
 
+        self.file_output.write("<th>Название</th>\n<th>Цена</th>\n")
+        try:
+            for ttx in jsn_["ttx_show"]:
+                self.file_output.write("<th>{0}</th>\n".format(jsn_["ttx_show"][ttx]))
+        except KeyError:
+            pass
+        self.file_output.write("</tr>\n</thead>\n<tbody>\n")
 
+        for i, row in df_price_q.iterrows():
+            if row['name'] == lead_model_row_.loc['name']:
+                tr_top = " class=\"tr-top\""
+                crown = "&#9812; "
+            else:
+                tr_top, crown = "", ""
+
+            self.file_output.write("<tr{0}>\n".format(tr_top))
+            self.file_output.write("<th>{0}</th>\n".format(crown + row['brand'] + " " + row['name']))
+            self.file_output.write("<td>{0}</td>\n".format(digit_separator(row['price_rur'])))
+            try:
+                for ttx in jsn_["ttx_show"]:
+                    self.file_output.write("<td>{0}</td>\n".format(row[ttx]))
+            except KeyError:
+                pass
+            self.file_output.write("</tr>\n")
+        self.file_output.write("</tbody></table></div></div>")
 
 
 

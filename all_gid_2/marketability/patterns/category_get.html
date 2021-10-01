@@ -1,7 +1,7 @@
 {% extends "al_page.html" %}
 {% block meta %}
-    <title>{{ category_name }}. Лучшие ({{ tab_data|get_item:tab_active|get_item:"rus_name" }}). Гид покупателя. {% for i in checked_items %}&#9733;{% endfor %}</title>
-    <meta name="description" content="{{ category_name }}:{% if tab_active == "marketability"  %} Рейтинг (Top-20 самых популярных) в России{% elif tab_active == "novelity" %} Новинки - модели появившиеся в продаже в России{% endif %} за {{ period }}. Выбор по целям использования и базовым характеристикам.  {% for i in checked_items %}&#9733;{% endfor %}" />
+    <title>{{ category_name }}. Лучшие ({{ tab_data|get_item:tab_active|get_item:"rus_name" }}). Гид покупателя. {% for i in checked_items %}{{ i }} {% endfor %}</title>
+    <meta name="description" content="{{ category_name }}:{% if tab_active == "marketability"  %} Рейтинг (Top-20 самых популярных) в России{% elif tab_active == "novelity" %} Новинки - модели появившиеся в продаже в России{% endif %} за {{ period }}. Выбор по целям использования и базовым характеристикам.  {% for i in checked_items %}{{ i }} {% endfor %}" />
     <meta name="robots" content="index, follow" />
     <meta name="keywords" content="рейтинг, популярность, популярные, новинки, выбор покупателей, {{ category_name }}"  />
 

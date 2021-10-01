@@ -32,7 +32,7 @@
         },
         "Ultrabooks": {
             "cl_gl_name": "ультрабуки",
-            "header": "Рейтинг популярности флагманских ноутбуков",
+            "header": "Рейтинг популярности ультрабуков",
             "cat_description": "<p></p>\n",
             "classes": [
                 "GO_ultrabook"
