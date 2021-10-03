@@ -95,12 +95,6 @@ class Mth_cat(object):
 
     def Select_Top_in_Classes(self, list_classes):
 
-        def top_q_handler(len_df, top_q):
-            if len_df < top_q:
-                return len_df
-            else:
-                return top_q
-
         self.Select_Classes(list_classes)
         df_vardata = self.Select_Vardata(self.mth_)
 
@@ -122,7 +116,7 @@ class Mth_cat(object):
         df_exit = df_vardata.merge(df_exec_product, left_on='fk_products', right_on='id', how='inner')
         df_ = df_exit.sort_values(by=['sales_units'], ascending=False)
 
-        return df_[0:top_q_handler(len(df_), self.top_q)]
+        return df_
 
     def Autogen(self):
 
@@ -138,16 +132,23 @@ class Mth_cat(object):
                 return jsn_['q_table']
             else:
                 return 10
-        self.file_output.write("<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<title>{0}</title>\n</head>\n<body>\n".format(self.cat.title() + self.mth_.strftime("  %b `%Y")))
-        for i in self.json_cat:
 
+        def top_q_handler(len_df, top_q):
+            if len_df < top_q:
+                return len_df
+            else:
+                return top_q
+
+        self.file_output.write("<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<title>{0}</title>\n</head>\n<body>\n".format(self.cat.title() + self.mth_.strftime("  %b `%Y")))
+
+        for i in self.json_cat:
 
             jsn_ = self.json_cat[i]
             print(i)
             df_ = self.Select_Top_in_Classes(jsn_['classes'])
             lead_model_name = df_.iloc[0]['name']
             ser_min_price_name = df_.loc[df_[['price_rur']].idxmin()].iloc[0][['brand', 'name', 'price_rur','id_y']]
-            df_price_q = df_.sort_values(by=['price_rur'])[0:Q_tbl(jsn_)]
+            df_price_q = df_[0:top_q_handler(len(df_), Q_tbl(jsn_))].sort_values(by=['price_rur'])
 
             self.Write_to_file(lead_model_name, ser_min_price_name, df_price_q, jsn_)
             self.file_output.write("</body></html>")
@@ -161,8 +162,8 @@ class Mth_cat(object):
             3: ("марте", "Март"),
             4: ("апреле", "Апрель"),
             5: ("мае", "Май"),
-            6: ("Июне", "Июнь"),
-            7: ("Июле", "Июль"),
+            6: ("июне", "Июнь"),
+            7: ("июле", "Июль"),
             8: ("августе", "Август"),
             9: ("сентябре", "Сентябрь"),
             10: ("октябре", "Октябрь"),
@@ -176,6 +177,56 @@ class Mth_cat(object):
             'Mfp': ("Устройства печати", "печатающих устройств"),
             'Ups': ("Источники бесперебойного питания", "ИБП")
         }
+
+        def Transliterate(str_):
+            article_name_transliterate = {
+                " ": "-",
+                "а": "a",
+                "б": "b",
+                "в": "v",
+                "г": "g",
+                "д": "d",
+                "е": "e",
+                "ё": "yo",
+                "ж": "zh",
+                "з": "z",
+                "и": "i",
+                'й': "y",
+                "к": "k",
+                "л": "l",
+                "м": "m",
+                "н": "n",
+                "о": "o",
+                "п": "p",
+                "р": "r",
+                "с": "s",
+                "т": "t",
+                "у": "u",
+                "ф": "f",
+                "х": "kh",
+                "ц": "ts",
+                "ч": "ch",
+                "ш": "sh",
+                "щ": "shch",
+                "ь": "",
+                "ы": "y",
+                "ъ": "",
+                "э": "e",
+                "ю": "iu",
+                "я": "ia",
+                "`": "",
+                ".": "__",
+                ",": "_"
+            }
+
+            exit_ = ""
+            for symbol in str_.lower():
+                try:
+                    change = article_name_transliterate[symbol]
+                    exit_ += change
+                except KeyError:
+                    exit_ += symbol
+            return exit_
 
         def List_Classses_Text(df_classes):
 
@@ -191,6 +242,16 @@ class Mth_cat(object):
                 string_out += "\"" + row['text'] + "\""
                 exit_.append(string_out)
             return exit_
+
+        def List_Classes_HTML(df_classes):
+
+            string_out = "?"
+            for i, row in df_classes.iterrows():
+                string_out += row['name'] + "=Yes&"
+
+            string_out += "tabs=marketability"
+
+            return string_out
 
         def digit_separator(digit):
             if digit:
@@ -214,9 +275,6 @@ class Mth_cat(object):
 
         def P_Leader_Model(Lead_model_row, Mth, Cat, Classes_):
 
-
-
-
             year_ = str(Mth.year)
             mth_ = mth_padege[Mth.month][0]
             cat_ = cat_rus[Cat.title()][1]
@@ -231,8 +289,13 @@ class Mth_cat(object):
 
             return string_out
 
-        self.file_output.write("<!-- {0} -->\n\n".format(jsn_['cl_gl_name']))
-        self.file_output.write("<h1>{0}</h1>\n\n".format(jsn_['header']))
+        self.file_output.write("<!-- ### {0} ###-->\n\n".format(jsn_['cl_gl_name']))
+        self.file_output.write("<!-- ########### -->\n\n".format(jsn_['cl_gl_name']))
+
+        header_mth = jsn_['header'] + ". " + mth_padege[self.mth_.month][1] + "` " + str(self.mth_.year)[2:]
+        self.file_output.write("<p>{0}</p>\n".format(Transliterate(header_mth)))
+        self.file_output.write("<h1>{0}</h1>\n\n".format(header_mth))
+
         self.file_output.write("<p><em>Источник: аналитическая компания <a href=\"https://itbestsellers.ru\" target=\"_blank\">ITResearch</a>, проект <a href=\"https://allgid.ru\">allgid.ru \"Гид покупателя\"</a>\n<br>\nДанные по рынку России</em>\n</p>\n")
         self.file_output.write("<div class=\".inarticle_cit1\">{0}</div>\n\n".format(jsn_['cat_description']))
 
@@ -240,16 +303,20 @@ class Mth_cat(object):
         lead_model_row_ = df_price_q[df_price_q['name'] == lead_model_name].iloc[0]
         self.file_output.write("<p>{0}".format(P_Leader_Model(lead_model_row_, self.mth_, self.cat, classes_)))
         if lead_model_row_.loc['name'] != ser_min_price_name['name']:
-            self.file_output.write("</p>\n<p>Самым же недорогим устройством данного класса является модель <a href=\"{0}\" target=\"_blank\">{1}</a> стоимостью {2} тыс. руб. в среднем.</p>".
-                                   format("/" + self.cat.title() + "/" + str(round(ser_min_price_name['id_y'] / 1000, 1)),
+            self.file_output.write("</p>\n<p>Самым же недорогим устройством данного класса является модель <a href=\"{0}\" target=\"_blank\">{1}</a> стоимостью {2} тыс. руб. в среднем.</p>\n\n".
+                                   format("/" + self.cat.title() + "/" + str(ser_min_price_name['id_y']),
                                     ser_min_price_name['brand'] + " " + ser_min_price_name['name'],
-                                    ser_min_price_name['price_rur']))
+                                    round(ser_min_price_name['price_rur'] / 1000, 1)))
         else:
             self.file_output.write(" Она же - самое доступное по цене устройство в данном классе ноутбуков. </p>\n")
 
         self.file_output.write(
-            "<h2>{0} класса {1}: Top-{2}</h2> \n".format(cat_rus[self.cat.title()][0], jsn_['cl_gl_name'], len(df_price_q)))
+            "<h2>{0} класса {1}: Top-{2}, в {3}</h2> \n".format(cat_rus[self.cat.title()][0],
+                                                                jsn_['cl_gl_name'],
+                                                                len(df_price_q),
+                                                                mth_padege[self.mth_.month][0] + " `" + str(self.mth_.year)[2:]))
         self.file_output.write("<div class=\"inarticle_table_wrap_outer\">\n<div class=\"inarticle_table_wrap\">\n<table class=\"inarticle_table\">\n<thead>\n<tr>\n")
+
 
         self.file_output.write("<th>Название</th>\n<th>Цена</th>\n")
         try:
@@ -277,11 +344,27 @@ class Mth_cat(object):
             self.file_output.write("</tr>\n")
         self.file_output.write("</tbody></table></div></div>")
 
+        classes_html = List_Classes_HTML(self.df_classes_)
+        self.file_output.write("<p><strong><a href=\"/{0}/{1}\">Полный актуальный рейтинг Top-20 популярных {2} типа <em>{3}</em> >></a></strong></p>\n".format(self.cat.title(), classes_html, cat_rus[self.cat.title()][1], classes_[0]))
 
+        self.file_output.write("\n<!-- ################ -->\n<!-- ### Keywords ### -->\n\n")
+        self.file_output.write("<div class=\"inarticle-rignt-filter\">\n")
+        self.file_output.write("<h3><a href = \"/{0}/?tabs=marketability\">Выбрать {1} для своих целей</a></h3>".format(self.cat.title(), cat_rus[self.cat.title()][0].lower()))
+        self.file_output.write("<div class=\"filter_button_big\">\n<div class =\"fltr_pic\"><a href=\"/{0}/?tabs=marketability\">&nbsp;</a></div>".format(self.cat.title()))
+        self.file_output.write("<div class=\"fltr_text\"><a href=\"/{0}/?tabs=marketability\">ФИЛЬТР</a></div>\n</div>\n</div>\n\n".format(self.cat.title()))
+
+        self.file_output.write("<div>\n<div class=\"inarticle-rignt-filter\">\n")
+        self.file_output.write("<h3><a href=\"/{0}/{1}\">Top-20 {2}<a></h3>\n".format(self.cat.title(), classes_html, jsn_['cl_gl_name']))
+
+        for i, row in self.df_classes_.iterrows():
+            self.file_output.write("<div class=\"filters-item-check\">\n")
+            self.file_output.write("<div class=\"filters-item-check-galka\">\n")
+            self.file_output.write("<a href=\"/{0}/{1}\">&nbsp;</a></div>\n".format(self.cat.title(), classes_html))
+            self.file_output.write("<a href=\"/{0}/{1}\">{2} </a>\n</div>\n".format(self.cat.title(), classes_html, row['text']))
 
 ###### MAIN
 
-Jul = Mth_cat('Jul', 2021, 'Nb', top_q=5)
+Jul = Mth_cat('Aug', 2021, 'Nb', top_q=5)
 Jul.Autogen()
 
 

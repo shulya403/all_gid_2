@@ -1,7 +1,7 @@
 {% extends "al_page.html" %}
 {% block meta %}
     <title>Выбор покупателя. Рейтинг по продажам в России. {{ categories_name_singular }}.</title>
-    <meta name="description" content="{{ categories_name_plural }}: Top самых популярных модлей в России." />
+    <meta name="description" content="{{ categories_name_plural }}: Top (рейтинги) самых лучших и популярных моделей в России." />
     <meta name="robots" content="index, follow" />
 
     <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
@@ -16,7 +16,7 @@
         {% for i in listing %}
        <div class="how-listing-item">
         <div class="how-listig-item-text">
-        <a href="/rate/{{ cat }}/{{ i.idtxt_ratings }}" target="_blank" class="how_listing_title_href">
+        <a href="/rate/{{ cat }}/{{ i.id_html_name }}" target="_blank" class="how_listing_title_href">
             <h3 class="how_listing_title_h2">{{ i.article_title }}</h3>
 
             <p class="how_listing_anno_p">

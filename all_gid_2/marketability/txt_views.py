@@ -6,7 +6,7 @@ from datetime import datetime as dt
 
 def how_Listing(request):
 
-    total_txt_how = TxtHow.objects.all().values('idtxt_how', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
+    total_txt_how = TxtHow.objects.all().values('idtxt_how', 'id_html_name', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
 
     try:
            categories_list = request.session['categories_list']
@@ -34,7 +34,7 @@ def how_Listing(request):
 
 def how_cat_Listing(request, cat_):
 
-    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'article_title', 'article_anno', 'img', 'pin', 'date')
+    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin', 'date')
 
     ctg = views.Init_cat(request, '', {})
 
@@ -61,7 +61,7 @@ def how_cat_Listing(request, cat_):
 
 def how_Article(request, cat_, article):
 
-    article = TxtHow.objects.filter(idtxt_how=article).values()
+    article = TxtHow.objects.filter(id_html_name=article).values()
 
     if article:
 
@@ -88,7 +88,7 @@ def how_Article(request, cat_, article):
 
 def rate_Listing(request):
 
-    total_txt_rate = TxtRatings.objects.all().values('idtxt_ratings', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
+    total_txt_rate = TxtRatings.objects.all().values('idtxt_ratings', 'id_html_name', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
 
     try:
            categories_list = request.session['categories_list']
@@ -114,7 +114,7 @@ def rate_Listing(request):
 
 def rate_cat_Listing(request, cat_):
 
-    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'article_title', 'article_anno', 'img', 'pin', 'date').order_by('pin', '-date')
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin', 'date').order_by('pin', '-date')
 
     ctg = views.Init_cat(request, '', {})
 
@@ -137,13 +137,12 @@ def rate_cat_Listing(request, cat_):
             'txt': 'rate'
 
         }
-    print(exit_['categories_name_plural'])
 
     return render(request, template_name="ttx_rate_cat.html", context=exit_)
 
 def rate_Article(request, cat_, article):
 
-    article = TxtRatings.objects.filter(idtxt_ratings=article).values()
+    article = TxtRatings.objects.filter(id_html_name=article).values()
 
     if article:
 

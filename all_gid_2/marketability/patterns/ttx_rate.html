@@ -21,7 +21,7 @@
         {% for i in listing|get_item:cat_rus_name|slice:"3" %}
         <div class="how-listing-item">
         <div class="how-listig-item-text">
-        <a href="/rate/{{ cat }}/{{ i.idtxt_ratings }}" target="_blank" class="how_listing_title_href">
+        <a href="/rate/{{ cat }}/{{ i.id_html_name }}" target="_blank" class="how_listing_title_href">
             <h3 class="how_listing_title_h2">{{ i.article_title }}</h3>
 
             <p class="how_listing_anno_p">

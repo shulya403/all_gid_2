@@ -10,6 +10,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class TxtHow(models.Model):
     idtxt_how = models.AutoField(primary_key=True)
+    id_html_name = models.TextField(blank=True, null=True)
     article_html_body = RichTextUploadingField()
     article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
@@ -29,6 +30,7 @@ class TxtHow(models.Model):
 
 class TxtRatings(models.Model):
     idtxt_ratings = models.AutoField(primary_key=True)
+    id_html_name = models.TextField(blank=True, null=True)
     article_html_body = RichTextUploadingField()
     article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)

@@ -868,7 +868,7 @@ def handler404(request, exception=None):
     return response
 def Get_Ratings_links(cat_):
 
-    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'article_title', 'article_anno', 'img', 'pin',
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin',
                                                          'date').order_by('-date')
     len_list = len(listing)
     print(listing)
