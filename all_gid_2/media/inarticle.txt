@@ -1,7 +1,7 @@
 sftp://allgid:ANZ0p)}lPDKU@ns.skpress.ru
 Cp$H+d2]Bz-
 
-/static/marketability/pict/rate/
+/static/marketability/pict/rate/../
 /static/marketability/pict/how/
 #################
 <p><em>Источник: аналитическая компания <a href="https://itbestsellers.ru" target="_blank">ITResearch</a>, проект <a href="https://allgid.ru">allgid.ru "Гид покупателя"</a></em></p>
@@ -12,10 +12,10 @@ Cp$H+d2]Bz-
 	<thead>
 		<tr>
 			<th>Название</th>
-			<th>Цена*, руб.</td>
-			<th>Произв. процессора</td>
-			<th>Графика</td>
-			<th>Экран</td>
+			<th>Цена*, руб.</th>
+			<th>Произв. процессора</th>
+			<th>Графика</th>
+			<th>Экран</th>
 		</tr>
 	</thead>
 	<tbody>

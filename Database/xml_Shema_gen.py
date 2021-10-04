@@ -36,7 +36,6 @@ class DB():
         exit_ = pd.DataFrame()
         select_qry = tbl.select()
         exit_ = pd.read_sql(select_qry, self.connection)
-        print(exit_.columns)
 
         return exit_
 
@@ -83,15 +82,15 @@ class DB():
         for cat in list(self.df_rate['cat'].unique()):
                 tup_txt = (cat, now_)
                 xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n</url>\n".format(*tup_txt))
-                for i, row in self.df_rate[self.df_rate['cat'] == cat][['idtxt_ratings', 'date']].iterrows():
-                    tup_article = (cat, row.idtxt_ratings, row.date)
+                for i, row in self.df_rate[self.df_rate['cat'] == cat][['id_html_name', 'date']].iterrows():
+                    tup_article = (cat, row.id_html_name, row.date)
                     xml_f.write("<url>\n<loc>https://allgid.ru/rate/{0}/{1}</loc>\n<lastmod>{2}</lastmod>\n</url>\n".format(*tup_article))
 
         for cat in list(self.df_how['cat'].unique()):
                 tup_txt = (cat, now_)
                 xml_f.write("<url>\n<loc>https://allgid.ru/how/{0}/</loc>\n<lastmod>{1}</lastmod>\n<changefreq>weekly</changefreq>\n</url>\n".format(*tup_txt))
-                for i, row in self.df_how[self.df_how['cat'] == cat][['idtxt_how', 'date']].iterrows():
-                    tup_article = (cat, row.idtxt_how, row.date)
+                for i, row in self.df_how[self.df_how['cat'] == cat][['id_html_name', 'date']].iterrows():
+                    tup_article = (cat, row.id_html_name, row.date)
                     xml_f.write("<url>\n<loc>https://allgid.ru/how/{0}/{1}</loc>\n<lastmod>{2}</lastmod>\n</url>\n".format(*tup_article))
 
 

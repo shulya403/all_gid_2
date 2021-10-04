@@ -151,7 +151,8 @@ class Mth_cat(object):
             df_price_q = df_[0:top_q_handler(len(df_), Q_tbl(jsn_))].sort_values(by=['price_rur'])
 
             self.Write_to_file(lead_model_name, ser_min_price_name, df_price_q, jsn_)
-            self.file_output.write("</body></html>")
+
+        self.file_output.write("</body></html>")
 
 
     def Write_to_file(self, lead_model_name, ser_min_price_name, df_price_q, jsn_):
@@ -334,7 +335,7 @@ class Mth_cat(object):
                 tr_top, crown = "", ""
 
             self.file_output.write("<tr{0}>\n".format(tr_top))
-            self.file_output.write("<th>{0}</th>\n".format(crown + row['brand'] + " " + row['name']))
+            self.file_output.write("<th><a href=\"/{0}/{1}\">{2}</a></th>\n".format(self.cat.title(), row['id_y'],crown + row['brand'] + " " + row['name']))
             self.file_output.write("<td>{0}</td>\n".format(digit_separator(row['price_rur'])))
             try:
                 for ttx in jsn_["ttx_show"]:
@@ -354,13 +355,14 @@ class Mth_cat(object):
         self.file_output.write("<div class=\"fltr_text\"><a href=\"/{0}/?tabs=marketability\">ФИЛЬТР</a></div>\n</div>\n</div>\n\n".format(self.cat.title()))
 
         self.file_output.write("<div>\n<div class=\"inarticle-rignt-filter\">\n")
-        self.file_output.write("<h3><a href=\"/{0}/{1}\">Top-20 {2}<a></h3>\n".format(self.cat.title(), classes_html, jsn_['cl_gl_name']))
+        self.file_output.write("<h3><a href=\"/{0}/{1}\">Top-20 {2}</a></h3>\n".format(self.cat.title(), classes_html, jsn_['cl_gl_name']))
 
         for i, row in self.df_classes_.iterrows():
             self.file_output.write("<div class=\"filters-item-check\">\n")
             self.file_output.write("<div class=\"filters-item-check-galka\">\n")
             self.file_output.write("<a href=\"/{0}/{1}\">&nbsp;</a></div>\n".format(self.cat.title(), classes_html))
             self.file_output.write("<a href=\"/{0}/{1}\">{2} </a>\n</div>\n".format(self.cat.title(), classes_html, row['text']))
+        self.file_output.write("</div></div>\n\n")
 
 ###### MAIN
 
