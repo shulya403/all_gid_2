@@ -15,8 +15,8 @@
         <item turbo="true">
 
             <turbo:extendedHtml>true</turbo:extendedHtml>
-            <link>https://allgid.ru/rate/{{ item.cat }}/{{ item.idtxt_ratings }}</link>
-            <turbo:source>https://allgid.ru/rate/{{ item.cat }}/{{ item.id_html_name}}</turbo:source>
+            <link>https://allgid.ru/rate/{{ item.cat }}/{{ item.id_html_name  }}</link>
+            <turbo:source>https://allgid.ru/rate/{{ item.cat }}/{{ item.id_html_name }}</turbo:source>
             <turbo:topic>{{ item.article_title }}</turbo:topic>
 {#            <pubDate>{{ item.pub_date }}</pubDate>#}
             <author>Гид покупателя. Компьютеры и оргтехника</author>

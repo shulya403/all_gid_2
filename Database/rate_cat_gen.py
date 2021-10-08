@@ -86,6 +86,8 @@ class Mth_cat(object):
         if list_classes:
             tbl_classes = sql.Table(self.db_classes, self.metadata, autoload=True)
             self.df_classes_ = pd.read_sql(tbl_classes.select().where(tbl_classes.c.name.in_(list_classes)), self.connection)
+        else:
+            self.df_classes_ = None
 
     def Select_Vardata(self, Mth):
         tbl_vardata = sql.Table(self.db_vardata, self.metadata, autoload=True)
@@ -97,19 +99,30 @@ class Mth_cat(object):
 
         self.Select_Classes(list_classes)
         df_vardata = self.Select_Vardata(self.mth_)
-
-        fk_classes = self.df_classes_['id'].to_list()
-        len_classes = len(fk_classes)
         fk_mth_products = df_vardata['fk_products'].to_list()
+
+        try:
+            fk_classes = self.df_classes_['id'].to_list()
+            len_classes = len(fk_classes)
+        except Exception:
+            fk_classes = []
+            len_classes = 0
+
 
 
         tbl_mtm = sql.Table(self.db_mtm_pr_cl, self.metadata, autoload=True)
-        df_mtm = pd.read_sql(tbl_mtm.select().
+        if fk_classes:
+            df_mtm = pd.read_sql(tbl_mtm.select().
                              where(and_(tbl_mtm.c.fk_products.in_(fk_mth_products), tbl_mtm.c.fk_classes.in_(fk_classes))), self.connection)
-
+        else:
+            df_mtm = pd.read_sql(tbl_mtm.select().
+                                 where(tbl_mtm.c.fk_products.in_(fk_mth_products)), self.connection)
         df_agg_mtm = df_mtm[['fk_products', 'fk_classes']].groupby('fk_products').count()
 
-        list_exec_products = df_agg_mtm[df_agg_mtm['fk_classes'] == len_classes].index.to_list()
+        if fk_classes:
+            list_exec_products = df_agg_mtm[df_agg_mtm['fk_classes'] == len_classes].index.to_list()
+        else:
+            list_exec_products = df_agg_mtm.index.to_list()
         tbl_products = sql.Table(self.db_products, self.metadata, autoload=True)
         df_exec_product = pd.read_sql(tbl_products.select().where(tbl_products.c.id.in_(list_exec_products)), self.connection)
 
@@ -217,7 +230,8 @@ class Mth_cat(object):
                 "я": "ia",
                 "`": "",
                 ".": "__",
-                ",": "_"
+                ",": "_",
+                "\"": "inch"
             }
 
             exit_ = ""
@@ -231,28 +245,43 @@ class Mth_cat(object):
 
         def List_Classses_Text(df_classes):
 
-            exit_ = list()
-            used_subtype = set()
-            for i, row in df_classes.iterrows():
-                string_out = ""
+            try:
+                #exit_ = list()
+                used_subtype = set()
+                df_classes_sort_cl = df_classes[df_classes['type'] == 'CL'].sort_values(by=['class_subtype'])
+                df_classes_sort_go = df_classes[df_classes['type'] == 'GO'].sort_values(by=['class_subtype'])
+                df_classes_sort = pd.concat([df_classes_sort_go, df_classes_sort_cl])
 
-                if row['class_subtype']:
-                   if row['class_subtype'] not in used_subtype:
-                        string_out += "\"" + row['class_subtype'] +"\": "
-                        used_subtype.add(row['class_subtype'])
-                string_out += "\"" + row['text'] + "\""
-                exit_.append(string_out)
-            return exit_
+                string_out = ""
+                for i, row in df_classes_sort.iterrows():
+                    if row['class_subtype']:
+                       if row['class_subtype'] not in used_subtype:
+                            string_out += "&#171;" + row['class_subtype'] +": "
+                            used_subtype.add(row['class_subtype'])
+                       else:
+                           string_out += "; &#187;"
+                    else:
+                        string_out += "&#171;"
+                    string_out += row['text'] + "&#187;; "
+
+                return string_out
+            except Exception as Err:
+                print("Err")
+                return ""
 
         def List_Classes_HTML(df_classes):
 
-            string_out = "?"
-            for i, row in df_classes.iterrows():
-                string_out += row['name'] + "=Yes&"
+            try:
 
-            string_out += "tabs=marketability"
+                string_out = "?"
+                for i, row in df_classes.iterrows():
+                    string_out += row['name'] + "=Yes&"
 
-            return string_out
+                string_out += "tabs=marketability"
+
+                return string_out
+            except Exception:
+                return "?tabs=marketability"
 
         def digit_separator(digit):
             if digit:
@@ -279,26 +308,30 @@ class Mth_cat(object):
             year_ = str(Mth.year)
             mth_ = mth_padege[Mth.month][0]
             cat_ = cat_rus[Cat.title()][1]
-            str_classes = Classes_[0]
-            if len(Classes_) > 1:
-                for i in Classes_[1:len(Classes_)]:
-                    str_classes += "; " + i
             leader_model = Lead_model_row.loc['brand'] + " " + Lead_model_row.loc['name']
             href_model = "/" + Cat.title() + "/" + str(Lead_model_row['id_y'])
-            string_out = "В {0} {1} г. лидером продаж в сегменте {2} {3} стала модель <strong><a href=\"{4}\" target=\"_blank\">{5}</a></strong>.".\
-                format(mth_, year_, cat_, str_classes, href_model, leader_model)
-
+            if Classes_:
+                #str_classes = Classes_#[0]
+                # if len(Classes_) > 1:
+                #     for i in Classes_[1:len(Classes_)]:
+                #         str_classes += "; " + i
+                string_out = "В {0} {1} г. лидером продаж в сегменте {2} <em>{3}</em> стала модель <strong><a href=\"{4}\" target=\"_blank\">{5}</a></strong>.".\
+                    format(mth_, year_, cat_, Classes_, href_model, leader_model)
+            else:
+                string_out = "В {0} {1} г. лидером продаж стала модель <strong><a href=\"{2}\" target=\"_blank\">{3}</a></strong>.". \
+                    format(mth_, year_, href_model, leader_model)
             return string_out
 
-        self.file_output.write("<!-- ### {0} ###-->\n\n".format(jsn_['cl_gl_name']))
-        self.file_output.write("<!-- ########### -->\n\n".format(jsn_['cl_gl_name']))
+        cl_gl_name = jsn_['cl_gl_name']
+        self.file_output.write("<!-- ### {0} ###-->\n".format(cl_gl_name))
+        self.file_output.write("<!-- ########### -->\n\n")
 
-        header_mth = jsn_['header'] + ". " + mth_padege[self.mth_.month][1] + "` " + str(self.mth_.year)[2:]
+        header_mth = jsn_['header'] # + ". " + mth_padege[self.mth_.month][1] + "` " + str(self.mth_.year)[2:]
         self.file_output.write("<p>{0}</p>\n".format(Transliterate(header_mth)))
-        self.file_output.write("<h1>{0}</h1>\n\n".format(header_mth))
+        self.file_output.write("<h2 id=\"{0}\" name=\"{0}\">{1}</h2>\n\n".format(cl_gl_name, header_mth))
 
         self.file_output.write("<p><em>Источник: аналитическая компания <a href=\"https://itbestsellers.ru\" target=\"_blank\">ITResearch</a>, проект <a href=\"https://allgid.ru\">allgid.ru \"Гид покупателя\"</a>\n<br>\nДанные по рынку России</em>\n</p>\n")
-        self.file_output.write("<div class=\".inarticle_cit1\">{0}</div>\n\n".format(jsn_['cat_description']))
+        self.file_output.write("<div class=\"inarticle_cit1\">{0}</div>\n\n".format(jsn_['cat_description']))
 
         classes_ = List_Classses_Text(self.df_classes_)
         lead_model_row_ = df_price_q[df_price_q['name'] == lead_model_name].iloc[0]
@@ -312,7 +345,7 @@ class Mth_cat(object):
             self.file_output.write(" Она же - самое доступное по цене устройство в данном классе ноутбуков. </p>\n")
 
         self.file_output.write(
-            "<h2>{0} класса {1}: Top-{2}, в {3}</h2> \n".format(cat_rus[self.cat.title()][0],
+            "<h3>{0} класса {1}: Top-{2}, в {3}</h3> \n".format(cat_rus[self.cat.title()][0],
                                                                 jsn_['cl_gl_name'],
                                                                 len(df_price_q),
                                                                 mth_padege[self.mth_.month][0] + " `" + str(self.mth_.year)[2:]))
@@ -346,24 +379,28 @@ class Mth_cat(object):
         self.file_output.write("</tbody></table></div></div>")
 
         classes_html = List_Classes_HTML(self.df_classes_)
-        self.file_output.write("<p><strong><a href=\"/{0}/{1}\">Полный актуальный рейтинг Top-20 популярных {2} типа <em>{3}</em> >></a></strong></p>\n".format(self.cat.title(), classes_html, cat_rus[self.cat.title()][1], classes_[0]))
-
+        try:
+            self.file_output.write("<p><strong><a href=\"/{0}/{1}\">Полный рейтинг Top-20 популярных {2} типа <em>{3}</em> &#8921;</a></strong></p>\n".format(self.cat.title(), classes_html, cat_rus[self.cat.title()][1], classes_))
+        except Exception:
+            self.file_output.write("<p><strong><a href=\"/{0}/{1}\">Полный рейтинг Top-20 популярных {2} &#8921;</a></strong></p>\n".format(self.cat.title(), classes_html, cat_rus[self.cat.title()][1]))
         self.file_output.write("\n<!-- ################ -->\n<!-- ### Keywords ### -->\n\n")
         self.file_output.write("<div class=\"inarticle-rignt-filter\">\n")
         self.file_output.write("<h3><a href = \"/{0}/?tabs=marketability\">Выбрать {1} для своих целей</a></h3>".format(self.cat.title(), cat_rus[self.cat.title()][0].lower()))
         self.file_output.write("<div class=\"filter_button_big\">\n<div class =\"fltr_pic\"><a href=\"/{0}/?tabs=marketability\">&nbsp;</a></div>".format(self.cat.title()))
         self.file_output.write("<div class=\"fltr_text\"><a href=\"/{0}/?tabs=marketability\">ФИЛЬТР</a></div>\n</div>\n</div>\n\n".format(self.cat.title()))
 
-        self.file_output.write("<div>\n<div class=\"inarticle-rignt-filter\">\n")
-        self.file_output.write("<h3><a href=\"/{0}/{1}\">Top-20 {2}</a></h3>\n".format(self.cat.title(), classes_html, jsn_['cl_gl_name']))
+        try:
+            self.file_output.write("<div>\n<div class=\"inarticle-rignt-filter\">\n")
+            self.file_output.write("<h3><a href=\"/{0}/{1}\">Top-20 {2}</a></h3>\n".format(self.cat.title(), classes_html, jsn_['cl_gl_name']))
 
-        for i, row in self.df_classes_.iterrows():
-            self.file_output.write("<div class=\"filters-item-check\">\n")
-            self.file_output.write("<div class=\"filters-item-check-galka\">\n")
-            self.file_output.write("<a href=\"/{0}/{1}\">&nbsp;</a></div>\n".format(self.cat.title(), classes_html))
-            self.file_output.write("<a href=\"/{0}/{1}\">{2} </a>\n</div>\n".format(self.cat.title(), classes_html, row['text']))
-        self.file_output.write("</div></div>\n\n")
-
+            for i, row in self.df_classes_.iterrows():
+                self.file_output.write("<div class=\"filters-item-check\">\n")
+                self.file_output.write("<div class=\"filters-item-check-galka\">\n")
+                self.file_output.write("<a href=\"/{0}/{1}\">&nbsp;</a></div>\n".format(self.cat.title(), classes_html))
+                self.file_output.write("<a href=\"/{0}/{1}\">{2} </a>\n</div>\n".format(self.cat.title(), classes_html, row['text']))
+            self.file_output.write("</div></div>\n\n")
+        except Exception:
+            pass
 ###### MAIN
 
 Jul = Mth_cat('Aug', 2021, 'Nb', top_q=5)

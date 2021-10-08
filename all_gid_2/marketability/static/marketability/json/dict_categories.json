@@ -99,7 +99,7 @@
                 },
                 "appear_month": {
                     "html_name": "Начало продаж",
-                    "id": 8,
+                    "id": 9,
                     "short": false
                 },
                 "touchscreen": {
@@ -111,7 +111,12 @@
                     "html_name": "Разрешение экрана",
                     "id": 6,
                     "short": false
-               }
+               },
+                "target_market": {
+                    "html_name": "Позиционирование",
+                    "id": 8,
+                    "short": false
+                }
             },
             "timelag": 1
         },

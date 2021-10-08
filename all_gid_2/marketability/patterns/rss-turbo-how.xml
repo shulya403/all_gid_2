@@ -15,7 +15,7 @@
         <item turbo="true">
 
             <turbo:extendedHtml>true</turbo:extendedHtml>
-            <link>https://allgid.ru/how/{{ item.cat }}/{{ item.idtxt_how }}</link>
+            <link>https://allgid.ru/how/{{ item.cat }}/{{ item.id_html_name }}</link>
             <turbo:source>https://allgid.ru/how/{{ item.cat }}/{{ item.id_html_name }}</turbo:source>
             <turbo:topic>{{ item.article_title }}</turbo:topic>
 {#            <pubDate>{{ item.pub_date }}</pubDate>#}
