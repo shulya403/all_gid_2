@@ -128,7 +128,98 @@
             }
         }
         },
-    "Mnt": {},
+    "Mnt": {
+         "Mnt общий": {
+                "cl_gl_name": "Mnt_common",
+                "header": "Общий ретинг популярности мониторов",
+                "cat_description": "<p>Средняя температура по больнице в августе</p>\n",
+                "classes": [],
+                "q_table": 10,
+                "ttx_show": {
+                    "type": "Диагональ - Соотн. сторон",
+                    "resolution_abb": "Разрешение",
+                    "matrix_type": "Тип матрицы"
+                }
+            },
+        "Mnt game общий": {
+                "cl_gl_name": "Mnt_game_common",
+                "header": "Топ игровых моделей мониторов",
+                "cat_description": "<p>К игровым моделям мониторв мы относим...</p>\n",
+                "classes": [
+                    "Игровой"
+                ],
+                "q_table": 10,
+                "ttx_show": {
+                    "type": "Диагональ - Соотн. сторон",
+                    "resolution_abb": "Разрешение",
+                    "response_time": "Время отклика",
+                    "matrix_type": "Тип матрицы"
+                }
+            },
+        "Mnt game 4K": {
+                "cl_gl_name": "Mnt_game_4k",
+                "header": "Топ игровых мониторов с разрешеием 4K",
+                "cat_description": "<p>Игровые мониторы с разрещением 4K (UHD) набирают все большую популярность...</p>\n",
+                "classes": [
+                    "Игровой",
+                    "4K монитор"
+                ],
+                "q_table": 5,
+                "ttx_show": {
+                    "type": "Диагональ - Соотн. сторон",
+                    "resolution": "Разрешение, пикс",
+                    "matrix_type": "Время отклика",
+                    "curved": "Вогнутый"
+                }
+            },
+        "Mnt game IPS": {
+                "cl_gl_name": "Mnt_game_ips",
+                "header": "Топ игровых IPS-мониторов",
+                "cat_description": "<p>Современные <a href=\"/how/Mnt/tipy-zheka-displeev--tekhnologii-tn_ips_va---chto-vybrat#IPS\">матрицы IPS</a> достигают высоких показателей по скорости переключения пикселей и достижимых частот обновления экрана. Это позволяет использовать такие матрицы и в игровых моделях...</p>\n",
+                "classes": [
+                    "Игровой",
+                    "IPS матрица"
+                ],
+                "q_table": 5,
+                "ttx_show": {
+                    "type": "Диагональ - Соотн. сторон",
+                    "resolution_abb": "Разрешение",
+                    "matrix_type": "Время отклика",
+                    "curved": "Вогнутый"
+                }
+            },
+        "Mnt game curved": {
+                "cl_gl_name": "Mnt_game_curved",
+                "header": "Топ изогнутых игровых мониторов",
+                "cat_description": "<p>Сегодня геймеры все чаще выбирают изогнутые мониторы, позволяющие...</p>\n",
+                "classes": [
+                    "Игровой",
+                    "Вогнутый"
+                ],
+                "q_table": 5,
+                "ttx_show": {
+                    "type": "Диагональ - Соотн. сторон",
+                    "resolution_abb": "Разрешение",
+                    "matrix_type": "Время отклика"
+                }
+            },
+        "Mnt game wide": {
+                "cl_gl_name": "Mnt_game_big",
+                "header": "Топ игровых мониторов больших диагоналей",
+                "cat_description": "<p>Игровые мониторы с диагоналями от 29\" и выше...</p>\n",
+                "classes": [
+                    "Игровой",
+                    "Большой"
+                ],
+                "q_table": 5,
+                "ttx_show": {
+                    "type": "Диагональ - Соотн. сторон",
+                    "resolution_abb": "Разрешение",
+                    "matrix_type": "Время отклика",
+                    "curved": "Вогнутый"
+                }
+            }
+    },
     "Mfp": {},
     "Ups": {},
     "archive": {

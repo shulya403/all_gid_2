@@ -32,25 +32,27 @@
 {% block category %}
     <div class="category-content">
     <div class="product-block">
+
     {% with price=this_price|digit_separator  %}
+    {%  if price != 'n/a' %}
     <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
         <span itemprop="brand" content="{{ vendor }}"></span>
         <span itemprop="name" content="{{ name }}"></span>
         <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
         <span itemprop="category" content="{{ category_name_singular }}"></span>
         <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
-        {%  if price != 'n/a' %}
+
         <div itemprop="offers" itemscope="" itemtype="https://schema.org/Offer">
             <span itemprop="priceCurrency" content="RUB"></span>
             <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
         </div>
-        {% endif %}
+
         <div itemprop="review" itemscope itemtype="https://schema.org/Review">
             <span itemprop="description" content="{% for i in this_classes %}- {{ i.text }} {% endfor %}"></span>
             <span itemprop="author" content="Allgid.ru"></span>
         </div>
-
     </div>
+    {% endif %}
     <div class="product-filters">
         <a href="/{{ action }}/" style="text-decoration: none;">
         <div class="k-filtram">
@@ -168,22 +170,7 @@
 
                 </tbody></table></a></td></tr>
             {% endfor %}
-{#        <tr><td style="width:100%;">#}
-{#            #}
-{#                <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">#}
-{#                <table style="width:100%; ">#}
-{#                <tr class="shops-item">#}
-{##}
-{#                <td class="shop-mod-name">{{ mod.modification_name }}</td>#}
-{#                <td class="shop-price">{{ mod.modification_price|digit_separator }}</td>#}
-{#                <td class="shop-name">{{ mod.shop_name }}</td>#}
-{#                #}
-{#                </tr>#}
-{#                </table>#}
-{#                </a>#}
-{##}
-{#        </td></tr>#}
-{##}
+
   </tbody></table>
 
         {% endif %}

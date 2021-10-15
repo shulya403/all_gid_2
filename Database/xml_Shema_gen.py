@@ -103,7 +103,7 @@ class DB():
             xml_f.write("<url>\n")
             xml_f.write("<loc>{}</loc>\n".format(row['loc']))
             if row['lastmod']:
-                xml_f.write("<lastmod>{}</lastmod>\n".format(row['lastmod']))
+                xml_f.write("<lastmod>{}</lastmod>\n".format(now_))
             xml_f.write("</url>\n")
         xml_f.write("</urlset>")
         xml_f.close()

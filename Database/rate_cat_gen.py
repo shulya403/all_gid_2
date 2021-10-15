@@ -275,7 +275,11 @@ class Mth_cat(object):
 
                 string_out = "?"
                 for i, row in df_classes.iterrows():
-                    string_out += row['name'] + "=Yes&"
+                    if " " in row['name']:
+                        cl_name = row['name'].replace(" ", "+")
+                    else:
+                        cl_name = row['name']
+                    string_out += cl_name + "=Yes&"
 
                 string_out += "tabs=marketability"
 
@@ -403,7 +407,7 @@ class Mth_cat(object):
             pass
 ###### MAIN
 
-Jul = Mth_cat('Aug', 2021, 'Nb', top_q=5)
+Jul = Mth_cat('Aug', 2021, 'Mnt', top_q=5, num="game")
 Jul.Autogen()
 
 
