@@ -36,20 +36,26 @@
     {% with price=this_price|digit_separator  %}
     {%  if price != 'n/a' %}
     <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
-        <span itemprop="brand" content="{{ vendor }}"></span>
+{#        <span itemprop="brand" content="{{ vendor }}"></span>#}
+        <div itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+            <span itemprop="name" content="{{ vendor }}"></span>
+        </div>
         <span itemprop="name" content="{{ name }}"></span>
         <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
         <span itemprop="category" content="{{ category_name_singular }}"></span>
         <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
 
-        <div itemprop="offers" itemscope="" itemtype="https://schema.org/Offer">
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
             <span itemprop="priceCurrency" content="RUB"></span>
             <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
+            <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
         </div>
 
         <div itemprop="review" itemscope itemtype="https://schema.org/Review">
             <span itemprop="description" content="{% for i in this_classes %}- {{ i.text }} {% endfor %}"></span>
-            <span itemprop="author" content="Allgid.ru"></span>
+            <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name" content="Allgid.ru"></span>
+            </div>
         </div>
     </div>
     {% endif %}
