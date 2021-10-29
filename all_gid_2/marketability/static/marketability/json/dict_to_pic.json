@@ -1,16 +1,14 @@
 {
   "Nb": {
     "zaglushka": "pict/themes/nb_general2-256-512.jpg",
-    "GO_education": "pict/themes/cabinet-home-paper.jpg",
-    "GO_premium": "pict/themes/nb_premium_256-512.jpg",
-    "GO_horse_work": "pict/themes/nb_loshadka_256-512.jpg",
-    "GO_game_mid": "pict/themes/all_game-256-512.jpg",
-    "GO_game_high": "pict/themes/all_game-256-512.jpg",
-    "GO_smb": "pict/themes/nb_smb2_256-512.jpg",
-    "GO_content": "pict/themes/nb_content_256-512.jpg",
-    "GO_universum_home": "pict/themes/nb_home_256-512.jpg",
-    "GO_corporate": "pict/themes/nb_corporate_256-512.jpg",
-    "GO_bus_essential": "pict/themes/nb_mass2b_256-512.jpg"
+    "Премиальный": "pict/themes/nb_premium_256-512.jpg",
+    "Для_работы_и_учебы": "pict/themes/nb_loshadka_256-512.jpg",
+    "Игровой": "pict/themes/all_game-256-512.jpg",
+    "Бизнес_средний": "pict/themes/nb_smb2_256-512.jpg",
+    "Просмотр_контента": "pict/themes/nb_content_256-512.jpg",
+    "Домашний": "pict/themes/nb_home_256-512.jpg",
+    "Корпоративный": "pict/themes/nb_corporate_256-512.jpg",
+    "Бизнес_массовый": "pict/themes/nb_mass2b_256-512.jpg"
   },
 
   "Mnt": {
