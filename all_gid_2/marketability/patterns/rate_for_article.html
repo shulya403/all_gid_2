@@ -1,0 +1,46 @@
+    <h2 class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </h2>
+
+            <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                        <th class="table-head-price">
+                            <span>Цена*, руб.</span>
+                            <div class="table-head-price-arrow"></div>
+
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th align="center">{{ fld }}</th>
+                        {% endfor %}
+
+                </tr>
+            {% for i in tbl_data.id.keys  %}
+                <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data.id|get_item:i }}">
+                {{ tbl_data.brand|get_item:i }}&nbsp;{{ tbl_data.name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                </td>
+                {% for fld in tbl_data.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td align="center">
+                        {% with val=tbl_data|get_item:fld|get_item:i%}
+                        {% if val == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif val == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ val }}
+                        {% endif %}
+                        {% endwith %}
+                    </td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+
+
+

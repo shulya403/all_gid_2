@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
+    <meta name="yandex-verification" content="3344c37d6a27e5f9" />
     <meta name='wmail-verification' content='93320888614eed9e528184a150b896ee' />
 
     {% block meta %}{% endblock %}
@@ -43,39 +44,10 @@
 
   gtag('config', 'G-HTCCXF3FFD');
 </script>
-<!-- Top100 (Kraken) Counter -->
-<script>
-    (function (w, d, c) {
-    (w[c] = w[c] || []).push(function() {
-        var options = {
-            project: 7424053,
-        };
-        try {
-            w.top100Counter = new top100(options);
-        } catch(e) { }
-    });
-    var n = d.getElementsByTagName("script")[0],
-    s = d.createElement("script"),
-    f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src =
-    (d.location.protocol == "https:" ? "https:" : "http:") +
-    "//st.top100.ru/top100/top100.js";
 
-    if (w.opera == "[object Opera]") {
-    d.addEventListener("DOMContentLoaded", f, false);
-} else { f(); }
-})(window, document, "_top100q");
-</script>
-<noscript>
-  <img src="//counter.rambler.ru/top100.cnt?pid=7424053" alt="Топ-100" />
-</noscript>
-<!-- END Top100 (Kraken) Counter -->
 </head>
 <body>
 
-<div class="common-grid">
     <div class="header-menu">
         <div class="menu">
         <div class="menu-left">
@@ -83,7 +55,7 @@
         <div class="logo">
             <a href="/" class="link-home">
             <div class="logo-img">
-
+{#                <img src="/static/marketability/pict/Target white.svg">#}
             </div>
             <div class="logo-text"><span>Гид<br>покупателя</span></div>
             </a>
@@ -100,9 +72,8 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
-
         <script>
-            $(function() {
+           $(function() {
                 $(document).ready(function () {
                     $('.menu-gamburger').click(function() {
                         if ($('.menu-gamburger-popup').css('display') == 'none') {
@@ -130,36 +101,88 @@
 			</ul>
 		</div> <!-- menu-gamburger-popup -->
         </div> <!-- menu-gamburger -->
-
         </div> <!-- menu-left -->
         <div class="menu-right">
-            <div class="category-menu">
 
-            <a href="/al_about.html">
-                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>
+            <a href="/rate/">
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
             </a>
-            </div>
+             <a href="/how/">
+                <button id="how"  {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9998;</span>&nbsp;Статьи</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
+            <a href="/search_all.html">
+            <div class="menu-search"></div>
+            </a>
+        </div>
+                <div class="menu-right-mobile">
+
+            <a href="/rate/">
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Top</button>
+            </a>
+             <a href="/how/">
+                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9998;</span> Статьи</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
             <a href="/search_all.html">
             <div class="menu-search"></div>
             </a>
         </div>
         </div> <!-- "menu" -->
-
-
-    </div> <!-- class="header-menu" -->
+        </div> <!-- class="header-menu" -->
 
     {% block category %}{% endblock %}
         <div class="home-bottom">
+            <a href="/al_about.html">
+            <div class="bottom-our-button">
+            О&nbsp;проекте
+            </div>
+            </a>
             <div class="adress-bar">
             &#169; 2021 ООО&nbsp;«ИТ Аналитика». <br>
             109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
             </div>
             <div class="bottom-buttons">
-            <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="40px"></a>
+                <script type="application/ld+json">
+                    {
+                        "@context" : "http://schema.org",
+                        "@type" : "Organization",
+                                "name" : "Гид покупателя. Компьютеры и оргтехника",
+                        "url" : "https://allgid.ru",
+                        "sameAs" : [
+                        "https://vk.com/public205382581",
+                        "https://t.me/allgid",
+                        "https://www.facebook.com/groups/299949451877561",
+                        "https://twitter.com/VladimirZhemchu/status/1417138748693876736",
+                        "https://ok.ru/group/62280444608687"
+
+
+    ]
+  }
+                </script>
+                <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="20px"></a>
+                 <a href="https://www.facebook.com/groups/299949451877561" target="_blank"><img src="/static/marketability/pict/png-transparent-facebook.png" height="20px" alt="fb"></a>
+            <a href="https://vk.com/public205382581" target="_blank"><img src="/static/marketability/pict/vk.com_13326.png" height="20px" alt="vk"></a>
+            <a href="https://t.me/allgid" target="_blank"><img src="/static/marketability/pict/telegram.png" height="20px" alt="telegram"></a>
+                <a href="https://twitter.com/VladimirZhemchu/status/1417138748693876736" target="_blank"><img src="/static/marketability/pict/icon-twitter-png.png" height="20px" alt="twitter"></a>
+                <a href="https://ok.ru/group/62280444608687" target="_blank"><img src="/static/marketability/pict/computer-icons-odnoklassniki-vector-vector.jpg" height="20px" alt="ok"></a>
+
+
+
 
             </div>
         </div>
-</div> <!-- class="common-grid" -->
+
 
 
 </body>

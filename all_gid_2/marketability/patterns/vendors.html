@@ -1,0 +1,26 @@
+{% extends "al_page.html" %}
+{% block meta %}
+
+    <title>{{ category_name }}. Все актуальные модели {{ vendor }}.</title>
+    <meta name="description" content="Гид покупателя. {{ category_name }} {{ vendor }}. Актуальные модели. Основные характеристики, параметры и сегментация-позиционирование." />
+    <meta name="robots" content="index, follow" />
+     <link rel="canonical" href="https://allgid.ru/vendors.html"/>
+
+{% endblock %}
+{% block category %}
+    <div class="vendors">
+    <div class="vendors_list">
+
+            {% for ven in vendors_list %}
+                <a href="/{{ action }}/vendors/{{ ven }}" class="vendors_button_href">
+                <div class="{% if ven == vendors  %}vendors_button_active{% else %}vendors_button_non_active{% endif %}"> {{ ven }} </div>
+                </a>
+            {% endfor %}
+        </a>
+    </div>
+    <div class="vendors_h1">
+        <h1>{{ category_name }} {{ vendor }}</h1>
+    </div>
+    </div>
+
+{% endblock %}

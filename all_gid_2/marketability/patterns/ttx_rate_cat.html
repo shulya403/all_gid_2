@@ -1,0 +1,41 @@
+{% extends "al_page.html" %}
+{% block meta %}
+    <title>Выбор покупателя. Рейтинг по продажам в России. {{ categories_name_singular }}.</title>
+    <meta name="description" content="{{ categories_name_plural }}: Top (рейтинги) самых лучших и популярных моделей в России." />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
+{% endblock %}
+
+{% block category %}
+
+<div class="how_listing">
+    <h1 class="how_general_header">{{ categories_name_plural }}-лидеры в своем классе</h1>
+    <div class="how_general_header_comment">Рейтинги лучших моделей в категории {{ categories_name_singular }} по мнению российских покупателей</div>
+
+        {% for i in listing %}
+       <div class="how-listing-item">
+        <div class="how-listig-item-text">
+        <a href="/rate/{{ cat }}/{{ i.id_html_name }}" target="_blank" class="how_listing_title_href">
+            <h3 class="how_listing_title_h2">{{ i.article_title }}</h3>
+
+            <p class="how_listing_anno_p">
+            {% if i.img %}
+                    <img src="{{ i.img }}" alt="" height="100px" align="right">
+            {% endif %}
+                {{ i.article_anno }}
+
+            </p>
+        </a>
+        </div>
+
+
+        </div>
+        {% endfor %}
+
+
+</div>
+
+
+
+{% endblock %}

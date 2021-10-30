@@ -16,11 +16,19 @@ from .models import MntClasses, \
     MfpVardata,\
     MfpShopsPrices,\
     MntShopsPrices,\
-    NbShopsPrices,\
-    TextLinks
+    NbShopsPrices, \
+    UpsClasses, \
+    UpsProducts, \
+    UpsProductsHasUpsClasses, \
+    UpsVardata, \
+    UpsShopsPrices, \
+    TextLinks, \
+    TxtHow, \
+    TxtRatings
+
 
 from datetime import datetime as dt
-from datetime import date
+import time
 #import django_pandas as pd
 import pandas as pdd
 from django_pandas.io import read_frame
@@ -60,6 +68,18 @@ def digit_separator(digit):
         return 'n/a'
 
 @register.filter
+def digit_to_float(digit):
+    if digit:
+        try:
+            str_digit = float(digit)
+        except Exception:
+            return 'n/a'
+
+    else:
+        return 'n/a'
+    return str(str_digit)
+
+@register.filter
 def sort_keys(keys):
 
     return sorted(list(keys))
@@ -87,6 +107,13 @@ def DB_table(cat_):
             'vardata': MfpVardata,
             'shop_prices': MfpShopsPrices
         },
+    'Ups': {'products': UpsProducts,
+            'classes': UpsClasses,
+            'mtm_prod_clas': UpsProductsHasUpsClasses,
+            'vardata': UpsVardata,
+            'shop_prices': UpsShopsPrices
+
+    }
 
     }
 
@@ -109,6 +136,8 @@ def Dict_tabs_page_form():
 
     return dict_tabs
 
+
+
 #Опредление категории
 def Init_cat(request, cat_, db_tbl):
 
@@ -124,6 +153,12 @@ def Init_cat(request, cat_, db_tbl):
             dict_to_cat = json.load(f_pic)[cat_]
 
         request.session['cat_'] = cat_
+
+        if dict_categories[cat_]["category_name_singular"]["stable"]:
+            request.session['cat_singular'] = dict_categories[cat_]['category_name_singular']['name']
+        else:
+            request.session['cat_singular'] = ""
+            request.session['cat_singular_fld'] = dict_categories[cat_]['category_name_singular']["field"]
 
         request.session['dict_to_cat'] = dict_to_cat
 
@@ -159,6 +194,13 @@ def Init_cat(request, cat_, db_tbl):
 
     else:
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
+        print(request.session['categories_list'])
+
+        request.session['categories_list_singular'] = dict()
+        for cat in dict_categories:
+            request.session['categories_list_singular'][cat] = dict_categories[cat]['category_name_singular']['name']
+
+        print(request.session['categories_list_singular'])
 
         request.session['cat_'] = cat_
 
@@ -170,8 +212,6 @@ def Init_cat(request, cat_, db_tbl):
 
 # Формирование вложенного словаря по таблице _classes
 def Dict_by_Classes2(request, db_tbl):
-
-
 
     # Картинки для категории
     with open('marketability/static/marketability/json/dict_sorting_classes.json', encoding='utf-8') as f_cls:
@@ -187,6 +227,7 @@ def Dict_by_Classes2(request, db_tbl):
             exit_ = [i[0] for i in list_tuples]
         else:
             exit_ = []
+
 
         return exit_
 
@@ -251,6 +292,7 @@ def Dict_by_Classes2(request, db_tbl):
     qry_classes = db_tbl['classes'].objects.all()
 
     request.session['list_enabled'] = vlist_to_list(qry_classes.values_list('name'))
+    print(request.session['list_enabled'])
 
     for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
         exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes, request.session['cat_'])
@@ -281,8 +323,10 @@ def Get_Products_Mtm(post_return, db_tbl):
     # products_mtm - список записей в mtm с продуктом присутсв. во всех отфильтрованных классах
     products_mtm = db_tbl['mtm_prod_clas'].objects \
         .filter(fk_products__in=inner_join_products_) \
-        .order_by('fk_products') \
         .values('fk_products', 'fk_classes')
+
+
+# .order_by('fk_products') \
 
     return products_mtm
 
@@ -300,11 +344,8 @@ def page_Category_Main(request, cat_):
         except KeyError:
             category = Init_cat(request, cat_, db_tbl)
 
-        #dict_sorted_fields_show = request.session['dict_sorted_fields_show']
         new_form = request.session['new_form']
         list_enabled = request.session['list_enabled']
-        #timelag = request.session['timelag']
-        #period_inbase = request.session['period_inbase']
         category_name = request.session['cat_rus_name']
         categories_list = request.session['categories_list']
         tab_active = request.session['tab_active']
@@ -348,10 +389,13 @@ def page_Category_Main(request, cat_):
 
             # classes_for_execute - list id доступных после фильтра классов
             classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
+            print(classes_for_execute )
 
             #print(products_for_execute)
             list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
+
             list_enabled_ = vlist_to_list(list(list_enabled_))
+
             #print(list_enabled_)
             if list_enabled_:
                 request.session['enabled_return'] = list_enabled_
@@ -395,7 +439,9 @@ def page_Category_Main(request, cat_):
             tab_marketability = dict()
             tab_novelty = dict()
 
-        best_links = Get_Bestsellers_links()
+        #best_links = Get_Bestsellers_links()
+        best_links = Get_Ratings_links(cat_)
+        print(best_links)
 
         if (not theme_pic[1]) \
             or (not theme_pic[0] in post_return):
@@ -423,7 +469,7 @@ def page_Category_Main(request, cat_):
             'goals_fbb_mobile': goals_fbb_mobile,
             'classes_fbb_mobile': classes_fbb_mobile
         }
-        print(post_return)
+
 
         return render(request, template_name="category_get.html", context=exit_)
     else:
@@ -467,10 +513,21 @@ def page_Product(request, cat_, product_):
         new_form = request.session['new_form']
         form_return = request.session['form_return']
         category_name = request.session['cat_rus_name']
+
+
         categories_list = request.session['categories_list']
+
 
         Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
         if Product.count() > 0:
+
+            if request.session['cat_singular']:
+                category_name_singilar = request.session['cat_singular']
+            else:
+                try:
+                    category_name_singilar = Product[0][request.session['cat_singular_fld']]
+                except Exception:
+                    category_name_singilar = category_name
 
             fields_ = list(Product[0].keys())
 
@@ -512,6 +569,7 @@ def page_Product(request, cat_, product_):
 
             exit_ = {
                 'category_name': category_name,
+                'category_name_singular': category_name_singilar,
                 'categories_list': categories_list,
                 'vendor': Product[0]['brand'],
                 'name': Product[0]['name'],
@@ -627,6 +685,7 @@ def Get_Prod_Execute_join_vardata(request, db_tbl, list_products, qry_period):
         annotate(sales_sum=Sum(sales_sum, filter=Q(**filter_months)),
                  price_avg=Avg(price_avg, filter=Q(**filter_months))).exclude(sales_sum__isnull=True)
 
+
     return qry_total_execute
 
 def months_names(period_):
@@ -664,7 +723,10 @@ def months_names(period_):
                     mth_names[date_tuple[1].month] + \
                     "`" + date_tuple[1].strftime("%y")
     else:
-        exit_ = mth_names[period_[0].month] + "`" + period_[0].strftime("%y")
+        try:
+            exit_ = mth_names[period_[0].month] + "`" + period_[0].strftime("%y")
+        except:
+            exit_ = "2021"
 
     return exit_
 
@@ -764,7 +826,8 @@ def home(request):
     categories_pict = {
         "Ноутбуки": "/static/marketability/pict/cat/nb.jpg",
         "Мониторы": "/static/marketability/pict/cat/Mnt.jpg",
-        "Принтеры и МФУ": "/static/marketability/pict/cat/Mfp.jpg"
+        "Принтеры и МФУ": "/static/marketability/pict/cat/Mfp.jpg",
+        "ИБП": "/static/marketability/pict/cat/Ups.jpg"
     }
 
     exit_ = {'categories_list': categories_list,
@@ -803,4 +866,14 @@ def handler404(request, exception=None):
     response.status_code = 404
 
     return response
+def Get_Ratings_links(cat_):
+
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin',
+                                                         'date').order_by('-date')
+    len_list = len(listing)
+    print(listing)
+    if len_list > 5:
+        return listing[:5]
+    else:
+        return listing
 

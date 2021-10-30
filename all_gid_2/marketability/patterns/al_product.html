@@ -1,37 +1,64 @@
 {% extends "al_page.html" %}
 {% block meta %}
-    <title>{{ category_name }}: {{ vendor }}&nbsp;{{ name }} сравнить цены, характеристики</title>
-    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}.  Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, выбрать магазин." />
+    <title>{{ category_name_singular }} {{ vendor }} {{ name }} сравнить цены, характеристики</title>
+    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}. Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, выбрать магазин." />
 
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
 
 
-<!-- Yandex.Market Widget -->
-<script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript"></script>
-<script type="text/javascript">
-    (function (w) {
-        function start() {
-            w.removeEventListener("YaMarketAffiliateLoad", start);
-            w.YaMarketAffiliate.createWidget({type:"offers",
-	containerId:"marketWidget",
-	fallback:true,
-	params:{clid:2310490,
-		searchText: "{{ vendor }} {{ name }}",
-		themeId:1 } });
-        }
-        w.YaMarketAffiliate
-            ? start()
-            : w.addEventListener("YaMarketAffiliateLoad", start);
-    })(window);
-</script>
-<!-- End Yandex.Market Widget -->
+{#<!-- Yandex.Market Widget -->#}
+{#<script async src="https://aflt.market.yandex.ru/widget/script/api" type="text/javascript"></script>#}
+{#<script type="text/javascript">#}
+{#    (function (w) {#}
+{#        function start() {#}
+{#            w.removeEventListener("YaMarketAffiliateLoad", start);#}
+{#            w.YaMarketAffiliate.createWidget({type:"offers",#}
+{#	containerId:"marketWidget",#}
+{#	fallback:true,#}
+{#	params:{clid:2310490,#}
+{#		searchText: "{{ vendor }} {{ name }}",#}
+{#		themeId:1 } });#}
+{#        }#}
+{#        w.YaMarketAffiliate#}
+{#            ? start()#}
+{#            : w.addEventListener("YaMarketAffiliateLoad", start);#}
+{#    })(window);#}
+{#</script>#}
+{#<!-- End Yandex.Market Widget -->#}
 
     {% endblock %}
 
 {% block category %}
     <div class="category-content">
     <div class="product-block">
+
+    {% with price=this_price|digit_separator  %}
+    {%  if price != 'n/a' %}
+    <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
+{#        <span itemprop="brand" content="{{ vendor }}"></span>#}
+        <div itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+            <span itemprop="name" content="{{ vendor }}"></span>
+        </div>
+        <span itemprop="name" content="{{ name }}"></span>
+        <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
+        <span itemprop="category" content="{{ category_name_singular }}"></span>
+        <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
+
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <span itemprop="priceCurrency" content="RUB"></span>
+            <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
+            <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
+        </div>
+
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <span itemprop="description" content="{% for i in this_classes %}- {{ i.text }} {% endfor %}"></span>
+            <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name" content="Allgid.ru"></span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="product-filters">
         <a href="/{{ action }}/" style="text-decoration: none;">
         <div class="k-filtram">
@@ -42,15 +69,21 @@
 
     </div> <!-- К фильтрам -->
     <div class="brandname">
-        <h1 class="product-this-name">{{ vendor }}&nbsp;{{ name }}</h1>
-        {% with price=this_price|digit_separator  %}
+        <h1 class="product-this-name">
+            {{ category_name_singular }}&nbsp;{{ vendor }}&nbsp;<br/>
+            {{ name }}
+        </h1>
+
             {% if price != 'n/a' %}
-                <div class="product-this-price">~&nbsp;{{ price }}&nbsp;руб.</div>
+                <div class="product-this-price">~&nbsp;{{ price }}&nbsp;руб.
+                </div>
+
             {% else %}
                 <div class="product-this-price">Нет данных о ценах</div>
             {% endif %}
-        {% endwith %}
+
     </div>
+    {% endwith %}
      <div class="filters-klass">Класс</div>
     <div class="filters-list">
     <div class="filter-type-block">
@@ -115,25 +148,37 @@
                 <div class="shops-note">
                 * Цены могут существенно различаться в зависимости от конфигурации
                 </div>
+                <br/>
             {% endif %}
         <table class="shops-table">
-        <tr><td style="width:100%;">
+        <tbody>
             {% for mod in shop_mod %}
+                <tr>
+                <td>
+
                 <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">
-                <table style="width:100%; ">
-                <tr class="shops-item">
+                <table class="shops-table-table">
+                    <tbody>
+                <tr class="shops-table-tr">
+                <td>
+                    <div class="shops-table-td-link">
+                    <div class="shops-table-shop-name">{{ mod.shop_name }}</div>
+                    <div class="shops-table-mod-name">{{ mod.modification_name }}</div>
+                    </div>
 
-                <td class="shop-mod-name">{{ mod.modification_name }}</td>
-                <td class="shop-price">{{ mod.modification_price|digit_separator }}</td>
-                <td class="shop-name">{{ mod.shop_name }}</td>
-                <td class="shop-chevron"></td>
+                </td>
+                <td class="shops-table-shop-price">
+                    <div>{{ mod.modification_price|digit_separator }}</div>
+
+                </td>
+                    <td class="shop-chevron"></td>
                 </tr>
-                </table>
-                </a>
-            {% endfor %}
-        </td></tr>
 
-         </table>
+                </tbody></table></a></td></tr>
+            {% endfor %}
+
+  </tbody></table>
+
         {% endif %}
 
     </div>
@@ -180,22 +225,23 @@
             {% endif %}
 
             {% for ven, md in miscell.items  %}
-                <input type="checkbox" id="{{ ven }}" class="check-vendor-clps"
-                onclick="if($('.miscell-mod#{{ ven }}').css('display') == 'none')
-                       {$('.miscell-mod#{{ ven }}').css('display', 'flex');
-                        $('.miscell-vendor-strelka#{{ ven }}').css('transform', 'rotate(180deg)');}
+                {% with ven_1=ven|slugify %}
+                <input type="checkbox" id="{{ ven_1 }}" class="check-vendor-clps"
+                onclick="if($('.miscell-mod#{{ ven_1 }}').css('display') == 'none')
+                       {$('.miscell-mod#{{ ven_1 }}').css('display', 'flex');
+                        $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'rotate(180deg)');}
                        else
-                        {$('.miscell-mod#{{ ven }}').css('display', 'none');
-                         $('.miscell-vendor-strelka#{{ ven }}').css('transform', 'none');};">
-                <label for="{{ ven }}" id="{{ ven }}">
+                        {$('.miscell-mod#{{ ven_1 }}').css('display', 'none');
+                         $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'none');};">
+                <label for="{{ ven_1 }}" id="{{ ven_1 }}">
                 <div class="miscell-vendor">
                     <div class="miscell-vendor-name">{{ ven }}</div>
-                    <div class="miscell-vendor-strelka" id="{{ ven }}"></div>
+                    <div class="miscell-vendor-strelka" id="{{ ven_1 }}"></div>
                 </div> <!-- miscel-vendor -->
                 </label>
 
                 {% for i in md %}
-                <div class="miscell-mod" id="{{ ven }}">
+                <div class="miscell-mod" id="{{ ven_1 }}">
                     <div class="miscell-mod-name">
                         <a href="/{{ action }}/{{ i|get_item:'id' }}" class="link_mod">
                         <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>
@@ -210,6 +256,7 @@
                 </div>
                 {% endfor %}
 
+                {% endwith %}
             {% endfor %}
 
         </div>

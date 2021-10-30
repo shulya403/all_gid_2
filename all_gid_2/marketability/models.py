@@ -10,12 +10,18 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class TxtHow(models.Model):
     idtxt_how = models.AutoField(primary_key=True)
+    id_html_name = models.TextField(blank=True, null=True)
     article_html_body = RichTextUploadingField()
-    artice_title = models.TextField(blank=True, null=True)
+    article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
-    article_keywords = models.TextField(blank=True, null=True)
+    article_keywords = RichTextUploadingField()
     cat = models.CharField(max_length=3, blank=True, null=True)
     article_anno = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    img = models.CharField(max_length=100, blank=True, null=True)
+    pin = models.IntegerField()
+    faq_question = models.CharField(max_length=255, blank=True, null=True)
+    faq_unswer = RichTextUploadingField()
 
     class Meta:
         managed = False
@@ -24,12 +30,17 @@ class TxtHow(models.Model):
 
 class TxtRatings(models.Model):
     idtxt_ratings = models.AutoField(primary_key=True)
+    id_html_name = models.TextField(blank=True, null=True)
     article_html_body = RichTextUploadingField()
     article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
-    article_keywords = models.TextField(blank=True, null=True)
+    article_keywords = RichTextUploadingField()
     cat = models.CharField(max_length=3, blank=True, null=True)
     article_anno = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+    img = models.CharField(max_length=100, blank=True, null=True)
+    pin = models.IntegerField()
+
 
     class Meta:
         managed = False
@@ -272,6 +283,7 @@ class NbProducts(models.Model):
     screen_resulution_list = models.CharField(max_length=45, blank=True, null=True)
     touchscreen = models.CharField(max_length=45, blank=True, null=True)
     appear_month = models.DateField(blank=True, null=True)
+    classes_mtm = models.ManyToManyField(NbClasses, through='NbProductsHasNbClasses')
 
     class Meta:
         managed = False
@@ -344,3 +356,61 @@ class TextLinks(models.Model):
     class Meta:
         managed = False
         db_table = 'text_links'
+
+class UpsClasses(models.Model):
+    type = models.CharField(max_length=2, blank=True, null=True)
+    class_subtype = models.CharField(max_length=45, blank=True, null=True)
+    text = models.CharField(max_length=100, blank=True, null=True)
+    explanation = models.CharField(max_length=256, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ups_classes'
+
+
+class UpsProducts(models.Model):
+    brand = models.CharField(max_length=45, blank=True, null=True)
+    name = models.CharField(max_length=45, blank=True, null=True)
+    appear_month = models.DateField(blank=True, null=True)
+    power = models.CharField(max_length=45, blank=True, null=True)
+    type_line = models.CharField(max_length=45, blank=True, null=True)
+    form_factor = models.CharField(max_length=45, blank=True, null=True)
+    level = models.CharField(max_length=45, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ups_products'
+
+
+class UpsProductsHasUpsClasses(models.Model):
+    fk_products = models.ForeignKey(UpsProducts, models.DO_NOTHING, db_column='fk_products', blank=True, null=True)
+    fk_classes = models.ForeignKey(UpsClasses, models.DO_NOTHING, db_column='fk_classes', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ups_products_has_ups_classes'
+
+
+class UpsShopsPrices(models.Model):
+    fk_products_shop = models.ForeignKey(UpsProducts, models.DO_NOTHING, db_column='fk_products_shop')
+    shop_name = models.CharField(max_length=20, blank=True, null=True)
+    month = models.CharField(max_length=255, blank=True, null=True)
+    modfication_href = models.CharField(max_length=255, blank=True, null=True)
+    modification_price = models.FloatField()
+    modification_name = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ups_shops_prices'
+
+class UpsVardata(models.Model):
+    id = models.IntegerField(primary_key=True)
+    month = models.DateField(blank=True, null=True)
+    sales_units = models.IntegerField(blank=True, null=True)
+    price_rur = models.FloatField(blank=True, null=True)
+    fk_products = models.ForeignKey(UpsProducts, models.DO_NOTHING, db_column='fk_products')
+
+    class Meta:
+        managed = False
+        db_table = 'ups_vardata'

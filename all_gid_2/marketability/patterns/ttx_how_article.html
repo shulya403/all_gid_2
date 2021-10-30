@@ -1,157 +1,83 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-{#    <title>AllGid - Гид покупателя. Компьютеры и оргтехника</title>#}
-    {% block meta %}{% endblock %}
-    <link rel="icon" type="image/x-icon" href="/static/marketability/favicon.ico">
-    <link rel="shortcut icon" type="image/x-icon" href="/static/marketability/favicon.ico">
+{% extends "al_page.html" %}
+{% block meta %}
+    <title>{{ article.article_title }}</title>
+    <meta name="description" content="{{ article.article_anno|truncatechars_html:160 }}" />
+    <meta name="robots" content="all" />
+    <link rel="canonical" href="https://allgid.ru/how/{{ article.cat }}/{{ article.id_html_name}}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="{{ article.article_title }}"/>
+    <meta property="og:site_name" content="Allgid.ru Гид покупателя."/>
+    <meta property="og:description" content="{{ article.article_anno|truncatechars_html:260  }}"/>
+    <meta property="og:image" content="https://allgid.ru{{ article.img }}"/>
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="150">
+    <meta property="og:url" content="https://allgid.ru/how/{{ article.cat }}/{{ article.id_html_name }}"/>
+    <link rel="canonical" href="https://allgid.ru/how/{{ article.cat }}/{{ article.id_html_name }}"/>
+{% endblock %}
 
-    <link rel="stylesheet" type="text/css" media="screen and (min-width:1024px)" href="/static/marketability/al_css.css">
-    <link rel="stylesheet" type="text/css" media="screen and (max-width:1024px)"  href="/static/marketability/css_1024_adopt.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% block category %}
 
-    <script type="text/javascript" src="/static/marketability/js/jquery-3.5.1.min.js"></script>
-<!-- Yandex.Metrika counter -->
-<script type="text/javascript" >
-   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-   ym(75335146, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true
-   });
-</script>
-<noscript><div><img src="https://mc.yandex.ru/watch/75335146" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
-<!-- /Yandex.Metrika counter -->
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HTCCXF3FFD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-HTCCXF3FFD');
-</script>
-<!-- Top100 (Kraken) Counter -->
-<script>
-    (function (w, d, c) {
-    (w[c] = w[c] || []).push(function() {
-        var options = {
-            project: 7424053,
-        };
-        try {
-            w.top100Counter = new top100(options);
-        } catch(e) { }
-    });
-    var n = d.getElementsByTagName("script")[0],
-    s = d.createElement("script"),
-    f = function () { n.parentNode.insertBefore(s, n); };
-    s.type = "text/javascript";
-    s.async = true;
-    s.src =
-    (d.location.protocol == "https:" ? "https:" : "http:") +
-    "//st.top100.ru/top100/top100.js";
-
-    if (w.opera == "[object Opera]") {
-    d.addEventListener("DOMContentLoaded", f, false);
-} else { f(); }
-})(window, document, "_top100q");
-</script>
-<noscript>
-  <img src="//counter.rambler.ru/top100.cnt?pid=7424053" alt="Топ-100" />
-</noscript>
-<!-- END Top100 (Kraken) Counter -->
-</head>
-<body>
-    <div class="header-menu">
-        <div class="menu">
-        <div class="menu-left">
-
-        <div class="logo">
-            <a href="/" class="link-home">
-            <div class="logo-img">
-{#                <img src="/static/marketability/pict/Target white.svg">#}
-            </div>
-            <div class="logo-text"><span>Гид<br>покупателя</span></div>
-            </a>
-            <div class="logo-space"></div>
+<div class="article-wrap">
+      {% autoescape off %}
+        <div class="shema_org" itemscope itemtype="https://schema.org/Article" style="display: none;">
+        <span itemprop="headline" content="{{ article.article_title }}"></span>
+        <span itemprop="image" content="https://allgid.ru{{ article.img }}"></span>
+        <span itemprop="description" content="{{ article.article_anno }}"></span>
+        <span itemprop="datePublished" content="{{ article.date }}"></span>
+            <div itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="https://allgid.ru/how/{{ article.cat }}/{{ article.id_html_name }}"></div>
         </div>
-
-
-        <div class="category-menu">
-
-        {% for i, link in categories_list %}
-        <a href="/{{ link }}/">
-        <button {% if i == category_name %}class="button-menu-active"{% else %}class="button-menu"{% endif %}>{{ i }}</button>
-        </a>
-
-        {% endfor %}
-        </div> <!-- "category-menu" -->
-        <script>
-           $(function() {
-                $(document).ready(function () {
-                    $('.menu-gamburger').click(function() {
-                        if ($('.menu-gamburger-popup').css('display') == 'none') {
-                            $('.menu-gamburger-popup').css('display', 'block');
-                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)').css('background-color', '#4B4A8A');
-                        }
-                        else {
-                            $('.menu-gamburger-popup').css('display', 'none');
-                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)').css('background-color', 'transparent');
-                        }
-                    });
-                });
-            });
-        </script>
-        <div class="menu-gamburger">
-
-       <div class="menu-gamburger-popup">
-			<ul>
-                {% for i, link in categories_list %}
-                    <li {% if i == category_name %}class="button-menu-gamburger-active"{% else %}class="button-menu-gamburger"{% endif %}>
-                        <a href="/{{ link }}/">{{ i }}</a>
-                    </li>
-
-                {% endfor %}
-			</ul>
-		</div> <!-- menu-gamburger-popup -->
-        </div> <!-- menu-gamburger -->
-        </div> <!-- menu-left -->
-        <div class="menu-right">
-            <div class="category-menu">
-             <a href="/how/">
-                <button class="button-menu-active">Как выбрать для?..</button>
-            </a>
-
-            <a href="/al_about.html">
-                <button class="button-menu">О проекте</button>
+        <div class="shema_org" itemscope itemtype="https://schema.org/Question" style="display: none;">
+        <span itemprop="name" content="{{ article.faq_question }}"></span>
+            <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer" itemid="a1">
+                <div itemprop="text">{{ article.faq_unswer }}</div>
+            </div>
+        </div>
+     {% endautoescape %}
+    <div class="article-content">
+        <!-- <div class="article-backlink-listing">
+            <a href="/how/">Советы по выбору</a> &rArr; <a href="/how/{{ category }}/">{{ cat_rus }}</a>
+        </div> -->
+            <div class="article-backlink-listing" itemscope itemtype="http://schema.org/BreadcrumbList">
+            <div style="display: inline;" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="/how/" itemprop="item">
+                <span itemprop="name">Советы по выбору</span>
+                <meta itemprop="position" content="1" />
             </a>
             </div>
-            <a href="/search_all.html">
-            <div class="menu-search"></div>
+
+            &rArr;
+            <div style="display: inline;" itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+            <a href="/how/{{ category }}/" itemprop="item">
+                <span itemprop="name">{{ cat_rus }}</span>
+                <meta itemprop="position" content="2" />
             </a>
+
+            </div>
         </div>
-        </div> <!-- "menu" -->
-
-
-    </div> <!-- class="header-menu" -->
-
-<div class="ttx_article">
-
     <div class="ttx_article_div">
-        <h1 class="ttx_article_h1">{{ article.artice_title }}</h1>
-
+        <h1 class="ttx_article_h1">{{ article.article_title }}</h1>
     </div>
-    {% autoescape off %}
+
+  {% autoescape off %}
     <div class="article_body">
+
         {{ article.article_html_body }}
     </div>
-    {% endautoescape %}
+   {% endautoescape %}
+            <div class="social-buttons">
+    <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+        <div class="ya-share2" data-services="facebook,twitter,odnoklassniki,vkontakte,telegram,whatsapp"></div>
+    </div>
+    </div> <!-- article-content -->
+    <div class="article-right">
+  {% autoescape off %}
+    <div class="article_body">
+        {{ article.article_keywords }}
+    </div>
+   {% endautoescape %}
+    </div>
+</div>
 
 </div>
 
-</body>
-</html>
+{% endblock %}

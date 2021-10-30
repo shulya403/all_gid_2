@@ -1,0 +1,48 @@
+{% extends "al_page.html" %}
+
+{% block meta %}
+    <title>Гид покупателя. Рейтинги. {% for cat_rus, cat in categories_list %}{{ cat_rus }}, {% endfor %}</title>
+    <meta name="description" content="Рейтинги. Top самых популярных моделей в России. Обзоры и подборки. Лучшие {% for cat_rus, cat in categories_list %}{{ cat_rus }}, {% endfor %}" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
+{% endblock %}
+
+{% block category %}
+
+<div class="how_listing">
+    <h1 class="how_general_header">Лидеры в своем классе</h1>
+    <h2 class="how_general_header">Какие модели пользуются спросом в России?</h2>
+    <div class="how_general_header_comment"> Статьи снабжены актуальными рейтингами популярных моделей</div>
+    {% for cat_rus_name, cat in categories_list %}
+        {% if listing|get_item:cat_rus_name %}
+        <a href="/rate/{{ cat }}/" class="how_cat_block_a">
+            <div class="how_cat_block"><h2>{{ cat_rus_name }}</h2></div>
+        </a>
+        {% for i in listing|get_item:cat_rus_name|slice:"3" %}
+        <div class="how-listing-item">
+        <div class="how-listig-item-text">
+        <a href="/rate/{{ cat }}/{{ i.id_html_name }}" target="_blank" class="how_listing_title_href">
+            <h3 class="how_listing_title_h2">{{ i.article_title }}</h3>
+
+            <p class="how_listing_anno_p">
+            {% if i.img %}
+                    <img src="{{ i.img }}" alt="" height="100px" align="right">
+            {% endif %}
+                {{ i.article_anno }}
+
+            </p>
+        </a>
+        </div>
+        </div>
+
+        {% endfor %}
+        {% endif %}
+                    {% if listing|get_item:cat_rus_name|length > 3 %}
+                        <div class="article_list_other"><a href="/rate/{{ cat }}/" class="how_cat_block_a">Прочие рейтинги >></a></div>
+            {% endif %}
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

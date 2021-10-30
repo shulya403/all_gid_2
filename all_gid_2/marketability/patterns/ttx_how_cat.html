@@ -1,0 +1,37 @@
+{% extends "al_page.html" %}
+{% block meta %}
+    <title>Как выбрать лучший {{ categories_list_singular }} для... Рекоммендации, критерии, оптимальные параметры</title>
+    <meta name="description" content="{{ categories_list_singular }}: на что ориентироваться при покупке модели для &#10004;работы &#10004;учебы &#10004;программирования &#10004; игр (гейминга) &#10004;создания контента &#10004;дизайна" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
+{% endblock %}
+
+{% block category %}
+
+<div class="how_listing">
+    <h1 class="how_general_header">Как выбрать {{ categories_list_singular }} для своих целей и задач?<br>Отвечают эксперты</h1>
+    <div class="how_general_header_comment"> Статьи снабжены рейтингами популярных моделей</div>
+
+        {% for i in listing %}
+        <div class="how-listing-item">
+        <div class="how-listig-item-text">
+        <a href="/how/{{ cat }}/{{ i.id_html_name }}" target="_blank" class="how_listing_title_href">
+            <h2 class="how_listing_title_h2">{{ i.article_title }}</h2>
+              <p class="how_listing_anno_p">                {% if i.img %}
+                    <img src="{{ i.img }}" alt="" height="100px" align="right">
+            {% endif %}
+                {{ i.article_anno }}
+
+            </p>
+        </a>
+        </div>
+
+        </div>
+        {% endfor %}
+
+
+</div>
+
+
+{% endblock %}

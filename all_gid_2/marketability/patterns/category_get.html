@@ -1,10 +1,10 @@
 {% extends "al_page.html" %}
 {% block meta %}
-    <title>Гид покупателя. {{ category_name }}</title>
-    <meta name="description" content="{{ category_name }}: Шорт-лист (Top20 самых популярных) в России за {{ period }}. Плюс - новинки. Фильтр по целям использования и базовым характеристикам." />
+    <title>{{ category_name }}. Лучшие ({{ tab_data|get_item:tab_active|get_item:"rus_name" }}). Гид покупателя. {% for i in checked_items %}{{ i }} {% endfor %}</title>
+    <meta name="description" content="{{ category_name }}:{% if tab_active == "marketability"  %} Рейтинг (Top-20 самых популярных) в России{% elif tab_active == "novelity" %} Новинки - модели появившиеся в продаже в России{% endif %} за {{ period }}. Выбор по целям использования и базовым характеристикам.  {% for i in checked_items %}{{ i }} {% endfor %}" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="компьютеры, периферия, рейтинг, популярность, популярные, новинки, дом, офис, цены, модель, характеристики, выбрать, фильтр, критерий, критериии, сравнение, сценарии использования, выбор продукта, выбор покупателей, {{ category_name }}"  />
-    <link rel="canonical" href="https://allgid.ru/{{ action }}"/>
+    <meta name="keywords" content="рейтинг, популярность, популярные, новинки, выбор покупателей, {{ category_name }}"  />
+
 {% endblock %}
 
 {% block category %}
@@ -95,7 +95,7 @@
                      &nbsp;?
                       <div class="hint-title-pin"></div>
                     <div class="hint-title-hover">
-                    <span>{{ class_.explanation|linebreaksbr }}</span>
+                    {% autoescape off %}{{ class_.explanation|linebreaksbr }}{% endautoescape %}
                   </div>
                   </div>
 
@@ -163,8 +163,10 @@
                      &nbsp;?
                       <div class="hint-title-pin"></div>
                     <div class="hint-title-hover">
-                    <span>{{ class_.explanation|linebreaksbr }}</span>
-                  </div>
+                        {% autoescape off %}
+                            {{ class_.explanation|linebreaksbr }}
+                        {% endautoescape %}
+                    </div>
                   </div>
 
                   {% endif %}
@@ -204,7 +206,7 @@
         {% endfor %}
         <div class="tab-item" id="marketability_">
             <h2 class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </h2>
-
+            <div class="table-wrap-mobile">
             <table class="table-data">
                 <tr class="th-tbl">
                     <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
@@ -246,6 +248,7 @@
                 </tr>
             {% endfor %}
         </table>
+
             <div class="under-table">
             <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
             {% with len=tbl_data.id.keys|length  %}
@@ -278,7 +281,7 @@
             {% endif %}
             {% endwith %}
             </div> <!-- under-table -->
-
+        </div>
 
         </div> <!-- marketability -->
 
@@ -287,14 +290,16 @@
 
             <table class="table-data">
                 <tr class="th-tbl">
-                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                    <th class="th-tbl"><div><span style="padding-left: 12px;">Название</span></div></th>
                         <th class="table-head-price">
+                            <div>
                             <span>Цена*, руб.</span>
                             <div class="table-head-price-arrow"></div>
+                            </div>
 
                         </th>
                         {% for fld in tbl_ttx_col  %}
-                        <th>{{ fld }}</th>
+                        <th class="th-tbl">{{ fld }}</th>
                         {% endfor %}
 
                 </tr>
@@ -306,11 +311,14 @@
                 </a>
                 </td>
                 <td>
+                <div>
                 <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
+                </div>
                 </td>
                 {% for fld in tbl_data_nov.keys %}
                     {%  if fld in tbl_ttx_col %}
                     <td align="center">
+                        <div>
                         {% with val=tbl_data_nov|get_item:fld|get_item:i%}
                         {% if val == 'Да' %}
                             <img src="/static/marketability/pict/Check mark green-1.svg">
@@ -320,6 +328,7 @@
                         {{ val }}
                         {% endif %}
                         {% endwith %}
+                        </div>
                     </td>
                     {% endif %}
                 {% endfor %}
@@ -336,11 +345,11 @@
                        onclick="if($('.collapse-table-row').css('display') == 'none')
                        {$('.collapse-table-row').css('display', 'table-row');
                        $('.pokazat-eshe').css('display', 'none');
-                       $('.svernut').css('display', 'inline-flex');
+                       $('.svernut').css('display', 'inline-block');
                        $('.icon-down').css('transform', 'rotate(180deg)');}
                        else
                         {$('.collapse-table-row').css('display', 'none');
-                         $('.pokazat-eshe').css('display', 'inline-flex');
+                         $('.pokazat-eshe').css('display', 'inline-block');
                          $('.svernut').css('display', 'none');
                          $('.icon-down').css('transform', 'none');};">
 
@@ -375,14 +384,15 @@
         <div class="theme-pic-place" style="background: url(/static/marketability/{{ theme_pic }});background-repeat: no-repeat;">
 
         </div> <!-- banner-place -->
-        <div class="novosti-header">Новости</div>
+        {% if bestesellers_links %}
+        <h2 class="novosti-header"><a href="/rate/{{ action }}/" target="blank_">Рейтинги</a></h2>
 
         {% for lnk in bestesellers_links %}
-            <a href="{{ lnk.href }}" target="_blank" class="news">
+            <a href="/rate/{{ action }}/{{ lnk.id_html_name }}" target="_blank" class="news">
             <div class="news-and-anno">
-                <div class="news-header-link">{{ lnk.header }}</div>
+                <div class="news-header-link">{{ lnk.article_title }}</div>
                 <span class="link-annotation">
-                    {{ lnk.annotation }}
+                    {{ lnk.article_anno|truncatechars_html:200 }}
                 </span>
 
             </div>
@@ -391,6 +401,8 @@
                 </div>
             </a>
         {% endfor %}
+        <div class="rаtings_list_bottom"><a href="/rate/{{ action }}/" target="blank_">Прочие рейтинги >></a></div>
+        {% endif %}
 
 
     </div> <!-- "right-news" -->
