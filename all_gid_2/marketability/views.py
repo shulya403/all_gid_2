@@ -1,7 +1,10 @@
 from django.shortcuts import render, HttpResponseRedirect
-from django.template import RequestContext
+#from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
 #from django.http import HttpResponse
+
+from django.conf import settings
+
 from .models import MntClasses, \
     MntProductsHasMntClasses, \
     MntVardata, \
@@ -38,6 +41,7 @@ from django.template.defaulttags import register
 from django.template.defaultfilters import linebreaksbr
 
 import json
+import os
 
 @register.filter
 def get_item(dictionary, key):
@@ -566,6 +570,12 @@ def page_Product(request, cat_, product_):
                     period_inbase = Recover_Date_period_inbase(str_period_inbase)
                     this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
 
+            #Картинка
+            prod_img_list = Get_Prod_Images(Make_Prod_Image_name(Product[0]), cat_)
+            if prod_img_list:
+                prod_img_one = "/static/marketability/pict/" + cat_ + "/" + prod_img_list[0]
+            else:
+                prod_img_one = ""
 
             exit_ = {
                 'category_name': category_name,
@@ -578,12 +588,13 @@ def page_Product(request, cat_, product_):
                 'checked_items': form_return,
                 'shop_mod': shop_mod,
                 'action': cat_,
-                'top_products': top20,
+                #'top_products': top20,
                 'this_price': this_price,
                 'miscell': miscell_products,
                 'len_miscell': len_miscell,
                 'this_classes': this_classes,
-                'id': Product[0]['id']
+                'id': Product[0]['id'],
+                'prod_img': prod_img_one
 
             }
 
@@ -592,6 +603,9 @@ def page_Product(request, cat_, product_):
             return handler404(request)
     else:
         return handler404(request)
+
+def Get_Checked_Form(this_classes, form_return):
+    print(this_classes)
 
 #Подбор картинки
 def Choice_Pic(dict_to_pic, post_return, method='first_choice'):
@@ -630,6 +644,7 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
 
     qry_miscell = db_tbl['mtm_prod_clas'].objects.filter(fk_products__in=list_df_data).\
         values('fk_products').distinct().annotate(fcl = F('fk_classes'))
+    print(qry_miscell)
     dict_miscell = dict()
     for fpr in qry_miscell:
         try:
@@ -657,6 +672,21 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
         dict_miscell_vendor[i] = list_name_price
 
     return dict_miscell_vendor, len(df_miscell)
+
+def Make_Prod_Image_name(qry_product):
+    exit_ = qry_product['brand'].lower() + "_" + qry_product['name'].lower().replace(" ", "_")
+
+    if exit_:
+        return exit_
+    else:
+        return ""
+
+def Get_Prod_Images(prod_image_name, cat):
+
+    directory_ = settings.BASE_DIR + "\\marketability\\static\\marketability\\pict\\" + cat
+
+    return [file_img for file_img in os.listdir(directory_) if prod_image_name in file_img]
+
 
 
 def Fld_html_names(request, fields_, not_change=[]):

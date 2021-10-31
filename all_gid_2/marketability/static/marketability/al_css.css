@@ -853,6 +853,17 @@ em {
         padding-right: 12px;
 }
 
+.product_ttx__img {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: flex-start;
+}
+
+.product_img > img {
+        width: 300px;
+}
 
 
 .ttx_table {
@@ -967,7 +978,7 @@ em {
         justify-content: space-between;
         margin-bottom: 4px;
         margin-top: 4px;
-        background-color:  rgba(0,0,0,0.13);
+        background-color: rgba(0, 0, 0, 0.13);
         border-radius: 4px;
         cursor: pointer;
 
@@ -980,7 +991,7 @@ em {
 }
 .miscell-vendor-strelka {
         display: inline-flex;
-        background: url('pict/Expand black-1.svg');
+        background: url('pict/Expand black-2.svg');
         background-repeat: no-repeat;
         background-position: 50% 50%;
         background-size: 16px 16px;
@@ -1068,6 +1079,11 @@ em {
         width: 356px;
         margin-left: 24px;
 
+
+}
+
+.right-lists a {
+        text-decoration: none;
 }
 
 .shops {
