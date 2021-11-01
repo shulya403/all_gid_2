@@ -1,14 +1,15 @@
 {
   "Nb": {
     "zaglushka": "pict/themes/nb_general2-256-512.jpg",
-    "Премиальный": "pict/themes/nb_premium_256-512.jpg",
-    "Для_работы_и_учебы": "pict/themes/nb_loshadka_256-512.jpg",
-    "Игровой": "pict/themes/all_game-256-512.jpg",
-    "Бизнес_средний": "pict/themes/nb_smb2_256-512.jpg",
-    "Просмотр_контента": "pict/themes/nb_content_256-512.jpg",
-    "Домашний": "pict/themes/nb_home_256-512.jpg",
-    "Корпоративный": "pict/themes/nb_corporate_256-512.jpg",
-    "Бизнес_массовый": "pict/themes/nb_mass2b_256-512.jpg"
+    "Premium": "pict/themes/nb_premium_256-512.jpg",
+    "Work_Horse": "pict/themes/nb_loshadka_256-512.jpg",
+    "Gamer": "pict/themes/all_game-256-512.jpg",
+    "SMB": "pict/themes/nb_smb2_256-512.jpg",
+    "Content_only": "pict/themes/nb_content_256-512.jpg",
+    "Home_universal": "pict/themes/nb_home_256-512.jpg",
+    "Corporate": "pict/themes/nb_corporate_256-512.jpg",
+    "Comm_efficient": "pict/themes/nb_mass2b_256-512.jpg",
+    "Beginner": "pict/themes/nb_beginner-256-512.jpg"
   },
 
   "Mnt": {
