@@ -893,10 +893,17 @@ em {
         font-size: 18px;
 
 }
-.filters-list {
+.filters-list-left {
+        display: none;
+        margin-top: 8px;
+        margin-left: 12px;
+        flex-wrap: wrap;
+
+}
+.filters-list-right {
         display: block;
         margin-top: 8px;
-        margin-left: 24px;
+        margin-left: 12px;
         flex-wrap: wrap;
 
 }
@@ -927,6 +934,8 @@ em {
         border-radius: 12px;
         background-color: rgba(0, 0, 0, 0.06);
         font-size: 14px;
+        color: rgba(0, 0, 0, 0.88);
+        link: rgba(0, 0, 0, 0.88);
         letter-spacing: 0.1px;
         line-height: 26px;
         padding-left: 12px;
@@ -934,6 +943,11 @@ em {
         height: 24px;
         margin-bottom: 4px;
 }
+
+.filters-item a {
+        link: rgba(0, 0, 0, 0.88);
+}
+
 .filters-item-check {
         display: inline-block;
         border: 1px solid #4B4A8A;

@@ -947,10 +947,17 @@ em {
 
 }
 
-.filters-list {
+.filters-list-left {
         display: block;
         margin-top: 8px;
-        margin-left: 24px;
+        margin-left: 12px;
+        flex-wrap: wrap;
+
+}
+.filters-list-right {
+        display: block;
+        margin-top: 8px;
+        margin-left: 12px;
         flex-wrap: wrap;
 
 }
