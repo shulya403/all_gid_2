@@ -1,0 +1,321 @@
+{% extends "al_page.html" %}
+{% block meta %}
+    <title>{{ name }} {{ vendor }} {{ category_name_singular }} сравнить цены, характеристики</title>
+    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}. Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, выбрать магазин." />
+
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
+
+
+    {% endblock %}
+
+{% block category %}
+    <div class="category-content">
+    <div class="product-block">
+
+    {% with price=this_price|digit_separator  %}
+    {%  if price != 'n/a' %}
+    <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
+{#        <span itemprop="brand" content="{{ vendor }}"></span>#}
+        <div itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+            <span itemprop="name" content="{{ vendor }}"></span>
+        </div>
+        <span itemprop="name" content="{{ name }}"></span>
+        <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
+        <span itemprop="category" content="{{ category_name_singular }}"></span>
+        <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
+        {% if  prod_img %}
+                <span itemprop="image" content="https://allgid.ru/static/marketability/pict/{{ action }}/{{ prod_img }}"></span>
+        {% endif %}
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <span itemprop="priceCurrency" content="RUB"></span>
+            <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
+            <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
+
+        </div>
+
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <span itemprop="description" content="{% for i in this_classes %}- {{ i.text }} {% endfor %}"></span>
+            <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name" content="Allgid.ru"></span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="product-filters">
+        <a href="/{{ action }}/" style="text-decoration: none;">
+        <div class="k-filtram">
+            <div class="left-chevron"></div>
+            <div class="k-filtram-text">{{ category_name }}</div>
+        </div>
+        </a>
+
+    </div> <!-- К фильтрам -->
+    <div class="brandname">
+        <h1 class="product-this-name">
+            {{ category_name_singular }}&nbsp;{{ vendor }}&nbsp;<br/>
+            {{ name }}
+        </h1>
+
+            {% if price != 'n/a' %}
+                <div class="product-this-price">~&nbsp;{{ price }}&nbsp;руб.
+                </div>
+
+            {% else %}
+                <div class="product-this-price">Нет данных о ценах</div>
+            {% endif %}
+
+    </div>
+    {% endwith %}
+{#     <div class="filters-klass">Класс</div>#}
+    <div class="filters-list-left">
+    <div class="filter-type-block">
+
+            <div class="filters-type-buttons">
+            {% for i in this_classes %}
+                {% if i.type == 'GO' %}
+                    {% if i.name in checked_items %}
+                        <div class="filters-item-check">
+                            <div class="filters-item-check-galka"></div>
+                            {{ i.text }}
+                        </div>
+                    {% else %}
+                        <div class="filters-item">{{ i.text }}</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </div>
+    </div>
+    <div class="filter-type-block">
+
+        <div class="filters-type-buttons">
+            {% for i in this_classes %}
+                {% if i.type == 'CL' %}
+                    {% if i.name in checked_items %}
+                        <div class="filters-item-check">
+                        <div class="filters-item-check-galka"></div>
+                            {{ i.text }}
+                        </div>
+                    {% else %}
+                        <div class="filters-item">{{ i.text }}</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+
+    <div class="product_ttx__img">
+    <div class="product_ttx">
+        <table class="ttx_table">
+            {% for k, v in ttx.items %}
+                <tr class="{% if v != none %}ttx_tr{% else %}ttx_tr_none{% endif %}">
+                <td class="ttx-td">
+                    <span>{{ k }}</span>
+                </td>
+                    <td class="ttx-td">
+                         {% if v == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif v == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ v }}
+                        {% endif %}
+                    </td>
+                </tr>
+    {% endfor %}
+    </table>
+    </div>
+
+    {% if  prod_img %}
+    <div class="product_img">
+        <img src="{{ prod_img }}" alt="{{ category_name_singular }} {{ vendor }} {{ name }}" title="{{ category_name_singular }} {{ vendor }} {{ name }}">
+    </div>
+    {% endif %}
+    </div>
+
+    <div class="shops">
+       {% if shop_mod %}
+            <div class="shops-header">Предложения магазинов</div>
+
+            {% if action == 'Nb' %}
+                <div class="shops-note">
+                * Цены могут существенно различаться в зависимости от конфигурации
+                </div>
+                <br/>
+            {% endif %}
+        <table class="shops-table">
+        <tbody>
+            {% for mod in shop_mod %}
+                <tr>
+                <td>
+
+                <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">
+                <table class="shops-table-table">
+                    <tbody>
+                <tr class="shops-table-tr">
+                <td>
+                    <div class="shops-table-td-link">
+                    <div class="shops-table-shop-name">{{ mod.shop_name }}</div>
+                    <div class="shops-table-mod-name">{{ mod.modification_name }}</div>
+                    </div>
+
+                </td>
+                <td class="shops-table-shop-price">
+                    <div>{{ mod.modification_price|digit_separator }}</div>
+
+                </td>
+                    <td class="shop-chevron"></td>
+                </tr>
+
+                </tbody></table></a></td></tr>
+            {% endfor %}
+
+  </tbody></table>
+
+        {% endif %}
+
+    </div>
+    {% comment %}<div id="marketWidget"></div>{% endcomment %}
+
+
+
+    </div> <!-- product-block -->
+    <div class="right-lists">
+        <div class="banner-place">
+
+        </div> <!-- banner-place -->
+        <div class="product_right-filters">
+        {% if not checked_items %}
+        <div class="nadpis-short">Выбрать {{ category_name_singular }} для своих целей</div>
+            <div class="inarticle-rignt-filter">
+                <a href="/{{ action }}/?tabs=marketability">
+                <div class="filter_button_big">
+                    <div class="fltr_pic">&nbsp;</div>
+                    <div class="fltr_text">ФИЛЬТР</div>
+                </div>
+                </a>
+                </div>
+        {% endif %}
+            <div>
+                <br />
+            <div class="nadpis-short">Класс</div>
+            <a href="/{{ action }}/?goals_fbb_mobile=open{% for chk in checked_items %}&{{ chk }}=Yes{% endfor %}&tabs=marketability">
+                 <div class="filters-list-right">
+                    <div class="filter-type-block">
+        {% comment %}<div class="filters-type-name">Цели:</div>{% endcomment %}
+            <div class="filters-type-buttons">
+            {% for i in this_classes %}
+                {% if i.type == 'GO' %}
+                    {% if i.name in checked_items %}
+                        <div class="filters-item-check">
+                            <div class="filters-item-check-galka"></div>
+                            {{ i.text }}
+                        </div>
+                    {% else %}
+                        <div class="filters-item">{{ i.text }}</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            </div>
+    </div>
+                    <div class="filter-type-block">
+
+        <div class="filters-type-buttons">
+            {% for i in this_classes %}
+                {% if i.type == 'CL' %}
+                    {% if i.name in checked_items %}
+                        <div class="filters-item-check">
+                        <div class="filters-item-check-galka"></div>
+                            {{ i.text }}
+                        </div>
+                    {% else %}
+                        <div class="filters-item">{{ i.text }}</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+                </div>
+            </a>
+            </div>
+        </div>
+        <div class="addition-lists">
+{#        <div class="top20-list">#}
+{#    <div class="nadpis-short">Популярные модели по фильтру (ShortList)</div>#}
+{#        {%  for i in top_products %}#}
+{#            <div class="top-mod">#}
+{#            <a href="/{{ action }}/{{ i|get_item:'id' }}" class="link_mod">#}
+{#                <div class="top-mod-brandname">#}
+{#                <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>#}
+{#                    {{ i|get_item:'brand' }}&nbsp;{{ i|get_item:'name' }}#}
+{#                </span>#}
+{##}
+{#                </div>#}
+{#            </a>#}
+{#                <div class="top-mod-price">#}
+{#                {{ i|get_item:'price_avg'|digit_separator }}#}
+{#                </div>#}
+{#            </div>#}
+{#        {% endfor %}#}
+{##}
+{#    </div>#}
+
+        <div class="miscell-list">
+            <div class="nadpis-prochie">Модели того же класса</div>
+            <div class="miscel-class-list">
+
+            </div>
+{#            {% if len_miscell > 10 %}#}
+{#                <script>#}
+{#                    $(document).ready(function()#}
+{#                    {$('.miscell-mod').css('display', 'none');#}
+{#                    $('.miscell-vendor-strelka').css('transform', 'none')}#}
+{#                    );#}
+{##}
+{#                </script>#}
+{#            {% endif %}#}
+
+            {% for ven, md in miscell.items  %}
+                {% with ven_1=ven|slugify %}
+                <input type="checkbox" id="{{ ven_1 }}" class="check-vendor-clps"
+                onclick="if($('.miscell-mod#{{ ven_1 }}').css('display') == 'none')
+                       {$('.miscell-mod#{{ ven_1 }}').css('display', 'flex');
+                        $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.miscell-mod#{{ ven_1 }}').css('display', 'none');
+                         $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'none');};">
+                <label for="{{ ven_1 }}" id="{{ ven_1 }}">
+                <div class="miscell-vendor">
+                    <div class="miscell-vendor-name">{{ ven }}</div>
+                    <div class="miscell-vendor-strelka" id="{{ ven_1 }}"></div>
+                </div> <!-- miscel-vendor -->
+                </label>
+
+                {% for i in md %}
+                <div class="miscell-mod" id="{{ ven_1 }}">
+                    <div class="miscell-mod-name">
+                        <a href="/{{ action }}/{{ i|get_item:'id' }}" class="link_mod">
+                        <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>
+                        {{ i|get_item:'name' }}
+                        </span>
+                        </a>
+                    </div>
+                    <div class="miscell-mod-price">
+                        {{ i|get_item:'price'|digit_separator }}
+
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% endwith %}
+            {% endfor %}
+
+        </div>
+
+
+    </div> <!-- addition-list -->
+
+    </div> <!-- right-lists -->
+    </div> <!-- category-content -->
+{% endblock %}

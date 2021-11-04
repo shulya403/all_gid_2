@@ -604,6 +604,125 @@ def page_Product(request, cat_, product_):
     else:
         return handler404(request)
 
+def page_new_Product(request, cat_, product_):
+
+    def df_Cat_Init_(request, cat_init):
+        if cat_init:
+            category = Init_cat(request, cat_, db_tbl)
+        request.session['enabled_return'] = request.session['list_enabled']
+        request.session['products_for_execute'] = []
+        str_period_inbase = request.session['period_inbase']
+        period_inbase = Recover_Date_period_inbase(str_period_inbase)
+        df_data = Get_Sales_Top(request, db_tbl, period_inbase)
+        if not df_data.empty:
+            request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+        else:
+            request.session['dict_df_data'] = {}
+        return df_data
+
+
+    db_tbl = DB_table(cat_)
+
+    if db_tbl:
+        try:
+            if not request.session['cat_'] == cat_:
+                cat_init = True
+            else:
+                cat_init = False
+        except KeyError:
+            cat_init = True
+        finally:
+            df_data =  df_Cat_Init_(request, cat_init)
+
+        new_form = request.session['new_form']
+        form_return = request.session['form_return']
+        category_name = request.session['cat_rus_name']
+
+
+        categories_list = request.session['categories_list']
+
+
+        Product = db_tbl['products'].objects.filter(id__iexact=product_).values()
+        if Product.count() > 0:
+
+            if request.session['cat_singular']:
+                category_name_singilar = request.session['cat_singular']
+            else:
+                try:
+                    category_name_singilar = Product[0][request.session['cat_singular_fld']]
+                except Exception:
+                    category_name_singilar = category_name
+
+            fields_ = list(Product[0].keys())
+
+            list_this_classes = Get_This_Classes(product_, db_tbl)
+            this_classes = db_tbl['classes'].objects.filter(id__in=list_this_classes)
+
+            miscell_products, len_miscell = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
+
+            dict_ttx = dict()
+            set_fields_show = set(request.session['dict_sorted_fields_show'].keys()) - {'brand', 'name'}
+            set_fields_not_show = set(fields_) - set_fields_show
+            #dict_html_names = Fld_html_names(request, fields_, ['brand', 'name', 'id'])
+            dict_html_names = Fld_html_names(request, fields_, set_fields_not_show)
+
+            for i in request.session['dict_sorted_fields_show'].keys():
+                if i not in set_fields_not_show:
+                    dict_ttx[dict_html_names[i]] = Product[0][i]
+
+            q_data = len(df_data)
+            if q_data >= 20:
+                top20 = df_data[:20][['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
+            else:
+                top20 = df_data[['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
+
+            shop_mod = Get_Shops(request, db_tbl, product_)
+
+            #price
+            this_price = df_data[df_data['name'] == Product[0]['name']]['price_avg'].values
+
+            if not this_price:
+                try:
+
+                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
+                except:
+                    str_period_inbase = request.session['period_inbase']
+                    period_inbase = Recover_Date_period_inbase(str_period_inbase)
+                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
+
+            #Картинка
+            prod_img_list = Get_Prod_Images(Make_Prod_Image_name(Product[0]), cat_)
+            if prod_img_list:
+                prod_img_one = "/static/marketability/pict/" + cat_ + "/" + prod_img_list[0]
+            else:
+                prod_img_one = ""
+
+            exit_ = {
+                'category_name': category_name,
+                'category_name_singular': category_name_singilar,
+                'categories_list': categories_list,
+                'vendor': Product[0]['brand'],
+                'name': Product[0]['name'],
+                'ttx': dict_ttx,
+                'new_form': new_form,
+                'checked_items': form_return,
+                'shop_mod': shop_mod,
+                'action': cat_,
+                'this_price': this_price,
+                'miscell': miscell_products,
+                'len_miscell': len_miscell,
+                'this_classes': this_classes,
+                'id': Product[0]['id'],
+                'prod_img': prod_img_one
+
+            }
+
+            return render(request, template_name="new_product.html", context=exit_)
+        else:
+            return handler404(request)
+    else:
+        return handler404(request)
+
 def Get_Checked_Form(this_classes, form_return):
     print(this_classes)
 
