@@ -203,7 +203,7 @@
             "category_name": "ИБП",
             "category_name_singular": {
                 "stable": true,
-                "name": "Источник бесперебойного питания"
+                "name": "ИБП"
             },
             "fields_show": {
                 "brand": {

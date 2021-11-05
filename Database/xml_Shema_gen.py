@@ -44,7 +44,7 @@ class DB():
     def xml_write(self, filename):
 
         loc_ = list()
-        lastmod_ = list()
+        #lastmod_ = list()
 
         now = dt.datetime.now()
         now_ = time.strftime("%Y-%m-%d", time.struct_time(
@@ -53,16 +53,16 @@ class DB():
             count=0
             for i, row in self.dict_cat_conn[cat].iterrows():
                 loc_.append('https://allgid.ru/' + cat + '/' + str(row['id']))
-                date_ = row['appear_month']
-                try:
-                    date_ += timedelta(days=45)
-                except TypeError:
-                    pass
-                lastmod_.append(date_)
+                # date_ = row['appear_month']
+                # try:
+                #     date_ += timedelta(days=45)
+                # except TypeError:
+                #     pass
+                #lastmod_.append(now_)
 
                 count+=1
             print(cat, count)
-        df = pd.DataFrame({'loc': loc_, 'lastmod': lastmod_})
+        df = pd.DataFrame({'loc': loc_, 'lastmod': now_})
         print("Всего модлей:", len(df))
 
         xml_f = open(filename, "w")
@@ -103,7 +103,7 @@ class DB():
             xml_f.write("<url>\n")
             xml_f.write("<loc>{}</loc>\n".format(row['loc']))
             if row['lastmod']:
-                xml_f.write("<lastmod>{}</lastmod>\n".format(now_))
+                xml_f.write("<lastmod>{}</lastmod>\n".format(row['lastmod']))
             xml_f.write("</url>\n")
         xml_f.write("</urlset>")
         xml_f.close()

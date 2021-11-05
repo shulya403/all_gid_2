@@ -445,7 +445,6 @@ def page_Category_Main(request, cat_):
 
         #best_links = Get_Bestsellers_links()
         best_links = Get_Ratings_links(cat_)
-        print(best_links)
 
         if (not theme_pic[1]) \
             or (not theme_pic[0] in post_return):
@@ -697,6 +696,9 @@ def page_new_Product(request, cat_, product_):
             else:
                 prod_img_one = ""
 
+            best_links = Get_Ratings_links(cat_)
+            print(best_links)
+
             exit_ = {
                 'category_name': category_name,
                 'category_name_singular': category_name_singilar,
@@ -713,7 +715,8 @@ def page_new_Product(request, cat_, product_):
                 'len_miscell': len_miscell,
                 'this_classes': this_classes,
                 'id': Product[0]['id'],
-                'prod_img': prod_img_one
+                'prod_img': prod_img_one,
+                'bestesellers_links': best_links
 
             }
 

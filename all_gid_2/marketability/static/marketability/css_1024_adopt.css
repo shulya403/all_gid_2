@@ -131,9 +131,8 @@ em {
 	position: absolute;
 	left: -12px;
 	right: 0px;
-	top: 13px;
+	top: 23px;
 	z-index: 100;
-
 }
 
 .menu-gamburger-popup ul {
@@ -142,11 +141,11 @@ em {
 	z-index: 9999;
     margin-left: 0; /* Отступ слева в браузере IE и Opera */
     padding-left: 0;
-
 }
 
 .button-menu-gamburger {
-        font-size: 18px;
+        font-size: 24px;
+        letter-spacing: 0.4px;
         color: #FFFFFF;
         background: #4B4A8A;
         cursor: pointer;
@@ -155,7 +154,7 @@ em {
 }
 
 .button-menu-gamburger-active {
-        font-size: 18px;
+        font-size: 24px;
         color: #FFFFFF;
         cursor: pointer;
         background: #8F93BF;
@@ -931,20 +930,51 @@ em {
 }
 
 .product-this-price {
-        display: inline-block;
-        font-size: 20px;
+        display: block;
+        /*font-size: 12px;*/
         color: rgba(0,0,0,0.63);
-        line-height: 52px;
-        padding-right: 8px;
-        padding-left: 48px;
+        /*line-height: 52px;*/
+        /*padding-right: 8px;*/
+        /*padding-left: 48px;*/
         text-wrap: none;
+
 }
+.product-avgprice-nadpis {
+        justify-content: center;
+
+        text-align: center;
+        white-space: nowrap;
+        font-size: smaller;
+}
+.product-avgprice-value::before {
+        content: '\25B6';
+}
+.product-avgprice-value::after {
+        content: '\25C0';
+}
+.product-avgprice-value {
+
+        font-size: 24px;
+        line-height: 26px;
+        text-align: center;
+}
+.product-no-price {}
 
 .filters-klass {
         margin-left: 16px;
         margin-top: 12px;
         font-size: 20px;
 
+}
+
+.product_class_block_left {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        align-items: flex-start;
+}
+.product_class_block_left a {
+        text-decoration: none;
 }
 
 .filters-list-left {
@@ -955,7 +985,7 @@ em {
 
 }
 .filters-list-right {
-        display: block;
+        display: none;
         margin-top: 8px;
         margin-left: 12px;
         flex-wrap: wrap;
@@ -987,11 +1017,14 @@ em {
         border: 1px solid rgba(0, 0, 0, 0.88);
         border-radius: 12px;
         background-color: rgba(0, 0, 0, 0.06);
+        color: rgba(0, 0, 0, 0.88);
         font-size: 16px;
-        letter-spacing: 0.5px;
-        line-height: 24px;
-        padding-left: 8px;
-        padding-right: 8px;
+        letter-spacing: 0.1px;
+        line-height: 20px;
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 2px;
+        padding-bottom: 2px;
         margin-bottom: 8px;
         margin-left: 8px;
 }
@@ -1002,13 +1035,20 @@ em {
         background-color: #4B4A8A;
         color: #F5F4F2;
         font-size: 16px;
-        letter-spacing: 0.5px;
+        letter-spacing: 0.1px;
         line-height: 20px;
         padding-left: 8px;
         padding-right: 8px;
+        padding-top: 4px;
+        padding-bottom: 4px;
         margin-bottom: 8px;
         margin-left: 8px;
 }
+
+.filters-item a {
+        link: rgba(0, 0, 0, 0.88);
+}
+
 .filters-item-check-galka {
         display: inline-block;
         width: 16px;
@@ -1186,7 +1226,7 @@ em {
         border: none;
 
 }
-.shops-table tbody tr:nth-child(2n)  {
+.shops-table > tbody > tr:nth-child(2n)  {
         background-color: #F2F4FA;
 }
 .shops-table-table {
@@ -1200,16 +1240,25 @@ em {
 }
 .shops-table-td-link {
         /*width: 100%;*/
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
 }
+
 .shops-table-shop-price {
         width: 112px;
         text-align: end;
         padding-right: 8px;
+        font-weight: bolder;
 }
 .shops-table-shop-name {
         /*font-size: larger;*/
         font-weight: bolder;
         font-style: oblique;
+}
+.shops-table-mod-name {
+        font-size: smaller;
 }
 
 

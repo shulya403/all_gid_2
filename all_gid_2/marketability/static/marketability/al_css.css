@@ -742,7 +742,7 @@ em {
         text-decoration: none;
         margin-top: 8px;
         position: relative;
-        width: 256px;
+        width: 100%;
 }
 .news-header-link {
         color: #3c30bf;
@@ -770,7 +770,7 @@ em {
 }
 
 .news-and-anno {
-        width: 256px;
+        width: 100%;
         position: relative;
 
         }
@@ -853,6 +853,25 @@ em {
         padding-right: 12px;
 }
 
+.product-avgprice-nadpis {
+        justify-content: center;
+        text-align: center;
+        white-space: nowrap;
+        font-size: small;
+}
+.product-avgprice-value::before {
+        content: '\25B6';
+}
+.product-avgprice-value::after {
+        content: '\25C0';
+}
+.product-avgprice-value {
+
+        font-size: 24px;
+        line-height: 26px;
+        text-align: center;
+}
+
 .product_ttx__img {
         display: flex;
         flex-direction: row;
@@ -893,15 +912,27 @@ em {
         font-size: 18px;
 
 }
+
+.product_class_block_left {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+}
+.product_class_block_left a {
+        text-decoration: none;
+}
 .filters-list-left {
-        display: none;
+        display: block;
         margin-top: 8px;
         margin-left: 12px;
         flex-wrap: wrap;
 
 }
 .filters-list-right {
-        display: block;
+        display: none;
         margin-top: 8px;
         margin-left: 12px;
         flex-wrap: wrap;
@@ -923,7 +954,7 @@ em {
 .filters-type-buttons {
         display: inline-block;
 
-        width: 100%;
+        /*width: 100%;*/
         margin-left: 8px;
 
 }
@@ -935,7 +966,6 @@ em {
         background-color: rgba(0, 0, 0, 0.06);
         font-size: 14px;
         color: rgba(0, 0, 0, 0.88);
-        link: rgba(0, 0, 0, 0.88);
         letter-spacing: 0.1px;
         line-height: 26px;
         padding-left: 12px;
@@ -977,7 +1007,7 @@ em {
 
 }
 .miscell-list {
-        width:100%;
+        width:50%;
         margin:12px;
 }
 
@@ -1121,7 +1151,7 @@ em {
         border: none;
 
 }
-.shops-table tbody tr:nth-child(2n)  {
+.shops-table > tbody > tr:nth-child(2n)  {
         background-color: #F2F4FA;
 }
 .shops-table-table {
@@ -1135,19 +1165,25 @@ em {
 }
 .shops-table-td-link {
         /*width: 100%;*/
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
 }
 .shops-table-shop-price {
         width: 112px;
         text-align: end;
         padding-right: 8px;
+        font-weight: bolder;
 }
 .shops-table-shop-name {
         /*font-size: larger;*/
         font-weight: bolder;
         font-style: oblique;
 }
-
-
+.shops-table-mod-name {
+        font-size: smaller;
+}
 
 .shop-link {
         text-decoration: none;
