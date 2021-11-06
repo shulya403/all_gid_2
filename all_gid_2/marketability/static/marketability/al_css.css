@@ -924,6 +924,9 @@ em {
 .product_class_block_left a {
         text-decoration: none;
 }
+.product_class_left_col {
+        width: 50%;
+}
 .filters-list-left {
         display: block;
         margin-top: 8px;
@@ -1002,6 +1005,9 @@ em {
         margin-right: 4px;
 }
 
+.product_price_rate_svg svg {
+        margin-top: 12px;
+}
 .addition-lists {
         display: block;
 

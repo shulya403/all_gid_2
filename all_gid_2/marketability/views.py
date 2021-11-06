@@ -608,16 +608,28 @@ def page_new_Product(request, cat_, product_):
     def df_Cat_Init_(request, cat_init):
         if cat_init:
             category = Init_cat(request, cat_, db_tbl)
-        request.session['enabled_return'] = request.session['list_enabled']
-        request.session['products_for_execute'] = []
+            request.session['enabled_return'] = request.session['list_enabled']
+            request.session['products_for_execute'] = []
+        else:
+            products_for_execute_keep = request.session['products_for_execute']
+            enabled_return_keep = request.session['enabled_return']
+            request.session['enabled_return'] = request.session['list_enabled']
+            request.session['products_for_execute'] = []
+
         str_period_inbase = request.session['period_inbase']
         period_inbase = Recover_Date_period_inbase(str_period_inbase)
         df_data = Get_Sales_Top(request, db_tbl, period_inbase)
-        if not df_data.empty:
-            request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+
+        if cat_init:
+            if not df_data.empty:
+                request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+            else:
+                request.session['dict_df_data'] = {}
         else:
-            request.session['dict_df_data'] = {}
-        return df_data
+            request.session['products_for_execute'] = products_for_execute_keep
+            request.session['enabled_return'] = enabled_return_keep
+
+        return (df_data, period_inbase)
 
 
     db_tbl = DB_table(cat_)
@@ -631,7 +643,9 @@ def page_new_Product(request, cat_, product_):
         except KeyError:
             cat_init = True
         finally:
-            df_data =  df_Cat_Init_(request, cat_init)
+            df_data, period_inbase = df_Cat_Init_(request, cat_init)
+            # df_data =  df_Cat_Init_(request, cat_init)[0]
+            # period_inbase =
 
         new_form = request.session['new_form']
         form_return = request.session['form_return']
@@ -657,7 +671,7 @@ def page_new_Product(request, cat_, product_):
             list_this_classes = Get_This_Classes(product_, db_tbl)
             this_classes = db_tbl['classes'].objects.filter(id__in=list_this_classes)
 
-            miscell_products, len_miscell = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
+            miscell_products, df_miscell = Get_Miscell_Products(product_, set(vlist_to_list(list_this_classes)), df_data, db_tbl)
 
             dict_ttx = dict()
             set_fields_show = set(request.session['dict_sorted_fields_show'].keys()) - {'brand', 'name'}
@@ -669,11 +683,11 @@ def page_new_Product(request, cat_, product_):
                 if i not in set_fields_not_show:
                     dict_ttx[dict_html_names[i]] = Product[0][i]
 
-            q_data = len(df_data)
-            if q_data >= 20:
-                top20 = df_data[:20][['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
-            else:
-                top20 = df_data[['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
+            # q_data = len(df_data)
+            # if q_data >= 20:
+            #     top20 = df_data[:20][['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
+            # else:
+            #     top20 = df_data[['id', 'brand', 'name', 'price_avg']].sort_values('price_avg').to_dict('records')
 
             shop_mod = Get_Shops(request, db_tbl, product_)
 
@@ -682,7 +696,6 @@ def page_new_Product(request, cat_, product_):
 
             if not this_price:
                 try:
-
                     this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
                 except:
                     str_period_inbase = request.session['period_inbase']
@@ -697,7 +710,33 @@ def page_new_Product(request, cat_, product_):
                 prod_img_one = ""
 
             best_links = Get_Ratings_links(cat_)
-            print(best_links)
+
+            if this_price:
+                price_min_short, price_max_short, this_price_short, price_rate = Get_Price_Rate(df_miscell, this_price[0])
+            else:
+                price_rate = "no"
+                price_min_short = ""
+                price_max_short = ""
+                this_price_short = ""
+
+            miscell_sorted_list = df_miscell['id'].to_list()
+            print(miscell_sorted_list)
+
+            print(type(miscell_sorted_list ))
+            min_product = miscell_sorted_list[0]
+            max_product = miscell_sorted_list[-1]
+
+            print(min_product, max_product)
+
+            if int(product_) != min_product:
+                last_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) - 1]['id']
+            else:
+                last_product = int(product_)
+            if int(product_) != max_product:
+                next_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) + 1]['id']
+
+            else:
+                next_product = int(product_)
 
             exit_ = {
                 'category_name': category_name,
@@ -712,11 +751,20 @@ def page_new_Product(request, cat_, product_):
                 'action': cat_,
                 'this_price': this_price,
                 'miscell': miscell_products,
-                'len_miscell': len_miscell,
+                'len_miscell': len(df_miscell),
                 'this_classes': this_classes,
                 'id': Product[0]['id'],
                 'prod_img': prod_img_one,
-                'bestesellers_links': best_links
+                'bestesellers_links': best_links,
+                'price_rate': price_rate,
+                'price_min_short': price_min_short,
+                'price_max_short': price_max_short,
+                'len_price_max_short': len(price_max_short) * 8,
+                'this_price_short': this_price_short,
+                'min_product': min_product,
+                'max_product': max_product,
+                'last_product': last_product,
+                'next_product': next_product
 
             }
 
@@ -725,6 +773,23 @@ def page_new_Product(request, cat_, product_):
             return handler404(request)
     else:
         return handler404(request)
+
+def Get_Price_Rate(df_miscell, this_price):
+
+
+    max_price = df_miscell['price_avg'].max()
+    min_price = df_miscell['price_avg'].min()
+
+    try:
+        price_rate = round((this_price - min_price) / (max_price - min_price), 2) * 100
+    except ZeroDivisionError:
+        price_rate = None
+
+    max_price_short = str(round(max_price / 1000, 1))
+    min_price_short = str(round(min_price / 1000, 1))
+    this_price_short = str(round(this_price / 1000, 1))
+
+    return (min_price_short, max_price_short, this_price_short, price_rate)
 
 def Get_Checked_Form(this_classes, form_return):
     print(this_classes)
@@ -779,7 +844,8 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
         if dict_miscell[i] == set_this_classes:
             products_miscell.append(i)
 
-    df_miscell = df_data[df_data['id'].isin(products_miscell)]
+    df_miscell = df_data[df_data['id'].isin(products_miscell)].sort_values(by=['price_avg'])
+
     df_miscell_vendor = df_miscell[['brand', 'id', 'name', 'price_avg']].groupby('brand')
     agg_miscell_vendor = df_miscell_vendor[['id', 'name', 'price_avg']].agg(list)
 
@@ -793,7 +859,7 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
 
         dict_miscell_vendor[i] = list_name_price
 
-    return dict_miscell_vendor, len(df_miscell)
+    return dict_miscell_vendor, df_miscell
 
 def Make_Prod_Image_name(qry_product):
     exit_ = qry_product['brand'].lower() + "_" + qry_product['name'].lower().replace(" ", "_")

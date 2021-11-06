@@ -823,7 +823,7 @@ em {
         text-decoration: none;
         margin-top: 8px;
         position: relative;
-        width: 256px;
+        width: 100%;
 }
 .news-header-link {
         color: #3c30bf;
@@ -851,7 +851,7 @@ em {
 }
 
 .news-and-anno {
-        width: 256px;
+        width: 100%;
         position: relative;
 
         }
