@@ -720,13 +720,9 @@ def page_new_Product(request, cat_, product_):
                 this_price_short = ""
 
             miscell_sorted_list = df_miscell['id'].to_list()
-            print(miscell_sorted_list)
 
-            print(type(miscell_sorted_list ))
             min_product = miscell_sorted_list[0]
             max_product = miscell_sorted_list[-1]
-
-            print(min_product, max_product)
 
             if int(product_) != min_product:
                 last_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) - 1]['id']
@@ -877,8 +873,6 @@ def Get_Prod_Images(prod_image_name, cat):
         return [file_img for file_img in os.listdir(directory_) if prod_image_name in file_img]
     except Exception:
         return []
-
-
 
 def Fld_html_names(request, fields_, not_change=[]):
 

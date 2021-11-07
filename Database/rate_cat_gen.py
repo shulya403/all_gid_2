@@ -408,8 +408,10 @@ class Mth_cat(object):
             pass
 ###### MAIN
 
-Jul = Mth_cat('Aug', 2021, 'Mnt', top_q=5, num="game")
-Jul.Autogen()
+# Jul = Mth_cat('Aug', 2021, 'Mnt', top_q=5, num="game")
+# Jul.Autogen()
 
+Obj = Mth_cat('Sep', 2021, 'Nb', top_q=5, num="nb_comm_9")
+Obj.Autogen()
 
 
