@@ -871,9 +871,12 @@ def Make_Prod_Image_name(qry_product):
 
 def Get_Prod_Images(prod_image_name, cat):
 
-    directory_ = settings.BASE_DIR + "\\marketability\\static\\marketability\\pict\\" + cat
+    directory_ = settings.BASE_DIR + "/marketability/static/marketability/pict/" + cat
 
-    return [file_img for file_img in os.listdir(directory_) if prod_image_name in file_img]
+    try:
+        return [file_img for file_img in os.listdir(directory_) if prod_image_name in file_img]
+    except Exception:
+        return []
 
 
 
