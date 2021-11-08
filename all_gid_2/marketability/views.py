@@ -694,13 +694,13 @@ def page_new_Product(request, cat_, product_):
             #price
             this_price = df_data[df_data['name'] == Product[0]['name']]['price_avg'].values
 
-            if not this_price:
-                try:
-                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
-                except:
-                    str_period_inbase = request.session['period_inbase']
-                    period_inbase = Recover_Date_period_inbase(str_period_inbase)
-                    this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
+            #if not this_price:
+                # try:
+                #     this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
+                # except:
+                #     str_period_inbase = request.session['period_inbase']
+                #     period_inbase = Recover_Date_period_inbase(str_period_inbase)
+                #     this_price = db_tbl['vardata'].objects.filter(fk_products=product_, month__in=period_inbase).aggregate(Avg('price_rur'))['price_rur__avg']
 
             #Картинка
             prod_img_list = Get_Prod_Images(Make_Prod_Image_name(Product[0]), cat_)
@@ -713,26 +713,30 @@ def page_new_Product(request, cat_, product_):
 
             if this_price:
                 price_min_short, price_max_short, this_price_short, price_rate = Get_Price_Rate(df_miscell, this_price[0])
+
+                miscell_sorted_list = df_miscell['id'].to_list()
+                min_product = miscell_sorted_list[0]
+                max_product = miscell_sorted_list[-1]
+
+                if int(product_) != min_product:
+                    last_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) - 1]['id']
+                else:
+                    last_product = int(product_)
+                if int(product_) != max_product:
+                    next_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) + 1]['id']
+
+                else:
+                    next_product = int(product_)
+
             else:
                 price_rate = "no"
                 price_min_short = ""
                 price_max_short = ""
                 this_price_short = ""
-
-            miscell_sorted_list = df_miscell['id'].to_list()
-
-            min_product = miscell_sorted_list[0]
-            max_product = miscell_sorted_list[-1]
-
-            if int(product_) != min_product:
-                last_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) - 1]['id']
-            else:
-                last_product = int(product_)
-            if int(product_) != max_product:
-                next_product = df_miscell.iloc[miscell_sorted_list.index(int(product_)) + 1]['id']
-
-            else:
-                next_product = int(product_)
+                min_product = ""
+                max_product  = ""
+                last_product = ""
+                next_product = ""
 
             exit_ = {
                 'category_name': category_name,

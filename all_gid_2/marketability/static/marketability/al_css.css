@@ -1035,10 +1035,18 @@ em {
 }
 .rate-left-strelka, .rate-right-strelka {
         display: inline-block;
+        padding-top: 8px;
 }
 .rate-left-strelka-space, .rate-right-strelka-space {
         display: inline-block;
         color: transparent;
+}
+.nadpis-short-small {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(0,0,0,0.63);
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
 }
 .product_price_rate_tunner_rect {
         width: 100em;
@@ -1057,7 +1065,9 @@ em {
         border-right: 1px solid rgba(0,0,0,0.63);
 }
 .product_price_rate_tunner_bot div {
-        color: rgba(0, 0, 0, 0.63)
+        color: rgba(0, 0, 0, 0.63);
+        font-size: smaller;
+        padding-top: 8px;
 }
 .addition-lists {
         display: block;
@@ -1164,8 +1174,6 @@ em {
         letter-spacing: 0.5px;
         line-height: 20px;
         margin-bottom: 8px;
-
-
 }
 .nadpis-prochie {
         font-size: 18px;

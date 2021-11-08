@@ -144,7 +144,8 @@
             {% if price_rate != "no" %}
 
             <div class="product_price_rate_svg">
-            <div class="nadpis-short">Средння цена на {{ name }} ({{ this_price_short }} тыс. руб.) среди продуктов этого класса</div>
+            <div class="nadpis-short-small">Средняя цена на {{ name }} среди продуктов этого класса</div>
+            <div class="nadpis-short-small">{{ this_price_short }} тыс. руб.</div>
             <svg width="100%" height="60" xmlns="http://www.w3.org/2000/svg">
               <style>
                 .txt { font-size: 20px; }
@@ -177,12 +178,12 @@
                     <div class="rate-right-strelka-space">&#9664;</div>
                 </div>
                 <div class="product_price_rate_bottom">
-                    <div class="rate-left-strelka">&#9654;</div>
+                    <div class="rate-left-strelka"><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&#9654;</a></div>
                     <div class="product_price_rate_tunner_bot">
-                        <div>&nbsp;{{ price_min_short }}</div>
-                        <div>{{ price_max_short }}&nbsp;</div>
+                        <div><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&nbsp;{{ price_min_short }}&nbsp;</a></div>
+                        <div><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&nbsp;{{ price_max_short }}&nbsp;</a></div>
                     </div>
-                    <div class="rate-right-strelka">&#9664;</div>
+                    <div class="rate-right-strelka"><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&#9664;</a></div>
 
                 </div>
 
