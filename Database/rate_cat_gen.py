@@ -228,7 +228,7 @@ class Mth_cat(object):
                 "э": "e",
                 "ю": "iu",
                 "я": "ia",
-                "`": "",
+                "`": "_",
                 ".": "__",
                 ",": "_",
                 "\"": "inch",
@@ -411,7 +411,7 @@ class Mth_cat(object):
 # Jul = Mth_cat('Aug', 2021, 'Mnt', top_q=5, num="game")
 # Jul.Autogen()
 
-Obj = Mth_cat('Sep', 2021, 'Nb', top_q=5, num="nb_comm_9")
+Obj = Mth_cat('Sep', 2021, 'Nb', top_q=5, num="nb_15_9")
 Obj.Autogen()
 
 
