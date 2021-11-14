@@ -914,8 +914,6 @@ em {
         box-sizing: border-box;
         justify-content: space-between;
         margin-top: 16px;
-        max-width: 344px;
-
 
 }
 
@@ -947,10 +945,10 @@ em {
         font-size: smaller;
 }
 .product-avgprice-value::before {
-        content: '\25B6';
+        content: '\25B8';
 }
 .product-avgprice-value::after {
-        content: '\25C0';
+        content: '\25C2';
 }
 .product-avgprice-value {
 
@@ -1080,6 +1078,144 @@ em {
         border-top: 2px solid rgba(0,0,0,0.13);
         color: rgba(0,0,0,0.88);
         font-size: 18px;
+}
+
+.product_class_left_col {
+        width: 100%;
+}
+
+.bold-name-blink {
+        font-weight: bolder;
+        color: black;
+}
+.bold-price_short_-blink {
+
+        font-weight: bolder;
+        color: black;
+}
+.product_price_rate_tunner {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 12px;
+
+}
+.product_price_rate_tunner a {
+        text_decoration: none;
+
+}
+.product_price_rate_top {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        width: 100%;
+        font-size: x-large;
+
+}
+
+
+.rate-left-strelka-space {
+        display: inline-block;
+        color:transparent;
+}
+.rate-left-strelka-space::before {
+        content: '\25BA';
+        color: transparent;
+        font-size: x-large;
+        border: 0;
+}
+
+.product_price_rate_tunner_rect {
+        display: inline-block;
+        width: 100%;
+        background-color: #F2F4FA;
+        border-left: 1px solid rgba(0,0,0,0.63);
+        border-right: 1px solid rgba(0,0,0,0.63);
+        position:relative;
+}
+
+.slider_knob {
+        position: relative;
+}
+.rate-right-strelka-space {
+        display: inline-block;
+        color:transparent;
+}
+.rate-right-strelka-space::before {
+        content: '\25C4';
+        color: transparent;
+        font-size: x-large;
+        border: 0;
+}
+
+.product_price_rate_bottom {
+        display: inline-flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        width: 100%;
+
+}
+.rate-left-strelka {
+        position:relative;
+        border: 0;
+}
+.rate-left-strelka::before{
+        content: '\25BA';
+        color: transparent;
+        font-size: x-large;
+        border: 0;
+}
+.rate-left-strelka > a {
+        text_decoration: none;
+        color: #2E2966;
+        position: absolute;
+        font-size: small;
+        right: 0;
+        bottom: 6px;
+
+}
+.rate-right-strelka {
+        position:relative;
+        border: 0;
+        margin: 0;
+}
+.rate-right-strelka::before{
+        content: '\25C4';
+        color: transparent;
+        font-size: x-large;
+        border: 0;
+}
+.rate-right-strelka > a {
+        text_decoration: none;
+        color: #2E2966;
+        position: absolute;
+        font-size: small;
+        left: 0;
+        bottom: 6px;
+
+}
+
+.nadpis-short-small {
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(0,0,0,0.63);
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
+}
+
+.product_price_rate_tunner_bot {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        width: 100em;
+        border-left: 1px solid rgba(0,0,0,0.63);
+        border-right: 1px solid rgba(0,0,0,0.63);
+}
+.product_price_rate_tunner_bot div {
+        color: #2E2966;
+        font-size: smaller;
+        padding-top: 8px;
 }
 
 .right-lists a {

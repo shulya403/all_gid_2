@@ -61,9 +61,17 @@
                 <div class="product-this-price">
                 <div class="product-avgprice-nadpis">
                     Средняя цена
+
                 </div>
+                    {% if price_rate != "no" %}
+                        <a href="#price_tunner" style="text-decoration: none; color: rgba(0,0,0,0.63);">
                     <div class="product-avgprice-value">&nbsp;{{ price }}&nbsp;<span style="font-size: smaller;">&#8381;</span>&nbsp;</div>
+                        </a>
+                     {% else %}
+                    <div class="product-avgprice-value">&nbsp;{{ price }}&nbsp;<span style="font-size: smaller;">&#8381;</span>&nbsp;</div>
+                    {% endif %}
                 </div>
+
 
             {% else %}
                 <div class="product-no-price">Нет данных о ценах</div>
@@ -102,7 +110,7 @@
     </div>
     {% endif %}
     </div>
-    <div class="product_class_block_left">
+    <div class="product_class_block_left" id="price_tunner">
     <div class="product_class_left_col">
             <div class="nadpis-short">Класс</div>
             <a href="/{{ action }}/?goals_fbb_mobile=open&classes_fbb_mobile=open{% for chk in checked_items %}&{{ chk }}=Yes{% endfor %}&tabs=marketability">
@@ -144,9 +152,9 @@
             {% if price_rate != "no" %}
 
             <div class="product_price_rate_svg">
-            <div class="nadpis-short-small">Средняя цена на {{ name }} среди продуктов этого класса</div>
-            <div class="nadpis-short-small">{{ this_price_short }} тыс. руб.</div>
-            <svg width="100%" height="60" xmlns="http://www.w3.org/2000/svg">
+                <div class="nadpis-short-small">Средняя цена на <span class="bold-name-blink">{{ vendor }}&nbsp;{{ name }}</span> среди продуктов этого класса</div>
+                <div class="nadpis-short-small">&nbsp;&nbsp;<span class="bold-price_short_-blink">{{ this_price_short }} тыс. руб.</span></div>
+            <!-- <svg width="100%" height="60" xmlns="http://www.w3.org/2000/svg">
               <style>
                 .txt { font-size: 20px; }
                 .prices {font-size: 12px;}
@@ -170,20 +178,29 @@
                 <text x="5" y="34" fill="#4B4A8A" class="prices">{{ price_min_short }}</text>
                 <text x="100%" y="34" fill="#4B4A8A" transform="translate(-{{ len_price_max_short }} 0)" class="prices">{{ price_max_short }}</text>
 {#                <text x="{{ price_rate }}%" y="16" transform="translate(-30 0)" fill="orange" class="prices">{{ this_price_short }}</text>#}
-            </svg>
+            </svg> -->
             <div class="product_price_rate_tunner">
                 <div class="product_price_rate_top">
-                    <div class="rate-left-strelka-space">&#9654;</div>
-                    <div class="product_price_rate_tunner_rect"></div>
-                    <div class="rate-right-strelka-space">&#9664;</div>
+                        <div class="rate-left-strelka-space"></div>
+                        <div class="product_price_rate_tunner_rect">
+                              <div style="text-decoration: none; color: orange; position: absolute; left:{{ price_rate }}%;">
+                            <div class="slider_knob">
+                                <span style="position: absolute; left: -24px;"><a href="/{{  action }}/{{ last_product }}" style="text-decoration: none; color: {% if this_price_short == price_min_short %}grey;{% else %}orange;{% endif %}">&#9665;</a></span>
+                                <span style="position: absolute; left: {% if this_price_short == price_min_short %}-3{% else %}-2{% endif %}px;">|</span>
+                                <span style="position: absolute; left: 6px;"><a href="/{{ action  }}/{{ next_product }}" style="text-decoration: none; color: {% if this_price_short == price_max_short %}grey;{% else %}orange;{% endif %}">&#9655;</a></span>
+                            </div>
+                        </div>
+                        </div>
+
+                    <div class="rate-right-strelka-space"></div>
                 </div>
                 <div class="product_price_rate_bottom">
-                    <div class="rate-left-strelka"><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&#9654;</a></div>
+                    <div class="rate-left-strelka"><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&#9658;</a></div>
                     <div class="product_price_rate_tunner_bot">
                         <div><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&nbsp;{{ price_min_short }}&nbsp;</a></div>
                         <div><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&nbsp;{{ price_max_short }}&nbsp;</a></div>
                     </div>
-                    <div class="rate-right-strelka"><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&#9664;</a></div>
+                    <div class="rate-right-strelka"><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&#9668;</a></div>
 
                 </div>
 
