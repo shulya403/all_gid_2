@@ -154,41 +154,23 @@
             <div class="product_price_rate_svg">
                 <div class="nadpis-short-small">Средняя цена на <span class="bold-name-blink">{{ vendor }}&nbsp;{{ name }}</span> среди продуктов этого класса</div>
                 <div class="nadpis-short-small">&nbsp;&nbsp;<span class="bold-price_short_-blink">{{ this_price_short }} тыс. руб.</span></div>
-            <!-- <svg width="100%" height="60" xmlns="http://www.w3.org/2000/svg">
-              <style>
-                .txt { font-size: 20px; }
-                .prices {font-size: 12px;}
-                .link-this { color: orange!important; text-decoration: none; }
-                .link-max-min { color: #4B4A8A;}
-              </style>
 
-                <rect x="16" y="0" width="100%" height="30" style="fill: #F2F4FA;"></rect>
-                <text x="{{ price_rate }}%" y="16" transform="translate(-20 0)" fill="orange" class="txt">
-                    <a href="/{{ action }}/{{ last_product }}" class="link-this">&#9664;</a>|<a href="/{{ action }}/{{ next_product }}" class="link-this">&#9654;</a>
-                </text>
-                <text x="0" y="16" fill="#4B4A8A"  fill-opacity="60%" class="txt">
-                    <a href="/{{ action }}/{{ min_product }}" class="link-max-min">&#9654;</a>
-                </text>
-                <text x="100%" y="16" transform="translate(-17 0)" fill="#4B4A8A"  fill-opacity="60%" class="txt">
-                    <a href="/{{ action }}/{{ max_product }}" class="link-max-min">&#9664;</a>
-                </text>
-
-                <line x1="0" y1="0" x2="0" y2="40" stroke="#4B4A8A"></line>
-                <line x1="100%" y1="0" x2="100%" y2="40" stroke="#4B4A8A"></line>
-                <text x="5" y="34" fill="#4B4A8A" class="prices">{{ price_min_short }}</text>
-                <text x="100%" y="34" fill="#4B4A8A" transform="translate(-{{ len_price_max_short }} 0)" class="prices">{{ price_max_short }}</text>
-{#                <text x="{{ price_rate }}%" y="16" transform="translate(-30 0)" fill="orange" class="prices">{{ this_price_short }}</text>#}
-            </svg> -->
             <div class="product_price_rate_tunner">
                 <div class="product_price_rate_top">
                         <div class="rate-left-strelka-space"></div>
                         <div class="product_price_rate_tunner_rect">
-                              <div style="text-decoration: none; color: orange; position: absolute; left:{{ price_rate }}%;">
-                            <div class="slider_knob">
-                                <span style="position: absolute; left: -24px;"><a href="/{{  action }}/{{ last_product }}" style="text-decoration: none; color: {% if this_price_short == price_min_short %}grey;{% else %}orange;{% endif %}">&#9665;</a></span>
-                                <span style="position: absolute; left: {% if this_price_short == price_min_short %}-3{% else %}-2{% endif %}px;">|</span>
-                                <span style="position: absolute; left: 6px;"><a href="/{{ action  }}/{{ next_product }}" style="text-decoration: none; color: {% if this_price_short == price_max_short %}grey;{% else %}orange;{% endif %}">&#9655;</a></span>
-                            </div>
+                              <div style="position: absolute; left:{{ price_rate }}%;">
+
+                            <svg  class="slider_knob">
+                                <polygon points="0,2 3,18 0,34 -3,18" stroke="orange" fill="orange" stroke-width="1"></polygon>
+                                <a href="/{{  action }}/{{ last_product }}">
+                                    <polygon points="0,18 28,6 24,18 28,30" transform="translate(-36 0)" stroke-width="2" {% if this_price_short == price_min_short %}stroke="grey" fill="grey"{% else %}stroke="orange" fill="orange"{% endif %}  fill-opacity="30%"></polygon>
+                                </a>
+                                <a href="/{{  action }}/{{ next_product }}">
+                                    <polygon points="8,6 36,18 8,30 12,18" transform="translate(0 0)" stroke-width="2" {% if this_price_short == price_max_short %}stroke="grey" fill="grey"{% else %}stroke="orange" fill="orange"{% endif %}  fill-opacity="30%"></polygon>
+                                </a>
+
+                            </svg>
                         </div>
                         </div>
 

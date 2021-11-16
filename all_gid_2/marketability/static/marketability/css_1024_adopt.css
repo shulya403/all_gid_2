@@ -1117,13 +1117,16 @@ em {
 .rate-left-strelka-space {
         display: inline-block;
         color:transparent;
+        height: 36px;
+        width: 36px;
 }
-.rate-left-strelka-space::before {
-        content: '\25BA';
-        color: transparent;
-        font-size: x-large;
-        border: 0;
-}
+/*.rate-left-strelka-space::before {*/
+/*        content: '\25BA';*/
+/*        color: transparent;*/
+/*        font-size: x-large;*/
+/*        border: 0;*/
+
+/*}*/
 
 .product_price_rate_tunner_rect {
         display: inline-block;
@@ -1136,17 +1139,20 @@ em {
 
 .slider_knob {
         position: relative;
+        overflow: visible;
 }
 .rate-right-strelka-space {
         display: inline-block;
         color:transparent;
+        height: 36px;
+        width: 36px;
 }
-.rate-right-strelka-space::before {
-        content: '\25C4';
-        color: transparent;
-        font-size: x-large;
-        border: 0;
-}
+/*.rate-right-strelka-space::before {*/
+/*        content: '\25C4';*/
+/*        color: transparent;*/
+/*        font-size: x-large;*/
+/*        border: 0;*/
+/*}*/
 
 .product_price_rate_bottom {
         display: inline-flex;
@@ -1158,13 +1164,15 @@ em {
 .rate-left-strelka {
         position:relative;
         border: 0;
+        height: 36px;
+        width: 36px;
 }
-.rate-left-strelka::before{
-        content: '\25BA';
-        color: transparent;
-        font-size: x-large;
-        border: 0;
-}
+/*.rate-left-strelka::before{*/
+/*        content: '\25BA';*/
+/*        color: transparent;*/
+/*        font-size: x-large;*/
+/*        border: 0;*/
+/*}*/
 .rate-left-strelka > a {
         text_decoration: none;
         color: #2E2966;
@@ -1177,14 +1185,15 @@ em {
 .rate-right-strelka {
         position:relative;
         border: 0;
-        margin: 0;
+        height: 36px;
+        width: 36px;
 }
-.rate-right-strelka::before{
-        content: '\25C4';
-        color: transparent;
-        font-size: x-large;
-        border: 0;
-}
+/*.rate-right-strelka::before{*/
+/*        content: '\25C4';*/
+/*        color: transparent;*/
+/*        font-size: x-large;*/
+/*        border: 0;*/
+/*}*/
 .rate-right-strelka > a {
         text_decoration: none;
         color: #2E2966;
@@ -1208,14 +1217,14 @@ em {
         flex-direction: row;
         flex-wrap: nowrap;
         justify-content: space-between;
-        width: 100em;
+        width: 100%;
         border-left: 1px solid rgba(0,0,0,0.63);
         border-right: 1px solid rgba(0,0,0,0.63);
 }
 .product_price_rate_tunner_bot div {
         color: #2E2966;
         font-size: smaller;
-        padding-top: 8px;
+        padding-top: 13px;
 }
 
 .right-lists a {
