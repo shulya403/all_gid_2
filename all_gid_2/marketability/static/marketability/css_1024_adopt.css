@@ -112,6 +112,12 @@ em {
 
 }
 
+.menu-gamburger-all {
+        display: inline-flex;
+        position: relative;
+        cursor: pointer;
+}
+
 .menu-gamburger {
 	display: block;
 	width: 36px;
@@ -120,18 +126,22 @@ em {
     background-size: 90%;
     background-position: 50% 50%;
 	background-repeat: no-repeat;
-    cursor: pointer;
-	position: relative;
+
     /*padding-top: 2px;*/
+
+}
+
+.menu-gamburger-text {
+        display: none;
 
 }
 
 .menu-gamburger-popup {
 	display: none;
 	position: absolute;
-	left: -12px;
+	left: -46px;
 	right: 0px;
-	top: 23px;
+	top: 21px;
 	z-index: 100;
 }
 
@@ -141,6 +151,8 @@ em {
 	z-index: 9999;
     margin-left: 0; /* Отступ слева в браузере IE и Opera */
     padding-left: 0;
+        -moz-border-radius-bottomleft: 8px;
+
 }
 
 .button-menu-gamburger {
@@ -150,7 +162,6 @@ em {
         background: #4B4A8A;
         cursor: pointer;
         list-style-type: none;
-
 }
 
 .button-menu-gamburger-active {
@@ -158,20 +169,21 @@ em {
         color: #FFFFFF;
         cursor: pointer;
         background: #8F93BF;
+        list-style-type: none;
 }
 
 
 .menu-gamburger-popup li a {
     display: inline;
-	font-size: 18px;
+	font-size: 24px;
 	color: rgb(255, 255, 255);
 	line-height: 1.8;
 	text-decoration: none;
     white-space: nowrap;
     padding-top: 4px;
     padding-bottom: 4px;
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 24px;
+    padding-right: 36px;
 }
 
 .menu-right {

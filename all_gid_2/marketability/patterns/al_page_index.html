@@ -75,22 +75,29 @@
         <script>
            $(function() {
                 $(document).ready(function () {
-                    $('.menu-gamburger').click(function() {
+                    $('.menu-gamburger-all').click(function() {
                         if ($('.menu-gamburger-popup').css('display') == 'none') {
                             $('.menu-gamburger-popup').css('display', 'block');
-                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)').css('background-color', '#4B4A8A');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)');
+                            $('.menu-gamburger-all').css('background-color', '#4B4A8A').css('border-left', '1px solid #ffffff').css('border-right', '1px solid #ffffff').css('height', '58px');
+
+
                         }
                         else {
                             $('.menu-gamburger-popup').css('display', 'none');
-                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)').css('background-color', 'transparent');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)');
+                            $('.menu-gamburger-all').css('background-color', 'transparent').css('border', 'none')
+
                         }
                     });
                 });
             });
         </script>
-        <div class="menu-gamburger">
+        <div class="menu-gamburger-all">
+            <div class="menu-gamburger"></div>
+            <div class="menu-gamburger-text">Категории устройств</div>
 
-       <div class="menu-gamburger-popup">
+            <div class="menu-gamburger-popup">
 			<ul>
                 {% for i, link in categories_list %}
                     <li {% if i == category_name %}class="button-menu-gamburger-active"{% else %}class="button-menu-gamburger"{% endif %}>
@@ -100,7 +107,7 @@
                 {% endfor %}
 			</ul>
 		</div> <!-- menu-gamburger-popup -->
-        </div> <!-- menu-gamburger -->
+        </div> <!-- menu-gamburger-all -->
         </div> <!-- menu-left -->
         <div class="menu-right">
 
