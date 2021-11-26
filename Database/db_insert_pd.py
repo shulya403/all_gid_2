@@ -582,16 +582,16 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_09-1.xlsx",
-                      xl_Vardata="Allgid monitors september 2021 ed1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Mnt",
+FillDB = DB_insert_from_excel(xl_Products="Mfp_Model_Base_09'2021-1.xlsx",
+                      xl_Vardata="Mfp_Model_Base_09'2021-1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Mfp",
                     dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
 FillDB.DB_alchemy(FillDB.Category)
 FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [9]
-FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=False)
+# FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [9]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,

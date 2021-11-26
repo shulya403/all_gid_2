@@ -183,6 +183,8 @@ class MfpProducts(models.Model):
     ethernet = models.CharField(max_length=3, blank=True, null=True)
     appear_month = models.DateField(blank=True, null=True)
     speed = models.CharField(max_length=45, blank=True, null=True)
+    cis = models.CharField(max_length=3, blank=True, null=True)
+
 
     class Meta:
         managed = False

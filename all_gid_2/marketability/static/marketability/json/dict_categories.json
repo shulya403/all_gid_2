@@ -172,12 +172,12 @@
                     "short": false
                 },
                 "wi_fi": {
-                    "html_name": "Wi-Fi (беспроводное подключение)",
+                    "html_name": "Wi-Fi (беспроводная сеть)",
                     "id": 7,
                     "short": false
                 },
                 "ethernet": {
-                    "html_name": "Ethernet RJ-45 (проводная локальная сеть)",
+                    "html_name": "Ethernet (проводная cеть)",
                     "id": 8,
                     "short": false
                 },
@@ -189,10 +189,15 @@
                 },
                 "appear_month": {
                     "html_name": "Начало продаж",
-                    "id": 11,
+                    "id": 12,
                     "short": false
-                }
+                },
+                "cis": {
+                    "html_name": "СНПЧ",
+                    "id": 10,
+                    "short": false
 
+                }
             },
 
 

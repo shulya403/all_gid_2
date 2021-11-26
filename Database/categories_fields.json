@@ -506,7 +506,13 @@
           "db_name": "name"
         },
         "Тип": {
-          "db_name": "type"
+          "db_name": "type",
+          "autochange": {
+            "part": false,
+            "change": {
+              "принтер": "Принтер"
+            }
+          }
         },
         "Технолп": {
           "db_name": "prt_technology",
@@ -572,6 +578,17 @@
             }
           }
         },
+        "СНПЧ": {
+          "db_name": "cis",
+          "autochange": {
+            "part": false,
+            "change": {
+              "": "Нет",
+              "СНПЧ": "Да"
+            }
+          }
+        },
+
         "Appear_month": {
           "db_name": "appear_month",
           "autochange": {
@@ -666,7 +683,7 @@
           "class_subtype": "Технология печати",
           "type": "CL"
         },
-        "Jet": {
+        "Ink": {
           "text": "Струйный",
           "explanation": "",
           "class_subtype": "Технология печати",
@@ -684,12 +701,12 @@
           "class_subtype": "Цвет",
           "type": "CL"
         },
-        "WiFi": {
+        "Perfomance": {
           "text": "Высокопроизводительный",
           "explanation": "Высокая скорость печати",
           "type": "CL"
         },
-        "Perfomance": {
+        "WiFi": {
           "text": "Wi-Fi",
           "explanation": "Возможность беспроводного подключения",
           "class_subtype": "Коммуникации",
