@@ -582,15 +582,15 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Mfp_Model_Base_09'2021-1.xlsx",
-                      xl_Vardata="Mfp_Model_Base_09'2021-1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Mfp",
-                    dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2021_10-1.xlsx",
+#                       xl_Vardata="Копия Allgid monitors october 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Mnt",
+#                     dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=False)
 # FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [9]
+# mth_list = [10]
 # FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
@@ -602,13 +602,13 @@ FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 
 #Заполение магазинов для мониторов и ноутбуков
 
-# FillShop = DB_insert_shops(
-#                  xl_Shops="Монитор-Concat_Prices--Sep-21--Filled_Anton.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Mnt',
-#                  dir_root="../Data/"
-# )
-#
-# FillShop.To_DB_Shop_Price()
+FillShop = DB_insert_shops(
+                 xl_Shops="Монитор-Concat_Prices--Oct-21--Filled.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Mnt',
+                 dir_root="../Data/"
+)
+
+FillShop.To_DB_Shop_Price()
 
 
 #   Мониторы добавка и исправление моделей за месяц
@@ -617,7 +617,7 @@ FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 #     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 #C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\
 
-# Sept_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_08-2.xlsx",
-#                                            "Allgid monitors september 2021 ed1.xlsx",
-#                                            dir="C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\")
-# Sept_monitors.Write_excel()
+# Oct_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_09-1.xlsx",
+#                                            "Копия Allgid monitors october 2021.xlsx",
+#                                            dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\")
+# Oct_monitors.Write_excel()

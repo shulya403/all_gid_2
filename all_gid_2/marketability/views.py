@@ -862,7 +862,7 @@ def Get_Miscell_Products(product_, set_this_classes, df_data, db_tbl):
     return dict_miscell_vendor, df_miscell
 
 def Make_Prod_Image_name(qry_product):
-    exit_ = qry_product['brand'].lower() + "_" + qry_product['name'].lower().replace(" ", "_")
+    exit_ = qry_product['brand'].lower() + "_" + qry_product['name'].lower().replace(" ", "_").replace("/", ", ").replace(".", "_")
 
     if exit_:
         return exit_
