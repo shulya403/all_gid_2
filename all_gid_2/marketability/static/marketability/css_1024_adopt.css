@@ -1607,6 +1607,7 @@ em {
 
 .home-bottom {
         display: flex;
+        flex-wrap: wrap;
         font-family: Roboto;
         letter-spacing: 0.1px;
         width: 100%;
@@ -1625,6 +1626,9 @@ em {
         padding: 12px;
 
 }
+.adress-bar {
+        margin-top: 8px;
+}
 .home-explanation {
         width: 100%;
         border-top: 1px solid #3C3979;
@@ -1632,6 +1636,7 @@ em {
 }
 
 .bottom-buttons {
+        padding-top:8px;
         margin: 0 auto;
         width: 100%;
         text-align: center;

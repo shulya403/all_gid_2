@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="26px" viewBox="0 0 30 26" xmlns="http://www.w3.org/2000/svg">
+    <g fill="#FFFFFF" stroke="#FFFEE" stroke-width="1">
+        <path d="M3,1 l24,0 c0,0 3,0 3,3 c0,0 0,3 -3,3 l-24,0 c0,0 -3,0 -3,-3 c0,0 0,-3 3,-3"></path>
+        <path d="M3,10 l24,0 c0,0 3,0 3,3 c0,0 0,3 -3,3 l-24,0 c0,0 -3,0 -3,-3 c0,0 0,-3 3,-3"></path>
+        <path d="M3,19 l24,0 c0,0 3,0 3,3 c0,0 0,3 -3,3 l-24,0 c0,0 -3,0 -3,-3 c0,0 0,-3 3,-3"></path>
+    </g>
+
+</svg>
