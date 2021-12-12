@@ -904,6 +904,116 @@
           "col_name": "model"
         }
       }
+  },
+  "Elcectrosamokat": {
+      "Fields_products": {
+        "Vendor": {
+          "db_name": "brand"
+        },
+        "Model": {
+          "db_name": "name"
+        },
+        "Weight, kG": {
+          "db_name": "weight"
+        },
+        "Wheel, inch": {
+          "db_name": "wheel"
+
+        },
+        "Power, W": {
+          "db_name": "power"
+
+        },
+        "AKB, Ah": {
+          "db_name": "akb"
+        },
+        "Range, km": {
+          "db_name": "range_dist"
+        },
+
+        "Appear_month": {
+          "db_name": "appear_month",
+          "autochange": {
+            "part": false,
+            "change": {
+              "2020_01": "2020-01-01",
+              "2021_06": "2021-06-01",
+              "2021_09": "2021-09-01"
+
+            }
+          }
+        }
+
+
+        },
+      "xl_sales_page": "Лист1",
+      "xl_page": "Лист1",
+      "Fields_classes": {
+        "Low_price": {
+          "text": "Hачальный уровень",
+          "class_subtype": "Ценовой уровень",
+          "type": "GO"
+      },
+        "Middle_price": {
+          "text": "Средний класс",
+          "class_subtype": "Ценовой уровень",
+          "type": "GO"
+      },
+        "High_price": {
+          "text": "Высший",
+          "class_subtype": "Ценовой уровень",
+          "type": "GO"
+      },
+        "Children_Teenager": {
+          "text": "Для детей и подростков",
+          "class_subtype": "Возраст",
+          "type": "GO"
+      },
+        "Adult_light_middle": {
+          "text": "Для взрослых",
+          "class_subtype": "Возраст",
+          "type": "GO"
+      },
+        "Heavy": {
+          "text": "Тяжелый",
+          "type": "СL"
+      },
+        "low_power_less_150": {
+          "text": "До 150 Вт",
+          "class_subtype": "Мощность",
+          "type": "CL"
+      },
+        "middle_power_150-290": {
+          "text": "От 150 до 290 Вт",
+          "class_subtype": "Мощность",
+          "type": "CL"
+      },
+        "high_power_300plus": {
+          "text": "От 300 Вт",
+          "class_subtype": "Мощность",
+          "type": "CL"
+      }
+
+      },
+      "Fields_sales": {
+        "month": {
+          "col_name": "Mth",
+          "change": {
+            "2021_Q1": "2021-03-01",
+            "2021_Q2": "2021-06-01",
+            "2021_Q3": "2021-10-01"
+          }
+        },
+        "sales_units": {
+          "col_name": "Sales"
+        },
+        "price_rur": {
+          "col_name": "Price, R"
+        },
+        "product_name": {
+          "col_name": "Model"
+        }
+      }
   }
 }
 

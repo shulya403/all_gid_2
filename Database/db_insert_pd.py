@@ -371,6 +371,7 @@ class DB_insert_from_excel(object):
         old_to_delete = df_old_names - df_new_names
 
         exit_insert = df_new[df_new['name'].isin(difference)]
+        exit_insert['id_brand_name'] = exit_insert['brand'].lower().replace(" ", "-").replace("/", "-") + '-' + exit_insert['brand'].lower().replace(" ", "-").replace("/", "-")
 
         #Проверка исправленнных
 
@@ -538,6 +539,45 @@ class DB_insert_shops(DB_insert_from_excel):
 
         self.Insert_df_to_SQL(self.df_Shops_Price(), self.tbl_shops_prices)
 
+
+##  ["Nb", "Mnt", "Ups", "Mfp", "Electrosamokat"]
+class brandname(object):
+    def __init__(self, cat_):
+
+        self.category = cat_
+
+        self.sql_engine = sql.create_engine("mysql://shulya403:1qazxsw2@localhost/all_gid_2?charset=utf8mb4", echo=True, encoding='utf8', convert_unicode=True)
+
+        metadata = sql.MetaData(self.sql_engine)
+
+        sql_tbl_name_products = self.category.lower() +  '_products'
+        # sql_tbl_name_class = category.lower()  + '_classes'
+        # sql_tbl_name_mtm_prod_class = category.lower()  + '_products_has_' + category.lower()  + '_classes'
+        # sql_tbl_name_vardata = category.lower()  + '_vardata'
+        # sql_tbl_name_shops_prices = category.lower()  + '_shops_prices'
+
+        self.tbl_products = sql.Table(sql_tbl_name_products, metadata, autoload=True)
+        # self.tbl_classes = sql.Table(sql_tbl_name_class, metadata, autoload=True)
+        # self.tbl_mtm_products_classes = sql.Table(sql_tbl_name_mtm_prod_class, metadata, autoload=True)
+        # self.tbl_vardata = sql.Table(sql_tbl_name_vardata, metadata, autoload=True)
+        # self.tbl_shops_prices = sql.Table(sql_tbl_name_shops_prices, metadata, autoload=True)
+
+        self.connection = self.sql_engine.connect()
+
+    def ID_bramd_name_fill(self):
+
+        work_df = pd.DataFrame()
+        select_qry = self.tbl_products.select()
+        work_df = pd.read_sql(select_qry, self.connection)
+
+        for i, row in work_df.iterrows():
+            str_id_brand_name = row['brand'].lower().replace(" ", "-").replace("/", "-") + '-' + row['name'].lower().replace(" ", "-").replace("/", "-")
+            dict_update = {"id_brand_name": str_id_brand_name}
+            update_qry = self.tbl_products.update().where(self.tbl_products.c.name == row["name"]).values()
+            self.connection.execute(update_qry, dict_update)
+
+
+
 class Monitor_Models_Base_Update():
     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
         old_filename = dir + old_base
@@ -583,16 +623,16 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Allgid UPS Q3 2021.xlsx",
-                      xl_Vardata="Allgid UPS Q3 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Ups",
-                    dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [10]
-FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
+# FillDB = DB_insert_from_excel(xl_Products="Allgid UPS Q3 2021.xlsx",
+#                       xl_Vardata="Allgid UPS Q3 2021.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Ups",
+#                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
+# FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [10]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -622,3 +662,9 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 #                                            "Копия Allgid monitors october 2021.xlsx",
 #                                            dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\")
 # Oct_monitors.Write_excel()
+
+for cat in ["Ups"]:
+
+    Obj = brandname(cat)
+    print(cat)
+    Obj.ID_bramd_name_fill()
