@@ -46,6 +46,9 @@ class TxtRatings(models.Model):
         managed = False
         db_table = 'txt_ratings'
 
+    def __str__(self):
+        return self.article_title
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
 

@@ -366,12 +366,12 @@ class Mth_cat(object):
             "ъ": "",
             "э": "e",
             "ю": "iu",
-            "я": "ia",
-            "`": "_",
-            ".": "__",
-            ",": "_",
+            "я": "ya",
+            "`": "-",
+            ".": "-",
+            ",": "",
             "\"": "inch",
-            ":": "--"
+            ":": "-"
         }
 
         exit_ = ""
@@ -523,6 +523,6 @@ class Mth_cat(object):
 # Obj = Mth_cat('Sep', 2021, 'Mnt', top_q=5, num="Mnt_9_office_reprice", )
 # Obj.Autogen(general_header="Рейтинг популярности мониторов для офиса. Сентябрь 2021")
 
-Obj = Mth_cat('Sep', 2021, 'Mfp', top_q=5, num="MFP Test Printer", )
-Obj.Autogen(general_header="Тестовый принтеры фильтрация. Сентябрь 2021")
+Obj = Mth_cat('Oct', 2021, 'Nb', top_q=5, num="NB 14 2-1", )
+Obj.Autogen(general_header="Ноутбуки-трансформеры с сенсорным экраном 14\". Бестселлеры, октябрь 2021.")
 
