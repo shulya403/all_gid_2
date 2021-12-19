@@ -1,5 +1,5 @@
 {
-  "Nb": {
+  "Noutbuk": {
     "zaglushka": "pict/themes/nb_general2-256-512.jpg",
     "Premium": "pict/themes/nb_premium_256-512.jpg",
     "Work_Horse": "pict/themes/nb_loshadka_256-512.jpg",
@@ -12,7 +12,7 @@
     "Beginner": "pict/themes/nb_beginner-256-512.jpg"
   },
 
-  "Mnt": {
+  "Monitor": {
             "zaglushka": "pict/themes/mnt_zaglushka2-256-512.jpg",
             "Game": "pict/themes/mnt_game5-256-512.jpg",
             "Prof": "pict/themes/mnt_profi3-256-512.jpg",
@@ -22,7 +22,7 @@
             "Premium": "pict/themes/mnt_premium-256-512.jpg"
 
         },
-  "Mfp": {
+  "Printer-mfu": {
       "zaglushka": "pict/themes/mfp_zaglushka_256_512.jpg"
   },
   "Ups": {

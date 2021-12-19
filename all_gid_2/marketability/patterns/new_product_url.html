@@ -1,0 +1,338 @@
+{% extends "al_page.html" %}
+{% block meta %}
+    <title>{{ category_name_singular }} {{ vendor }} {{ name }} сравнить цены, характеристики</title>
+    <meta name="description" content="{{ vendor }}&nbsp;{{ name }}. Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, сравнение, похожие модели, выбрать магазин." />
+
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id }}"/>
+
+
+    {% endblock %}
+
+{% block category %}
+    <div class="category-content">
+    <div class="product-block">
+
+    {% with price=this_price|digit_separator  %}
+    {%  if price != 'n/a' %}
+    <div class="shema_org" itemscope itemtype="https://schema.org/Product" style="display: none;">
+{#        <span itemprop="brand" content="{{ vendor }}"></span>#}
+        <div itemprop="brand" itemscope itemtype="https://schema.org/Brand">
+            <span itemprop="name" content="{{ vendor }}"></span>
+        </div>
+        <span itemprop="name" content="{{ name }}"></span>
+        <span itemprop="description" content="{{ category_name_singular }} {{ vendor }} {{ name }}"></span>
+        <span itemprop="category" content="{{ category_name_singular }}"></span>
+        <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
+        {% if  prod_img %}
+                <span itemprop="image" content="https://allgid.ru/static/marketability/pict/{{ action }}/{{ prod_img }}"></span>
+        {% endif %}
+        <div itemprop="offers" itemscope itemtype="https://schema.org/Offer">
+            <span itemprop="priceCurrency" content="RUB"></span>
+            <span itemprop="price" content="{{ this_price|digit_to_float }}"></span>
+            <span itemprop="url" content="https://allgid.ru/{{ action }}/{{ id }}"></span>
+
+        </div>
+
+        <div itemprop="review" itemscope itemtype="https://schema.org/Review">
+            <span itemprop="description" content="{% for i in this_classes %}- {{ i.text }} {% endfor %}"></span>
+            <div itemprop="author" itemscope itemtype="https://schema.org/Person">
+                <span itemprop="name" content="Allgid.ru"></span>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <div class="product-filters">
+        <a href="/{{ action }}/" style="text-decoration: none;">
+        <div class="k-filtram">
+            <div class="left-chevron"></div>
+            <div class="k-filtram-text">{{ category_name }}</div>
+        </div>
+        </a>
+
+    </div> <!-- К фильтрам -->
+    <div class="brandname">
+        <h1 class="product-this-name">
+            {{ category_name_singular }}&nbsp;{{ vendor }}&nbsp;<br/>
+            {{ name }}
+        </h1>
+
+            {% if price != 'n/a' %}
+                <div class="product-this-price">
+                <div class="product-avgprice-nadpis">
+                    Средняя цена
+
+                </div>
+                    {% if price_rate != "no" %}
+                        <a href="#price_tunner" style="text-decoration: none; color: rgba(0,0,0,0.63);">
+                    <div class="product-avgprice-value">&nbsp;{{ price }}&nbsp;<span style="font-size: smaller;">&#8381;</span>&nbsp;</div>
+                        </a>
+                     {% else %}
+                    <div class="product-avgprice-value">&nbsp;{{ price }}&nbsp;<span style="font-size: smaller;">&#8381;</span>&nbsp;</div>
+                    {% endif %}
+                </div>
+
+
+            {% else %}
+                <div class="product-no-price">Нет данных о ценах</div>
+            {% endif %}
+
+    </div>
+    {% endwith %}
+{#     <div class="filters-klass">Класс</div>#}
+
+
+    <div class="product_ttx__img">
+    <div class="product_ttx">
+        <table class="ttx_table">
+            {% for k, v in ttx.items %}
+                <tr class="{% if v != none %}ttx_tr{% else %}ttx_tr_none{% endif %}">
+                <td class="ttx-td">
+                    <span>{{ k }}</span>
+                </td>
+                    <td class="ttx-td">
+                         {% if v == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif v == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ v }}
+                        {% endif %}
+                    </td>
+                </tr>
+    {% endfor %}
+    </table>
+    </div>
+
+    {% if  prod_img %}
+    <div class="product_img">
+        <img src="{{ prod_img }}" alt="{{ category_name_singular }} {{ vendor }} {{ name }}" title="{{ category_name_singular }} {{ vendor }} {{ name }}">
+    </div>
+    {% endif %}
+    </div>
+    <div class="product_class_block_left" id="price_tunner">
+    <div class="product_class_left_col">
+            <div class="nadpis-short">Класс</div>
+            <a href="/{{ action }}/?goals_fbb_mobile=open&classes_fbb_mobile=open{% for chk in checked_items %}&{{ chk }}=Yes{% endfor %}&tabs=marketability">
+            <div class="filters-list-left">
+                <div class="filter-type-block">
+                    <div class="filters-type-buttons">
+                {% for i in this_classes %}
+                    {% if i.type == 'GO' %}
+                        {% if i.name in checked_items %}
+                            <div class="filters-item-check">
+                                <div class="filters-item-check-galka"></div>
+                                {{ i.text }}
+                            </div>
+                        {% else %}
+                            <div class="filters-item">{{ i.text }}</div>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                </div>
+                </div>
+                <div class="filter-type-block">
+                    <div class="filters-type-buttons">
+            {% for i in this_classes %}
+                {% if i.type == 'CL' %}
+                    {% if i.name in checked_items %}
+                        <div class="filters-item-check">
+                        <div class="filters-item-check-galka"></div>
+                            {{ i.text }}
+                        </div>
+                    {% else %}
+                        <div class="filters-item">{{ i.text }}</div>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+        </div>
+                </div>
+                </div>
+            </a>
+            {% if price_rate != "no" %}
+
+            <div class="product_price_rate_svg">
+                <div class="nadpis-short-small">Средняя цена на <span class="bold-name-blink">{{ vendor }}&nbsp;{{ name }}</span> среди продуктов этого класса</div>
+                <div class="nadpis-short-small">&nbsp;&nbsp;<span class="bold-price_short_-blink">{{ this_price_short }} тыс. руб.</span></div>
+
+            <div class="product_price_rate_tunner">
+                <div class="product_price_rate_top">
+                        <div class="rate-left-strelka-space"></div>
+                        <div class="product_price_rate_tunner_rect">
+                              <div style="position: absolute; left:{{ price_rate }}%;">
+
+                            <svg  class="slider_knob">
+                                <polygon points="0,2 3,18 0,34 -3,18" stroke="orange" fill="orange" stroke-width="1"></polygon>
+                                <a href="/{{  action }}/{{ last_product }}">
+                                    <polygon points="0,18 28,6 24,18 28,30" transform="translate(-36 0)" stroke-width="2" {% if this_price_short == price_min_short %}stroke="grey" fill="grey"{% else %}stroke="orange" fill="orange"{% endif %}  fill-opacity="30%"></polygon>
+                                </a>
+                                <a href="/{{  action }}/{{ next_product }}">
+                                    <polygon points="8,6 36,18 8,30 12,18" transform="translate(0 0)" stroke-width="2" {% if this_price_short == price_max_short %}stroke="grey" fill="grey"{% else %}stroke="orange" fill="orange"{% endif %}  fill-opacity="30%"></polygon>
+                                </a>
+
+                            </svg>
+                        </div>
+                        </div>
+
+                    <div class="rate-right-strelka-space"></div>
+                </div>
+                <div class="product_price_rate_bottom">
+                    <div class="rate-left-strelka"><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&#9658;</a></div>
+                    <div class="product_price_rate_tunner_bot">
+                        <div><a href="/{{ action }}/{{ min_product }}" class="link-max-min">&nbsp;{{ price_min_short }}&nbsp;</a></div>
+                        <div><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&nbsp;{{ price_max_short }}&nbsp;</a></div>
+                    </div>
+                    <div class="rate-right-strelka"><a href="/{{ action }}/{{ max_product }}" class="link-max-min">&#9668;</a></div>
+
+                </div>
+
+            </div>
+            </div>
+
+            {% endif %}
+    </div>
+
+    <div class="miscell-list">
+            <div class="nadpis-prochie">Модели этого класса</div>
+            <div class="miscel-class-list">
+
+            </div>
+{#            {% if len_miscell > 10 %}#}
+{#                <script>#}
+{#                    $(document).ready(function()#}
+{#                    {$('.miscell-mod').css('display', 'none');#}
+{#                    $('.miscell-vendor-strelka').css('transform', 'none')}#}
+{#                    );#}
+{##}
+{#                </script>#}
+{#            {% endif %}#}
+
+            {% for ven, md in miscell.items  %}
+                {% with ven_1=ven|slugify %}
+                <input type="checkbox" id="{{ ven_1 }}" class="check-vendor-clps"
+                onclick="if($('.miscell-mod#{{ ven_1 }}').css('display') == 'none')
+                       {$('.miscell-mod#{{ ven_1 }}').css('display', 'flex');
+                        $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.miscell-mod#{{ ven_1 }}').css('display', 'none');
+                         $('.miscell-vendor-strelka#{{ ven_1 }}').css('transform', 'none');};">
+                <label for="{{ ven_1 }}" id="{{ ven_1 }}">
+                <div class="miscell-vendor">
+                    <div class="miscell-vendor-name">{{ ven }}</div>
+                    <div class="miscell-vendor-strelka" id="{{ ven_1 }}"></div>
+                </div> <!-- miscel-vendor -->
+                </label>
+
+                {% for i in md %}
+                <div class="miscell-mod" id="{{ ven_1 }}">
+                    <div class="miscell-mod-name">
+                        <a href="/{{ action }}/{{ i|get_item:'id_brand_name' }}" class="link_mod">
+                        <span {% if i|get_item:'name' == name %} style="font-weight: 600;"{% endif %}>
+                        {{ i|get_item:'name' }}
+                        </span>
+                        </a>
+                    </div>
+                    <div class="miscell-mod-price">
+                        {{ i|get_item:'price'|digit_separator }}
+
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% endwith %}
+            {% endfor %}
+
+        </div>
+    </div>
+
+    </div> <!-- product-block -->
+    <div class="right-lists">
+        <div class="banner-place">
+
+        </div> <!-- banner-place -->
+        <div class="product_right-filters">
+        {% if not checked_items %}
+        <div class="nadpis-short">Выбрать {{ category_name_singular }} для своих целей</div>
+            <div class="inarticle-rignt-filter">
+                <a href="/{{ action }}/?tabs=marketability">
+                <div class="filter_button_big">
+                    <div class="fltr_pic">&nbsp;</div>
+                    <div class="fltr_text">ФИЛЬТР</div>
+                </div>
+                </a>
+                </div>
+        {% endif %}
+
+        </div>
+        <div class="addition-lists">
+            <div class="shops">
+       {% if shop_mod %}
+            <div class="shops-header">Предложения магазинов</div>
+
+            {% if action == 'Nb' %}
+                <div class="shops-note">
+                * Цены могут существенно различаться в зависимости от конфигурации
+                </div>
+                <br/>
+            {% endif %}
+        <table class="shops-table">
+        <tbody>
+            {% for mod in shop_mod %}
+                <tr>
+                <td>
+
+                <a href="{{ mod.modfication_href }}" target="_blank" class="shop-link">
+                <table class="shops-table-table"><tbody>
+                <tr class="shops-table-tr">
+                <td>
+                    <div class="shops-table-td-link">
+                    <div class="shops-table-shop-name">{{ mod.shop_name }}</div>
+                    <div class="shops-table-shop-price">{{ mod.modification_price|digit_separator }}</div>
+
+                    </div>
+
+                </td>
+                <tr>
+                <td>
+                    <div class="shops-table-mod-name">{{ mod.modification_name }}</div>
+
+                </td>
+                </tr>
+{#                    <td class="shop-chevron"></td>#}
+{#                </tr>#}
+
+                </tbody></table>
+                </a>
+                </td></tr>
+            {% endfor %}
+
+        </tbody></table>
+
+        {% endif %}
+
+    </div>
+    {% comment %}<div id="marketWidget"></div>{% endcomment %}
+        {% if bestesellers_links %}
+        <h2 class="novosti-header"><a href="/rate/{{ action }}/" target="blank_">Рейтинги</a></h2>
+
+        {% for lnk in bestesellers_links %}
+            <a href="/rate/{{ action }}/{{ lnk.id_html_name }}" target="_blank" class="news">
+            <div class="news-and-anno">
+                <div class="news-header-link">{{ lnk.article_title }}</div>
+                <span class="link-annotation">
+                    {{ lnk.article_anno|truncatechars_html:200 }}
+                </span>
+
+            </div>
+                <div class="news-chevron">
+                    <img src="/static/marketability/pict/Double chevron right-1.svg">
+                </div>
+            </a>
+        {% endfor %}
+        <div class="rаtings_list_bottom"><a href="/rate/{{ action }}/" target="blank_">Прочие рейтинги >></a></div>
+        {% endif %}
+        </div> <!-- addition-list -->
+
+    </div> <!-- right-lists -->
+    </div> <!-- category-content -->
+{% endblock %}

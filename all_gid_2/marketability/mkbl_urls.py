@@ -3,7 +3,7 @@ from django.urls import path
 from django.views.generic.base import RedirectView, TemplateView
 #from django.conf.urls.defaults import *
 
-from . import views, txt_views, ven_views
+from . import views, views_new, txt_views, ven_views
 
 app_name = 'marketability'
 
@@ -17,13 +17,11 @@ urlpatterns = [
     path('rate/', txt_views.rate_Listing, name="how_list"),
     path('rate/<slug:cat_>/', txt_views.rate_cat_Listing, name="how_cat_listing"),
     path('rate/<slug:cat_>/<slug:article>', txt_views.rate_Article, name="how_article"),
-    path('<slug:cat_>/', views.page_Category_Main, name='cat'),
-    path('<slug:cat_>/vendors/', ven_views.vendor, name="vendors_vendor"),
-    path('<slug:cat_>/vendors/<slug:vendor_>', ven_views.vendor, name="vendors_vendor"),
-    path('<slug:cat_>/<slug:product_>', views.page_new_Product, name='product'),
-    path('al_about.html', views.about, name="about"),
-    path('al_home.html', views.home, name="home"),
-    path('search_all.html', views.search_all, name="doorway"),
+    path('<slug:cat_>/', views_new.page_Category_Main, name='cat'),
+    path('<slug:cat_>/<slug:product_>', views_new.page_new_Product, name='product'),
+    path('al_about.html', views_new.about, name="about"),
+    path('al_home.html', views_new.home, name="home"),
+    path('search_all.html', views_new.search_all, name="doorway"),
     path('robots.txt', TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
     path('sitemap.xml', TemplateView.as_view(template_name="sitemap.xml", content_type="text/xml")),
     path('favicon.ico', RedirectView.as_view(url='/static/marketability/favicon.ico', permanent=True)),

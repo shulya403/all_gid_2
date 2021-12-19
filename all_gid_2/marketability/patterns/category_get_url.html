@@ -1,0 +1,413 @@
+{% extends "al_page.html" %}
+{% block meta %}
+    <title>{{ category_name }}. Лучшие ({{ tab_data|get_item:tab_active|get_item:"rus_name" }}). Гид покупателя. {% for i in checked_items %}{{ i }} {% endfor %}</title>
+    <meta name="description" content="{{ category_name }}:{% if tab_active == "marketability"  %} Рейтинг (Top-20 самых популярных) в России{% elif tab_active == "novelity" %} Новинки - модели появившиеся в продаже в России{% endif %} за {{ period }}. Выбор по целям использования и базовым характеристикам.  {% for i in checked_items %}{{ i }} {% endfor %}" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="рейтинг, популярность, популярные, новинки, выбор покупателей, {{ category_name }}"  />
+
+{% endblock %}
+
+{% block category %}
+    <div class="category-content">
+    <form action="/{{ action }}/" method="get" id="form_">
+{% comment %}    <div class="form-and-table">{% endcomment %}
+
+{% comment %}    {% csrf_token %}{% endcomment %}
+    <div class="category-header-wrap">
+    <div class="category-header-line">
+        <h1 class="category-name-header">
+            {{ category_name }}. Выбирайте цели и параметры.
+        </h1> <!-- "category-name-header" -->
+        <div class="help-block">
+        <span class="help-picture"></span>
+        </div>
+    </div> <!-- "category-header-line" -->
+
+    </div>
+
+    <div class="form-background">
+            <div class="form-reset">
+            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
+            <span>Сбросить</span>
+            <div class="sbros-krestik"></div>
+{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
+            </button>
+        </div> <!-- "form-reset" -->
+
+            {% if goals_fbb_mobile %}
+            <script>
+                $(function() {
+                    $(document).ready(function () {
+                        $('label[for=goals]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=goals]').css('display', 'none');
+                    });
+                });
+            </script>
+            {% endif %}
+
+            <div class="form_blocks">
+            <input type="checkbox" class="form_block_buttons_mobile" id="goals" name="goals_fbb_mobile" value="open"
+                   {%  if goals_fbb_mobile %} checked {% endif %}
+                            onchange="$('label[for=goals]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=goals]').css('display', 'none');">
+
+            <label for="goals" class="form_block_mobile_present">
+
+                <div class="form_block_mobile_present_text">Цели использования</div>
+                <div class="form_block_mobile_present_strelka"></div>
+
+            </label>
+            <div class="form_block_buttons">
+
+            <div class="form_block_header_mobile"
+                 onclick="$(this).parent().css('display', 'none');
+                           $('input#goals + label').css('display', 'flex');
+                            $('input#goals').prop('checked', false);">
+                <div class="form_block_header_mobile_text">Цели использования</div>
+                <div class="form_block_header_mobile_strelka"></div>
+            </div>
+            <div class="form_block_header">Цели использования</div>
+
+
+            {% for sub_type in new_form.GO.keys %}
+
+            {% if sub_type != '1'  %}
+              <div class="form_subtypes">{{ sub_type }}</div>
+            {% endif %}
+
+          {% for class_ in new_form.GO|get_item:sub_type %}
+              <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
+                      {% if class_.name in checked_items %} checked{% endif %}
+                        {% if class_.name not in enabled %} disabled{% endif %}
+                        onchange="$(this).closest('form').submit();">
+              <label for="{{ class_.name }}">
+                  <span>{{ class_.text }}</span>
+                  <div class="space-gradient"></div>
+                  <div class="check-galka"></div>
+                                    {%  if  class_.explanation %}
+
+
+                  <div class="hint-quest-mark" onmouseover="$(this).children('.hint-title-hover').css('display', 'block');
+                                                            $(this).children('.hint-title-pin').css('display', 'block');"
+                                                onmouseleave="$(this).children('.hint-title-hover').css('display', 'none');
+                                                            $(this).children('.hint-title-pin').css('display', 'none');">
+
+                     &nbsp;?
+                      <div class="hint-title-pin"></div>
+                    <div class="hint-title-hover">
+                    {% autoescape off %}{{ class_.explanation|linebreaksbr }}{% endautoescape %}
+                  </div>
+                  </div>
+
+                  {% endif %}
+
+              </label>
+
+          {% endfor %}
+      {% endfor %}
+        </div>
+        {% if classes_fbb_mobile %}
+            <script>
+                $(function() {
+                    $(document).ready(function () {
+                        $('label[for=classes]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=classes]').css('display', 'none');
+                    });
+                });
+            </script>
+            {% endif %}
+        <input type="checkbox" class="form_block_buttons_mobile" id="classes" name="classes_fbb_mobile" value="open"
+                   {%  if classes_fbb_mobile %} checked {% endif %}
+                            onchange="$('label[for=classes]').next('.form_block_buttons').css('display', 'block');
+                         $('label[for=classes]').css('display', 'none');">
+
+            <label for="classes" class="form_block_mobile_present">
+
+                <div class="form_block_mobile_present_text">Технические параметры</div>
+                <div class="form_block_mobile_present_strelka"></div>
+
+            </label>
+
+            <div class="form_block_buttons">
+                <div class="form_block_header_mobile"
+                 onclick="$(this).parent().css('display', 'none');
+                           $('input#classes + label').css('display', 'flex');
+                            $('input#classes').prop('checked', false);">
+                <div class="form_block_header_mobile_text">Цели использования</div>
+                <div class="form_block_header_mobile_strelka"></div>
+            </div>
+                <div class="form_block_header">Технические параметры</div>
+
+                {% for sub_type in new_form.CL.keys %}
+                {% if sub_type != '1'  %}
+                            <div class="form_subtypes">{{ sub_type }}</div>
+                {% endif %}
+
+          {% for class_ in new_form.CL|get_item:sub_type %}
+             <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
+                      {% if class_.name in checked_items %} checked{% endif %}
+                        {% if class_.name not in enabled %} disabled{% endif %}
+                        onchange="$(this).closest('form').submit();">
+              <label for="{{ class_.name }}">
+                  <span>{{ class_.text }}</span>
+                  <div class="space-gradient"></div>
+                  <div class="check-galka"></div>
+                  {%  if  class_.explanation %}
+
+
+                  <div class="hint-quest-mark" onmouseover="$(this).children('.hint-title-hover').css('display', 'block');
+                                                            $(this).children('.hint-title-pin').css('display', 'block');"
+                                                onmouseleave="$(this).children('.hint-title-hover').css('display', 'none');
+                                                            $(this).children('.hint-title-pin').css('display', 'none');">
+
+                     &nbsp;?
+                      <div class="hint-title-pin"></div>
+                    <div class="hint-title-hover">
+                        {% autoescape off %}
+                            {{ class_.explanation|linebreaksbr }}
+                        {% endautoescape %}
+                    </div>
+                  </div>
+
+                  {% endif %}
+              </label>
+          {% endfor %}
+      {% endfor %}
+        </div>
+
+    </div> <!-- "form_blocks" -->
+
+
+
+    </div> <!-- "filter-form" -->
+    <div class="issuance-tabs">
+        {% for tab in tab_list %}
+            <div class="tabs-header{% if tab_active == tab %} tab-active{% endif %}" id="{{ tab }}_">
+
+            <input type="radio" name="tabs" value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} checked="checked"{% endif %}
+            onchange="$(this).closest('form').submit();">
+            <label for="{{ tab }}">
+
+                    {% with thistab=tab_data|get_item:tab %}
+                    <div style="display: inline-block;
+                                height: 32px;
+                                margin-left: 12px;
+                                background: url('/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}') no-repeat;
+                                background-repeat: no-repeat;
+                                background-position: 50% 50%;
+                                background-size: 18px 18px;
+                                width: 18px;">
+                    {#<img hspace="0px"src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
+                    </div>
+                    <div class="tabs-rusname">{{ thistab|get_item:"rus_name" }}</div>
+                    {% endwith %}
+            </label>
+            </div> <!-- tabs_header -->
+        {% endfor %}
+        <div class="tab-item" id="marketability_">
+            <h2 class="table-sign-text">{{ category_name }} - лидеры продаж за {{ period }} </h2>
+            <div class="table-wrap-mobile">
+            <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                        <th class="table-head-price">
+                            <span>Цена*, руб.</span>
+                            <div class="table-head-price-arrow"></div>
+
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th align="center">{{ fld }}</th>
+                        {% endfor %}
+
+                </tr>
+            {% for i in tbl_data.id.keys  %}
+                <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data.id_brand_name|get_item:i }}">
+                {{ tbl_data.brand|get_item:i }}&nbsp;{{ tbl_data.name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                </td>
+                {% for fld in tbl_data.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td align="center">
+                        {% with val=tbl_data|get_item:fld|get_item:i%}
+                        {% if val == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif val == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ val }}
+                        {% endif %}
+                        {% endwith %}
+                    </td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+
+            <div class="under-table">
+            <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
+            {% with len=tbl_data.id.keys|length  %}
+            {% if len > 10 %}
+{#                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">#}
+
+                <input type="checkbox" class="check-eshe" id="eshe"
+                       onclick="if($('.collapse-table-row').css('display') == 'none')
+                       {$('.collapse-table-row').css('display', 'table-row');
+                       $('.pokazat-eshe').css('display', 'none');
+                       $('.svernut').css('display', 'inline-flex');
+                       $('.icon-down').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.collapse-table-row').css('display', 'none');
+                         $('.pokazat-eshe').css('display', 'inline-flex');
+                         $('.svernut').css('display', 'none');
+                         $('.icon-down').css('transform', 'none');};">
+
+                <label for="eshe" class="label-eshe">
+                    <div class="pokazat-eshe">
+                        Показать еще ({{ len|add:-10 }})
+                    </div>
+                    <div class="svernut">Свернуть</div>
+                    <div class="icon-down"></div>
+
+
+                </label>
+
+
+            {% endif %}
+            {% endwith %}
+            </div> <!-- under-table -->
+        </div>
+
+        </div> <!-- marketability -->
+
+            <div class="tab-item" id="novelity_">
+                        <h2 class="table-sign-text">{{ category_name }} - новые модели за {{ period }}</h2>
+
+            <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><div><span style="padding-left: 12px;">Название</span></div></th>
+                        <th class="table-head-price">
+                            <div>
+                            <span>Цена*, руб.</span>
+                            <div class="table-head-price-arrow"></div>
+                            </div>
+
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th class="th-tbl">{{ fld }}</th>
+                        {% endfor %}
+
+                </tr>
+            {% for i in tbl_data_nov.id.keys  %}
+                <tr class="table-row{% if forloop.counter > 10 %} collapse-table-row{% endif %}">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data_nov.id|get_item:i }}">
+                {{ tbl_data_nov.brand|get_item:i }}&nbsp;{{ tbl_data_nov.name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <div>
+                <b>{{ tbl_data_nov.price_avg|get_item:i|digit_separator }}</b>
+                </div>
+                </td>
+                {% for fld in tbl_data_nov.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td align="center">
+                        <div>
+                        {% with val=tbl_data_nov|get_item:fld|get_item:i%}
+                        {% if val == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif val == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ val }}
+                        {% endif %}
+                        {% endwith %}
+                        </div>
+                    </td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+            <div class="under-table">
+            <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
+            {% with len=tbl_data_nov.id.keys|length  %}
+            {% if len > 10 %}
+{#                <input type="button" class="button-eshe" value="Еще {{ len|add:-10 }}" onclick="if($('.collapse-table-row').css('display') == 'none') {$('.collapse-table-row').css('display', 'table-row') } else {$('.collapse-table-row').css('display', 'none') };">#}
+
+                <input type="checkbox" class="check-eshe" id="eshe"
+                       onclick="if($('.collapse-table-row').css('display') == 'none')
+                       {$('.collapse-table-row').css('display', 'table-row');
+                       $('.pokazat-eshe').css('display', 'none');
+                       $('.svernut').css('display', 'inline-block');
+                       $('.icon-down').css('transform', 'rotate(180deg)');}
+                       else
+                        {$('.collapse-table-row').css('display', 'none');
+                         $('.pokazat-eshe').css('display', 'inline-block');
+                         $('.svernut').css('display', 'none');
+                         $('.icon-down').css('transform', 'none');};">
+
+                <label for="eshe" class="label-eshe">
+                    <div class="pokazat-eshe">
+                        Показать еще ({{ len|add:-10 }})
+                    </div>
+                    <div class="svernut">Свернуть</div>
+                    <div class="icon-down"></div>
+
+
+                </label>
+
+
+            {% endif %}
+            {% endwith %}
+            </div> <!-- under-table -->
+            </div> <!-- novelity -->
+
+    </div><!-- "issuance-tabs" -->
+
+{#    </div> <!-- "form-and-table" -->#}
+    </form>
+    <div class="right-news">
+{#        <script>#}
+{#                    $(document).ready(function()#}
+{#                    {$('.theme-pic-place').css('background', 'url({{ theme_pic }})')}#}
+{#                    );#}
+{##}
+{#        </script>#}
+
+        <div class="theme-pic-place" style="background: url(/static/marketability/{{ theme_pic }});background-repeat: no-repeat;">
+
+        </div> <!-- banner-place -->
+        {% if bestesellers_links %}
+        <h2 class="novosti-header"><a href="/rate/{{ action }}/" target="blank_">Рейтинги</a></h2>
+
+        {% for lnk in bestesellers_links %}
+            <a href="/rate/{{ action }}/{{ lnk.id_html_name }}" target="_blank" class="news">
+            <div class="news-and-anno">
+                <div class="news-header-link">{{ lnk.article_title }}</div>
+                <span class="link-annotation">
+                    {{ lnk.article_anno|truncatechars_html:200 }}
+                </span>
+
+            </div>
+                <div class="news-chevron">
+                    <img src="/static/marketability/pict/Double chevron right-1.svg">
+                </div>
+            </a>
+        {% endfor %}
+        <div class="rаtings_list_bottom"><a href="/rate/{{ action }}/" target="blank_">Прочие рейтинги >></a></div>
+        {% endif %}
+
+
+    </div> <!-- "right-news" -->
+
+    </div> <!-- "category-content" -->
+
+
+{% endblock %} <!-- block category -->
