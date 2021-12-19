@@ -3,6 +3,7 @@ import sqlalchemy as sql
 import json
 import time
 import datetime as dt
+import re
 
 # Изменяемые записи для Update
 def df_compare(df_old, df_new):
@@ -564,6 +565,72 @@ class brandname(object):
 
         self.connection = self.sql_engine.connect()
 
+    def Sec_sympols_replace(self, string_):
+
+        article_name_transliterate = {
+            " ": "-",
+            "а": "a",
+            "б": "b",
+            "в": "v",
+            "г": "g",
+            "д": "d",
+            "е": "e",
+            "ё": "yo",
+            "ж": "zh",
+            "з": "z",
+            "и": "i",
+            'й': "j",
+            "к": "k",
+            "л": "l",
+            "м": "m",
+            "н": "n",
+            "о": "o",
+            "п": "p",
+            "р": "r",
+            "с": "s",
+            "т": "t",
+            "у": "u",
+            "ф": "f",
+            "х": "kh",
+            "ц": "ts",
+            "ч": "ch",
+            "ш": "sh",
+            "щ": "shch",
+            "ь": "",
+            "ы": "y",
+            "ъ": "",
+            "э": "e",
+            "ю": "iu",
+            "я": "ya",
+            "`": "-",
+            ".": "-",
+            ",": "",
+            "\"": "inch",
+            ":": "-",
+            "(": "",
+            ")": "",
+            "+": "-",
+            "*": "",
+            "!": "",
+            "?": "",
+            "#": "_",
+            "/": "-",
+            "\\":"-"
+        }
+        regex_nolatind = re.compile('[^a-z0-9]')
+
+        no_latind = regex_nolatind.findall(string_)
+
+        print(no_latind)
+
+        for s in no_latind:
+            try:
+                string_ = string_.replace(s, article_name_transliterate[s])
+            except KeyError:
+                string_ = string_.replace(s, "")
+
+        return string_
+
     def ID_bramd_name_fill(self):
 
         work_df = pd.DataFrame()
@@ -571,7 +638,8 @@ class brandname(object):
         work_df = pd.read_sql(select_qry, self.connection)
 
         for i, row in work_df.iterrows():
-            str_id_brand_name = row['brand'].lower().replace(" ", "-").replace("/", "-") + '-' + row['name'].lower().replace(" ", "-").replace("/", "-")
+
+            str_id_brand_name = self.Sec_sympols_replace(row['brand'].lower()) + '-' + self.Sec_sympols_replace(row['name'].lower())
             dict_update = {"id_brand_name": str_id_brand_name}
             update_qry = self.tbl_products.update().where(self.tbl_products.c.name == row["name"]).values()
             self.connection.execute(update_qry, dict_update)
@@ -663,8 +731,9 @@ class Monitor_Models_Base_Update():
 #                                            dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\")
 # Oct_monitors.Write_excel()
 
-for cat in ["Ups"]:
+for cat in ["Nb", "Mnt", "Mfp", "Ups"]:
 
     Obj = brandname(cat)
     print(cat)
+    #Obj.Sec_sympols_replace("МАСТЕР 800VA 8*SCHUKO")
     Obj.ID_bramd_name_fill()

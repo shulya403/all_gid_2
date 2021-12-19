@@ -991,7 +991,7 @@ def search_all(request):
     dict_cat_model_list = dict()
     for cat_ in categories_list:
         db_tbl = DB_table(cat_[1])
-        qry_all = db_tbl['products'].objects.all().order_by('brand', 'name').values('id','brand','name', 'id_brand_name')
+        qry_all = db_tbl['products'].objects.all().order_by('brand', 'name').values('id', 'brand','name', 'id_brand_name')
         dict_cat_model_list[cat_[1]] = qry_all
 
 
