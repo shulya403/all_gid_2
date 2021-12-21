@@ -160,13 +160,13 @@ def Init_cat(request, cat_, db_tbl):
 
 
 #Категории
-    with open('marketability/static/marketability/json/dict_categories.json', encoding='utf-8') as f_cat:
+    with open('marketability/static/marketability/json/dict_categories_new.json', encoding='utf-8') as f_cat:
         dict_categories = json.load(f_cat)
 
     if cat_:
 
         # Картинки для категории
-        with open('marketability/static/marketability/json/dict_to_pic.json', encoding='utf-8') as f_pic:
+        with open('marketability/static/marketability/json/dict_to_pic_new.json', encoding='utf-8') as f_pic:
             dict_to_cat = json.load(f_pic)[cat_]
 
         request.session['cat_'] = cat_
@@ -233,7 +233,7 @@ def Init_cat(request, cat_, db_tbl):
 def Dict_by_Classes2(request, db_tbl):
 
     # Картинки для категории
-    with open('marketability/static/marketability/json/dict_sorting_classes.json', encoding='utf-8') as f_cls:
+    with open('marketability/static/marketability/json/dict_sorting_classes_new.json', encoding='utf-8') as f_cls:
         dict_sorting_classes = json.load(f_cls)
 
     def Sort_dict_by_values(dict_):
@@ -358,7 +358,7 @@ def Cat_Check_for_Redirect(cat_):
     }
 
     if cat_ in dict_old_cat_names.keys():
-        str_redirect = "/" + dict_old_cat_names[cat_] + "/"
+        str_redirect = dict_old_cat_names[cat_]
         return str_redirect
 
     else:
@@ -370,7 +370,7 @@ def page_Category_Main(request, cat_):
 
     cat_check = Cat_Check_for_Redirect(cat_)
     if cat_check != cat_:
-        return HttpResponseRedirect(cat_check)
+        return HttpResponseRedirect("/" + cat_check + '/')
 
     db_tbl = DB_table(cat_)
 
@@ -498,7 +498,8 @@ def page_Category_Main(request, cat_):
             'enabled': enabled_return,
             'checked_items': post_return,
             'period': period,
-            'bestesellers_links': best_links,
+            'bestesellers_links': best_links[0],
+            'bestesellers_cat': best_links[1],
             'tab_active': tab_active,
             'tab_list': tab_list,
             'tab_data': tab_data,
@@ -680,8 +681,10 @@ def page_new_Product(request, cat_, product_):
                 'len_miscell': len(df_miscell),
                 'this_classes': this_classes,
                 'id': Product.id,
+                'id_brand_name': Product.id_brand_name,
                 'prod_img': prod_img_one,
-                'bestesellers_links': best_links,
+                'bestesellers_links': best_links[0],
+                'bestesellers_cat': best_links[1],
                 'price_rate': price_rate,
                 'price_min_short': price_min_short,
                 'price_max_short': price_max_short,
@@ -954,22 +957,23 @@ def Get_Bestsellers_links():
 
 def about(request):
 
-    try:
-        categories_list = request.session['categories_list']
-    except KeyError:
-        ctg = Init_cat(request, '', {})
-        categories_list = request.session['categories_list']
+    # try:
+    #     categories_list = request.session['categories_list']
+    # except KeyError:
+    ctg = Init_cat(request, '', {})
+    categories_list = request.session['categories_list']
 
     exit_ = {'categories_list': categories_list}
 
     return render(request, template_name="al_about.html", context=exit_)
 
 def home(request):
-    try:
-        categories_list = request.session['categories_list']
-    except KeyError:
-        ctg = Init_cat(request, '', {})
-        categories_list = request.session['categories_list']
+    # try:
+    #     categories_list = request.session['categories_list']
+    #except KeyError:
+    ctg = Init_cat(request, '', {})
+    categories_list = request.session['categories_list']
+
     categories_pict = {
         "Ноутбуки": "/static/marketability/pict/cat/nb.jpg",
         "Мониторы": "/static/marketability/pict/cat/Mnt.jpg",
@@ -983,11 +987,11 @@ def home(request):
     return render(request, template_name="al_home.html", context=exit_)
 
 def search_all(request):
-    try:
-        categories_list = request.session['categories_list']
-    except KeyError:
-        ctg = Init_cat(request, '', {})
-        categories_list = request.session['categories_list']
+    # try:
+    #     categories_list = request.session['categories_list']
+    # except KeyError:
+    ctg = Init_cat(request, '', {})
+    categories_list = request.session['categories_list']
     dict_cat_model_list = dict()
     for cat_ in categories_list:
         db_tbl = DB_table(cat_[1])
@@ -1003,11 +1007,11 @@ def search_all(request):
 
 def handler404(request, exception=None):
 
-    try:
-        categories_list = request.session['categories_list']
-    except KeyError:
-        ctg = Init_cat(request, '', {})
-        categories_list = request.session['categories_list']
+    # try:
+    #     categories_list = request.session['categories_list']
+    # except KeyError:
+    ctg = Init_cat(request, '', {})
+    categories_list = request.session['categories_list']
 
     response = render(request, template_name="404.html", context={'categories_list': categories_list})
     response.status_code = 404
@@ -1015,11 +1019,20 @@ def handler404(request, exception=None):
     return response
 def Get_Ratings_links(cat_):
 
-    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin',
+    dict_cat = {
+        "Monitor": "Mnt",
+        "Noutbuk": "Nb",
+        "Printer_mfu": "Mfp"
+    }
+
+    if cat_ in dict_cat.keys():
+        cat_ = dict_cat[cat_]
+
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'cat', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin',
                                                          'date').order_by('-date')
     len_list = len(listing)
     if len_list > 5:
-        return listing[:5]
+        return (listing[:5], cat_)
     else:
-        return listing
+        return (listing, cat_)
 

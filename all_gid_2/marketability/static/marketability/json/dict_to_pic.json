@@ -27,5 +27,15 @@
   },
   "Ups": {
       "zaglushka": "pict/themes/ups_zaglushka_256_512.jpg"
-  }
+  },
+  "Mnt": {
+            "zaglushka": "pict/themes/mnt_zaglushka2-256-512.jpg",
+            "Game": "pict/themes/mnt_game5-256-512.jpg",
+            "Prof": "pict/themes/mnt_profi3-256-512.jpg",
+            "Office": "pict/themes/mnt_corporate-256-512.jpg",
+            "Entry_level": "pict/themes/mnt_beginner3-256-512.jpg",
+            "Common": "pict/themes/mnt_universum2-256-512.jpg",
+            "Premium": "pict/themes/mnt_premium-256-512.jpg"
+
+        }
 }

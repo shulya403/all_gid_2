@@ -1,5 +1,5 @@
 {
-        "Monitor": {
+        "Mnt": {
             "category_name": "Мониторы",
             "category_name_singular": {
                 "stable": true,
@@ -58,7 +58,7 @@
             },
             "timelag": 1
         },
-        "Noutbuk": {
+        "Nb": {
             "category_name": "Ноутбуки",
             "category_name_singular": {
                 "stable": true,
@@ -120,7 +120,7 @@
             },
             "timelag": 1
         },
-        "Printer-mfu": {
+        "Mfp": {
             "category_name": "Принтеры и МФУ",
             "category_name_singular": {
                 "stable": false,
@@ -249,4 +249,5 @@
             },
             "timelag": 1
         }
+
     }

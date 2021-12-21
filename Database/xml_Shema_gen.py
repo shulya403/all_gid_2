@@ -17,11 +17,17 @@ class DB():
                                        convert_unicode=True)
         metadata = sql.MetaData(sql_engine)
 
+        dict_cat_new = {
+            'Nb': 'Noutbuk',
+            'Mnt': 'Monitor',
+            'Mfp': 'Printer-mfu',
+            'Ups': "Ups"
+        }
 
         for i in list_cat:
             tbl_products = sql.Table(i.lower() + '_products', metadata, autoload=True)
             self.connection = sql_engine.connect()
-            self.dict_cat_conn[i] = self.Select_SQL_to_df(tbl_products)
+            self.dict_cat_conn[dict_cat_new[i]] = self.Select_SQL_to_df(tbl_products)
 
         tbl_rate = sql.Table('txt_ratings', metadata, autoload=True)
         self.df_rate = self.Select_SQL_to_df(tbl_rate)
@@ -52,7 +58,7 @@ class DB():
         for cat in self.dict_cat_conn:
             count=0
             for i, row in self.dict_cat_conn[cat].iterrows():
-                loc_.append('https://allgid.ru/' + cat + '/' + str(row['id']))
+                loc_.append('https://allgid.ru/' + cat + '/' + str(row['id_brand_name']))
                 # date_ = row['appear_month']
                 # try:
                 #     date_ += timedelta(days=45)

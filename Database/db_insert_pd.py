@@ -615,7 +615,8 @@ class brandname(object):
             "?": "",
             "#": "_",
             "/": "-",
-            "\\":"-"
+            "\\":"-",
+            "-":'-'
         }
         regex_nolatind = re.compile('[^a-z0-9]')
 
