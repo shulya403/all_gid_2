@@ -516,8 +516,12 @@ def page_Category_Main(request, cat_):
 def Product_Check_for_Redirect(product_, tbl_products):
 
     if re.match(r'\d+$', str(product_)):
-        row_product = tbl_products.objects.get(id=product_)
-        return row_product.id_brand_name
+        try:
+            row_product = tbl_products.objects.get(id=product_)
+            return row_product.id_brand_name
+        except Exception:
+            return None
+
     else:
         return product_
 
@@ -556,7 +560,11 @@ def page_new_Product(request, cat_, product_):
     product_chek = Product_Check_for_Redirect(product_, db_tbl['products'])
     #print(product_chek)
 
+    if not product_chek:
+        return handler404(request)
+
     if (cat_check != cat_) or (product_chek != product_):
+
         return HttpResponseRedirect("/" + cat_check + "/" + product_chek)
 
 
