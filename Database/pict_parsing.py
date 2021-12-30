@@ -119,7 +119,7 @@ def Img_Ext(href):
 
 #  MAIN
 
-Cat = Parse_pict("Nb", "Ноутбук-Concat_Prices--Oct-21--Filled.xlsx")
+Cat = Parse_pict("Nb", "Ноутбук-Concat_Prices--Nov-21--Filled.xlsx")
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
