@@ -439,7 +439,7 @@ class DB_insert_from_excel(object):
 
         exit_insert = df_new[df_new['name'].isin(difference)]
         for i, row in exit_insert.iterrows():
-            exit_insert.loc[i, 'id_brand_name'] = Sec_sympols_replace(row['brand'].lower()) + '-' + Sec_sympols_replace(row['name'].lower())
+            exit_insert.loc[i, 'id_brand_name'] = Sec_sympols_replace(row['brand'].lower()) + '-' + Sec_sympols_replace(str(row['name']).lower())
 
         #Проверка исправленнных
 
@@ -759,10 +759,10 @@ class Monitor_Models_Base_Update():
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_November1.xlsx",
-#                       xl_Vardata="ITResearch_NB_Report-11`21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-#                      Category="Nb",
-#                     dir_root = "C:/Users/User/ITResearch/all_gid_2/Data/")
+# FillDB = DB_insert_from_excel(xl_Products="Mfp_Model_Base_11'2021-1.xlsx",
+#                       xl_Vardata="Mfp_Model_Base_11'2021-1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Mfp",
+#                     dir_root = "C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\")
 # FillDB.DB_alchemy(FillDB.Category)
 # FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
@@ -779,13 +779,13 @@ class Monitor_Models_Base_Update():
 
 #Заполение магазинов для мониторов и ноутбуков
 
-# FillShop = DB_insert_shops(
-#                  xl_Shops="Ноутбук-Concat_Prices--Nov-21--Filled.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Nb',
-#                  dir_root="../Data/"
-# )
-#
-# FillShop.To_DB_Shop_Price()
+FillShop = DB_insert_shops(
+                 xl_Shops="Принтер-Concat_Prices--Nov-21--Filled.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Mfp',
+                 dir_root="../Data/"
+)
+
+FillShop.To_DB_Shop_Price()
 
 
 #   Мониторы добавка и исправление моделей за месяц
@@ -794,10 +794,10 @@ class Monitor_Models_Base_Update():
 #     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 #C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\
 
-# Oct_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_09-1.xlsx",
-#                                            "Копия Allgid monitors october 2021.xlsx",
-#                                            dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\")
-# Oct_monitors.Write_excel()
+# Nov_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_10-1.xlsx",
+#                                            "allgid monitors November 2021.xlsx",
+#                                            dir="C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\")
+# Nov_monitors.Write_excel()
 
 # for cat in ["Nb", "Mnt", "Mfp", "Ups"]:
 #

@@ -83,6 +83,11 @@
 
 
     <div class="product_ttx__img">
+        {% if  prod_img %}
+    <div class="product_img">
+        <img src="{{ prod_img }}" alt="{{ category_name_singular }} {{ vendor }} {{ name }}" title="{{ category_name_singular }} {{ vendor }} {{ name }}">
+    </div>
+        {% endif %}
     <div class="product_ttx">
         <table class="ttx_table">
             {% for k, v in ttx.items %}
@@ -96,7 +101,7 @@
                         {% elif v == 'Нет' %}
                             <img src="/static/marketability/pict/X red-1.svg">
                         {% else %}
-                        {{ v }}
+                        <span>{{ v }}</span>
                         {% endif %}
                     </td>
                 </tr>
@@ -104,11 +109,9 @@
     </table>
     </div>
 
-    {% if  prod_img %}
-    <div class="product_img">
-        <img src="{{ prod_img }}" alt="{{ category_name_singular }} {{ vendor }} {{ name }}" title="{{ category_name_singular }} {{ vendor }} {{ name }}">
-    </div>
-    {% endif %}
+
+
+
     </div>
     <div class="product_class_block_left" id="price_tunner">
     <div class="product_class_left_col">

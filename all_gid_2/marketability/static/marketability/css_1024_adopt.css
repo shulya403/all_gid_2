@@ -1091,6 +1091,12 @@ em {
         color: rgba(0,0,0,0.88);
         font-size: 18px;
 }
+.ttx-td > span {
+        -moz-hyphens: auto;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        word-break: break-all;
+}
 
 .product_class_left_col {
         width: 100%;
