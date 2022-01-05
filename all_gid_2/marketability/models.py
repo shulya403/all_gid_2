@@ -27,6 +27,8 @@ class TxtHow(models.Model):
         managed = False
         db_table = 'txt_how'
 
+    def __str__(self):
+        return self.cat + " - " + self.article_title
 
 class TxtRatings(models.Model):
     idtxt_ratings = models.AutoField(primary_key=True)
@@ -45,6 +47,9 @@ class TxtRatings(models.Model):
     class Meta:
         managed = False
         db_table = 'txt_ratings'
+
+    def __str__(self):
+        return self.cat + " - " + self.article_title
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
@@ -170,6 +175,7 @@ class MfpClasses(models.Model):
 
 class MfpProducts(models.Model):
     brand = models.CharField(max_length=45, blank=True, null=True)
+    id_brand_name = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     type = models.CharField(max_length=45, blank=True, null=True)
     prt_technology = models.CharField(max_length=45, blank=True, null=True)
@@ -183,10 +189,15 @@ class MfpProducts(models.Model):
     ethernet = models.CharField(max_length=3, blank=True, null=True)
     appear_month = models.DateField(blank=True, null=True)
     speed = models.CharField(max_length=45, blank=True, null=True)
+    cis = models.CharField(max_length=3, blank=True, null=True)
+
 
     class Meta:
         managed = False
         db_table = 'mfp_products'
+
+    def __str__(self):
+        return self.id_brand_name
 
 
 class MfpProductsHasMfpClasses(models.Model):
@@ -222,6 +233,7 @@ class MntClasses(models.Model):
 
 
 class MntProducts(models.Model):
+    id_brand_name = models.CharField(max_length=255, blank=True, null=True)
     brand = models.CharField(max_length=45, blank=True, null=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     type = models.CharField(max_length=45, blank=True, null=True)
@@ -272,6 +284,7 @@ class NbClasses(models.Model):
 
 
 class NbProducts(models.Model):
+    id_brand_name = models.CharField(max_length=255, blank=True, null=True)
     brand = models.CharField(max_length=45, blank=True, null=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     cluster = models.CharField(max_length=45, blank=True, null=True)
@@ -370,6 +383,7 @@ class UpsClasses(models.Model):
 
 
 class UpsProducts(models.Model):
+    id_brand_name = models.CharField(max_length=255, blank=True, null=True)
     brand = models.CharField(max_length=45, blank=True, null=True)
     name = models.CharField(max_length=45, blank=True, null=True)
     appear_month = models.DateField(blank=True, null=True)

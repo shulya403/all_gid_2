@@ -17,11 +17,17 @@ class DB():
                                        convert_unicode=True)
         metadata = sql.MetaData(sql_engine)
 
+        dict_cat_new = {
+            'Nb': 'Noutbuk',
+            'Mnt': 'Monitor',
+            'Mfp': 'Printer-mfu',
+            'Ups': "Ups"
+        }
 
         for i in list_cat:
             tbl_products = sql.Table(i.lower() + '_products', metadata, autoload=True)
             self.connection = sql_engine.connect()
-            self.dict_cat_conn[i] = self.Select_SQL_to_df(tbl_products)
+            self.dict_cat_conn[dict_cat_new[i]] = self.Select_SQL_to_df(tbl_products)
 
         tbl_rate = sql.Table('txt_ratings', metadata, autoload=True)
         self.df_rate = self.Select_SQL_to_df(tbl_rate)
@@ -44,7 +50,7 @@ class DB():
     def xml_write(self, filename):
 
         loc_ = list()
-        lastmod_ = list()
+        #lastmod_ = list()
 
         now = dt.datetime.now()
         now_ = time.strftime("%Y-%m-%d", time.struct_time(
@@ -52,17 +58,17 @@ class DB():
         for cat in self.dict_cat_conn:
             count=0
             for i, row in self.dict_cat_conn[cat].iterrows():
-                loc_.append('https://allgid.ru/' + cat + '/' + str(row['id']))
-                date_ = row['appear_month']
-                try:
-                    date_ += timedelta(days=45)
-                except TypeError:
-                    pass
-                lastmod_.append(date_)
+                loc_.append('https://allgid.ru/' + cat + '/' + str(row['id_brand_name']))
+                # date_ = row['appear_month']
+                # try:
+                #     date_ += timedelta(days=45)
+                # except TypeError:
+                #     pass
+                #lastmod_.append(now_)
 
                 count+=1
             print(cat, count)
-        df = pd.DataFrame({'loc': loc_, 'lastmod': lastmod_})
+        df = pd.DataFrame({'loc': loc_, 'lastmod': now_})
         print("Всего модлей:", len(df))
 
         xml_f = open(filename, "w")
@@ -103,7 +109,7 @@ class DB():
             xml_f.write("<url>\n")
             xml_f.write("<loc>{}</loc>\n".format(row['loc']))
             if row['lastmod']:
-                xml_f.write("<lastmod>{}</lastmod>\n".format(now_))
+                xml_f.write("<lastmod>{}</lastmod>\n".format(row['lastmod']))
             xml_f.write("</url>\n")
         xml_f.write("</urlset>")
         xml_f.close()

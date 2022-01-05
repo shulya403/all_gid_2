@@ -21,7 +21,7 @@
         <ul class="search-all-cat-list">
             {% for ls_mod in dict_cat|get_item:cat_ %}
                 <li>
-                    <a href="/{{ cat_ }}/{{ ls_mod.id }}">
+                    <a href="/{{ cat_ }}/{{ ls_mod.id_brand_name }}">
                         {{ ls_mod.brand }}&nbsp;{{ ls_mod.name }}
                     </a>
                 </li>

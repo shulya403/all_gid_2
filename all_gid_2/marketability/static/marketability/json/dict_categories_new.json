@@ -1,0 +1,252 @@
+{
+        "Monitor": {
+            "category_name": "Мониторы",
+            "category_name_singular": {
+                "stable": true,
+                "name": "Монитор"
+            },
+
+            "fields_show": {
+
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "type": {
+                    "html_name": "Экран",
+                    "id": 2,
+                    "short": true
+                },
+                "curved": {
+                    "html_name": "Вогнутый",
+                    "id": 4,
+                    "short": true
+                },
+                "game": {
+                    "html_name": "Игровой",
+                    "id": 5,
+                    "short": true
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 8,
+                    "short": false
+                },
+                "resolution_abb": {
+                    "html_name": "Разрешение",
+                    "id": 3,
+                    "short": false
+                },
+                "matrix_type": {
+                    "html_name": "Тип матрицы",
+                    "id": 6,
+                    "short": false
+                },
+                "response_time": {
+                    "html_name": "Время отклика",
+                    "id": 7,
+                    "short": false
+                }
+
+            },
+            "timelag": 1
+        },
+        "Noutbuk": {
+            "category_name": "Ноутбуки",
+            "category_name_singular": {
+                "stable": true,
+                "name": "Ноутбук"
+            },
+
+            "fields_show": {
+
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "screen_size": {
+                    "html_name": "Экран",
+                    "id": 2,
+                    "short": true
+                },
+                "cpu_vendor": {
+                    "html_name": "Произв. процессора",
+                    "id": 3,
+                    "short": true
+                },
+                "base_platform": {
+                    "html_name": "Поколение процессора",
+                    "id": 4,
+                    "short": false
+                },
+                "gpu_list": {
+                    "html_name": "Графика",
+                    "id": 5,
+                    "short": true
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 9,
+                    "short": false
+                },
+                "touchscreen": {
+                    "html_name": "Сенсорный экран",
+                    "id": 7,
+                    "short": false
+                },
+                "screen_resulution_list": {
+                    "html_name": "Разрешение экрана",
+                    "id": 6,
+                    "short": false
+               },
+                "target_market": {
+                    "html_name": "Позиционирование",
+                    "id": 8,
+                    "short": false
+                }
+            },
+            "timelag": 1
+        },
+        "Printer-mfu": {
+            "category_name": "Принтеры и МФУ",
+            "category_name_singular": {
+                "stable": false,
+                "name": "Принтер, МФУ",
+                "field": "type"
+            },
+
+
+            "fields_show": {
+
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "type": {
+                    "html_name": "Тип",
+                    "id": 2,
+                    "short": true
+                },
+                "prt_technology": {
+                    "html_name": "Печать",
+                    "id": 3,
+                    "short": true
+                },
+                "color": {
+                    "html_name": "Цвет",
+                    "id": 4,
+                    "short": true
+                },
+                "format_a": {
+                    "html_name": "Формат",
+                    "id": 5,
+                    "short": false
+                },
+                "speed": {
+                    "html_name": "Скорость печати, стр/мин",
+                    "id": 5,
+                    "short": true
+                },
+                "duplex": {
+                    "html_name": "Двусторонняя печать (дуплекс)",
+                    "id": 6,
+                    "short": false
+                },
+                "wi_fi": {
+                    "html_name": "Wi-Fi (беспроводная сеть)",
+                    "id": 7,
+                    "short": false
+                },
+                "ethernet": {
+                    "html_name": "Ethernet (проводная cеть)",
+                    "id": 8,
+                    "short": false
+                },
+                "fax": {
+                    "html_name": "Факс",
+                    "id": 10,
+                    "short": false
+
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 12,
+                    "short": false
+                },
+                "cis": {
+                    "html_name": "СНПЧ",
+                    "id": 10,
+                    "short": false
+
+                }
+            },
+
+
+            "timelag": 1
+        },
+
+        "Ups": {
+            "category_name": "ИБП",
+            "category_name_singular": {
+                "stable": true,
+                "name": "ИБП"
+            },
+            "fields_show": {
+                "brand": {
+                    "html_name": "Компания",
+                    "id": 0,
+                    "short": false
+                },
+                "name": {
+                    "html_name": "Модель",
+                    "id": 1,
+                    "short": false
+                },
+                "power":{
+                    "html_name": "Мощность, кВА",
+                    "id": 2,
+                    "short": true
+                },
+                "type_line": {
+                    "html_name": "Тип",
+                    "id": 3,
+                    "short": true
+                },
+                "form_factor": {
+                    "html_name": "Форм-фактор",
+                    "id": 4,
+                    "short": true
+                },
+                "level": {
+                    "html_name": "Уровень",
+                    "id": 5,
+                    "short": false
+                },
+                "appear_month": {
+                    "html_name": "Начало продаж",
+                    "id": 11,
+                    "short": false
+                }
+            },
+            "timelag": 1
+        }
+    }

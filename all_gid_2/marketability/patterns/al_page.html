@@ -35,35 +35,7 @@
 
   gtag('config', 'G-HTCCXF3FFD');
 </script>
-{#<!-- Top100 (Kraken) Counter -->#}
-{#<script>#}
-{#    (function (w, d, c) {#}
-{#    (w[c] = w[c] || []).push(function() {#}
-{#        var options = {#}
-{#            project: 7424053,#}
-{#        };#}
-{#        try {#}
-{#            w.top100Counter = new top100(options);#}
-{#        } catch(e) { }#}
-{#    });#}
-{#    var n = d.getElementsByTagName("script")[0],#}
-{#    s = d.createElement("script"),#}
-{#    f = function () { n.parentNode.insertBefore(s, n); };#}
-{#    s.type = "text/javascript";#}
-{#    s.async = true;#}
-{#    s.src =#}
-{#    (d.location.protocol == "https:" ? "https:" : "http:") +#}
-{#    "//st.top100.ru/top100/top100.js";#}
-{##}
-{#    if (w.opera == "[object Opera]") {#}
-{#    d.addEventListener("DOMContentLoaded", f, false);#}
-{#} else { f(); }#}
-{#})(window, document, "_top100q");#}
-{#</script>#}
-{#<noscript>#}
-{#  <img src="//counter.rambler.ru/top100.cnt?pid=7424053" alt="Топ-100" />#}
-{#</noscript>#}
-{#<!-- END Top100 (Kraken) Counter -->#}
+
 </head>
 <body>
 
@@ -75,7 +47,6 @@
         <div class="logo">
             <a href="/" class="link-home">
             <div class="logo-img">
-{#                <img src="/static/marketability/pict/Target white.svg">#}
             </div>
             <div class="logo-text"><span>Гид<br>покупателя</span></div>
             </a>
@@ -92,23 +63,30 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
-        <script>
+     <script>
            $(function() {
                 $(document).ready(function () {
-                    $('.menu-gamburger').click(function() {
+                    $('.menu-gamburger-all').click(function() {
                         if ($('.menu-gamburger-popup').css('display') == 'none') {
                             $('.menu-gamburger-popup').css('display', 'block');
-                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)').css('background-color', '#4B4A8A');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)');
+                            $('.menu-gamburger-all').css('background-color', '#4B4A8A').css('border-left', '1px solid #ffffff').css('border-right', '1px solid #ffffff').css('height', '58px');
+
+
                         }
                         else {
                             $('.menu-gamburger-popup').css('display', 'none');
-                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)').css('background-color', 'transparent');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)');
+                            $('.menu-gamburger-all').css('background-color', 'transparent').css('border', 'none')
+
                         }
                     });
                 });
             });
         </script>
-        <div class="menu-gamburger">
+        <div class="menu-gamburger-all">
+            <div class="menu-gamburger"></div>
+            <div class="menu-gamburger-text">Категории устройств</div>
 
        <div class="menu-gamburger-popup">
 			<ul>
@@ -176,7 +154,7 @@
             </div>
             <div class="bottom-buttons">
            <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="20px"></a>
-                 <a href="https://www.facebook.com/groups/299949451877561" target="_blank"><img src="/static/marketability/pict/png-transparent-facebook.png" height="20px" alt="fb"></a>
+                 <a href="https://www.facebook.com/%D0%93%D0%B8%D0%B4-%D0%9F%D0%BE%D0%BA%D1%83%D0%BF%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-Allgidru-106619331802890/" target="_blank"><img src="/static/marketability/pict/png-transparent-facebook.png" height="20px" alt="fb"></a>
             <a href="https://vk.com/public205382581" target="_blank"><img src="/static/marketability/pict/vk.com_13326.png" height="20px" alt="vk"></a>
             <a href="https://t.me/allgid" target="_blank"><img src="/static/marketability/pict/telegram.png" height="20px" alt="telegram"></a>
                 <a href="https://twitter.com/VladimirZhemchu/status/1417138748693876736" target="_blank"><img src="/static/marketability/pict/icon-twitter-png.png" height="20px" alt="twitter"></a>

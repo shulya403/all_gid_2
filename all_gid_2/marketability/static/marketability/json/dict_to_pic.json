@@ -1,30 +1,41 @@
 {
-  "Nb": {
+  "Noutbuk": {
     "zaglushka": "pict/themes/nb_general2-256-512.jpg",
-    "Премиальный": "pict/themes/nb_premium_256-512.jpg",
-    "Для_работы_и_учебы": "pict/themes/nb_loshadka_256-512.jpg",
-    "Игровой": "pict/themes/all_game-256-512.jpg",
-    "Бизнес_средний": "pict/themes/nb_smb2_256-512.jpg",
-    "Просмотр_контента": "pict/themes/nb_content_256-512.jpg",
-    "Домашний": "pict/themes/nb_home_256-512.jpg",
-    "Корпоративный": "pict/themes/nb_corporate_256-512.jpg",
-    "Бизнес_массовый": "pict/themes/nb_mass2b_256-512.jpg"
+    "Premium": "pict/themes/nb_premium_256-512.jpg",
+    "Work_Horse": "pict/themes/nb_loshadka_256-512.jpg",
+    "Gamer": "pict/themes/all_game-256-512.jpg",
+    "SMB": "pict/themes/nb_smb2_256-512.jpg",
+    "Content_only": "pict/themes/nb_content_256-512.jpg",
+    "Home_universal": "pict/themes/nb_home_256-512.jpg",
+    "Corporate": "pict/themes/nb_corporate_256-512.jpg",
+    "Comm_efficient": "pict/themes/nb_mass2b_256-512.jpg",
+    "Beginner": "pict/themes/nb_beginner-256-512.jpg"
   },
 
-  "Mnt": {
+  "Monitor": {
             "zaglushka": "pict/themes/mnt_zaglushka2-256-512.jpg",
-            "Игровой": "pict/themes/mnt_game5-256-512.jpg",
-            "Фото, видео, полиграфия, CAD": "pict/themes/mnt_profi3-256-512.jpg",
-            "Для офиса (Корпоративный)": "pict/themes/mnt_corporate-256-512.jpg",
-            "Начального уровня": "pict/themes/mnt_beginner3-256-512.jpg",
-            "Для учебы, работы и развлечений": "pict/themes/mnt_universum2-256-512.jpg",
-            "Премиальный": "pict/themes/mnt_premium-256-512.jpg"
+            "Game": "pict/themes/mnt_game5-256-512.jpg",
+            "Prof": "pict/themes/mnt_profi3-256-512.jpg",
+            "Office": "pict/themes/mnt_corporate-256-512.jpg",
+            "Entry_level": "pict/themes/mnt_beginner3-256-512.jpg",
+            "Common": "pict/themes/mnt_universum2-256-512.jpg",
+            "Premium": "pict/themes/mnt_premium-256-512.jpg"
 
         },
-  "Mfp": {
+  "Printer-mfu": {
       "zaglushka": "pict/themes/mfp_zaglushka_256_512.jpg"
   },
   "Ups": {
       "zaglushka": "pict/themes/ups_zaglushka_256_512.jpg"
-  }
+  },
+  "Mnt": {
+            "zaglushka": "pict/themes/mnt_zaglushka2-256-512.jpg",
+            "Game": "pict/themes/mnt_game5-256-512.jpg",
+            "Prof": "pict/themes/mnt_profi3-256-512.jpg",
+            "Office": "pict/themes/mnt_corporate-256-512.jpg",
+            "Entry_level": "pict/themes/mnt_beginner3-256-512.jpg",
+            "Common": "pict/themes/mnt_universum2-256-512.jpg",
+            "Premium": "pict/themes/mnt_premium-256-512.jpg"
+
+        }
 }

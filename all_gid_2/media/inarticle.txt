@@ -3,6 +3,7 @@ Cp$H+d2]Bz-
 
 /static/marketability/pict/rate/../
 /static/marketability/pict/how/
+/static/marketability/pict/Nb/
 #################
 <p><em>Источник: аналитическая компания <a href="https://itbestsellers.ru" target="_blank">ITResearch</a>, проект <a href="https://allgid.ru">allgid.ru "Гид покупателя"</a></em></p>
 
