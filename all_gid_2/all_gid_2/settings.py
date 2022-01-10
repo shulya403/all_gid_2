@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
+    'django_user_agents',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +57,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+MIDDLEWARE_CLASSES = (
+    'django_user_agents.middleware.UserAgentMiddleware',
+)
+
+# Cache backend is optional, but recommended to speed up user agent parsing
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         'LOCATION': '127.0.0.1:11211',
+#     }
+# }
+
+
 
 ROOT_URLCONF = 'all_gid_2.urls'
 
@@ -150,3 +165,5 @@ CKEDITOR_CONFIGS = {
      'allowedContent': True
     },
 }
+
+# USER_AGENTS_CACHE = 'default'

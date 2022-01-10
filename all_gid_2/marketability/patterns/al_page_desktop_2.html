@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+{#    <title>AllGid - Гид покупателя. Компьютеры и оргтехника</title>#}
+    {% block meta %}{% endblock %}
+    <link rel="icon" type="image/x-icon" href="/static/marketability/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="/static/marketability/favicon.ico">
+
+    <link rel="stylesheet" type="text/css" media="screen and (min-width:1024px)" href="/static/marketability/css_category_desktop_2.css">
+    <link rel="stylesheet" type="text/css" media="screen and (max-width:1024px)"  href="/static/marketability/css_1024_adopt.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script type="text/javascript" src="/static/marketability/js/jquery-3.5.1.min.js"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(75335146, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/75335146" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HTCCXF3FFD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HTCCXF3FFD');
+</script>
+
+</head>
+<body>
+
+
+    <div class="header-menu">
+        <div class="menu">
+        <div class="menu-left">
+
+        <div class="logo">
+            <a href="/" class="link-home">
+            <div class="logo-img">
+            </div>
+            <div class="logo-text"><span>Гид<br>покупателя</span></div>
+            </a>
+            <div class="logo-space"></div>
+        </div>
+
+
+        <div class="category-menu">
+
+        {% for i, link in categories_list %}
+        <a href="/{{ link }}/">
+        <button {% if i == category_name %}class="button-menu-active"{% else %}class="button-menu"{% endif %}>{{ i }}</button>
+        </a>
+
+        {% endfor %}
+        </div> <!-- "category-menu" -->
+     <script>
+           $(function() {
+                $(document).ready(function () {
+                    $('.menu-gamburger-all').click(function() {
+                        if ($('.menu-gamburger-popup').css('display') == 'none') {
+                            $('.menu-gamburger-popup').css('display', 'block');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)');
+                            $('.menu-gamburger-all').css('background-color', '#4B4A8A').css('border-left', '1px solid #ffffff').css('border-right', '1px solid #ffffff').css('height', '58px');
+
+
+                        }
+                        else {
+                            $('.menu-gamburger-popup').css('display', 'none');
+                            $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)');
+                            $('.menu-gamburger-all').css('background-color', 'transparent').css('border', 'none')
+
+                        }
+                    });
+                });
+            });
+        </script>
+        <div class="menu-gamburger-all">
+            <div class="menu-gamburger"></div>
+            <div class="menu-gamburger-text">Категории устройств</div>
+
+       <div class="menu-gamburger-popup">
+			<ul>
+                {% for i, link in categories_list %}
+                    <li {% if i == category_name %}class="button-menu-gamburger-active"{% else %}class="button-menu-gamburger"{% endif %}>
+                        <a href="/{{ link }}/">{{ i }}</a>
+                    </li>
+
+                {% endfor %}
+			</ul>
+		</div> <!-- menu-gamburger-popup -->
+        </div> <!-- menu-gamburger -->
+        </div> <!-- menu-left -->
+        <div class="menu-right">
+
+            <a href="/rate/">
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Рейтинги</button>
+            </a>
+             <a href="/how/">
+                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9998;</span>&nbsp;Статьи</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
+            <a href="/search_all.html">
+            <div class="menu-search"></div>
+            </a>
+        </div>
+                <div class="menu-right-mobile">
+
+            <a href="/rate/">
+                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Top</button>
+            </a>
+             <a href="/how/">
+                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9998;</span>&nbsp;Статьи</button>
+            </a>
+
+
+{#            <a href="/al_about.html">#}
+{#                <button {% if category_name %}class="button-menu"{% else %}class="button-menu-active"{% endif %}>О проекте</button>#}
+{#            </a>#}
+
+            <a href="/search_all.html">
+            <div class="menu-search"></div>
+            </a>
+        </div>
+        </div> <!-- "menu" -->
+
+
+    </div> <!-- class="header-menu" -->
+
+    {% block category %}{% endblock %}
+        <div class="home-bottom">
+            <a href="/al_about.html">
+            <div class="bottom-our-button">
+            О&nbsp;проекте
+            </div>
+            </a>
+            <div class="adress-bar">
+            &#169; 2021 ООО&nbsp;«ИТ Аналитика». <br>
+            109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
+            </div>
+            <div class="bottom-buttons">
+           <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="20px"></a>
+                 <a href="https://www.facebook.com/%D0%93%D0%B8%D0%B4-%D0%9F%D0%BE%D0%BA%D1%83%D0%BF%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-Allgidru-106619331802890/" target="_blank"><img src="/static/marketability/pict/png-transparent-facebook.png" height="20px" alt="fb"></a>
+            <a href="https://vk.com/public205382581" target="_blank"><img src="/static/marketability/pict/vk.com_13326.png" height="20px" alt="vk"></a>
+            <a href="https://t.me/allgid" target="_blank"><img src="/static/marketability/pict/telegram.png" height="20px" alt="telegram"></a>
+                <a href="https://twitter.com/VladimirZhemchu/status/1417138748693876736" target="_blank"><img src="/static/marketability/pict/icon-twitter-png.png" height="20px" alt="twitter"></a>
+                <a href="https://ok.ru/group/62280444608687" target="_blank"><img src="/static/marketability/pict/computer-icons-odnoklassniki-vector-vector.jpg" height="20px" alt="ok"></a>
+
+            </div>
+        </div>
+
+
+</body>
+</html>

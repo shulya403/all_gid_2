@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 #from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
 #from django.http import HttpResponse
-from . import mkbl_urls
+#from . import mkbl_urls
 
 from django.conf import settings
 
@@ -399,6 +399,7 @@ def page_Category_Main(request, cat_):
             #print(request.GET)
             post_return = list(request.GET.keys())
             tab_active = request.GET['tabs']
+
             if 'csrfmiddlewaretoken' in post_return:
               post_return.remove('csrfmiddlewaretoken')
 
@@ -477,21 +478,22 @@ def page_Category_Main(request, cat_):
             tab_marketability = dict()
             tab_novelty = dict()
 
-        #best_links = Get_Bestsellers_links()
+            # best_links = Get_Bestsellers_links()
         best_links = Get_Ratings_links(cat_)
 
         if (not theme_pic[1]) \
-            or (not theme_pic[0] in post_return):
-                theme_pic = Choice_Pic(request.session['dict_to_cat'], post_return, method='first_choice')
-                request.session['theme_pic'] = theme_pic
+                or (not theme_pic[0] in post_return):
+            theme_pic = Choice_Pic(request.session['dict_to_cat'], post_return, method='first_choice')
+            request.session['theme_pic'] = theme_pic
 
         theme_pic_this = theme_pic[1]
 
         exit_ = {
-            'category_name':  category_name,
+            'category_name': category_name,
             'categories_list': categories_list,
             'action': cat_,
-            'tbl_ttx_col': [x for x in tab_marketability.keys() if x not in ['id', 'id_brand_name', 'brand', 'name', 'price_avg', 'appear_month']],
+            'tbl_ttx_col': [x for x in tab_marketability.keys() if
+                            x not in ['id', 'id_brand_name', 'brand', 'name', 'price_avg', 'appear_month']],
             'tbl_data': tab_marketability,
             'tbl_data_nov': tab_novelty,
             'new_form': new_form,
@@ -507,7 +509,6 @@ def page_Category_Main(request, cat_):
             'goals_fbb_mobile': goals_fbb_mobile,
             'classes_fbb_mobile': classes_fbb_mobile
         }
-
 
         return render(request, template_name="category_get_url.html", context=exit_)
     else:
