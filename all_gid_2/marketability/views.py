@@ -198,6 +198,7 @@ def Init_cat(request, cat_, db_tbl):
         request.session['theme_pic'] = ('', None)
 
     else:
+
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
         print(request.session['categories_list'])
 

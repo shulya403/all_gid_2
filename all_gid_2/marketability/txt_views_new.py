@@ -1,4 +1,4 @@
-from django.shortcuts import render, HttpResponseRedirect
+from django.shortcuts import render
 from . import views
 from .models import TxtHow, TxtRatings
 
@@ -8,10 +8,6 @@ def how_Listing(request):
 
     total_txt_how = TxtHow.objects.all().values('idtxt_how', 'id_html_name', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
 
-    # try:
-    #        categories_list = request.session['categories_list']
-    #
-    # except KeyError:
     ctg = views.Init_cat(request, '', {})
     categories_list = request.session['categories_list']
 
@@ -39,11 +35,6 @@ def how_cat_Listing(request, cat_):
 
     ctg = views.Init_cat(request, '', {})
 
-    # try:
-    #        categories_list = request.session['categories_list']
-    #        categories_list_singular = request.session['categories_list_singular']
-    # except KeyError:
-    ctg = views.Init_cat(request, '', {})
     categories_list = request.session['categories_list']
     categories_list_singular = request.session['categories_list_singular']
 
@@ -90,10 +81,6 @@ def rate_Listing(request):
 
     total_txt_rate = TxtRatings.objects.all().values('idtxt_ratings', 'id_html_name', 'article_title', 'cat', 'article_anno', 'img', 'pin', 'date')
 
-    # try:
-    #        categories_list = request.session['categories_list']
-    #
-    # except KeyError:
     ctg = views.Init_cat(request, '', {})
     categories_list = request.session['categories_list']
 
@@ -119,11 +106,6 @@ def rate_cat_Listing(request, cat_):
 
     ctg = views.Init_cat(request, '', {})
 
-    # try:
-    #        categories_list = request.session['categories_list']
-    #        categories_list_singular = request.session['categories_list_singular']
-    # except KeyError:
-    ctg = views.Init_cat(request, '', {})
     categories_list = request.session['categories_list']
     categories_list_singular = request.session['categories_list_singular']
 
@@ -147,9 +129,6 @@ def rate_Article(request, cat_, article):
 
     if article:
 
-        # try:
-        #     categories_list = request.session['categories_list']
-        # except KeyError:
         ctg = views.Init_cat(request, '', {})
         categories_list = request.session['categories_list']
 
@@ -172,9 +151,6 @@ def RSS_Rate(request):
 
     articles = TxtRatings.objects.all()
 
-    # try:
-    #         categories_list = request.session['categories_list']
-    # except KeyError:
     ctg = views.Init_cat(request, '', {})
     categories_list = request.session['categories_list']
 
@@ -199,9 +175,6 @@ def RSS_How(request):
 
     articles = TxtHow.objects.all()
 
-    # try:
-    #         categories_list = request.session['categories_list']
-    # except KeyError:
     ctg = views.Init_cat(request, '', {})
     categories_list = request.session['categories_list']
 

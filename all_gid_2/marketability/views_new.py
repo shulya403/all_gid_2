@@ -2,7 +2,6 @@ from django.shortcuts import render, HttpResponseRedirect
 #from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
 #from django.http import HttpResponse
-#from . import mkbl_urls
 
 from django.conf import settings
 
