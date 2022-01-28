@@ -24,6 +24,16 @@ em {
        font-family: Roboto-Italic, Arial-i;
 }
 
+.adv-horizontal-block {
+        /*margin: 0 auto;*/
+        margin-bottom: 1px;
+        text-align: center;
+}
+
+.adv-horizontal-block-mobile {
+        display: none;
+}
+
 .header-menu {
         display: inline-flex;
         justify-content: space-between;
@@ -788,8 +798,8 @@ em {
 
 
 .banner-place {
-        box-sizing: border-box;
-        height: 44px;
+        margin-bottom: 8px;
+
 
 }
 .novosti-header {

@@ -170,7 +170,6 @@ def Init_cat(request, cat_, db_tbl):
         category = dict_categories[cat_]
 
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
-
         #request.session['db_tbl'] = category['db_tables']
         #db_tbl = DB_table(cat_)
 

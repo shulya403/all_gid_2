@@ -59,6 +59,7 @@ def how_Article(request, cat_, article):
         # try:
         #     categories_list = request.session['categories_list']
         # except KeyError:
+
         ctg = views.Init_cat(request, '', {})
         categories_list = request.session['categories_list']
 
@@ -122,8 +123,6 @@ def rate_cat_Listing(request, cat_):
     return render(request, template_name="ttx_rate_cat.html", context=exit_)
 
 def rate_Article(request, cat_, article):
-
-
 
     article = TxtRatings.objects.filter(id_html_name=article).values()
 

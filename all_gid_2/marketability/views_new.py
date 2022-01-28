@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect
 #from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
 #from django.http import HttpResponse
+#from . import mkbl_urls
 
 from django.conf import settings
 
@@ -128,6 +129,7 @@ def DB_table(cat_):
         exit_ = ORM_Models_names[cat_]
     except KeyError:
         exit_ = None
+
 
     return exit_
 
@@ -527,6 +529,7 @@ def Product_Check_for_Redirect(product_, tbl_products):
 
 
 def page_new_Product(request, cat_, product_):
+
     def df_Cat_Init_(request, cat_init):
         if cat_init:
             category = Init_cat(request, cat_, db_tbl)
@@ -557,7 +560,11 @@ def page_new_Product(request, cat_, product_):
 
     db_tbl = DB_table(cat_check)
     #print(cat_check)
-    product_chek = Product_Check_for_Redirect(product_, db_tbl['products'])
+    if db_tbl:
+        product_chek = Product_Check_for_Redirect(product_, db_tbl['products'])
+    else:
+        return handler404(request)
+
     #print(product_chek)
 
     if not product_chek:
@@ -588,21 +595,24 @@ def page_new_Product(request, cat_, product_):
 
         categories_list = request.session['categories_list']
 
+        #try:
         try:
-            Product = db_tbl['products'].objects.get(id_brand_name=product_chek)
+                Product = db_tbl['products'].objects.get(id_brand_name=product_chek)
         except django.core.exceptions.MultipleObjectsReturned:
-            Product = db_tbl['products'].objects.filter(id_brand_name=product_chek).values()
+                Product = db_tbl['products'].objects.filter(id_brand_name=product_chek).values()
 
-            try:
-                true_id = df_data[df_data['id_brand_name'] == product_chek]['id'].values[0]
-            except Exception:
-                true_id = None
-            #print(true_id)
-            if true_id:
-                Product = db_tbl['products'].objects.get(id=true_id)
-            else:
-                id_max = Product.aggregate(Max('id'))
-                Product = db_tbl['products'].objects.get(id=id_max['id__max'])
+                try:
+                    true_id = df_data[df_data['id_brand_name'] == product_chek]['id'].values[0]
+                except Exception:
+                    true_id = None
+                #print(true_id)
+                if true_id:
+                    Product = db_tbl['products'].objects.get(id=true_id)
+                else:
+                    id_max = Product.aggregate(Max('id'))
+                    Product = db_tbl['products'].objects.get(id=id_max['id__max'])
+        except Exception:
+                return handler404(request)
 
         if Product:
 

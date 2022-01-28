@@ -22,6 +22,10 @@ body {
 em {
        font-family: Roboto-Italic;
 }
+
+.adv-horizontal-block {
+        display: none;
+}
 .header-menu {
         display: block;
         justify-content: space-between;
@@ -818,8 +822,7 @@ em {
         transform-origin: center center;
 }
 .banner-place {
-        box-sizing: border-box;
-        height: 44px;
+        margin-bottom: 8px;
 
 }
 .novosti-header {
