@@ -459,10 +459,11 @@ class Mth_cat(object):
             self.file_output.write(" Она же - самое доступное по цене устройство в данном классе ноутбуков. </p>\n")
 
         self.file_output.write(
-            "<h3>{1}: Top-{2}, в {3}</h3> \n".format(self.cat_rus[self.cat.title()][0],
+            "<h3>{1}: Top-{2}, в {3}</h3>\n<em>(Сортировка - по возрастанию средней цены)</em>\n".format(self.cat_rus[self.cat.title()][0],
                                                                 jsn_['table_sign'],
                                                                 len(df_price_q),
                                                                 mth_padege[self.mth_.month][0] + " `" + str(self.mth_.year)[2:]))
+
         self.file_output.write("<div class=\"inarticle_table_wrap_outer\">\n<div class=\"inarticle_table_wrap\">\n<table class=\"inarticle_table\">\n<thead>\n<tr>\n")
 
 
@@ -523,6 +524,6 @@ class Mth_cat(object):
 # Obj = Mth_cat('Sep', 2021, 'Mnt', top_q=5, num="Mnt_9_office_reprice", )
 # Obj.Autogen(general_header="Рейтинг популярности мониторов для офиса. Сентябрь 2021")
 
-Obj = Mth_cat('Oct', 2021, 'Nb', top_q=5, num="NB 14 2-1", )
-Obj.Autogen(general_header="Ноутбуки-трансформеры с сенсорным экраном 14\". Бестселлеры, октябрь 2021.")
+Obj = Mth_cat(Mth_='Dec', Year_=2021, Cat_='Mnt', top_q=5, num="Mnt Dec Gamer v2")
+Obj.Autogen(general_header="Игровые мониторы-бестселлеры. Декабрь-21")
 

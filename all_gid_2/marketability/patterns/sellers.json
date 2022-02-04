@@ -1,0 +1,17 @@
+{
+  "contact_email": "sellers_json@google.com",
+  "contact_address": "1600 Amphitheatre Parkway Mountain View, CA 94043",
+  "identifiers": [{
+    "name": "TAG-ID",
+    "value": "f08c47fec0942fa0"
+  }],
+  "version": "1.0",
+   "sellers": [
+    {
+      "sellerId": "pub-2708166808492518",
+      "sellerType": "PUBLISHER",
+      "name": "Dmitry Shulgin",
+      "domain": "allgid.ru"
+    }
+  ]
+}

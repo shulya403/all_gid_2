@@ -16,6 +16,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print('BASE_DIR ->', BASE_DIR)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 #BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
@@ -150,14 +151,21 @@ USE_TZ = True
 #STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+print('STATICFILES_DIRS ->', STATICFILES_DIRS)
+
 VENV_PATH = os.path.dirname(BASE_DIR)
+print('VENV_PATH ->', VENV_PATH)
+
 STATIC_ROOT = os.path.join(VENV_PATH, 'static_root')
+print('STATIC_ROOT ->', STATIC_ROOT)
 
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+print('MEDIA_ROOT ->', MEDIA_ROOT)
 
 CKEDITOR_UPLOAD_PATH = "uploads/"
+print('CKEDITOR_UPLOAD_PATH ->', CKEDITOR_UPLOAD_PATH)
 
 CKEDITOR_CONFIGS = {
     'default': {

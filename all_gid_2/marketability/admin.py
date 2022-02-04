@@ -5,7 +5,7 @@ from .models import TxtHow, TxtRatings, MfpProducts, MfpClasses, MfpProductsHasM
 
 admin.site.register(TxtHow)
 admin.site.register(TxtRatings)
-admin.site.register(MfpProducts)
-admin.site.register(MfpClasses)
-admin.site.register(MfpProductsHasMfpClasses)
+#admin.site.register(MfpProducts)
+#admin.site.register(MfpClasses)
+#admin.site.register(MfpProductsHasMfpClasses)
 
