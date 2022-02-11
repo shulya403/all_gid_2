@@ -6,22 +6,22 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-#from ckeditor_uploader.fields import RichTextUploadingField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class TxtHow(models.Model):
     idtxt_how = models.AutoField(primary_key=True)
     id_html_name = models.TextField(blank=True, null=True)
-    article_html_body = models.TextField(blank=True, null=True)
+    article_html_body = RichTextUploadingField()
     article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
-    article_keywords = models.TextField(blank=True, null=True)
+    article_keywords = RichTextUploadingField()
     cat = models.CharField(max_length=3, blank=True, null=True)
     article_anno = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)
     img = models.CharField(max_length=100, blank=True, null=True)
     pin = models.IntegerField()
     faq_question = models.CharField(max_length=255, blank=True, null=True)
-    faq_unswer = models.TextField(blank=True, null=True)
+    faq_unswer = RichTextUploadingField()
 
     class Meta:
         managed = False
@@ -33,10 +33,10 @@ class TxtHow(models.Model):
 class TxtRatings(models.Model):
     idtxt_ratings = models.AutoField(primary_key=True)
     id_html_name = models.TextField(blank=True, null=True)
-    article_html_body = models.TextField(blank=True, null=True)
+    article_html_body = RichTextUploadingField()
     article_title = models.TextField(blank=True, null=True)
     article_description = models.TextField(blank=True, null=True)
-    article_keywords = models.TextField(blank=True, null=True)
+    article_keywords = RichTextUploadingField()
     cat = models.CharField(max_length=3, blank=True, null=True)
     article_anno = models.TextField(blank=True, null=True)
     date = models.DateField(blank=True, null=True)

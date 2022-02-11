@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="14px" viewBox="0 0 18 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>B0E0C01B-331E-48C6-813A-1D1CB03E4A76</title>
+    <g id="Allgid" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Guide---1081.0" transform="translate(-1027.000000, -29.000000)">
+            <rect fill="#FFFFFF" x="0" y="0" width="1081" height="668"></rect>
+            <g id="Header">
+                <rect id="Rectangle" fill="#2E2966" x="0" y="0" width="1081" height="56"></rect>
+                <g id="Rectangle" transform="translate(1024.000000, 24.000000)">
+                    <rect fill-opacity="0" fill="#FFFFFF" x="0" y="0" width="24" height="24"></rect>
+                    <g transform="translate(3.000000, 5.000000)">
+                        <rect fill="#FFFFFF" x="0" y="0" width="18" height="5"></rect>
+                        <rect fill="#0000FF" x="0" y="5" width="18" height="4"></rect>
+                        <rect fill="#FF0000" x="0" y="9" width="18" height="5"></rect>
+                        <rect stroke-opacity="0.88" stroke="#000000" x="0.5" y="0.5" width="17" height="13"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -52,10 +52,10 @@ class Mth_cat(object):
             print("чет с SQL-сервером (((")
             raise
         self.cat_rus = {
-            'Nb': ("Ноутбуки", "ноутбуков"),
-            'Mnt': ("Мониторы", "мониторов"),
-            'Mfp': ("Устройства печати", "печатающих устройств"),
-            'Ups': ("Источники бесперебойного питания", "ИБП")
+            'Nb': ("Ноутбуки", "ноутбуков", "Noutbuk"),
+            'Mnt': ("Мониторы", "мониторов", "Monitor"),
+            'Mfp': ("Устройства печати", "печатающих устройств", "Printer-mfu"),
+            'Ups': ("Источники бесперебойного питания", "ИБП", "Ups")
         }
 
 
@@ -205,7 +205,7 @@ class Mth_cat(object):
             if "ttx_show" in jsn_.keys():
                 return list(jsn_.keys())
             else:
-                return list(set(columns_) - {'id', 'brand', 'name', 'appear_month', 'id_x', 'month', 'sales_units'})
+                return list(set(columns_) - {'id', 'brand', 'name', 'id_brand_name', 'appear_month', 'id_x', 'month', 'sales_units'})
 
         def Q_tbl(jsn_):
             if "q_table" in jsn_.keys():
@@ -222,9 +222,7 @@ class Mth_cat(object):
         self.file_output.write("<!DOCTYPE html>\n<html lang=\"ru\">\n<head>\n<title>{0}</title>\n</head>\n<body>\n".format(self.cat.title() + self.mth_.strftime("  %b `%Y")))
 
         self.file_output.write("<p>{0}</p>\n".format(self.Transliterate(general_header)))
-        self.file_output.write("<h2>{0}</h2>\n\n".format(general_header))
-        self.file_output.write(
-            "<p><em>Источник: аналитическая компания <a href=\"https://itbestsellers.ru\" target=\"_blank\">ITResearch</a>, проект <a href=\"https://allgid.ru\">allgid.ru \"Гид покупателя\"</a>\n<br>\nДанные по рынку России</em>\n</p>\n")
+        self.file_output.write("<h1>{0}</h1>\n\n".format(general_header))
 
         for i in self.json_cat:
 
@@ -247,7 +245,7 @@ class Mth_cat(object):
                 lead_model_name = df_.iloc[0]['name']
             except IndexError:
                 continue
-            ser_min_price_name = df_.loc[df_[['price_rur']].idxmin()].iloc[0][['brand', 'name', 'price_rur','id_y']]
+            ser_min_price_name = df_.loc[df_[['price_rur']].idxmin()].iloc[0][['brand', 'name', 'id_brand_name', 'price_rur','id_y']]
             df_price_q = df_[0:top_q_handler(len(df_), Q_tbl(jsn_))].sort_values(by=['price_rur'])
 
             self.Write_to_file_article_body(lead_model_name, ser_min_price_name, df_price_q, jsn_)
@@ -258,13 +256,13 @@ class Mth_cat(object):
         self.file_output.write("<div class=\"inarticle-rignt-filter\">\n")
         self.file_output.write(
             "<h3><a href = \"/{0}/?tabs=marketability\">Выбрать {1} для своих целей</a></h3>".format(
-                self.cat.title(), self.cat_rus[self.cat.title()][0].lower()))
+                self.cat_rus[self.cat.title()][2], self.cat_rus[self.cat.title()][0].lower()))
         self.file_output.write(
             "<div class=\"filter_button_big\">\n<div class =\"fltr_pic\"><a href=\"/{0}/?tabs=marketability\">&nbsp;</a></div>".format(
-                self.cat.title()))
+                self.cat_rus[self.cat.title()][2]))
         self.file_output.write(
             "<div class=\"fltr_text\"><a href=\"/{0}/?tabs=marketability\">ФИЛЬТР</a></div>\n</div>\n</div>\n\n".format(
-                self.cat.title()))
+                self.cat_rus[self.cat.title()][2]))
 
         for i in self.json_cat:
 
@@ -397,7 +395,7 @@ class Mth_cat(object):
             9: ("сентябре", "Сентябрь"),
             10: ("октябре", "Октябрь"),
             11: ("ноябре", "Ноябрь"),
-            12: ("декабре", "Декабре")
+            12: ("декабре", "Декабрь")
         }
 
         def digit_separator(digit):
@@ -423,15 +421,15 @@ class Mth_cat(object):
 
             year_ = str(Mth.year)
             mth_ = mth_padege[Mth.month][0]
-            cat_ = self.cat_rus[Cat.title()][1]
+            #cat_ = self.cat_rus[Cat.title()][1]
             leader_model = Lead_model_row.loc['brand'] + " " + Lead_model_row.loc['name']
-            href_model = "/" + Cat.title() + "/" + str(Lead_model_row['id_y'])
+            href_model = "/" + Cat.title() + "/" + str(Lead_model_row['id_brand_name'])
             if tbl_sign:
-                string_out = "В {0} {1} г. лидером продаж в сегменте {2} <em>&#171;{3}&#187;</em> стала модель <strong><a href=\"{4}\" target=\"_blank\">{5}</a></strong>.".\
-                    format(mth_, year_, cat_, tbl_sign, href_model, leader_model)
+                string_out = "В {0} {1} г. лидером продаж в сегменте <em>&#171;{2}&#187;</em> стала модель <strong><a href=\"{3}\" target=\"_blank\">{4}</a></strong>, стоимостью примерно {5} тыс. руб.".\
+                    format(mth_, year_, tbl_sign, href_model, leader_model, int(round(Lead_model_row['price_rur']/1000, 0)))
             else:
                 string_out = "В {0} {1} г. лидером продаж стала модель <strong><a href=\"{2}\" target=\"_blank\">{3}</a></strong>.". \
-                    format(mth_, year_, href_model, leader_model)
+                    format(mth_, year_, href_model, leader_model, Lead_model_row['price_rur'])
             return string_out
 
         cl_gl_name = jsn_['cl_gl_name']
@@ -439,9 +437,13 @@ class Mth_cat(object):
         self.file_output.write("<!-- ### {0} ###-->\n".format(tbl_sign))
         self.file_output.write("<!-- ########### -->\n\n")
 
-        header_mth = jsn_['header'] # + ". " + mth_padege[self.mth_.month][1] + "` " + str(self.mth_.year)[2:]
-        self.file_output.write("<a href=\"#{0}\">{1}</a>\n\n".format(cl_gl_name, header_mth))
+        header_mth = jsn_['header'] + ". " + mth_padege[self.mth_.month][1] + "`" + str(self.mth_.year)[2:]
+        #self.file_output.write("<a href=\"#{0}\">{1}</a>\n\n".format(cl_gl_name, header_mth))
+        self.file_output.write("\n{0}\n".format(self.Transliterate(header_mth)))
         self.file_output.write("<h2 id=\"{0}\" name=\"{0}\">{1}</h2>\n\n".format(cl_gl_name, header_mth))
+
+        self.file_output.write(
+            "<p><em>Источник: аналитическая компания <a href=\"https://itbestsellers.ru\" target=\"_blank\">ITResearch</a>, проект <a href=\"https://allgid.ru\">allgid.ru \"Гид покупателя\"</a>\n<br>\nДанные по рынку России</em>\n</p>\n")
 
         # self.file_output.write("<p><em>Источник: аналитическая компания <a href=\"https://itbestsellers.ru\" target=\"_blank\">ITResearch</a>, проект <a href=\"https://allgid.ru\">allgid.ru \"Гид покупателя\"</a>\n<br>\nДанные по рынку России</em>\n</p>\n")
         self.file_output.write("<div class=\"inarticle_cit1\">{0}</div>\n\n".format(jsn_['cat_description']))
@@ -449,14 +451,14 @@ class Mth_cat(object):
         classes_ = self.List_Classses_Text(self.df_classes_)
         classes_html = self.List_Classes_HTML(self.df_classes_)
         lead_model_row_ = df_price_q[df_price_q['name'] == lead_model_name].iloc[0]
-        self.file_output.write("<p>{0}".format(P_Leader_Model(lead_model_row_, self.mth_, self.cat, tbl_sign)))
+        self.file_output.write("<p>{0}".format(P_Leader_Model(lead_model_row_, self.mth_, self.cat_rus[self.cat.title()][2], tbl_sign)))
         if lead_model_row_.loc['name'] != ser_min_price_name['name']:
             self.file_output.write("</p>\n<p>Самым же недорогим устройством данного класса является модель <a href=\"{0}\" target=\"_blank\">{1}</a> стоимостью {2} тыс. руб. в среднем.</p>\n\n".
-                                   format("/" + self.cat.title() + "/" + str(ser_min_price_name['id_y']),
+                                   format("/" + self.cat_rus[self.cat.title()][2] + "/" + str(ser_min_price_name['id_brand_name']),
                                     ser_min_price_name['brand'] + " " + ser_min_price_name['name'],
                                     round(ser_min_price_name['price_rur'] / 1000, 1)))
         else:
-            self.file_output.write(" Она же - самое доступное по цене устройство в данном классе ноутбуков. </p>\n")
+            self.file_output.write(" И это - самое доступное по цене устройство в данном классе. </p>\n")
 
         self.file_output.write(
             "<h3>{1}: Top-{2}, в {3}</h3>\n<em>(Сортировка - по возрастанию средней цены)</em>\n".format(self.cat_rus[self.cat.title()][0],
@@ -483,7 +485,7 @@ class Mth_cat(object):
                 tr_top, crown = "", ""
 
             self.file_output.write("<tr{0}>\n".format(tr_top))
-            self.file_output.write("<th><a href=\"/{0}/{1}\">{2}</a></th>\n".format(self.cat.title(), row['id_y'],crown + row['brand'] + " " + row['name']))
+            self.file_output.write("<th><a href=\"/{0}/{1}\">{2}</a></th>\n".format(self.cat_rus[self.cat.title()][2], row['id_brand_name'], crown + row['brand'] + " " + row['name']))
             self.file_output.write("<td>{0}</td>\n".format(digit_separator(row['price_rur'])))
             try:
                 for ttx in jsn_["ttx_show"]:
