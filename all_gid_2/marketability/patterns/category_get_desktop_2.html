@@ -39,6 +39,9 @@
 
 <div class="form-and-table">
    <form action="/{{ action }}/" method="get" id="form_">
+   <input type="radio" id="form-infocus-now-up" name="infocus-now" value="up" class="form-infocus-now">
+   <input type="radio" id="form-infocus-now-cl-go" name="infocus-now" value="cl-go" class="form-infocus-now">
+   <input type="radio" id="form-infocus-now-ven" name="infocus-now" value="ven" class="form-infocus-now">
             <div class="buttons-top buttons-top-cl-go-checked">
                     {% for sub_type in new_form.GO.keys %}
                         {% for cls_ in new_form.GO|get_item:sub_type%}
