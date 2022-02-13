@@ -1,3 +1,18 @@
+# TODO: Убрать период справа вверху
+## Чекание вендоров
+## Пикты табов Топ и ВСЕ
+## Заголовки блоков формы
+## Кнопки очистить все
+## Ноутбуки все - число
+## галка на вендорах ?
+## Top5 по умолчанию
+
+
+# пересечение enabled classes и вендорс
+# Ширина блока формы в дектопе
+
+# вверху кнопки
+
 from django.shortcuts import render, HttpResponseRedirect
 #from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
@@ -92,6 +107,10 @@ def digit_to_float(digit):
 def sort_keys(keys):
 
     return sorted(list(keys))
+
+@register.filter
+def replace_space(symbol, string):
+    return string.replace(" ", symbol)
 
 def DB_table(cat_):
 
@@ -220,6 +239,9 @@ def Init_cat(request, cat_, db_tbl):
 
         request.session['dict_fields_short_show'] = {k: v for k, v in request.session['dict_sorted_fields_show'].items() if category['fields_show'][k]['short'] == True}
 
+        request.session['vendors'] = vlist_to_list(db_tbl['products'].objects.all().values_list('brand').distinct())
+        #print(request.session['vendors'])
+
         request.session['new_form'] = Dict_by_Classes2(request, db_tbl)
 
         request.session['enabled_return'] = request.session['list_enabled']
@@ -230,21 +252,28 @@ def Init_cat(request, cat_, db_tbl):
 
         request.session['period_inbase'] = Get_Period_inbase(request, db_tbl)
 
+        filter_brands_month = {
+            db_tbl['vardata']._meta.model_name + "__month__in": Recover_Date_period_inbase(request.session['period_inbase'])}
+
+        request.session['vendors_enabled'] = vlist_to_list(db_tbl['products'].objects.filter(**filter_brands_month).values_list('brand').distinct())
+
        # request.session['period_mth_rus'] = months_names(request.session['period_inbase'])
 
         request.session['form_return'] = []
+
+        request.session['vendors_checked'] = []
 
         request.session['theme_pic'] = ('', None)
 
     else:
         request.session['categories_list'] = [(dict_categories[cat]['category_name'], cat) for cat in dict_categories]
-        print(request.session['categories_list'])
+        #print(request.session['categories_list'])
 
         request.session['categories_list_singular'] = dict()
         for cat in dict_categories:
             request.session['categories_list_singular'][cat] = dict_categories[cat]['category_name_singular']['name']
 
-        print(request.session['categories_list_singular'])
+        #print(request.session['categories_list_singular'])
 
         request.session['cat_'] = cat_
 
@@ -336,7 +365,7 @@ def Dict_by_Classes2(request, db_tbl):
     qry_classes = db_tbl['classes'].objects.all()
 
     request.session['list_enabled'] = vlist_to_list(qry_classes.values_list('name'))
-    print(request.session['list_enabled'])
+    #print(request.session['list_enabled'])
 
     for cl_type in vlist_to_list(qry_classes.values_list('type').distinct()):
         exit_[cl_type] = Dict_class_subtype(cl_type, qry_classes, request.session['cat_'])
@@ -346,31 +375,49 @@ def Dict_by_Classes2(request, db_tbl):
 def vlist_to_list(vlist):
     return [i[0] for i in vlist]
 
-# Получение выборки из mtm только с продуктами встр. в отфильтрованных формой классах
-def Get_Products_Mtm(post_return, db_tbl):
+# Получение выборки из mtm только с продуктами встр. в отфильтрованных формой классах вендорах
+def Get_Products_Mtm(request, post_return, vendors_checked, db_tbl, period_inbase):
 
-    # joined_mtm - выборка из mtm по отфильтрованным классам
+    if post_return:
+        post_return_ = post_return
+    else:
+        post_return_ = request.session['list_enabled']
+
+    if vendors_checked:
+        vendors_checked_ = vendors_checked
+    else:
+        vendors_checked_ = request.session['vendors_enabled']
+
+    # joined_mtm - выборка из mtm по отфильтрованным классам и вендорам
+    period_models = vlist_to_list(db_tbl['vardata'].objects.filter(month__in=period_inbase).values_list('fk_products'))
+
+    print("post_return_mtm", post_return_)
+    print("vendors_checked__mtm", vendors_checked)
+
     joined_mtm = db_tbl['mtm_prod_clas'].objects \
-        .filter(fk_classes__name__in=post_return) \
-        .values('fk_products', 'fk_classes')
+        .filter(fk_classes__name__in=post_return_, fk_products__brand__in = vendors_checked_) \
+        .values('fk_products', 'fk_classes') \
+        .filter(fk_products__in=period_models)
+
 
     # inner_join_products число упоминаний продуктов в отфильтрованной таблице mtm
     inner_join_products = joined_mtm.values('fk_products') \
         .annotate(Count('fk_products'))
 
     # inner_join_products_ - только продукты из inner_join встр в количестве классов равном числу отдачи формы
-    inner_join_products_ = inner_join_products \
-        .filter(fk_products__count=len(post_return)) \
-        .values_list('fk_products')
-
+    if post_return:
+        inner_join_products_ = inner_join_products \
+            .filter(fk_products__count=len(post_return)) \
+            .values_list('fk_products')
+    else:
+        inner_join_products_ = inner_join_products.values_list('fk_products')
 
     # products_mtm - список записей в mtm с продуктом присутсв. во всех отфильтрованных классах
     products_mtm = db_tbl['mtm_prod_clas'].objects \
         .filter(fk_products__in=inner_join_products_) \
         .values('fk_products', 'fk_classes')
 
-
-# .order_by('fk_products') \
+    print(products_mtm)
 
     return products_mtm
 
@@ -393,8 +440,6 @@ def page_Category_Main(request, cat_):
 
     #Обновление параметров категории - даннае для формы и прочее
 
-
-
     cat_check = Cat_Check_for_Redirect(cat_)
     if cat_check != cat_:
         return HttpResponseRedirect("/" + cat_check + '/')
@@ -411,6 +456,7 @@ def page_Category_Main(request, cat_):
 
         new_form = request.session['new_form']
         list_enabled = request.session['list_enabled']
+        vendors_enabled = request.session['vendors_enabled']
         category_name = request.session['cat_rus_name']
         categories_list = request.session['categories_list']
         tab_active = request.session['tab_active']
@@ -423,6 +469,9 @@ def page_Category_Main(request, cat_):
             request.session['tab_active'] = tab_active
 
         tab_list = list(tab_data.keys())
+
+        list_vendors_all = request.session['vendors']
+
         str_period_inbase = request.session['period_inbase']
         period_inbase = Recover_Date_period_inbase(str_period_inbase)
         period = request.session['period_mth_rus']
@@ -435,9 +484,11 @@ def page_Category_Main(request, cat_):
             tab_active = request.GET['tabs']
             try:
                 tab_active_data = tab_data[tab_active]
+                print(tab_active_data)
             except KeyError:
                 tab_active = "top5"
                 tab_active_data = tab_data[tab_active]
+                print(tab_active_data)
             finally:
                 request.session['tab_active'] = tab_active
 
@@ -445,6 +496,64 @@ def page_Category_Main(request, cat_):
               post_return.remove('csrfmiddlewaretoken')
 
             post_return.remove('tabs')
+            vendors_checked, post_return = Get_vendors_checked(post_return)
+
+            request.session['vendors_checked'] = vendors_checked
+            request.session['form_return'] = post_return
+            print('vendors_checked -> ', vendors_checked)
+            print('post_return -> ', post_return)
+
+            products_mtm = Get_Products_Mtm(request, post_return, vendors_checked, db_tbl, period_inbase)
+
+
+            # products_for_execute - list id отфильторванных моделей
+            products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
+            request.session['products_for_execute'] = products_for_execute
+
+            # classes_for_execute - list id доступных после фильтра классов
+            classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
+
+            #print(products_for_execute)
+            list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
+            list_enabled_ = vlist_to_list(list(list_enabled_))
+            # print(list_enabled_)
+            if list_enabled_:
+                request.session['enabled_return'] = list_enabled_
+            else:
+                request.session['enabled_return'] = list_enabled
+
+            enabled_return = request.session['enabled_return']
+
+            if post_return:
+                id_post_chek = db_tbl['classes'].objects.filter(name__in=post_return).values_list('id')
+                print(post_return)
+                qry_vendors_enabled = {
+                    db_tbl['vardata']._meta.model_name + "__month__in": period_inbase,
+                    db_tbl['mtm_prod_clas']._meta.model_name + "__fk_classes__in": id_post_chek
+                }
+            else:
+                qry_vendors_enabled = {
+                    db_tbl['vardata']._meta.model_name + "__month__in": period_inbase
+                }
+
+            # qry_vendors_enabled = {
+            #     db_tbl['vardata']._meta.model_name + "__month__in": period_inbase,
+            #     "id__in": products_for_execute
+            # }
+
+            vendors_enabled_ = db_tbl['products'].objects.\
+                filter(**qry_vendors_enabled).distinct().\
+                values_list('brand')
+            vendors_enabled_ = vlist_to_list(list(vendors_enabled_))
+
+            print('vendors_enabled', vendors_enabled_)
+
+            if vendors_enabled_:
+                request.session['vendors_enabled'] = vendors_enabled_
+            else:
+                request.session['vendors_enabled'] = vendors_enabled
+
+            vendors_enabled = request.session['vendors_enabled']
 
             if 'goals_fbb_mobile' in post_return:
                 goals_fbb_mobile = True
@@ -458,41 +567,19 @@ def page_Category_Main(request, cat_):
             else:
                 classes_fbb_mobile = False
 
-            request.session['form_return'] = post_return
-
-            products_mtm = Get_Products_Mtm(post_return, db_tbl)
-
-            # products_for_execute - list id отфильторванных моделей
-            products_for_execute = vlist_to_list(list(products_mtm.values_list('fk_products').distinct()))
-
-            request.session['products_for_execute'] = products_for_execute
-
-            # classes_for_execute - list id доступных после фильтра классов
-            classes_for_execute = vlist_to_list(list(products_mtm.values_list('fk_classes').distinct()))
-            print(classes_for_execute )
-
-            #print(products_for_execute)
-            list_enabled_ = db_tbl['classes'].objects.filter(id__in=classes_for_execute).values_list('name')
-
-            list_enabled_ = vlist_to_list(list(list_enabled_))
-
-            #print(list_enabled_)
-            if list_enabled_:
-                request.session['enabled_return'] = list_enabled_
-            else:
-                request.session['enabled_return'] = list_enabled
-
-            enabled_return = request.session['enabled_return']
-
         else:
+            tab_active = "top5"
+            tab_active_data = tab_data[tab_active]
             post_return = request.session['form_return']
-            #request.session['enabled_return'] = list_enabled
+            vendors_checked = request.session['vendors_checked']
             enabled_return = request.session['enabled_return']
+            vendors_enabled = request.session['vendors_enabled']
 
-            if post_return:
-                pass
-            else:
-                request.session['products_for_execute'] = []
+
+            # if post_return:
+            #     pass
+            # else:
+            #     #request.session['products_for_execute'] = []
 
             goals_fbb_mobile = False
             classes_fbb_mobile = False
@@ -502,9 +589,13 @@ def page_Category_Main(request, cat_):
         df_data = Get_Sales_Top(request, db_tbl, period_inbase)
 
         if not df_data.empty:
-            request.session['dict_df_data'] = df_data[['id', 'id_brand_name', 'brand', 'name', 'price_avg']].to_dict()
-        else:
-            request.session['dict_df_data'] = {}
+            if vendors_checked:
+                df_data = df_data[df_data['brand'].isin(vendors_checked)]
+            #request.session['dict_df_data'] = df_data[['id', 'id_brand_name', 'brand', 'name', 'price_avg']].to_dict()
+
+        #else:
+            #request.session['dict_df_data'] = {}
+
         q_data = len(df_data)
 
         if q_data > 0:
@@ -521,6 +612,7 @@ def page_Category_Main(request, cat_):
         else:
             tbl_data = dict()
             # tab_novelty = dict()
+
 
         # best_links = Get_Bestsellers_links()
         best_links = Get_Ratings_links(cat_)
@@ -552,7 +644,10 @@ def page_Category_Main(request, cat_):
             'tab_active_data': tab_active_data,
             'theme_pic': theme_pic_this,
             'goals_fbb_mobile': goals_fbb_mobile,
-            'classes_fbb_mobile': classes_fbb_mobile
+            'classes_fbb_mobile': classes_fbb_mobile,
+            'vendors_all': list_vendors_all,
+            'vendors_checked': vendors_checked,
+            'vendors_enabled': vendors_enabled
         }
 
 
@@ -561,6 +656,17 @@ def page_Category_Main(request, cat_):
             #render(request, template_name="category_get_url.html", context=exit_)
     else:
         return handler404(request)
+
+def Get_vendors_checked(post_return):
+
+    print('GET -> ', post_return)
+    exit_list = [ven.replace("ven__", "") for ven in post_return if "ven__" in ven]
+    post_return_exit = [go_cl for go_cl in post_return if "ven__" not in go_cl]
+
+
+
+    return exit_list, post_return_exit
+
 
 def UA_Category_Main_Render(request_, exit_):
     try:
@@ -595,26 +701,26 @@ def page_new_Product(request, cat_, product_):
     def df_Cat_Init_(request, cat_init):
         if cat_init:
             category = Init_cat(request, cat_, db_tbl)
-            request.session['enabled_return'] = request.session['list_enabled']
-            request.session['products_for_execute'] = []
-        else:
-            products_for_execute_keep = request.session['products_for_execute']
-            enabled_return_keep = request.session['enabled_return']
-            request.session['enabled_return'] = request.session['list_enabled']
-            request.session['products_for_execute'] = []
+            #request.session['enabled_return'] = request.session['list_enabled']
+            #request.session['products_for_execute'] = []
+        #else:
+            #products_for_execute_keep = request.session['products_for_execute']
+            #enabled_return_keep = request.session['enabled_return']
+            #request.session['enabled_return'] = request.session['list_enabled']
+            #request.session['products_for_execute'] = []
 
         str_period_inbase = request.session['period_inbase']
         period_inbase = Recover_Date_period_inbase(str_period_inbase)
-        df_data = Get_Sales_Top(request, db_tbl, period_inbase)
+        df_data = Get_Sales_Top_for_miscell(request, db_tbl, period_inbase)
 
-        if cat_init:
-            if not df_data.empty:
-                request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
-            else:
-                request.session['dict_df_data'] = {}
-        else:
-            request.session['products_for_execute'] = products_for_execute_keep
-            request.session['enabled_return'] = enabled_return_keep
+        # if cat_init:
+        #     if not df_data.empty:
+        #         request.session['dict_df_data'] = df_data[['id', 'brand', 'name', 'price_avg']].to_dict()
+        #     else:
+        #         request.session['dict_df_data'] = {}
+        # else:
+        #     request.session['products_for_execute'] = products_for_execute_keep
+        #     request.session['enabled_return'] = enabled_return_keep
 
         return (df_data, period_inbase)
 
@@ -627,13 +733,13 @@ def page_new_Product(request, cat_, product_):
     product_chek = Product_Check_for_Redirect(product_, db_tbl['products'])
     #print(product_chek)
 
+## TODO: Передеать редирект из views_new
     if not product_chek:
         return handler404(request)
 
     if (cat_check != cat_) or (product_chek != product_):
 
         return HttpResponseRedirect("/" + cat_check + "/" + product_chek)
-
 
     if db_tbl:
         try:
@@ -651,7 +757,6 @@ def page_new_Product(request, cat_, product_):
         new_form = request.session['new_form']
         form_return = request.session['form_return']
         category_name = request.session['cat_rus_name']
-
 
         categories_list = request.session['categories_list']
 
@@ -988,7 +1093,6 @@ def Get_Sales_Top(request, db_tbl, period_inbase):
     list_products = request.session['products_for_execute']
     dict_fields_short_show = request.session['dict_fields_short_show']
 
-
     if None in list_products:
         list_products.remove(None)
 
@@ -997,8 +1101,8 @@ def Get_Sales_Top(request, db_tbl, period_inbase):
     if list_products:
         total_ = Get_Prod_Execute_join_vardata(request, db_tbl, list_products, period_inbase)
     else:
-        all_ = vlist_to_list(db_tbl['vardata'].objects.values_list('fk_products').distinct())
-        total_ = Get_Prod_Execute_join_vardata(request, db_tbl, all_, period_inbase)
+        #all_ = vlist_to_list(db_tbl['vardata'].objects.values_list('fk_products').distinct())
+        total_ = [] #Get_Prod_Execute_join_vardata(request, db_tbl, all_, period_inbase)
 
     if total_:
         df = read_frame(total_.order_by("-sales_sum"))
@@ -1016,6 +1120,11 @@ def Get_Sales_Top(request, db_tbl, period_inbase):
         exit_ = read_frame(db_tbl['vardata'].objects.none())
 
     return exit_
+
+def Get_Sales_Top_for_miscell(request, db_tbl, period_inbase):
+
+    all_ = vlist_to_list(db_tbl['vardata'].objects.values_list('fk_products').distinct())
+    return read_frame(Get_Prod_Execute_join_vardata(request, db_tbl, all_, period_inbase))[['id', 'brand', 'name', 'id_brand_name', 'price_avg', 'appear_month']]
 
 def Get_Shops(request, db_tbl, product_):
 

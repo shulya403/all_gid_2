@@ -270,49 +270,6 @@ em {
 
 }
 
-.help-block {
-        display: none;
-        border-radius: 16px;
-        border: solid 3px #4B4A8A;
-        background-color: #4B4A8A;
-        color: #F5F4F2;
-        font-size: 22px;
-        font-weight: 600;
-        margin-left: 24px;
-        height: 24px;
-        width: 24px;
-        padding-left: 2px;
-        padding-top: -4px;
-}
-.help-picture {
-        display: inline;
-        position: relative;
-}
-.help-block:hover > .help-picture::after {
-        content: "";
-        position: absolute;
-        top: 46px;
-        left: -450px;
-        z-index: 1;
-        background: url('pict/help.png');
-        width: 825px;
-        height: 620px;
-        /*padding: 8px 12px;*/
-        border: none;
-        border-radius: 4px;
-        box-shadow: 1px 1px 2px rgba(0,0,0,0.63);
-}
-.help-block:hover > .help-picture::before {
-        position: absolute;
-        border-left: 4px solid transparent;
-        border-right: 4px solid transparent;
-        border-top: 10px solid transparent;
-        border-bottom: 12px solid rgba(255,255,255,1.0);
-        content: "";
-        left: -12px;
-        top: 24px;
-}
-
 
 .form-background {
         border-radius: 8px;

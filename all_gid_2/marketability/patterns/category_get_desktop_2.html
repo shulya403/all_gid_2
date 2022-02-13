@@ -8,26 +8,86 @@
 
 {% block category %}
     <div class="category-content">
-    <div class="form-and-table">
 
+        <div class="top-horizontal-block"> <!-- top-horizontal-block -->
         <div class="category-header-wrap">
-            <h1 class="category-name-header">
+            <div><h1 class="category-name-header" id="UP__" name="UP__">
             {{ category_name }}
-            </h1> <!-- "category-name-header" -->
-            <div class="category-header-second-div">
+            </h1></div> <!-- "category-name-header" -->
             <div  class="category-name-header-second-line">
                 <h2>Бестселлеры: самые продаваемые модели{% if checked_items %} в этом классе{% endif %}</h2>
             </div>
-            <div class="category-name-second-period">
-                <span>Период: {{ period }}</span>
-                <div class="category-name-second-period-valign"></div>
-            </div>
-
-            </div>
-
+            <div class="category-name-header-period"><h2>Период: {{ period }}</h2></div>
         </div> <!-- category-header-wrap  -->
-    <form action="/{{ action }}/" method="get" id="form_">
-      <div class="issuance-tabs">
+        <div class="period-fltr">
+
+            <div class="filter_button_big">
+                <a href="#GO_CL">
+                <div class="fltr_pic">&nbsp;</div>
+                <div class="fltr_text">Цели и параметры</div>
+                </a>
+            </div>
+
+            <div class="filter_button_big">
+                <div class="fltr_pic"><a href="#VEN__">&nbsp;</a></div>
+                <div class="fltr_text"><a href="#VEN__">Производители</a></div>
+            </div>
+        </div> <!-- category-name-second-period -->
+
+
+        </div>
+
+<div class="form-and-table">
+   <form action="/{{ action }}/" method="get" id="form_">
+            <div class="buttons-top buttons-top-cl-go-checked">
+                    {% for sub_type in new_form.GO.keys %}
+                        {% for cls_ in new_form.GO|get_item:sub_type%}
+                        {% if cls_.name in  checked_items %}
+                        <div class="button-top">
+                        <div class="button-top-checkbox">
+                            <label for="{{ cls_.name }}">
+                                <div class="button-top-krestik">&#10006;</div>
+                            </label>
+                        </div>
+                        <div class="button-top-text">{{ cls_.text }}</div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+            </div>
+
+            <div class="buttons-top buttons-top-cl-go-checked">
+                {% for sub_type in new_form.CL.keys %}
+                        {% for cls_ in new_form.CL|get_item:sub_type%}
+                        {% if cls_.name in  checked_items %}
+                        <div class="button-top">
+                        <div class="button-top-checkbox">
+                            <label for="{{ cls_.name }}">
+                                <div class="button-top-krestik">&#10006;</div>
+                            </label>
+                        </div>
+                            <div class="button-top-text">{{ cls_.text }}</div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+            </div>
+            <div class="buttons-top buttons-top-cl-go-checked">
+                    {% for ven in vendors_checked %}
+                        {% with ven__="__"|replace_space:ven %}
+                        <div class="button-top">
+                        <div class="button-top-checkbox">
+                            <label for="{{ ven__ }}">
+                                <div class="button-top-krestik">&#10006;</div>
+                            </label>
+                        </div>
+                        <div class="button-top-text">{{ ven }}</div>
+                        </div>
+                        {% endwith %}
+                    {% endfor %}
+            </div>
+
+            <div class="issuance-tabs">
         {% for tab in tab_list %}
             <div class="tabs-header{% if tab_active == tab %} tab-active{% endif %}" id="{{ tab }}_">
 
@@ -52,7 +112,7 @@
             </div> <!-- tabs_header -->
         {% endfor %}
         <div class="tab-item" id="{{ tab_active }}_">
-            <h4 class="table-sign-text">{{ category_name }} - {{ tab_active_data|get_value:"rus_name"}} за период: {{ period }} </h4>
+{#            <h4 class="table-sign-text">{{ category_name }} - {{ tab_active_data|get_value:"rus_name"}} за период: {{ period }} </h4>#}
             <div class="table-wrap-mobile">
             <table class="table-data">
                 <tr class="th-tbl">
@@ -79,7 +139,7 @@
                 </td>
                 {% for fld in tbl_data.keys %}
                     {%  if fld in tbl_ttx_col %}
-                    <td align="center">
+                    <td>
                         {% with val=tbl_data|get_item:fld|get_item:i%}
                         {% if val == 'Да' %}
                             <img src="/static/marketability/pict/Check mark green-1.svg">
@@ -105,15 +165,12 @@
         </div> <!-- marketability -->
 
 
-
+    <div class="subform_header">
+        <div class="subform_header_up" id="GO_CL" name="GO_CL"></div>
+        <h2>Цели и Параметры</h2>
+    </div>
     <div class="form-background">
-            <div class="form-reset">
-            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
-            <span>Сбросить</span>
-            <div class="sbros-krestik"></div>
-{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
-            </button>
-        </div> <!-- "form-reset" -->
+
 
             {% if goals_fbb_mobile %}
             <script>
@@ -258,9 +315,57 @@
 
     </div> <!-- "form_blocks" -->
 
-
-
     </div> <!-- "filter-form" -->
+          <div class="form-reset">
+
+            <button onclick="$('.form_block_buttons input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
+                <span>&#10006;</span>
+                <span>Сбросить</span>
+{#            <div class="sbros-krestik"></div>#}
+{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
+            </button>
+              <a href="#UP__">
+                  <div class="form-button-up">
+                      <div><img src="/static/marketability/pict/Double chevron right-1.svg"></div>
+                  </div>
+              </a>
+        </div> <!-- "form-reset" -->
+
+    <div class="subform_header">
+        <div class="subform_header_up" id="VEN__" name="VEN__"></div>
+        <h2>Производители</h2>
+    </div>
+    <div class="vendors-block">
+        {% for i in vendors_all %}
+            {% with i__="__"|replace_space:i %}
+            <input type="checkbox" id="{{ i__ }}" value="Yes" name="ven__{{ i }}"
+                      {% if i in vendors_checked %} checked {% endif %}
+                        {% if i not in vendors_enabled %} disabled {% endif %}
+                         onchange="$(this).closest('form').submit();">
+              <label for="{{ i__ }}">
+                  <div class="vendors_button_label">
+                  <div class="vendor_button">{{ i }}</div>
+
+                  </div> <!-- vendors_button_label -->
+
+              </label>
+            {% endwith %}
+        {% endfor %}
+    </div><!-- vendors-block -->
+             <div class="form-reset">
+
+            <button onclick="$('.vendors-block input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
+                <span>&#10006;</span>
+                <span>Сбросить</span>
+{#            <div class="sbros-krestik"></div>#}
+{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
+            </button>
+              <a href="#UP__">
+                  <div class="form-button-up">
+                      <div><img src="/static/marketability/pict/Double chevron right-1.svg"></div>
+                  </div>
+              </a>
+        </div> <!-- "form-reset" -->
 
     </form>
     </div> <!-- form-and-table -->
