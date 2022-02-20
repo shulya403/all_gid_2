@@ -8,6 +8,15 @@
 
 {% block category %}
     <div class="category-content">
+    {% if page_place == 'CL' or page_place == 'GO' %}
+         <script>
+            window.location.href = '#GO_CL';
+         </script>
+    {% elif page_place == 'ven' %}
+        <script>
+            window.location.href = '#VEN__';
+        </script>
+    {% endif %}
 
         <div class="top-horizontal-block"> <!-- top-horizontal-block -->
         <div class="category-header-wrap">
@@ -40,7 +49,8 @@
 <div class="form-and-table">
    <form action="/{{ action }}/" method="get" id="form_">
    <input type="radio" id="form-infocus-now-up" name="infocus-now" value="up" class="form-infocus-now">
-   <input type="radio" id="form-infocus-now-cl-go" name="infocus-now" value="cl-go" class="form-infocus-now">
+   <input type="radio" id="form-infocus-now-go" name="infocus-now" value="GO" class="form-infocus-now">
+   <input type="radio" id="form-infocus-now-cl" name="infocus-now" value="CL" class="form-infocus-now">
    <input type="radio" id="form-infocus-now-ven" name="infocus-now" value="ven" class="form-infocus-now">
             <div class="buttons-top buttons-top-cl-go-checked">
                     {% for sub_type in new_form.GO.keys %}
@@ -95,7 +105,8 @@
             <div class="tabs-header{% if tab_active == tab %} tab-active{% endif %}" id="{{ tab }}_">
 
             <input type="radio" name="tabs" value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} checked="checked"{% endif %}
-            onchange="$(this).closest('form').submit();">
+            onchange="$('input[id=form-infocus-now-up]').prop('checked', true);
+                      $(this).closest('form').submit();">
             <label for="{{ tab }}">
 
                     {% with thistab=tab_data|get_item:tab %}
@@ -220,7 +231,9 @@
               <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
                       {% if class_.name in checked_items %} checked{% endif %}
                         {% if class_.name not in enabled %} disabled{% endif %}
-                        onchange="$(this).closest('form').submit();">
+                        onchange="
+                        $('input[id=form-infocus-now-go]').prop('checked', true);
+                        $(this).closest('form').submit();">
               <label for="{{ class_.name }}">
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
@@ -288,7 +301,8 @@
              <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
                       {% if class_.name in checked_items %} checked{% endif %}
                         {% if class_.name not in enabled %} disabled{% endif %}
-                        onchange="$(this).closest('form').submit();">
+                        onchange="$('input[id=form-infocus-now-cl]').prop('checked', true);
+                                   $(this).closest('form').submit();">
               <label for="{{ class_.name }}">
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
@@ -344,7 +358,8 @@
             <input type="checkbox" id="{{ i__ }}" value="Yes" name="ven__{{ i }}"
                       {% if i in vendors_checked %} checked {% endif %}
                         {% if i not in vendors_enabled %} disabled {% endif %}
-                         onchange="$(this).closest('form').submit();">
+                         onchange="$('input[id=form-infocus-now-ven]').prop('checked', true);
+                                    $(this).closest('form').submit();">
               <label for="{{ i__ }}">
                   <div class="vendors_button_label">
                   <div class="vendor_button">{{ i }}</div>
