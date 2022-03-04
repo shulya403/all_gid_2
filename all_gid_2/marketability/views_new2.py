@@ -1,7 +1,7 @@
 # TODO: Убрать период справа вверху
+## Возврат из Product tab
 ## Пикты табов Топ и ВСЕ
 ## Ноутбуки все - число
-## Возврат в нужную форму
 ## Новый дийзайн мобилы формы
 ## Зкщвгсе Page Shifting Loyaut
 ## Звезды механизм
@@ -16,6 +16,8 @@
 # Заголовки блоков формы
 # вверху кнопки
 ## Кнопки очистить все
+## Возврат в нужную форму
+
 from django.shortcuts import render, HttpResponseRedirect
 #from django.template import RequestContext
 #from django.views.generic import View, DetailView, TemplateView
@@ -464,12 +466,12 @@ def page_Category_Main(request, cat_):
         categories_list = request.session['categories_list']
         tab_active = request.session['tab_active']
         tab_data = Dict_tabs_page_form()
-        try:
-            tab_active_data = tab_data[tab_active]
-        except KeyError:
-            tab_active = "top5"
-            tab_active_data = tab_data[tab_active]
-            request.session['tab_active'] = tab_active
+        # try:
+        #     tab_active_data = tab_data[tab_active]
+        # except KeyError:
+        #     tab_active = "top5"
+        #     tab_active_data = tab_data[tab_active]
+        #     request.session['tab_active'] = tab_active
 
         tab_list = list(tab_data.keys())
 
@@ -483,21 +485,30 @@ def page_Category_Main(request, cat_):
 
             #if request.GET:
         post_return = list(request.GET.keys())
+        print("request.GET -> ", request.GET)
+        try:
+            page_place = request.GET['infocus-now']
+        except KeyError:
+            page_place = "up"
 
         try:
             tab_active = request.GET['tabs']
             tab_active_data = tab_data[tab_active]
             post_return.remove ('tabs')
-            print (tab_active_data)
+            print(tab_active_data)
         except KeyError:
             tab_active = "top5"
             tab_active_data = tab_data[tab_active]
-            print (tab_active_data)
+            post_return.remove ('tabs')
+            print(tab_active_data)
         finally:
             request.session['tab_active'] = tab_active
 
         if 'csrfmiddlewaretoken' in post_return:
             post_return.remove ('csrfmiddlewaretoken')
+
+        if 'infocus-now' in post_return:
+            post_return.remove('infocus-now')
 
 
         vendors_checked, post_return = Get_vendors_checked(post_return)
@@ -529,7 +540,7 @@ def page_Category_Main(request, cat_):
 
         if post_return:
             id_post_chek = db_tbl['classes'].objects.filter (name__in=post_return).values_list ('id')
-            print (post_return)
+            print(post_return)
             qry_vendors_enabled = {
                 db_tbl['vardata']._meta.model_name + "__month__in": period_inbase,
                 db_tbl['mtm_prod_clas']._meta.model_name + "__fk_classes__in": id_post_chek
@@ -650,7 +661,8 @@ def page_Category_Main(request, cat_):
             'classes_fbb_mobile': classes_fbb_mobile,
             'vendors_all': list_vendors_all,
             'vendors_checked': vendors_checked,
-            'vendors_enabled': vendors_enabled
+            'vendors_enabled': vendors_enabled,
+            'page_place': page_place
         }
 
 
@@ -673,6 +685,15 @@ def UA_Category_Main_Render(request_, exit_):
     try:
         user_agent = get_user_agent(request_)
         if user_agent.is_pc:
+            # print("page+place -> ", exit_['page_place'])
+            # if exit_['page_place'] == 'up':
+            #     return render(request_, template_name="category_get_desktop_2.html", context=exit_)
+            # elif exit_['page_place'] in ['GO', 'CL']:
+            #     return render(request_, template_name="category_get_desktop_2.html#GO_CL", context=exit_)
+            # elif exit_['page_place'] == 'ven':
+            #     print("вендор")
+            #     # return render(request_, template_name="category_get_desktop_2.html#VEN__", context=exit_)
+            # else:
             return render(request_, template_name="category_get_desktop_2.html", context=exit_)
         elif user_agent.is_mobile:
             return render(request_, template_name="category_get_mobile_2.html", context=exit_)
