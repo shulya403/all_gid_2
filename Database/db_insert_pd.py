@@ -759,16 +759,16 @@ class Monitor_Models_Base_Update():
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_December1.xlsx",
-#                       xl_Vardata="ITResearch_NB_Report-12`21.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-#                      Category="Nb",
-#                     dir_root = "C:/Users/DSH/ITResearch/all_gid_2/Data/")
-# FillDB.DB_alchemy(FillDB.Category)
-# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+FillDB = DB_insert_from_excel(xl_Products="Mfp_Model_Base_1'2022-1.xlsx",
+                      xl_Vardata="Mfp_Model_Base_1'2022-1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Mfp",
+                    dir_root = "C:/Users/DSH/ITResearch/all_gid_2/Data/")
+FillDB.DB_alchemy(FillDB.Category)
+FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
 # FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [12]
-# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
+# mth_list = [1]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -779,13 +779,13 @@ class Monitor_Models_Base_Update():
 
 #Заполение магазинов для мониторов и ноутбуков
 
-FillShop = DB_insert_shops(
-                 xl_Shops="Ноутбук-Concat_Prices--Dec-21--Checked.xlsx", #Месячные прайсы Filled/Checked
-                 Category='Nb',
-                 dir_root="../Data/"
-)
+# FillShop = DB_insert_shops(
+#                  xl_Shops="Принтер-Concat_Prices--Jan-22--Filled.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Mfp',
+#                  dir_root="../Data/"
+# )
 
-FillShop.To_DB_Shop_Price()
+# FillShop.To_DB_Shop_Price()
 
 
 #   Мониторы добавка и исправление моделей за месяц

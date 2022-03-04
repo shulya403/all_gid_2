@@ -526,6 +526,6 @@ class Mth_cat(object):
 # Obj = Mth_cat('Sep', 2021, 'Mnt', top_q=5, num="Mnt_9_office_reprice", )
 # Obj.Autogen(general_header="Рейтинг популярности мониторов для офиса. Сентябрь 2021")
 
-Obj = Mth_cat(Mth_='Dec', Year_=2021, Cat_='Mnt', top_q=5, num="Mnt Dec Gamer v2")
-Obj.Autogen(general_header="Игровые мониторы-бестселлеры. Декабрь-21")
+Obj = Mth_cat(Mth_='Dec', Year_=2021, Cat_='Nb', top_q=5, num="NB Dec 16-17")
+Obj.Autogen(general_header="Большие ноутбуки декабрь. Декабрь-21")
 

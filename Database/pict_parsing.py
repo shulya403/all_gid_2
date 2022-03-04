@@ -104,6 +104,8 @@ def Get_Image_TAG(driver, url_list):
                     return None
             else:
                 print("Капча!")
+                input()
+                Get_Image_TAG(driver, url_list)
                 return None
         except Exception:
             print("404")
@@ -119,7 +121,7 @@ def Img_Ext(href):
 
 #  MAIN
 
-Cat = Parse_pict("Nb", "Ноутбук-Concat_Prices--Dec-21--Checked.xlsx")
+Cat = Parse_pict("Mfp", "Принтер-Concat_Prices--Jan-22--Filled.xlsx")
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
