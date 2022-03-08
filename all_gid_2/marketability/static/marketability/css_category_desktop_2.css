@@ -320,6 +320,9 @@ em {
         width: 840px;
 
 }
+.form-infocus-now {
+        display: none;
+}
 
 .buttons-top {
         display: flex;
@@ -665,8 +668,9 @@ em {
 .tabs-rusname {
         display: inline-block;
         margin-left: 4px;
-        margin-right: 12px;
+        margin-right: 20px;
         padding-top: 8px;
+        font-size: larger;
 
 }
 

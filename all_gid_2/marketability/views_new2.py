@@ -1,4 +1,4 @@
-# TODO: Убрать период справа вверху
+# TODO:
 ## Возврат из Product tab
 ## Пикты табов Топ и ВСЕ
 ## Ноутбуки все - число
@@ -8,6 +8,7 @@
 ## Звезды БД
 ## Звезды Вывод
 ## Core Vitals Ыршаештп
+## возврат на открытый tab_active
 
 
 
@@ -162,31 +163,41 @@ def Dict_tabs_page_form():
     dict_tabs = {
         'top5': {
             "rus_name": "Топ 5",
-            "img_active": "Star white-1.svg",
-            "img_noactive": "Star gray.svg",
-            "Q": 5
+            "img_active": "top-gist-active.svg",
+            "img_noactive": "top-gist-noactive.svg",
+            "Q": 5,
+            "img_symbol": "&#10031;",
+            "img_active_color": ""
         },
         'top10': {
             "rus_name": "Топ 10",
-            "img_active": "Gray white.svg",
-            "img_noactive": "Lamp gray-1.svg",
-            "Q": 10
+            "img_active": "top-gist-active_top10.svg",
+            "img_noactive": "top-gist-noactive_top10.svg",
+            "Q": 10,
+            "img_symbol": "&#10031;",
+            "img_active_color": ""
         },
         'top20': {
             "rus_name": "Топ 20",
-            "img_active": "Gray white.svg",
-            "img_noactive": "Lamp gray-1.svg",
-            "Q": 20
+            "img_active": "top-gist-active_top20.svg",
+            "img_noactive": "top-gist-noactive_top20.svg",
+            "Q": 20,
+            "img_symbol": "&#10031;",
+            "img_active_color": ""
         },
         'all': {
             "rus_name": "ВСЕ",
-            "img_active": "Gray white.svg",
-            "img_noactive": "Lamp gray-1.svg"
+            "img_active": "Tital_expand grey_active.svg",
+            "img_noactive": "Tital_expand grey_noactive.svg",
+            "img_symbol": "&#10031;",
+            "img_active_color": ""
         },
         'novelity': {
             "rus_name": "НОВИНКИ",
             "img_active": "Gray white.svg",
-            "img_noactive": "Lamp gray-1.svg"
+            "img_noactive": "Lamp gray-1.svg",
+            "img_symbol": "&#10031;",
+            "img_active_color": ""
         }
 
     }
@@ -466,12 +477,12 @@ def page_Category_Main(request, cat_):
         categories_list = request.session['categories_list']
         tab_active = request.session['tab_active']
         tab_data = Dict_tabs_page_form()
-        # try:
-        #     tab_active_data = tab_data[tab_active]
-        # except KeyError:
-        #     tab_active = "top5"
-        #     tab_active_data = tab_data[tab_active]
-        #     request.session['tab_active'] = tab_active
+        try:
+            tab_active_data = tab_data[tab_active]
+        except KeyError:
+            tab_active = "top5"
+            tab_active_data = tab_data[tab_active]
+            request.session['tab_active'] = tab_active
 
         tab_list = list(tab_data.keys())
 
@@ -499,7 +510,11 @@ def page_Category_Main(request, cat_):
         except KeyError:
             tab_active = "top5"
             tab_active_data = tab_data[tab_active]
-            post_return.remove ('tabs')
+            try:
+                post_return.remove('tabs')
+            except:
+                pass
+
             print(tab_active_data)
         finally:
             request.session['tab_active'] = tab_active
