@@ -26,6 +26,9 @@ em {
 .adv-horizontal-block {
         display: none;
 }
+.adv-vert-block {
+        display: none;
+}
 .header-menu {
         display: block;
         justify-content: space-between;

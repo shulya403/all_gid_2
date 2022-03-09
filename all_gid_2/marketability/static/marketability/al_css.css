@@ -25,13 +25,22 @@ em {
 }
 
 .adv-horizontal-block {
-        /*margin: 0 auto;*/
+        margin: 0 auto;
         margin-bottom: 1px;
         text-align: center;
 }
 
+.adv-horizontal-bottom-block {
+       width: 1106px;
+       margin: 0 auto;
+}
+
 .adv-horizontal-block-mobile {
         display: none;
+}
+
+.adv-vert-block-mobile {
+        display:none;
 }
 
 .header-menu {
