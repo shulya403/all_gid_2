@@ -2,8 +2,9 @@
 	font-family: Roboto;
 	src: local(Roboto),
         url("fonts/Roboto-Regular.ttf") format("truetype");
-    font-weight:normal;
+    font-weight: normal;
     font-style: oblique;
+    font-display: optional;
 }
 
 @font-face {
@@ -12,6 +13,7 @@
         url("fonts/Roboto-Italic.ttf") format("truetype");
     font-weight: normal;
     font-style: italic;
+    font-display: optional;
 }
 
 body {
@@ -41,8 +43,8 @@ em {
 .menu {
         display: inline-flex;
         width: 100%;
-
         justify-content: space-between;
+        flex-wrap: nowrap;
 }
 
 .menu-left {
@@ -202,6 +204,7 @@ em {
         height: 36px;
         /*display: inline-flex;*/
         margin-right: 8px;
+        overflow: hidden;
 }
 .menu-right-mobile button {
         height: 100%;
@@ -214,10 +217,18 @@ em {
         letter-spacing: 1.0px;
         border: 1px transparent;
         font-size: 14px;
-
 }
 
-
+.menu-right-mobile button#rate {
+        width: 60px;
+}
+.menu-right-mobile button#how {
+        width: 85px;
+}
+.menu-right-mobile-in-button {
+        display: flex;
+        align-items: center;
+}
 .menu-search {
         display: inline-block;
         background: url("pict/Search-1.svg");
@@ -1719,7 +1730,8 @@ em {
         text-decoration: none;
 }
 .article-wrap img {
-        width: 100%;
+        width: 100%!important;
+        height: auto!important;
 }
 .article-content {
         width: 98%;

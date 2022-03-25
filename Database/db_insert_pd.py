@@ -715,9 +715,11 @@ class brandname(object):
 
 
 class Monitor_Models_Base_Update():
-    def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
+    def __init__(self, old_base, new_base, mth_, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
         old_filename = dir + old_base
         new_filename = dir + new_base
+
+        self.mth_ = mth_
 
         self.df_old = pd.read_excel(old_filename)
         self.df_new = pd.read_excel(new_filename)
@@ -743,8 +745,8 @@ class Monitor_Models_Base_Update():
     def Write_excel(self):
 
         df = self.Drop_duplicates(self.Concat_old_new(self.df_old, self.df_new))
-        filename = self.dir + 'Monitors_Model_Base_' + str(max(list(df['Appear_month'].unique()))) + "-" + str(self.num) + ".xlsx"
-        print(max(list(df['Appear_month'].unique())))
+        filename = self.dir + 'Monitors_Model_Base_' + self.mth_ + "-" + str(self.num) + ".xlsx"
+        #print(max(list(df['Appear_month'].unique())))
 
         df.to_excel(filename, index=False)
 
@@ -759,16 +761,16 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="Mfp_Model_Base_1'2022-1.xlsx",
-                      xl_Vardata="Mfp_Model_Base_1'2022-1.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Mfp",
+FillDB = DB_insert_from_excel(xl_Products="allgid UPS Q4 202_NULL2-ed.xlsx",
+                      xl_Vardata="allgid UPS Q4 202_NULL2-ed.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+                     Category="Ups",
                     dir_root = "C:/Users/DSH/ITResearch/all_gid_2/Data/")
 FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-# FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [1]
-# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
+#FillDB.MtM_Products_Classes_to_SQL()
+mth_list = [12]
+FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2021")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -780,24 +782,25 @@ FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 #Заполение магазинов для мониторов и ноутбуков
 
 # FillShop = DB_insert_shops(
-#                  xl_Shops="Принтер-Concat_Prices--Jan-22--Filled.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Mfp',
+#                  xl_Shops="Монитор-Concat_Prices--Feb-22--Filled.xlsx", #Месячные прайсы Filled/Checked
+#                  Category='Mnt',
 #                  dir_root="../Data/"
 # )
-
+#
 # FillShop.To_DB_Shop_Price()
 
 
 #   Мониторы добавка и исправление моделей за месяц
 
 # class Monitor_Models_Base_Update():
-#     def __init__(self, old_base, new_base, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
+#     def __init__(self, old_base, new_base, mth_, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 #C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\
 
-# Dec_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_11-1.xlsx",
-#                                            "Копия allgid monitors December 2021.xlsx",
+# Jan22_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2021_12-1.xlsx",
+#                                            "allgid monitors January 2022.xlsx",
+#                                            "2022_01",
 #                                            dir="C:\\Users\\DSH\\ITResearch\\all_gid_2\\Data\\Mnt\\")
-# Dec_monitors.Write_excel()
+# Jan22_monitors.Write_excel()
 
 # for cat in ["Nb", "Mnt", "Mfp", "Ups"]:
 #
