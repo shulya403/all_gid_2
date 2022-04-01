@@ -1,8 +1,45 @@
 User-Agent: *
 Allow: /
-Disallow: /404.html
-Disallow: /vendors
+Disallow: /vendors/
+Disallow: /Mnt/
+Disallow: /Nb/
+Disallow: /Mfp/
+Disallow: /admin/
+Disallow: /rate/Noutbuk/
+Disallow: /how/Noutbuk/
+Disallow: /rate/Monitor/
+Disallow: /how/Monitor/
+Disallow: /rate/Printer-mfu/
+Disallow: /how/Printer-mfu/
+
 sitemap: https://allgid.ru/sitemap.xml
 
 User-Agent: Yandex
+Allow: /
 Allow: /rss-turbo.xml
+Allow: /rss-turbo-how.xml
+Disallow: /vendors/
+Disallow: /Mnt/
+Disallow: /Nb/
+Disallow: /Mfp/
+Disallow: /admin/
+Disallow: /rate/Noutbuk/
+Disallow: /how/Noutbuk/
+Disallow: /rate/Monitor/
+Disallow: /how/Monitor/
+Disallow: /rate/Printer-mfu/
+Disallow: /how/Printer-mfu/
+
+User-agent: Googlebot
+Allow: /
+Disallow: /vendors/
+Disallow: /Mnt/
+Disallow: /Nb/
+Disallow: /Mfp/
+Disallow: /admin/
+Disallow: /rate/Noutbuk/
+Disallow: /how/Noutbuk/
+Disallow: /rate/Monitor/
+Disallow: /how/Monitor/
+Disallow: /rate/Printer-mfu/
+Disallow: /how/Printer-mfu/

@@ -31,6 +31,16 @@ em {
 .adv-vert-block {
         display: none;
 }
+
+.adv-horizontal-block-mobile {
+        height: 300px;
+        margin-bottom: 1px;
+}
+
+.adv-vert-block-mobile {
+        height: 300px;
+        margin-bottom: 1px;
+}
 .header-menu {
         display: block;
         justify-content: space-between;
