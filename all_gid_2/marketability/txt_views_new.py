@@ -31,7 +31,7 @@ def how_Listing(request):
 def how_cat_Listing(request, cat_):
 
 
-    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin', 'date')
+    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin', 'date').order_by('pin', '-date')
 
     ctg = views.Init_cat(request, '', {})
 

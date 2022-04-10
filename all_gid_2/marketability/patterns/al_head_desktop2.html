@@ -2,12 +2,14 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-{#    <title>AllGid - Гид покупателя. Компьютеры и оргтехника</title>#}
+
     {% block meta %}{% endblock %}
     <link rel="icon" type="image/x-icon" href="/static/marketability/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="/static/marketability/favicon.ico">
+    <link rel="preload" href="/static/marketability/fonts/Roboto-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+    <link rel="preload" href="/static/marketability/fonts/Roboto-Italic.ttf" as="font" type="font/ttf" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" media="screen and (min-width:1024px)" href="/static/marketability/css_category_desktop_2.css">
+    <link rel="stylesheet" type="text/css" href="/static/marketability/css_head_desktop2.css">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <script type="text/javascript" src="/static/marketability/js/jquery-3.5.1.min.js"></script>
@@ -35,9 +37,23 @@
   gtag('config', 'G-HTCCXF3FFD');
 </script>
 
-</head>
-<body>
+<!-- Yandex.RTB -->
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
 
+</head>
+
+<body>
+<div class="adv-horizontal-block adv-horizontal-bottom-block">
+    <!-- Yandex.RTB R-A-1580155-1 -->
+    <div id="yandex_rtb_R-A-1580155-1"></div>
+    <script>window.yaContextCb.push(()=>{
+      Ya.Context.AdvManager.render({
+        renderTo: 'yandex_rtb_R-A-1580155-1',
+        blockId: 'R-A-1580155-1'
+      })
+    })</script><!-- Yandex.RTB R-A-1580155-1 -->
+</div>  <!-- adv-horizontal-block -->
 
     <div class="header-menu">
         <div class="menu">
@@ -52,7 +68,6 @@
             <div class="logo-space"></div>
         </div>
 
-
         <div class="category-menu">
 
         {% for i, link in categories_list %}
@@ -62,7 +77,7 @@
 
         {% endfor %}
         </div> <!-- "category-menu" -->
-     <script>
+         <script>
            $(function() {
                 $(document).ready(function () {
                     $('.menu-gamburger-all').click(function() {
@@ -70,14 +85,11 @@
                             $('.menu-gamburger-popup').css('display', 'block');
                             $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/arrow-white-min.svg)');
                             $('.menu-gamburger-all').css('background-color', '#4B4A8A').css('border-left', '1px solid #ffffff').css('border-right', '1px solid #ffffff').css('height', '58px');
-
-
                         }
                         else {
                             $('.menu-gamburger-popup').css('display', 'none');
                             $('.menu-gamburger').css('background-image', 'url(/static/marketability/pict/hamburger-white-min.svg)');
                             $('.menu-gamburger-all').css('background-color', 'transparent').css('border', 'none')
-
                         }
                     });
                 });
@@ -87,7 +99,7 @@
             <div class="menu-gamburger"></div>
             <div class="menu-gamburger-text">Категории устройств</div>
 
-       <div class="menu-gamburger-popup">
+        <div class="menu-gamburger-popup">
 			<ul>
                 {% for i, link in categories_list %}
                     <li {% if i == category_name %}class="button-menu-gamburger-active"{% else %}class="button-menu-gamburger"{% endif %}>
@@ -99,6 +111,7 @@
 		</div> <!-- menu-gamburger-popup -->
         </div> <!-- menu-gamburger -->
         </div> <!-- menu-left -->
+
         <div class="menu-right">
 
             <a href="/rate/">
@@ -107,31 +120,30 @@
              <a href="/how/">
                 <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9998;</span>&nbsp;Статьи</button>
             </a>
-
-
             <a href="/search_all.html">
+
             <div class="menu-search"></div>
             </a>
         </div>
-                <div class="menu-right-mobile">
 
-            <a href="/rate/">
-                    <button id="rate" {% if txt == 'rate' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9812;</span>&nbsp;Top</button>
-            </a>
-             <a href="/how/">
-                <button  id="how" {% if txt == 'how' %}class="button-menu-active"{% else %}class="button-menu"{% endif %}><span style="font-size: larger;">&#9998;</span>&nbsp;Статьи</button>
-            </a>
-
-            <a href="/search_all.html">
-            <div class="menu-search"></div>
-            </a>
-        </div>
         </div> <!-- "menu" -->
-
 
     </div> <!-- class="header-menu" -->
 
     {% block category %}{% endblock %}
+<br />
+
+<div class="adv-horizontal-block adv-horizontal-bottom-block">
+
+    <!-- Yandex Native Ads C-A-1580155-2 -->
+    <div id="id-C-A-1580155-2"></div>
+    <script>window.yaContextCb.push(()=>{
+      Ya.Context.AdvManager.renderWidget({
+        renderTo: 'id-C-A-1580155-2',
+        blockId: 'C-A-1580155-2'
+    })
+})</script> <!-- Yandex Native Ads C-A-1580155-2 -->
+</div>
         <div class="home-bottom">
             <a href="/al_about.html">
             <div class="bottom-our-button">
@@ -143,16 +155,14 @@
             109147, г. Москва, ул. Марксистская, дом 34, стр.10, 3 эт., телефон: +7&nbsp;(495)&nbsp;974-22-60, электронная почта: <a href="mailto:expert@itresearch.ru">expert@itresearch.ru</a>
             </div>
             <div class="bottom-buttons">
-           <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" height="20px"></a>
-                 <a href="https://www.facebook.com/%D0%93%D0%B8%D0%B4-%D0%9F%D0%BE%D0%BA%D1%83%D0%BF%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-Allgidru-106619331802890/" target="_blank"><img src="/static/marketability/pict/png-transparent-facebook.png" height="20px" alt="fb"></a>
-            <a href="https://vk.com/public205382581" target="_blank"><img src="/static/marketability/pict/vk.com_13326.png" height="20px" alt="vk"></a>
-            <a href="https://t.me/allgid" target="_blank"><img src="/static/marketability/pict/telegram.png" height="20px" alt="telegram"></a>
-                <a href="https://twitter.com/VladimirZhemchu/status/1417138748693876736" target="_blank"><img src="/static/marketability/pict/icon-twitter-png.png" height="20px" alt="twitter"></a>
-                <a href="https://ok.ru/group/62280444608687" target="_blank"><img src="/static/marketability/pict/computer-icons-odnoklassniki-vector-vector.jpg" height="20px" alt="ok"></a>
+           <a href="https://zen.yandex.ru/id/60a9bdd6a4aad1743d7ea041" target="_blank"><img src="/static/marketability/pict/Logo_yadzen.gif" width="30px" height="30px"></a>
+           <a href="https://www.facebook.com/%D0%93%D0%B8%D0%B4-%D0%9F%D0%BE%D0%BA%D1%83%D0%BF%D0%B0%D1%82%D0%B5%D0%BB%D1%8F-Allgidru-106619331802890/" target="_blank"><img src="/static/marketability/pict/png-transparent-facebook.png" width="30px" height="30px" alt="fb"></a>
+           <a href="https://vk.com/public205382581" target="_blank"><img src="/static/marketability/pict/vk.com_13326.png" width="30px" height="30px" alt="vk"></a>
+           <a href="https://t.me/allgid" target="_blank"><img src="/static/marketability/pict/telegram.png" height="30px" width="30px" alt="telegram"></a>
+           <a href="https://twitter.com/VladimirZhemchu/status/1417138748693876736" target="_blank"><img src="/static/marketability/pict/icon-twitter-png.png" width="30px" height="30px" alt="twitter"></a>
+           <a href="https://ok.ru/group/62280444608687" target="_blank"><img src="/static/marketability/pict/computer-icons-odnoklassniki-vector-vector.jpg" width="30px" height="30px" alt="ok"></a>
 
             </div>
         </div>
-
-
 </body>
 </html>

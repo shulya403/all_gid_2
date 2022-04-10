@@ -645,6 +645,7 @@ def page_Category_Main(request, cat_):
 
         # best_links = Get_Bestsellers_links()
         best_links = Get_Ratings_links(cat_)
+        how_links = Get_How_links(cat_)
 
         if (not theme_pic[1]) \
                 or (not theme_pic[0] in post_return):
@@ -667,6 +668,8 @@ def page_Category_Main(request, cat_):
             'period': period,
             'bestesellers_links': best_links[0],
             'bestesellers_cat': best_links[1],
+            'how_links': how_links[0],
+            'how_cat': how_links[1],
             'tab_active': tab_active,
             'tab_list': tab_list,
             'tab_data': tab_data,
@@ -679,8 +682,6 @@ def page_Category_Main(request, cat_):
             'vendors_enabled': vendors_enabled,
             'page_place': page_place
         }
-
-
 
         return UA_Category_Main_Render(request, exit_)
             #render(request, template_name="category_get_url.html", context=exit_)
@@ -696,10 +697,13 @@ def Get_vendors_checked(post_return):
     return exit_list, post_return_exit
 
 
+
 def UA_Category_Main_Render(request_, exit_):
     try:
         user_agent = get_user_agent(request_)
+        print(user_agent, user_agent.is_mobile, user_agent.is_pc)
         if user_agent.is_pc:
+            print ("category_get_desktop_2.html")
             # print("page+place -> ", exit_['page_place'])
             # if exit_['page_place'] == 'up':
             #     return render(request_, template_name="category_get_desktop_2.html", context=exit_)
@@ -711,14 +715,15 @@ def UA_Category_Main_Render(request_, exit_):
             # else:
             return render(request_, template_name="category_get_desktop_2.html", context=exit_)
         elif user_agent.is_mobile:
+            print("category_get_mobile_2.html")
             return render(request_, template_name="category_get_mobile_2.html", context=exit_)
         elif user_agent.is_tablet:
             return render(request_, template_name="category_get_desktop_2.html", context=exit_)
-
-    except Exception:
+    except Exception as Err:
         return render(request_, template_name="category_get_desktop_2.html", context=exit_)
+        print(Err)
 
-    return render(request_, template_name="category_get_desktop_2.html", context=exit_)
+    #return render(request_, template_name="category_get_desktop_2.html", context=exit_)
 
 
 def Product_Check_for_Redirect(product_, tbl_products):
@@ -1238,7 +1243,8 @@ def handler404(request, exception=None):
     response.status_code = 404
 
     return response
-def Get_Ratings_links(cat_):
+
+def Convert_Articles_Category_names(cat_):
 
     dict_cat = {
         "Monitor": "Mnt",
@@ -1247,9 +1253,16 @@ def Get_Ratings_links(cat_):
     }
 
     if cat_ in dict_cat.keys():
-        cat_ = dict_cat[cat_]
+        return dict_cat[cat_]
+    else:
+        return cat_
 
-    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'cat', 'id_html_name', 'article_title', 'article_anno', 'img', 'pin',
+
+def Get_Ratings_links(cat_):
+
+    cat_ = Convert_Articles_Category_names(cat_)
+
+    listing = TxtRatings.objects.filter(cat=cat_).values('idtxt_ratings', 'cat', 'id_html_name', 'article_title', 'article_anno', 'pin',
                                                          'date').order_by('-date')
     len_list = len(listing)
     if len_list > 5:
@@ -1257,3 +1270,14 @@ def Get_Ratings_links(cat_):
     else:
         return (listing, cat_)
 
+def Get_How_links(cat_):
+
+    cat_ = Convert_Articles_Category_names(cat_)
+
+    listing = TxtHow.objects.filter(cat=cat_).values('idtxt_how', 'cat', 'id_html_name', 'article_title', 'img', 'pin',
+                                                     'date').order_by ('-date')
+
+    if len(listing) > 9:
+        return (listing[:9], cat_)
+    else:
+        return (listing, cat_)

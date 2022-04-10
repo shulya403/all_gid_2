@@ -1,0 +1,274 @@
+@font-face {
+	font-family: Roboto;
+	src: local(Roboto),
+        url("fonts/Roboto-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: optional;
+}
+
+@font-face {
+	font-family: Roboto-Italic;
+	src: local(Roboto-Italic),
+        url("fonts/Roboto-Italic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: italic;
+    font-display: optional;
+}
+body {
+        /*flex-direction: row;*/
+        font-family: Roboto, Arial, Helvetica;
+        letter-spacing: 0.1px;
+
+}
+
+em {
+       font-family: Roboto-Italic, Arial-i;
+}
+
+.adv-horizontal-block {
+        margin: 0 auto;
+        margin-bottom: 2px;
+        text-align: center;
+}
+
+.adv-horizontal-bottom-block {
+       width: 1106px;
+       margin-bottom: 1px;
+       margin: 0 auto;
+}
+
+
+.header-menu {
+        display: inline-flex;
+        justify-content: space-between;
+        background-color: #2E2966;
+        width: 100%;
+        height: 56px;
+        margin-bottom: 12px;
+
+}
+.menu {
+        display: inline-flex;
+        width: 1106px;
+        justify-content: space-between;
+        align: center;
+        margin: 0 auto;
+}
+
+.menu-left {
+        display: inline-flex;
+        justify-content: flex-start;
+
+}
+.link-home {
+   text-decoration: none;
+   cursor: pointer;
+}
+.logo {
+        display: inline-block;
+        height: 56px;
+        padding-left: 0px;
+}
+.logo-img {
+        display: inline-block;
+        vertical-align: middle;
+        background: url("pict/Target white.svg");
+        background-size: 100%;
+        width: 32px;
+        height: 32px;
+}
+
+.logo-text {
+        display: inline-block;
+        padding-left: 2px;
+        color: #FFFFFF;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        line-height: 16px;
+        vertical-align: middle;
+}
+
+
+.logo-space {
+        display: inline-block;
+        width: 44px;
+        height: 100%;
+        vertical-align: middle;
+}
+
+.category-menu {
+        display: none;
+}
+
+.category-menu button {
+        height: 100%;
+        color: #ffffff;
+        padding-top: 16px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 16px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border: 1px transparent;
+
+}
+.button-menu {
+        background-color: transparent;
+        border-left: 1px transparent;
+        border-right: 1px transparent;
+
+}
+.button-menu:hover {
+        background-color: #4B4A8A;
+        cursor: pointer;
+}
+.button-menu-active {
+        background-color: #5F609C;
+        border: 0px;
+        border-left: #ffffff solid 1px!important;
+        border-right: #ffffff solid 1px!important;
+
+
+}
+
+.menu-gamburger-all {
+        display: inline-flex;
+        position: relative;
+        padding:12px;
+        cursor: pointer;
+        position:relative;
+}
+.menu-gamburger {
+    display: block;
+    width: 36px;
+	height: 36px;
+    background-image: url('pict/hamburger-white-min.svg');
+    background-size: 90%;
+    background-position: 50% 50%;
+	background-repeat: no-repeat;
+
+	}
+
+.menu-gamburger-text {
+        font-size: 18px;
+        font-weight: 500;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        margin-top: 10px;
+        padding-left: 12px;
+}
+.menu-gamburger-popup {
+    display: none;
+	position: absolute;
+	left: -36px;
+	top: 41px;
+	z-index: 100;
+}
+
+.menu-gamburger-popup ul {
+	background: #4B4A8A;
+	position: absolute;
+	z-index: 9999;
+    margin-left: 0; /* Отступ слева в браузере IE и Opera */
+    padding-left: 0;
+    padding-top: 16px;
+    padding-bottom: 8px;
+}
+
+.button-menu-gamburger {
+        font-size: 24px;
+        letter-spacing: 0.4px;
+        color: #FFFFFF;
+        background: #4B4A8A;
+        cursor: pointer;
+        list-style-type: none;
+}
+
+.button-menu-gamburger-active {
+        font-size: 24px;
+        color: #FFFFFF;
+        cursor: pointer;
+        background: #8F93BF;
+        list-style-type: none;
+}
+
+
+.menu-gamburger-popup li a {
+    display: inline;
+	font-size: 24px;
+	color: rgb(255, 255, 255);
+	line-height: 1.8;
+	text-decoration: none;
+    white-space: nowrap;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    padding-left: 48px;
+    padding-right: 148px;
+}
+
+.menu-right {
+        height: 100%;
+        display: inline-flex;
+}
+
+.menu-right button {
+        height: 100%;
+        color: #ffffff;
+        padding-top: 12px;
+        padding-left: 16px;
+        padding-right: 16px;
+        font-size: 18px;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        border: 1px transparent;
+}
+
+.menu-search {
+        display: inline-block;
+        background: url("pict/Search-1.svg");
+        background-position: 50% 67%;
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 100%;
+        vertical-align: middle;
+        margin-left: 12px;
+        cursor: pointer;
+}
+
+
+
+.bottom-buttons {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+
+}
+
+.adress-bar {
+        width: 100%;
+}
+
+.home-bottom {
+        font-family: Roboto;
+        letter-spacing: 0.1px;
+        width: 1106px;
+        border-top: 1px solid #3C3979;
+        font-size: smaller;
+        padding-top: 8px;
+        margin: 0 auto;
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-around;
+}
+
+.bottom-our-button {
+       display: flex;
+        text-decoration: none;
+        margin-right: 12px;
+        color: #ffffff;
+        background-color: #2E2966;
+        padding: 12px;
+
+}
