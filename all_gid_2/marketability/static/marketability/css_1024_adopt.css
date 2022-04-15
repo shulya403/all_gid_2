@@ -407,7 +407,6 @@ em {
 .form_block_header_mobile {
         display: flex;
         justify-content: space-between;
-
         width: 340px;
         margin-right: 12px;
 

@@ -138,6 +138,57 @@
             </div> <!-- tabs_header -->
         {% endfor %}
             </div>
+            <div class="tab-item" id="{{ tab_active }}_">
+
+            <table class="table-data">
+                <tr class="th-tbl">
+                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
+                        <th class="table-head-price">
+                            <span>Цена*, руб.</span>
+                            <div class="table-head-price-arrow"></div>
+
+                        </th>
+                        {% for fld in tbl_ttx_col  %}
+                        <th>{{ fld }}</th>
+                        {% endfor %}
+                </tr>
+
+            {% for i in tbl_data.id.keys  %}
+                <tr class="table-row">
+                <td>
+                <a href="/{{ action }}/{{ tbl_data.id_brand_name|get_item:i }}">
+                {{ tbl_data.brand|get_item:i }}&nbsp;{{ tbl_data.name|get_item:i }}
+                </a>
+                </td>
+                <td>
+                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
+                </td>
+                {% for fld in tbl_data.keys %}
+                    {%  if fld in tbl_ttx_col %}
+                    <td>
+                        {% with val=tbl_data|get_item:fld|get_item:i%}
+                        {% if val == 'Да' %}
+                            <img src="/static/marketability/pict/Check mark green-1.svg">
+                        {% elif val == 'Нет' %}
+                            <img src="/static/marketability/pict/X red-1.svg">
+                        {% else %}
+                        {{ val }}
+                        {% endif %}
+                        {% endwith %}
+                    </td>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+
+            <div class="under-table">
+            <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
+
+            </div> <!-- under-table -->
+
+
+        </div> <!-- marketability -->
 
 
     <div class="subform_header">

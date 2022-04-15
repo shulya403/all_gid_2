@@ -68,7 +68,7 @@
 
             {% for tab in tab_list %}
                 {% with thistab=tab_data|get_item:tab %}
-{#                <option value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} selected{% endif %}>{{ thistab|get_item:"rus_name" }}</option>#}
+
                 <option value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} selected{% endif %}>
                     <div style="display: inline-block;
                                 height: 32px;
@@ -77,7 +77,7 @@
                                 background-position: 50% 50%;
                                 background-size: 18px 18px;
                                 width: 18px;">
-                    {#<img hspace="0px"src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
+
                     </div>
                     <div class="tabs-rusname">{{ thistab|get_item:"rus_name" }}</div>
                     </option>
@@ -85,128 +85,67 @@
             {% endfor %}
 
         </select>
-{##}
-{#        {% for tab in tab_list %}#}
-{#            <div class="tabs-header{% if tab_active == tab %} tab-active{% endif %}" id="{{ tab }}_">#}
-{##}
-{#            <input type="radio" name="tabs" value="{{ tab }}" id="{{ tab }}"{% if tab_active == tab %} checked="checked"{% endif %}#}
-{#            onchange="$(this).closest('form').submit();">#}
-{#            <label for="{{ tab }}">#}
-{##}
-{#                    {% with thistab=tab_data|get_item:tab %}#}
-{#                    <div style="display: inline-block;#}
-{#                                height: 32px;#}
-{#                                margin-left: 12px;#}
-{#                                background: url('/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}') no-repeat;#}
-{#                                background-repeat: no-repeat;#}
-{#                                background-position: 50% 50%;#}
-{#                                background-size: 18px 18px;#}
-{#                                width: 18px;">#}
-                    {#<img hspace="0px"src="/static/marketability/pict/{% if tab_active == tab %}{{ thistab|get_item:"img_active" }}{% else %}{{ thistab|get_item:"img_noactive" }}{% endif %}">#}
-{#                    </div>#}
-{#                    <div class="tabs-rusname">{{ thistab|get_item:"rus_name" }}</div>#}
-{#                    {% endwith %}#}
-{#            </label>#}
-{#            </div> <!-- tabs_header -->#}
-{#        {% endfor %}#}
+
         <div class="tab-item" id="{{ tab_active }}_">
 
             <table class="table-data">
-                <tr class="th-tbl">
-                    <th class="th-tbl"><span style="padding-left: 12px;">Название</span></th>
-                        <th class="table-head-price">
-                            <span>Цена*, руб.</span>
-                            <div class="table-head-price-arrow"></div>
-
-                        </th>
-                        {% for fld in tbl_ttx_col  %}
-                        <th>{{ fld }}</th>
-                        {% endfor %}
-                </tr>
 
             {% for i in tbl_data.id.keys  %}
-                <tr class="table-row">
-                <td>
-                <a href="/{{ action }}/{{ tbl_data.id_brand_name|get_item:i }}">
-                {{ tbl_data.brand|get_item:i }}&nbsp;{{ tbl_data.name|get_item:i }}
-                </a>
-                </td>
-                <td>
-                <b>{{ tbl_data.price_avg|get_item:i|digit_separator }}</b>
-                </td>
-                {% for fld in tbl_data.keys %}
-                    {%  if fld in tbl_ttx_col %}
-                    <td>
-                        {% with val=tbl_data|get_item:fld|get_item:i%}
-                        {% if val == 'Да' %}
-                            <img src="/static/marketability/pict/Check mark green-1.svg">
-                        {% elif val == 'Нет' %}
-                            <img src="/static/marketability/pict/X red-1.svg">
-                        {% else %}
-                        {{ val }}
-                        {% endif %}
-                        {% endwith %}
-                    </td>
-                    {% endif %}
-                {% endfor %}
-                </tr>
+                <tr class="table-row"><td>
+
+                {% with model_href=tbl_data.id_brand_name|get_item:i %}
+
+                <table class="table-inrow" onclick="window.location.href='/{{ action }}/{{ tbl_data.id_brand_name|get_item:i }}'">
+                    <tr class="table-inrow-tr-brand-price">
+                        <td class="table-inrow-tr-brand-price-td-name"><a href="/{{ action }}/{{ tbl_data.id_brand_name|get_item:i }}">
+                            {{ tbl_data.brand|get_item:i }}&nbsp;{{ tbl_data.name|get_item:i }}
+                            </a></td>
+                        <td class="table-inrow-tr-brand-price-td-price">{{ tbl_data.price_avg|get_item:i|digit_separator }}</td>
+                    </tr>
+                    <tr class="table-inrow-tr-ttx">
+                        <td>
+                          {% for fld in tbl_data.keys %}
+                            {%  if fld in tbl_ttx_col %}
+
+                            {% with val=tbl_data|get_item:fld|get_item:i%}
+                            {% if val == 'Да' %}
+
+                                {{ fld }}:<strong>&nbsp;Да;&nbsp;</strong>
+                            {% elif val == 'Нет' %}
+
+                            {% else %}
+                            {{ fld }}:<strong>&nbsp;{{ val }};&nbsp;</strong>
+                            {% endif %}
+                            {% endwith %}
+
+                            {% endif %}
+                        {% endfor %}
+                        </td>
+                    </tr>
+
+                </table>
+                {% endwith %}
+                </td></tr>
+
             {% endfor %}
         </table>
 
-            <div class="under-table">
-            <div class="price-comment">* Усредненная цена по предложнниям магазинов и маркет-плейсов</div>
+{#            <div class="under-table">#}
+{#            <div class="price-comment">* Усредненная цена за {{ period }}</div>#}
 
-            </div> <!-- under-table -->
-
+{#            </div> <!-- under-table -->#}
 
         </div> <!-- marketability -->
 
 
     </div><!-- "issuance-tabs" -->
+                <div class="subform_header">
+                <div class="subform_header_up" id="GO__" name="GO__"></div>
+                </div>
 
-<div class="form-background">
-            <div class="form-reset">
-            <button onclick="$('input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
-            <span>Сбросить</span>
-            <div class="sbros-krestik"></div>
-{#            <img src="/static/marketability/pict/X blue.svg" width="18px">#}
-            </button>
-        </div> <!-- "form-reset" -->
+            <div class="form_block_buttons go">
 
-            {% if goals_fbb_mobile %}
-            <script>
-                $(function() {
-                    $(document).ready(function () {
-                        $('label[for=goals]').next('.form_block_buttons').css('display', 'block');
-                         $('label[for=goals]').css('display', 'none');
-                    });
-                });
-            </script>
-            {% endif %}
-
-            <div class="form_blocks">
-            <input type="checkbox" class="form_block_buttons_mobile" id="goals" name="goals_fbb_mobile" value="open"
-                   {%  if goals_fbb_mobile %} checked {% endif %}
-                            onchange="$('label[for=goals]').next('.form_block_buttons').css('display', 'block');
-                         $('label[for=goals]').css('display', 'none');">
-
-            <label for="goals" class="form_block_mobile_present">
-
-                <div class="form_block_mobile_present_text">Цели использования</div>
-                <div class="form_block_mobile_present_strelka"></div>
-
-            </label>
-            <div class="form_block_buttons">
-
-            <div class="form_block_header_mobile"
-                 onclick="$(this).parent().css('display', 'none');
-                           $('input#goals + label').css('display', 'flex');
-                            $('input#goals').prop('checked', false);">
-                <div class="form_block_header_mobile_text">Цели использования</div>
-                <div class="form_block_header_mobile_strelka"></div>
-            </div>
             <div class="form_block_header">Цели использования</div>
-
 
             {% for sub_type in new_form.GO.keys %}
 
@@ -223,58 +162,31 @@
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
                   <div class="check-galka"></div>
-                                    {%  if  class_.explanation %}
-
-
-                  <div class="hint-quest-mark" onmouseover="$(this).children('.hint-title-hover').css('display', 'block');
-                                                            $(this).children('.hint-title-pin').css('display', 'block');"
-                                                onmouseleave="$(this).children('.hint-title-hover').css('display', 'none');
-                                                            $(this).children('.hint-title-pin').css('display', 'none');">
-
-                     &nbsp;?
-                      <div class="hint-title-pin"></div>
-                    <div class="hint-title-hover">
-                    {% autoescape off %}{{ class_.explanation|linebreaksbr }}{% endautoescape %}
-                  </div>
-                  </div>
-
-                  {% endif %}
 
               </label>
 
           {% endfor %}
       {% endfor %}
         </div>
-        {% if classes_fbb_mobile %}
-            <script>
-                $(function() {
-                    $(document).ready(function () {
-                        $('label[for=classes]').next('.form_block_buttons').css('display', 'block');
-                         $('label[for=classes]').css('display', 'none');
-                    });
-                });
-            </script>
-            {% endif %}
-        <input type="checkbox" class="form_block_buttons_mobile" id="classes" name="classes_fbb_mobile" value="open"
-                   {%  if classes_fbb_mobile %} checked {% endif %}
-                            onchange="$('label[for=classes]').next('.form_block_buttons').css('display', 'block');
-                         $('label[for=classes]').css('display', 'none');">
+              <div class="form-reset">
 
-            <label for="classes" class="form_block_mobile_present">
+            <button onclick="$('.form_block_buttons.go input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
+                <span>&#10006;</span>
+                <span>Сбросить</span>
+            </button>
+              <a href="#UP__">
+                  <div class="form-button-up">
+                      <div><img src="/static/marketability/pict/Double chevron right-1.svg"></div>
+                  </div>
+              </a>
+        </div> <!-- "form-reset" -->
 
-                <div class="form_block_mobile_present_text">Технические параметры</div>
-                <div class="form_block_mobile_present_strelka"></div>
+        <div class="subform_header">
+                <div class="subform_header_up" id="CL__" name="CL__"></div>
+        </div>
 
-            </label>
 
-            <div class="form_block_buttons">
-                <div class="form_block_header_mobile"
-                 onclick="$(this).parent().css('display', 'none');
-                           $('input#classes + label').css('display', 'flex');
-                            $('input#classes').prop('checked', false);">
-                <div class="form_block_header_mobile_text">Цели использования</div>
-                <div class="form_block_header_mobile_strelka"></div>
-            </div>
+            <div class="form_block_buttons cl">
                 <div class="form_block_header">Технические параметры</div>
 
                 {% for sub_type in new_form.CL.keys %}
@@ -291,48 +203,70 @@
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
                   <div class="check-galka"></div>
-                  {%  if  class_.explanation %}
 
-
-                  <div class="hint-quest-mark" onmouseover="$(this).children('.hint-title-hover').css('display', 'block');
-                                                            $(this).children('.hint-title-pin').css('display', 'block');"
-                                                onmouseleave="$(this).children('.hint-title-hover').css('display', 'none');
-                                                            $(this).children('.hint-title-pin').css('display', 'none');">
-
-                     &nbsp;?
-                      <div class="hint-title-pin"></div>
-                    <div class="hint-title-hover">
-                        {% autoescape off %}
-                            {{ class_.explanation|linebreaksbr }}
-                        {% endautoescape %}
-                    </div>
-                  </div>
-
-                  {% endif %}
               </label>
           {% endfor %}
       {% endfor %}
         </div>
 
-    </div> <!-- "form_blocks" -->
+        <div class="form-reset">
+            <button onclick="$('.form_block_buttons.cl input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
+                <span>&#10006;</span>
+                <span>Сбросить</span>
+            </button>
+              <a href="#UP__">
+                  <div class="form-button-up">
+                      <div><img src="/static/marketability/pict/Double chevron right-1.svg"></div>
+                  </div>
+              </a>
+        </div> <!-- "form-reset" -->
+
+            <div class="subform_header">
+        <div class="subform_header_up" id="VEN__" name="VEN__"></div>
+            </div>
+        <div class="form_block_buttons ven">
+        <div class="form_block_header">Производители</div>
+
+        <div class="vendors-block">
+
+            {% for i in vendors_all %}
+            {% with i__="__"|replace_space:i %}
+            <input type="checkbox" id="{{ i__ }}" value="Yes" name="ven__{{ i }}"
+                      {% if i in vendors_checked %} checked {% endif %}
+                        {% if i not in vendors_enabled %} disabled {% endif %}
+                         onchange="$('input[id=form-infocus-now-ven]').prop('checked', true);
+                                    $(this).closest('form').submit();">
+              <label for="{{ i__ }}">
+                  <div class="vendors_button_label">
+                  <div class="vendor_button">{{ i }}</div>
+
+                  </div> <!-- vendors_button_label -->
+
+              </label>
+            {% endwith %}
+        {% endfor %}
+    </div><!-- vendors-block -->
+        </div>
 
 
-
-    </div> <!-- "filter-form" -->
-
+        <div class="form-reset">
+            <button onclick="$('.form_block_buttons.ven input[type=checkbox]:checked').prop('checked', false);" class="form-reset-button">
+                <span>&#10006;</span>
+                <span>Сбросить</span>
+            </button>
+              <a href="#UP__">
+                  <div class="form-button-up">
+                      <div><img src="/static/marketability/pict/Double chevron right-1.svg"></div>
+                  </div>
+              </a>
+        </div> <!-- "form-reset" -->
 {#    </div> <!-- "form-and-table" -->#}
     </form>
     <div class="right-news">
-{#        <script>#}
-{#                    $(document).ready(function()#}
-{#                    {$('.theme-pic-place').css('background', 'url({{ theme_pic }})')}#}
-{#                    );#}
-{##}
-{#        </script>#}
-
-        <div class="theme-pic-place" style="background: url(/static/marketability/{{ theme_pic }});background-repeat: no-repeat;">
+        <div>
 
         </div> <!-- banner-place -->
+
         {% if bestesellers_links %}
         <h2 class="novosti-header"><a href="/rate/{{ bestesellers_cat }}/" target="blank_">Рейтинги</a></h2>
 
@@ -350,9 +284,27 @@
                 </div>
             </a>
         {% endfor %}
+
         <div class="rаtings_list_bottom"><a href="/rate/{{ bestesellers_cat }}/" target="blank_">Прочие рейтинги >></a></div>
         {% endif %}
+    {% if how_links %}
 
+    <div class="category-how-links"> <!-- how-links -->
+
+        {% for hwlnk in how_links %}
+        <div class="category-how-link-block">
+            <div class="category-how-link-block-img">
+                <a href="/how/{{ hwlnk.cat }}/{{ hwlnk.id_html_name }}"><img src="{{ hwlnk.img }}" height="120"></a>
+            </div>
+            <div class="category-how-link-block-title">
+                <a href="/how/{{ hwlnk.cat }}/{{ hwlnk.id_html_name }}">{{ hwlnk.article_title }}</a>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div> <!-- how-links -->
+    {% endif %}
 
     </div> <!-- "right-news" -->
 
