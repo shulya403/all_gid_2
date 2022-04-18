@@ -708,4 +708,10 @@
 .category-how-link-block-img {
         /*display: flex;*/
         /*justify-content: center;*/
+        overflow: hidden;
+}
+
+.adv-vert-block {
+        width: 256px;
+        height: 512px;
 }

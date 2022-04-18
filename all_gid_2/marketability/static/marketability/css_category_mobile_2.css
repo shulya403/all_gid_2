@@ -2,6 +2,8 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        box-sizing: border-box;
+        padding: 8px;
 }
 
 .top-horizontal-block {
@@ -45,8 +47,7 @@
 }
 
 .right-news {
-        width: 256px;
-        margin-left: 24px;
+        width: 100%;
 }
 
 .category-header-line {
@@ -525,6 +526,7 @@ select#tabs option {
         line-height: 24px;
         font-weight: 600;
         margin-top: 12px;
+
 }
 .novosti-header a {
         text-decoration: none;
@@ -537,6 +539,7 @@ select#tabs option {
         margin-top: 8px;
         position: relative;
         width: 100%;
+
 }
 .news-header-link {
         color: #3c30bf;
@@ -566,7 +569,6 @@ select#tabs option {
 .news-and-anno {
         width: 100%;
         position: relative;
-
         }
 .rаtings_list_bottom {
         text-decoration: none;
@@ -643,12 +645,13 @@ select#tabs option {
         flex-direction: row;
         flex-wrap: wrap;
         margin-top: 24px;
+
         justify-content: space-between;
 }
 
 .category-how-link-block {
-        width: 30%;
-        margin: 4px;
+        width: 40%;
+        margin-bottom: 12px;
 }
 
 .category-how-link-block a {
@@ -659,4 +662,13 @@ select#tabs option {
 .category-how-link-block-img {
         /*display: flex;*/
         /*justify-content: center;*/
+        overflow: hidden;
+}
+
+.adv-vert-block-mobile {
+        height: 400px;
+        border: 1px solid rgba(0,0,0,0.23);
+        margin-top: 12px;
+        text-align: center;
+
 }

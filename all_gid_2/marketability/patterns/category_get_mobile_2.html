@@ -16,11 +16,11 @@
 {% block category %}
     <div class="category-content">
     {% if page_place != 'up' %}
-        {% if page_place == "cl" %}
+        {% if page_place == "CL" %}
          <script>
             window.location.href = '#CL__';
          </script>
-        {% elif page_place == 'go' %}
+        {% elif page_place == 'GO' %}
         <script>
             window.location.href = '#GO__';
         </script>
@@ -63,6 +63,10 @@
         </div> <!-- period-fltr -->
 
     <form action="/{{ action }}/" method="get" id="form_">
+        <input type="radio" id="form-infocus-now-up" name="infocus-now" value="up" class="form-infocus-now">
+        <input type="radio" id="form-infocus-now-go" name="infocus-now" value="GO" class="form-infocus-now">
+        <input type="radio" id="form-infocus-now-cl" name="infocus-now" value="CL" class="form-infocus-now">
+        <input type="radio" id="form-infocus-now-ven" name="infocus-now" value="ven" class="form-infocus-now">
     <div class="issuance-tabs">
         <select name="tabs" id="tabs" onchange="$(this).closest('form').submit();">
 
@@ -157,7 +161,8 @@
               <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
                       {% if class_.name in checked_items %} checked{% endif %}
                         {% if class_.name not in enabled %} disabled{% endif %}
-                        onchange="$(this).closest('form').submit();">
+                        onchange="$('input[id=form-infocus-now-go]').prop('checked', true);
+                                    $(this).closest('form').submit();">
               <label for="{{ class_.name }}">
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
@@ -198,7 +203,8 @@
              <input type="checkbox" id="{{ class_.name }}" value="Yes" name="{{ class_.name }}"
                       {% if class_.name in checked_items %} checked{% endif %}
                         {% if class_.name not in enabled %} disabled{% endif %}
-                        onchange="$(this).closest('form').submit();">
+                        onchange="$('input[id=form-infocus-now-cl]').prop('checked', true);
+                                $(this).closest('form').submit();">
               <label for="{{ class_.name }}">
                   <span>{{ class_.text }}</span>
                   <div class="space-gradient"></div>
@@ -263,9 +269,16 @@
 {#    </div> <!-- "form-and-table" -->#}
     </form>
     <div class="right-news">
-        <div>
-
-        </div> <!-- banner-place -->
+        <div class="adv-vert-block-mobile">
+    <!-- Yandex.RTB R-A-1580155-5 -->
+        <div id="yandex_rtb_R-A-1580155-5"></div>
+        <script>window.yaContextCb.push(()=>{
+          Ya.Context.AdvManager.render({
+            renderTo: 'yandex_rtb_R-A-1580155-5',
+            blockId: 'R-A-1580155-5'
+          })
+        })</script>
+    </div> <!-- adv-vert-block-mobile -->
 
         {% if bestesellers_links %}
         <h2 class="novosti-header"><a href="/rate/{{ bestesellers_cat }}/" target="blank_">Рейтинги</a></h2>

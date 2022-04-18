@@ -356,9 +356,20 @@
 
     <div class="right-news">
 
-        <div class="theme-pic-place" style="background: url(/static/marketability/{{ theme_pic }});background-repeat: no-repeat;">
+{#        <div class="theme-pic-place" style="background: url(/static/marketability/{{ theme_pic }});background-repeat: no-repeat;">#}
+{##}
+{#        </div> <!-- banner-place -->#}
 
-        </div> <!-- banner-place -->
+        <div class="adv-vert-block">
+        <!-- Yandex.RTB R-A-1580155-4 -->
+        <div id="yandex_rtb_R-A-1580155-4"></div>
+        <script>window.yaContextCb.push(()=>{
+          Ya.Context.AdvManager.render({
+            renderTo: 'yandex_rtb_R-A-1580155-4',
+            blockId: 'R-A-1580155-4'
+          })
+    })</script>
+    </div> <!-- adv-vert-block -->
         {% if bestesellers_links %}
         <h2 class="novosti-header"><a href="/rate/{{ bestesellers_cat }}/" target="blank_">Рейтинги</a></h2>
 
