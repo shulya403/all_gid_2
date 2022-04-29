@@ -26,17 +26,6 @@ em {
        font-family: Roboto-Italic, Arial-i;
 }
 
-.adv-horizontal-block {
-        margin: 0 auto;
-        margin-bottom: 2px;
-        text-align: center;
-}
-
-.adv-horizontal-bottom-block {
-       width: 1106px;
-       margin-bottom: 1px;
-       margin: 0 auto;
-}
 
 
 .header-menu {
@@ -270,5 +259,20 @@ em {
         color: #ffffff;
         background-color: #2E2966;
         padding: 12px;
+}
 
+
+.adv-horizontal-block {
+        margin: 0 auto;
+        width: 1106px;
+        text-align: center;
+}
+
+.adv-horizontal-bottom-block {
+
+}
+
+.adv-horizontal-top-block {
+       margin-bottom: 2px;
+       max-height: 250px;
 }

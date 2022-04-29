@@ -719,6 +719,8 @@ def UA_Category_Main_Render(request_, exit_):
             return render(request_, template_name="category_get_mobile_2.html", context=exit_)
         elif user_agent.is_tablet:
             return render(request_, template_name="category_get_desktop_2.html", context=exit_)
+        else:
+            return render(request_, template_name="category_get_desktop_2.html", context=exit_)
     except Exception as Err:
         return render(request_, template_name="category_get_desktop_2.html", context=exit_)
         print(Err)
@@ -793,8 +795,6 @@ def page_new_Product(request, cat_, product_):
             cat_init = True
         finally:
             df_data, period_inbase = df_Cat_Init_(request, cat_init)
-            # df_data =  df_Cat_Init_(request, cat_init)[0]
-            # period_inbase =
 
         new_form = request.session['new_form']
         form_return = request.session['form_return']
@@ -817,6 +817,8 @@ def page_new_Product(request, cat_, product_):
             else:
                 id_max = Product.aggregate(Max('id'))
                 Product = db_tbl['products'].objects.get(id=id_max['id__max'])
+        except Exception:
+                return handler404(request)
 
         if Product:
 

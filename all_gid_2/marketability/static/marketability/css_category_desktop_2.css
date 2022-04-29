@@ -711,7 +711,20 @@
         overflow: hidden;
 }
 
+/*.adv-horizontal-block {*/
+/*        margin: 0 auto;*/
+/*        margin-bottom: 2px;*/
+/*        text-align: center;*/
+/*}*/
+
+/*.adv-horizontal-bottom-block {*/
+/*       width: 1106px;*/
+/*       max-height: 250px;*/
+/*}*/
+
 .adv-vert-block {
         width: 256px;
-        height: 512px;
+        max-height: 512px;
+        margin-top: 40px;
 }
+

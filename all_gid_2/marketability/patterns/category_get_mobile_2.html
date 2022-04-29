@@ -3,10 +3,10 @@
     <title>{{ category_name }}. Рейтинг. Гид покупателя. Выбрать модель. {% if not tab_active == "novelity" %} Топ популярных в России{% else %}Новинки{% endif %}</title>
     <meta name="description" content="{{ category_name }}:{% if tab_active == "novelity" %} Новинки - модели появившиеся в продаже в России{% else %} Рейтинг продаж. Самые популярные модели в России{% endif %} за {{ period }}. Выбор по целям использования, производителям, базовым характеристикам." />
 
-    {% if not checked_items and not vendors_checked %}
-    <meta name="robots" content="index, follow" />
+    {% if checked_items or vendors_checked %}
+        <meta name="robots" content="noindex">
     {% else %}
-    <meta name="robots" content="noindex">
+        <meta name="robots" content="index, follow" />
     {% endif %}
 
     <link rel="stylesheet" type="text/css" href="/static/marketability/css_category_mobile_2.css">
