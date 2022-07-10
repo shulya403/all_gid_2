@@ -3,11 +3,7 @@
     <title>{{ category_name_singular }} {{ vendor }} {{ name }} сравнить цены, характеристики</title>
     <meta name="description" content="{{ vendor }}&nbsp;{{ name }}. Средняя цена {{ this_price|digit_separator }}&nbsp;руб. {{ category_name }} - характеристики, аналоги, сравнение, похожие модели, выбрать магазин." />
 
-    {% if this_price %}
-        <meta name="robots" content="index, follow" />
-    {% else %}
-        <meta name="robots" content="noindex">
-    {% endif %}<meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow" />
 
     <link rel="canonical" href="https://allgid.ru/{{ action }}/{{ id_brand_name }}"/>
 
