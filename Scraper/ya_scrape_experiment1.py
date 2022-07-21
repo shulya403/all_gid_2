@@ -129,12 +129,18 @@ class Crowl_To_Buildlinks(object):
         if not user_agent:
             random_user_agent = self.list_user_agents[random.randint(0, len(self.list_user_agents)-1)]
             options.add_argument('user-agent=' + "\"" + random_user_agent + "\"")
+            options.add_argument (r'user-data-dir=C:\Users\shulya403\AppData\Local\Google\Chrome\User Data')
+            list_profile=['Default', 'Profile 1', 'Profile 2', 'Profile 3', 'Profile 4']
+            this_profile=list_profile[random.randint(0, len(list_profile) - 1)]
+            profile_dir = r'--profile-directory=' + this_profile
+            options.add_argument (profile_dir)
             if ("Windows" or "Linux" or "Macintosh") in random_user_agent:
                 options.add_argument('window-size=1920,1080')
             else:
                 options.add_argument('window-size=420,1080')
 
-        driver = webdriver.Chrome (ChromeDriverManager ().install (), options=options)
+        #driver = webdriver.Chrome(ChromeDriverManager ().install(), options=options)
+        driver = webdriver.Chrome(executable_path=r'C:\Users\shulya403\.wdm\drivers\chromedriver\win32\103.0.5060.53\chromedriver.exe', options=options)
 
         print("connection...")
 
@@ -149,7 +155,12 @@ class Crowl_To_Buildlinks(object):
 
         driver = self.Selenium_Window()
 
-        driver.get(referer_url)
+        try:
+            driver.get(referer_url)
+        except Exception as Err:
+            print(Err)
+            pass
+
         print("Зашли: ", referer_url)
         time.sleep(2)
         page_links = driver.find_elements_by_tag_name('a')
@@ -166,7 +177,8 @@ class Crowl_To_Buildlinks(object):
             except Exception:
                 driver.execute_script("arguments[0].click();", random_allgid_link)
 
-            for i in range(1, random.randint(1,allgid_dept)):
+            for i in range(1, random.randint(2,allgid_dept)):
+                print("идем на allgid раз: ", i)
                 self.Crowl_allgid(driver, speed_lag)
         driver.quit()
         time.sleep(q_lag)
@@ -174,7 +186,7 @@ class Crowl_To_Buildlinks(object):
     def Crowl_allgid(self, driver, speed_lag):
 
 
-        time.sleep(random.randint(2, int(speed_lag/2)))
+        time.sleep(random.randint(5, speed_lag))
 
         windows_q = len(driver.window_handles)
         print(windows_q)
@@ -238,7 +250,8 @@ class Crowl_To_Buildlinks(object):
 
 Scraper = Crowl_To_Buildlinks()
 
-for i in range(1, 5):
+for i in range(1, 60):
     print(">>>>>> ЗАХОД > ", i)
-    Scraper.Go_Scrape(allgid_dept=4)
+    Scraper.Go_Scrape(allgid_dept=4, q_lag=100-i)
+
 
