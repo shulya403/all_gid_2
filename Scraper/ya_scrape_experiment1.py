@@ -123,24 +123,86 @@ class Crowl_To_Buildlinks(object):
 
         return list_exit
 
-    def Selenium_Window(self, user_agent=False, proxy=False, cookies=False):
+    def Proxie_try(self, site, proxie_base="https://hidemy.name/ru/proxy-list/?country=BYKZLVRUUAUZ#list"):
+
+        options = webdriver.ChromeOptions ()
+        # options.add_argument(user_agent)
+        options.add_argument ('--disable-gpu')
+        # options.add_argument("--headless")
+
+        if self.proxie_list_actual:
+            pass
+        else:
+            try:
+                driver_proxie_base = webdriver.Chrome (ChromeDriverManager ().install (), options=options)
+                #driver_proxie_base.set_window_size (1920, 1080)
+                driver_proxie_base.get (proxie_base)
+                tbl_on_proxie_page = pd.read_html (driver_proxie_base.page_source)
+                proxy_table = tbl_on_proxie_page[0]
+                proxy_table = proxy_table[proxy_table['Тип'] != 'HTTP']
+                print (proxy_table)
+                for i, row in proxy_table.iterrows ():
+                    self.proxie_list_actual.append(row['Тип'].lower () + "://" + str(row['IP адрес']) + ":" + str(row['Порт']))
+                driver_proxie_base.quit ()
+
+            except Exception as Err:
+                print (Err)
+                self.proxie_list_actual = []
+                return ""
+
+        while self.proxie_list_actual:
+            this = random.randint (0, len (self.proxie_list_actual) - 1)
+            print ("Проверка прокси: {}".format (self.proxie_list_actual[this]))
+            options.add_argument("--proxy-server=%s" % self.proxie_list_actual[this])
+
+            driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+
+            try:
+                driver.get(site)
+                wait = WebDriverWait(driver, 5).until(EC.c)
+                print ("OK прокси ->", self.proxie_list_actual[this])
+                driver.quit()
+                return self.proxie_list_actual[this]
+            except Exception:
+                print ("битый прокси", self.proxie_list_actual.pop (this))
+                print (len (self.proxie_list_actual))
+                driver.quit()
+
+        return ""
+
+    def Selenium_Window(self, user_agent=False, proxy=False, cookies=False, proxie_list_actual=[]):
+
         options = webdriver.ChromeOptions ()
 
-        if not user_agent:
+        if proxy:
+            self.proxie = True
+            self.proxie_list_actual = proxie_list_actual
+            choiced_proxie = self.Proxie_try(site='https://allgid.ru')
+            if choiced_proxie:
+                proxie = "--proxy-server=" + choiced_proxie
+                options.add_argument(proxie)
+
+        if user_agent:
             random_user_agent = self.list_user_agents[random.randint(0, len(self.list_user_agents)-1)]
             options.add_argument('user-agent=' + "\"" + random_user_agent + "\"")
-            options.add_argument (r'user-data-dir=C:\Users\shulya403\AppData\Local\Google\Chrome\User Data')
-            list_profile=['Default', 'Profile 1', 'Profile 2', 'Profile 3', 'Profile 4']
-            this_profile=list_profile[random.randint(0, len(list_profile) - 1)]
-            profile_dir = r'--profile-directory=' + this_profile
-            options.add_argument (profile_dir)
-            if ("Windows" or "Linux" or "Macintosh") in random_user_agent:
-                options.add_argument('window-size=1920,1080')
-            else:
-                options.add_argument('window-size=420,1080')
+
+            # if ("Windows" or "Linux" or "Macintosh") in random_user_agent:
+            #    options.add_argument('window-size=1920,1080')
+            # else:
+            #    options.add_argument('window-size=420,1080')
+
+        options.add_argument('disable-infobars')
+
+        options.add_argument (r'user-data-dir=C:\Users\shulya403\AppData\Local\Google\Chrome\User Data')
+
+        list_profile=['Profile 3']
+        #this_profile=list_profile[random.randint(0, len(list_profile) - 1)]
+        profile_dir = r'--profile-directory=' + 'Default'
+
+        options.add_argument(profile_dir)
 
         #driver = webdriver.Chrome(ChromeDriverManager ().install(), options=options)
-        driver = webdriver.Chrome(executable_path=r'C:\Users\shulya403\.wdm\drivers\chromedriver\win32\103.0.5060.53\chromedriver.exe', options=options)
+        driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=options)
 
         print("connection...")
 
@@ -181,7 +243,12 @@ class Crowl_To_Buildlinks(object):
                 print("идем на allgid раз: ", i)
                 self.Crowl_allgid(driver, speed_lag)
         driver.quit()
-        time.sleep(q_lag)
+        print("ждем ", q_lag, ">>>", end="")
+        for i in range(q_lag):
+            time.sleep(1)
+            print(".", end="")
+            if (i > 1) and (i % 100) == 0:
+                print("\n")
 
     def Crowl_allgid(self, driver, speed_lag):
 
@@ -189,7 +256,7 @@ class Crowl_To_Buildlinks(object):
         time.sleep(random.randint(5, speed_lag))
 
         windows_q = len(driver.window_handles)
-        print(windows_q)
+        #print(windows_q)
         if windows_q > 1:
             driver.switch_to.window(driver.window_handles[windows_q-1])
 
@@ -203,13 +270,17 @@ class Crowl_To_Buildlinks(object):
             try:
                 page_links[lnk_num].location_once_scrolled_into_view
                 click_prob = int(random.expovariate(0.4))
-                print(lnk_num, page_links[lnk_num].text,  click_prob )
+                #print(lnk_num, page_links[lnk_num].text,  click_prob )
                 if click_prob == 2:
-                    try:
-                        page_links[lnk_num].click()
-                    except Exception:
-                        driver.execute_script ("arguments[0].click();", page_links[lnk_num])
-                    break
+                    if "allgid" in page_links[lnk_num].get_attribute('href'):
+                        try:
+                            page_links[lnk_num].click()
+                        except Exception:
+                            try:
+                                driver.execute_script("arguments[0].click();", page_links[lnk_num])
+                            except Exception:
+                                pass
+                        break
 
             except KeyError:
                 pass
@@ -250,8 +321,25 @@ class Crowl_To_Buildlinks(object):
 
 Scraper = Crowl_To_Buildlinks()
 
-for i in range(1, 60):
-    print(">>>>>> ЗАХОД > ", i)
-    Scraper.Go_Scrape(allgid_dept=4, q_lag=100-i)
+count = 0
+for i in range(100):
+    q_lag=300-i
+    print(">>>>>> ЗАХОД > ", i, q_lag)
+    Scraper.Go_Scrape(allgid_dept=5, q_lag=q_lag)
+    #driver = Scraper.Selenium_Window(proxy=False, user_agent=True)
+    #
+    # try:
+    #     driver.get("https://allgid.ru/rate/")
+    # except Exception as Err:
+    #     print(Err)
+    #     pass
+    # count = count + 1
+    # print(count)
+    # for i1 in range(1, random.randint(1, 5)):
+    #         Scraper.Crowl_allgid(driver, 17)
+    #         count = count + 1
+    #         print("allgid count >>", count)
+    #
+    # driver.quit()
 
 
