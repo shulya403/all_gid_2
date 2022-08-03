@@ -7,6 +7,9 @@ import time
 import random
 import pandas as pd
 
+from pywinauto.application import Application
+import pywinauto.findwindows as pywin_find
+
 
 class Cookies(object):
     def __init__(self, id=0):
@@ -170,7 +173,7 @@ class Crowl_To_Buildlinks(object):
 
         return ""
 
-    def Selenium_Window(self, user_agent=False, proxy=False, cookies=False, proxie_list_actual=[]):
+    def Selenium_Window(self, user_agent=False, proxy=False, cookies=False, proxie_list_actual=[], list_profile=['Default']):
 
         options = webdriver.ChromeOptions ()
 
@@ -186,6 +189,7 @@ class Crowl_To_Buildlinks(object):
             random_user_agent = self.list_user_agents[random.randint(0, len(self.list_user_agents)-1)]
             options.add_argument('user-agent=' + "\"" + random_user_agent + "\"")
 
+            print(random_user_agent)
             # if ("Windows" or "Linux" or "Macintosh") in random_user_agent:
             #    options.add_argument('window-size=1920,1080')
             # else:
@@ -195,9 +199,10 @@ class Crowl_To_Buildlinks(object):
 
         options.add_argument (r'user-data-dir=C:\Users\shulya403\AppData\Local\Google\Chrome\User Data')
 
-        list_profile=['Profile 3']
-        #this_profile=list_profile[random.randint(0, len(list_profile) - 1)]
-        profile_dir = r'--profile-directory=' + 'Default'
+        #list_profile=['Default', 'Profile 3']
+        this_profile=list_profile[random.randint(0, len(list_profile) - 1)]
+        print(this_profile)
+        profile_dir = r'--profile-directory=' + this_profile
 
         options.add_argument(profile_dir)
 
@@ -208,14 +213,14 @@ class Crowl_To_Buildlinks(object):
 
         return driver
 
-    def Go_Scrape(self, url_ = "", speed_lag=25, allgid_dept=2, q=10, q_lag=620):
+    def Go_Scrape(self, url_ = "", speed_lag=25, allgid_dept=2, q=10, q_lag=620, user_agent=False):
 
         if not url_:
             referer_url = self.list_build_links[random.randint(0, len(self.list_build_links)-1)]
         else:
             referer_url = url_
 
-        driver = self.Selenium_Window()
+        driver = self.Selenium_Window(user_agent=user_agent)
 
         try:
             driver.get(referer_url)
@@ -253,7 +258,7 @@ class Crowl_To_Buildlinks(object):
     def Crowl_allgid(self, driver, speed_lag):
 
 
-        time.sleep(random.randint(5, speed_lag))
+        time.sleep(random.randint(2, speed_lag))
 
         windows_q = len(driver.window_handles)
         #print(windows_q)
@@ -272,7 +277,7 @@ class Crowl_To_Buildlinks(object):
                 click_prob = int(random.expovariate(0.4))
                 #print(lnk_num, page_links[lnk_num].text,  click_prob )
                 if click_prob == 2:
-                    if "allgid" in page_links[lnk_num].get_attribute('href'):
+                    if "https://allgid.ru" in page_links[lnk_num].get_attribute('href'):
                         try:
                             page_links[lnk_num].click()
                         except Exception:
@@ -315,31 +320,60 @@ class Crowl_To_Buildlinks(object):
             print ("чет нето")
             return None
 
+class WinChrome(object):
+    def __init__(self, list_profile = ['Default'], browser="chrome"):
+        self.browser = browser
+        self.list_profile = list_profile
 
 
+        if self.browser == "chrome":
+            app = Application(backend="uia").start ("C:\Program Files\Google\Chrome\Application\chrome.exe --force-renderer-accessibility")
+            #app = Application(backend="uia").start ("notepad.exe")
+            bro_root = app.Pain
+            app.wait_cpu_usage_lower()
+            bro_root.wait('ready', timeout=10)
+
+            app[r"Кто использует Chrome?"].print_control_identifiers()
+
+            bro_root.Button1.click()
+            #app.Pane.Pane2.click()
+
+            # # wait till the window is really open
+            # actionable_dlg = dlg_spec.wait('visible')
+        elif self.browser == "firefox":
+            app = Application(backend="uia").start("C:\Firefox\X-Firefox.exe")
+            app.wait_cpu_usage_lower ()
+            bro_root = app[r"Starting page — Mozilla Firefox"]
+
+            #bro_root.wait('ready', timeout=10)
+            bro_root.print_control_identifiers()
+
+#win = pywin_find.enum_windows()
+
+#CromeWindwow = WinChrome(browser="firefox")
 
 
 Scraper = Crowl_To_Buildlinks()
 
 count = 0
-for i in range(100):
-    q_lag=300-i
+for i in range(300):
+    q_lag=random.randint(3, 20)
     print(">>>>>> ЗАХОД > ", i, q_lag)
-    Scraper.Go_Scrape(allgid_dept=5, q_lag=q_lag)
-    #driver = Scraper.Selenium_Window(proxy=False, user_agent=True)
-    #
-    # try:
-    #     driver.get("https://allgid.ru/rate/")
-    # except Exception as Err:
-    #     print(Err)
-    #     pass
-    # count = count + 1
-    # print(count)
-    # for i1 in range(1, random.randint(1, 5)):
-    #         Scraper.Crowl_allgid(driver, 17)
-    #         count = count + 1
-    #         print("allgid count >>", count)
-    #
-    # driver.quit()
+    #Scraper.Go_Scrape(allgid_dept=20, q_lag=q_lag, user_agent=False)
+    driver = Scraper.Selenium_Window(proxy=False, user_agent=True, list_profile=['Default', 'Profile 3', 'Profile 1', 'Profile 2', 'Profile 4'])
+
+    try:
+        driver.get("https://allgid.ru/Nb/")
+    except Exception as Err:
+        print(Err)
+        pass
+    count = count + 1
+    print(count)
+    for i1 in range(1, random.randint(1, 7)):
+            Scraper.Crowl_allgid(driver, q_lag)
+            count = count + 1
+            print("allgid count >>", count)
+
+    driver.quit()
 
 
