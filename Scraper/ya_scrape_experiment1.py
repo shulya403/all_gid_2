@@ -162,12 +162,12 @@ class Crowl_To_Buildlinks(object):
 
             try:
                 driver.get(site)
-                wait = WebDriverWait(driver, 5).until(EC.c)
+                wait = WebDriverWait(driver, 5).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".home-cat-cards")))
                 print ("OK прокси ->", self.proxie_list_actual[this])
                 driver.quit()
                 return self.proxie_list_actual[this]
-            except Exception:
-                print ("битый прокси", self.proxie_list_actual.pop (this))
+            except Exception as Err:
+                print ("битый прокси", self.proxie_list_actual.pop (this), "Err ->", Err)
                 print (len (self.proxie_list_actual))
                 driver.quit()
 
@@ -197,7 +197,8 @@ class Crowl_To_Buildlinks(object):
 
         options.add_argument('disable-infobars')
 
-        options.add_argument (r'user-data-dir=C:\Users\shulya403\AppData\Local\Google\Chrome\User Data')
+        options.add_argument (r'user-data-dir=C:\Users\User\AppData\Local\Google\Chrome\User Data')
+        #options.add_argument(r'user-data-dir=C:\Users\shulya403\AppData\Local\Google\Chrome\User Data')
 
         #list_profile=['Default', 'Profile 3']
         this_profile=list_profile[random.randint(0, len(list_profile) - 1)]
@@ -356,24 +357,25 @@ class WinChrome(object):
 Scraper = Crowl_To_Buildlinks()
 
 count = 0
-for i in range(300):
-    q_lag=random.randint(3, 20)
+for i in range(30):
+    q_lag=random.randint(3, 5)
     print(">>>>>> ЗАХОД > ", i, q_lag)
     #Scraper.Go_Scrape(allgid_dept=20, q_lag=q_lag, user_agent=False)
-    driver = Scraper.Selenium_Window(proxy=False, user_agent=True, list_profile=['Default', 'Profile 3', 'Profile 1', 'Profile 2', 'Profile 4'])
-
+    driver = Scraper.Selenium_Window(proxy=True, user_agent=False, list_profile=['Default', 'Profile 4', 'Profile 5'])
+    #'Profile 2', 'Profile 3', 'Profile 5',
     try:
-        driver.get("https://allgid.ru/Nb/")
+        driver.get("https://allgid.ru/Monitor/")
     except Exception as Err:
         print(Err)
         pass
     count = count + 1
     print(count)
-    for i1 in range(1, random.randint(1, 7)):
+    for i1 in range(1, random.randint(1, 4)):
             Scraper.Crowl_allgid(driver, q_lag)
             count = count + 1
             print("allgid count >>", count)
 
     driver.quit()
+    time.sleep(10)
 
 
