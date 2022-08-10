@@ -180,7 +180,7 @@ class Crowl_To_Buildlinks(object):
         if proxy:
             self.proxie = True
             self.proxie_list_actual = proxie_list_actual
-            choiced_proxie = self.Proxie_try(site='https://allgid.ru')
+            choiced_proxie = self.Proxie_try(site='https://bitemag.ru')
             if choiced_proxie:
                 proxie = "--proxy-server=" + choiced_proxie
                 options.add_argument(proxie)
