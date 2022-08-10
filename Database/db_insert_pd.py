@@ -761,16 +761,16 @@ class Monitor_Models_Base_Update():
 
 
 
-FillDB = DB_insert_from_excel(xl_Products="NB_Pivot_Apr1-22.xlsx",
-                      xl_Vardata="ITResearch_NB_Report-4`22.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
-                     Category="Nb",
-                    dir_root = "C:/Users/DSH/ITResearch/all_gid_2/Data/")
-FillDB.DB_alchemy(FillDB.Category)
-FillDB.Products_to_SQL(df_new=FillDB.df_Products)
-FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=True)
-FillDB.MtM_Products_Classes_to_SQL()
-mth_list = [4]
-FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
+# FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2022_06-1.xlsx",
+#                       xl_Vardata="Копия allgid mod june 2022.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+#                      Category="Mnt",
+#                     dir_root = "C:/Users/DSH/ITResearch/all_gid_2/Data/")
+# FillDB.DB_alchemy(FillDB.Category)
+# FillDB.Products_to_SQL(df_new=FillDB.df_Products)
+# FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=False)
+# FillDB.MtM_Products_Classes_to_SQL()
+# mth_list = [6]
+# FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
 
 # class DB_insert_shops(DB_insert_from_excel):
 #     def __init__(self,
@@ -781,13 +781,13 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
 
 #Заполение магазинов для мониторов и ноутбуков
 
-# FillShop = DB_insert_shops(
-#                  xl_Shops="Ноутбук-Concat_Prices--Apr-22--Filled.xlsx", #Месячные прайсы Filled/Checked
-#                  Category='Nb',
-#                  dir_root="../Data/"
-# )
-#
-# FillShop.To_DB_Shop_Price()
+FillShop = DB_insert_shops(
+                 xl_Shops="Монитор-Concat_Prices--Jun-22--Filled.xlsx", #Месячные прайсы Filled/Checked
+                 Category='Mnt',
+                 dir_root="../Data/"
+)
+
+FillShop.To_DB_Shop_Price()
 
 
 #   Мониторы добавка и исправление моделей за месяц
@@ -796,11 +796,11 @@ FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
 #     def __init__(self, old_base, new_base, mth_, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 #C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\
 
-# Mar22_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2022_02-1.xlsx",
-#                                            "Копия allgid monitors March 2022.xlsx",
-#                                            "2022_03",
+# June22_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2022_04-1.xlsx",
+#                                            "Копия allgid mod june 2022.xlsx",
+#                                            "2022_06",
 #                                            dir="C:\\Users\\DSH\\ITResearch\\all_gid_2\\Data\\Mnt\\")
-# Mar22_monitors.Write_excel()
+# June22_monitors.Write_excel()
 
 # for cat in ["Nb", "Mnt", "Mfp", "Ups"]:
 #
