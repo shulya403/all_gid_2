@@ -761,15 +761,15 @@ class Monitor_Models_Base_Update():
 
 
 
-# FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2022_06-1.xlsx",
-#                       xl_Vardata="Копия allgid mod june 2022.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
+# FillDB = DB_insert_from_excel(xl_Products="Monitors_Model_Base_2022_09-1.xlsx",
+#                       xl_Vardata="allgid mon september 2022.xlsx", #Менять месяцы на правильные согласно ctaiegoris_fields.json
 #                      Category="Mnt",
 #                     dir_root = "C:/Users/DSH/ITResearch/all_gid_2/Data/")
 # FillDB.DB_alchemy(FillDB.Category)
 # FillDB.Products_to_SQL(df_new=FillDB.df_Products)
 # FillDB.Classes_to_SQL(df_new=FillDB.df_Classes, delete_old=False)
 # FillDB.MtM_Products_Classes_to_SQL()
-# mth_list = [6]
+# mth_list = [9]
 # FillDB.Vardata_to_SQL(mth_list=mth_list, update_old=True, now_y="2022")
 
 # class DB_insert_shops(DB_insert_from_excel):
@@ -782,7 +782,7 @@ class Monitor_Models_Base_Update():
 #Заполение магазинов для мониторов и ноутбуков
 
 FillShop = DB_insert_shops(
-                 xl_Shops="Монитор-Concat_Prices--Jun-22--Filled.xlsx", #Месячные прайсы Filled/Checked
+                 xl_Shops="Монитор-Concat_Prices--Sep-22--Filled.xlsx", #Месячные прайсы Filled/Checked
                  Category='Mnt',
                  dir_root="../Data/"
 )
@@ -796,11 +796,11 @@ FillShop.To_DB_Shop_Price()
 #     def __init__(self, old_base, new_base, mth_, dir="C:\\Users\\User\\ITResearch\\all_gid_2\\Data\\Mnt\\", num=1):
 #C:\\Users\\shulya403\\Shulya403_works\\all_gid_2\\Data\\Mnt\\
 
-# June22_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2022_04-1.xlsx",
-#                                            "Копия allgid mod june 2022.xlsx",
-#                                            "2022_06",
+# Sept22_monitors = Monitor_Models_Base_Update("Monitors_Model_Base_2022_07-1.xlsx",
+#                                            "allgid mon september 2022.xlsx",
+#                                            "2022_09",
 #                                            dir="C:\\Users\\DSH\\ITResearch\\all_gid_2\\Data\\Mnt\\")
-# June22_monitors.Write_excel()
+# Sept22_monitors.Write_excel()
 
 # for cat in ["Nb", "Mnt", "Mfp", "Ups"]:
 #

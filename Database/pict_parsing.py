@@ -121,7 +121,8 @@ def Img_Ext(href):
 
 #  MAIN
 
-Cat = Parse_pict("Mfp", "Принтер-Concat_Prices--Feb-22--Filled.xlsx")
+#Cat = Parse_pict("Mfp", "Принтер-Concat_Prices--Aug-22--Filled.xlsx")
+Cat = Parse_pict("Mnt", "Монитор-Concat_Prices--Sep-22--Filled.xlsx")
 options = webdriver.ChromeOptions()
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 

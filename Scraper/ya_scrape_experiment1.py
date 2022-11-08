@@ -360,7 +360,7 @@ for i in range(300):
     q_lag=random.randint(3, 20)
     print(">>>>>> ЗАХОД > ", i, q_lag)
     #Scraper.Go_Scrape(allgid_dept=20, q_lag=q_lag, user_agent=False)
-    driver = Scraper.Selenium_Window(proxy=False, user_agent=True, list_profile=['Default', 'Profile 3', 'Profile 1', 'Profile 2', 'Profile 4'])
+    driver = Scraper.Selenium_Window(proxy=False, user_agent=False, list_profile=['Profile 1'])
 
     try:
         driver.get("https://allgid.ru/Nb/")
